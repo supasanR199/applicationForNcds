@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             TextButton(onPressed: null, child: Text("ออกจากระบบ")),
           ],
         ),
-        body: Text("test"),
+        // body: Text("test"),
         backgroundColor: Color.fromRGBO(255, 211, 251, 1),
       ),
     );
