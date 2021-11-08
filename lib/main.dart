@@ -9,10 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(color: Colors.black), 
-        )
-      ),
+          textTheme: const TextTheme(
+        bodyText1: TextStyle(color: Colors.black),
+      )),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -27,6 +26,7 @@ class MyApp extends StatelessWidget {
             TextButton(onPressed: null, child: Text("ออกจากระบบ")),
           ],
         ),
+        body: Text("test"),
         backgroundColor: Color.fromRGBO(255, 211, 251, 1),
       ),
     );
