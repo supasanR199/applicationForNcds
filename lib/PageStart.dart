@@ -18,19 +18,55 @@ class StartPage extends StatelessWidget {
         ),
         body: Container(
           child: Center(
-            child: ListView(
-              children: [
-                buildUserNameField(context),
-                buildPasswordField(context),
-                Row(
+            child: Card(
+              child: SizedBox(
+                height: 700,
+                width: 1000,
+                child: Column(
                   children: [
-                    buildButtonLogin(context),
-                    buildButtonRegister(context),
+                    buildUserNameField(context),
+                    buildPasswordField(context),
+                    Row(
+                      children: [
+                        Padding(
+                          child: buildButtonLogin(context),
+                          padding: EdgeInsets.only(
+                            left: 50,
+                            right: 20,
+                            top: 70,
+                          ),
+                        ),
+                        Padding(
+                          child: buildButtonRegister(context),
+                          padding: EdgeInsets.only(
+                            left: 0,
+                            right: 50,
+                            top: 70,
+                          ),
+                        ),
+                        // buildButtonLogin(context),
+                        // buildButtonRegister(context),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
                   ],
-                  mainAxisAlignment: MainAxisAlignment.center,
                 ),
-              ],
+              ),
+              //  margin: EdgeInsets.only(top: 100,bottom: 400,),
             ),
+            // child: ListView(
+            //   children: [
+            //     buildUserNameField(context),
+            //     buildPasswordField(context),
+            //     Row(
+            //       children: [
+            //         buildButtonLogin(context),
+            //         buildButtonRegister(context),
+            //       ],
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //     ),
+            //   ],
+            // ),
           ),
         ),
         backgroundColor: Color.fromRGBO(255, 211, 251, 1),
@@ -38,31 +74,58 @@ class StartPage extends StatelessWidget {
     );
   }
 
-  TextFormField buildUserNameField(context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'ชื่อผู้ใช้งาน',
-        icon: Icon(Icons.people),
+  Padding buildUserNameField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
       ),
-      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'ชื่อผู้ใช้งาน',
+          icon: Icon(Icons.people),
+        ),
+        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      ),
     );
+    // TextFormField(
+    //   decoration: InputDecoration(
+    //     labelText: 'ชื่อผู้ใช้งาน',
+    //     icon: Icon(Icons.people),
+    //   ),
+    //   validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    // );
   }
 
-  TextFormField buildPasswordField(context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'รหัสผู้ใช้งาน',
-        icon: Icon(Icons.password),
+  Padding buildPasswordField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
       ),
-      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'รหัสผู้ใช้งาน',
+          icon: Icon(Icons.password),
+        ),
+        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      ),
     );
   }
 
   RaisedButton buildButtonLogin(context) {
     return RaisedButton(
       // color: Colors.accents,
-      onPressed: null,
+      onPressed: loginUsername(),
+      color: Colors.white,
       child: Text('เข้าสู้ระบบ'),
+      padding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(4),
+        ),
+      ),
     );
   }
 
@@ -71,6 +134,13 @@ class StartPage extends StatelessWidget {
       // color: Colors.accents,
       onPressed: () => Navigator.pushNamed(context, '/register'),
       child: Text('สมัครสมาชิก'),
+      color: Colors.green,
+      padding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4))),
     );
+  }
+  loginUsername(){
+
   }
 }
