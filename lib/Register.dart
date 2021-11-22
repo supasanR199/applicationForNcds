@@ -30,30 +30,20 @@ class Register extends StatelessWidget {
                     buildUserNameField(context),
                     buildPasswordField(context),
                     buildConfirmPasswordField(context),
-
-                    // Row(
-                    //   children: [
-                    //     Padding(
-                    //       child: buildNameField(context),
-                    //       padding: EdgeInsets.only(
-                    //         left: 50,
-                    //         right: 20,
-                    //         top: 70,
-                    //       ),
-                    //     ),
-                    //     Padding(
-                    //       child: buildNameField(context),
-                    //       padding: EdgeInsets.only(
-                    //         left: 0,
-                    //         right: 50,
-                    //         top: 70,
-                    //       ),
-                    //     ),
-                    //     // buildButtonLogin(context),
-                    //     // buildButtonRegister(context),
-                    //   ],
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    // ),
+                    Row(
+                      children: [
+                        Padding(
+                          child: buildButtonRegister(context),
+                          padding: EdgeInsets.only(
+                            left: 50,
+                            right: 20,
+                            top: 70,
+                            bottom: 50,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
                   ],
                 ),
               ),
@@ -78,131 +68,151 @@ class Register extends StatelessWidget {
     );
   }
 }
+
 Padding buildNameField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'ชื่อ',
+        icon: Icon(Icons.people),
       ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'ชื่อ',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildSurNameField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'นามสกุล',
+        icon: Icon(Icons.people),
       ),
-    );
-  }
-  Padding buildSurNameField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildPositionField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'ตำแหน่ง',
+        icon: Icon(Icons.golf_course),
       ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'นามสกุล',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildUserPhoneNumberField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'เบอร์โทรผู้ใช้งาน',
+        icon: Icon(Icons.people),
       ),
-    );
-  }
-  Padding buildPositionField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildUserEmailField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'อีเมลผู้ใช้งาน',
+        icon: Icon(Icons.people),
       ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'ตำแหน่ง',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildUserNameField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'ชื่อผู้ใช้งาน',
+        icon: Icon(Icons.people),
       ),
-    );
-  }
-  Padding buildUserPhoneNumberField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildPasswordField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'รหัสผู้ใช้งาน',
+        icon: Icon(Icons.people),
       ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'เบอร์โทรผู้ใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+Padding buildConfirmPasswordField(context) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 70,
+    ),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: 'ยืนยันรหัสผู้ใช้งาน',
+        icon: Icon(Icons.people),
       ),
-    );
-  }
-  Padding buildUserEmailField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'อีเมลผู้ใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
-      ),
-    );
-  }
-  Padding buildUserNameField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'ชื่อผู้ใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
-      ),
-    );
-  }
-  Padding buildPasswordField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'รหัสผู้ใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
-      ),
-    );
-  }
-  Padding buildConfirmPasswordField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'ยืนยันรหัสผู้ใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
-      ),
-    );
-  }
+      validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+    ),
+  );
+}
+
+RaisedButton buildButtonRegister(context) {
+  return RaisedButton(
+    // color: Colors.accents,
+    onPressed: () => Navigator.pushNamed(context, '/register'),
+    child: Text('สมัครสมาชิก'),
+    color: Colors.green,
+    padding: EdgeInsets.all(20),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4))),
+  );
+}
