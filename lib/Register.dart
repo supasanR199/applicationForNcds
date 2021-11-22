@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -30,6 +29,7 @@ class Register extends StatelessWidget {
                     buildUserNameField(context),
                     buildPasswordField(context),
                     buildConfirmPasswordField(context),
+                    SelectRole(),
                     Row(
                       children: [
                         Padding(
@@ -103,7 +103,7 @@ Padding buildSurNameField(context) {
   );
 }
 
-Padding buildPositionField(context) {
+Widget buildPositionField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -120,7 +120,7 @@ Padding buildPositionField(context) {
   );
 }
 
-Padding buildUserPhoneNumberField(context) {
+Widget buildUserPhoneNumberField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -137,7 +137,7 @@ Padding buildUserPhoneNumberField(context) {
   );
 }
 
-Padding buildUserEmailField(context) {
+Widget buildUserEmailField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -154,7 +154,7 @@ Padding buildUserEmailField(context) {
   );
 }
 
-Padding buildUserNameField(context) {
+Widget buildUserNameField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -171,7 +171,7 @@ Padding buildUserNameField(context) {
   );
 }
 
-Padding buildPasswordField(context) {
+Widget buildPasswordField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -188,7 +188,7 @@ Padding buildPasswordField(context) {
   );
 }
 
-Padding buildConfirmPasswordField(context) {
+Widget buildConfirmPasswordField(context) {
   return Padding(
     padding: EdgeInsets.only(
       left: 50,
@@ -205,7 +205,7 @@ Padding buildConfirmPasswordField(context) {
   );
 }
 
-RaisedButton buildButtonRegister(context) {
+Widget buildButtonRegister(context) {
   return RaisedButton(
     // color: Colors.accents,
     onPressed: () => Navigator.pushNamed(context, '/register'),
@@ -215,4 +215,40 @@ RaisedButton buildButtonRegister(context) {
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4))),
   );
+}
+
+class SelectRole extends StatefulWidget {
+  State<StatefulWidget> createState() {
+    return _SelectRold();
+  }
+}
+
+class _SelectRold extends State<SelectRole> {
+  @override
+  Widget build(BuildContext context) {
+    String dropdownValue = 'One';
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        });
+      },
+      items: <String>['One', 'Two', 'Free', 'Four']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
 }

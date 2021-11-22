@@ -4,7 +4,6 @@ import 'package:appilcation_for_ncds/Register.dart';
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // debugShowCheckedModeBanner: false,
@@ -140,7 +139,6 @@ class StartPage extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(4))),
     );
   }
-  loginUsername(){
 
-  }
+  loginUsername() {}
 }

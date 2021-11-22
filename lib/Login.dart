@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -16,7 +15,6 @@ class Login extends StatelessWidget {
           TextButton(onPressed: null, child: Text("โพสต์")),
           TextButton(onPressed: null, child: Text("ออกจากระบบ")),
         ],
-
       ),
       body: ListView(
         children: [],
