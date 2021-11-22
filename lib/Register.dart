@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
+  State<StatefulWidget> createState() {
+    return _Register();
+  }
+}
+
+class _Register extends State<Register> {
+  var _value = 'A';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,17 +28,27 @@ class Register extends StatelessWidget {
                 width: 1000,
                 child: ListView(
                   children: [
-                    buildNameField(context),
-                    buildSurNameField(context),
-                    buildPositionField(context),
-                    buildUserPhoneNumberField(context),
-                    buildUserEmailField(context),
-                    buildUserNameField(context),
-                    buildPasswordField(context),
-                    buildConfirmPasswordField(context),
-                    SelectRole(),
+                    // IntrinsicHeight(
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       buildNameField(context),
+                    //       buildSurNameField(context),
+                    //       buildPositionField(context),
+                    //       buildUserPhoneNumberField(context),
+                    //       buildSelectRold(context),
+                    //     ],
+                    //   ),
+                    // ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     buildUserEmailField(context),
+                    //     buildUserNameField(context),
+                    //     buildPasswordField(context),
+                    //     buildConfirmPasswordField(context),
+                    //   ],
+                    // ),
                     Row(
-                      children: [
+                      children: <Widget>[
                         Padding(
                           child: buildButtonRegister(context),
                           padding: EdgeInsets.only(
@@ -49,21 +66,33 @@ class Register extends StatelessWidget {
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
             ),
-            // child: ListView(
-            //   children: [
-            //     buildUserNameField(context),
-            //     buildPasswordField(context),
-            //     Row(
-            //       children: [
-            //         buildButtonLogin(context),
-            //         buildButtonRegister(context),
-            //       ],
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //     ),
-            //   ],
-            // ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildSelectRold(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: DropdownButton<String>(
+        value: _value,
+        items: <String>['A', 'B', 'C', 'D'].map((String values) {
+          return DropdownMenuItem<String>(
+            value: values,
+            child: Text(values),
+          );
+        }).toList(),
+        onChanged: (newValue) {
+          setState(() {
+            _value = newValue;
+            print(_value);
+          });
+        },
       ),
     );
   }
