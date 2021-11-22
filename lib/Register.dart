@@ -7,7 +7,7 @@ class Register extends StatefulWidget {
 }
 
 class _Register extends State<Register> {
-  var _value = 'A';
+  var _value = 'แพทย์';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,26 +27,16 @@ class _Register extends State<Register> {
                 height: 700,
                 width: 1000,
                 child: ListView(
-                  children: [
-                    // IntrinsicHeight(
-                    //   child: Row(
-                    //     children: <Widget>[
-                    //       buildNameField(context),
-                    //       buildSurNameField(context),
-                    //       buildPositionField(context),
-                    //       buildUserPhoneNumberField(context),
-                    //       buildSelectRold(context),
-                    //     ],
-                    //   ),
-                    // ),
-                    // Row(
-                    //   children: <Widget>[
-                    //     buildUserEmailField(context),
-                    //     buildUserNameField(context),
-                    //     buildPasswordField(context),
-                    //     buildConfirmPasswordField(context),
-                    //   ],
-                    // ),
+                  children: <Widget>[
+                    buildNameField(context),
+                    buildSurNameField(context),
+                    buildPositionField(context),
+                    buildUserPhoneNumberField(context),
+                    buildSelectRold(context),
+                    buildUserEmailField(context),
+                    buildUserNameField(context),
+                    buildPasswordField(context),
+                    buildConfirmPasswordField(context),
                     Row(
                       children: <Widget>[
                         Padding(
@@ -81,7 +71,7 @@ class _Register extends State<Register> {
       ),
       child: DropdownButton<String>(
         value: _value,
-        items: <String>['A', 'B', 'C', 'D'].map((String values) {
+        items: <String>['แพทย์', 'รพสต.', 'อสม.', 'ผู้ป่วย'].map((String values) {
           return DropdownMenuItem<String>(
             value: values,
             child: Text(values),

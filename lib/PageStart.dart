@@ -116,7 +116,7 @@ class StartPage extends StatelessWidget {
   RaisedButton buildButtonLogin(context) {
     return RaisedButton(
       // color: Colors.accents,
-      onPressed: loginUsername(),
+      onPressed: () => Navigator.pushNamed(context, '/login'), 
       color: Colors.white,
       child: Text('เข้าสู้ระบบ'),
       padding: EdgeInsets.all(20),
