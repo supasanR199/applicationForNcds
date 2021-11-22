@@ -1,4 +1,4 @@
-import 'package:appilcation_for_ncds/Login.dart';
+import 'package:appilcation_for_ncds/MainPage.dart';
 import 'package:appilcation_for_ncds/PageStart.dart';
 import 'package:appilcation_for_ncds/Register.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,7 @@ MaterialApp buildMaterialApp() {
     routes: {
       '/': (context) => StartPage(),
       // '/addbook': (context) => AddBookPage(),
-      '/login': (context) =>  Login(),
+      '/mainpage': (context) =>  MainPage(),
       '/register' : (context) => Register(),
     },
     debugShowCheckedModeBanner: false,
