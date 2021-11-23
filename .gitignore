@@ -250,3 +250,4 @@ google-services.json
 .flutter-plugins
 .history
 .lh
+pubspec.lock
