@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/MainPage.dart';
 import 'package:appilcation_for_ncds/PageStart.dart';
 import 'package:appilcation_for_ncds/Register.dart';
@@ -71,6 +72,7 @@ MaterialApp buildMaterialApp() {
       // '/addbook': (context) => AddBookPage(),
       '/mainpage': (context) =>  MainPage(),
       '/register' : (context) => Register(),
+      '/addpost': (context) =>  AddPost(),
     },
     debugShowCheckedModeBanner: false,
   );

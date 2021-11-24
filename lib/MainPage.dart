@@ -8,63 +8,6 @@ class MainPage extends StatefulWidget {
 class _MainPage extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    //   return DefaultTabController(
-    //     initialIndex: 1,
-    //     length: 3,
-    //     child: Scaffold(
-    //       appBar: AppBar(
-    //         title: Text(
-    //           "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-    //           style: TextStyle(color: Colors.black),
-    //         ),
-    //         backgroundColor: Colors.white,
-    //         actions: <Widget>[
-    //           TabBar(tabs: [
-    //             Tab(
-    //               child: Text("ผู้ป่วย"),
-    //             ),
-    //             Tab(
-    //               child: Text("โพสต์"),
-    //             ),
-    //             Tab(
-    //               child: Text("ออกจากระบบ"),
-    //             ),
-    //           ])
-    //           // TextButton(onPressed: null, child: Text("ผู้ป่วย")),
-    //           // TextButton(onPressed: null, child: Text("โพสต์")),
-    //           // TextButton(onPressed: null, child: Text("ออกจากระบบ")),
-    //         ],
-    //         // bottom: TabBar(
-    //         //     tabs: <Widget>[
-    //         //       Tab(
-    //         //         icon: Icon(Icons.cloud_outlined),
-    //         //       ),
-    //         //       Tab(
-    //         //         icon: Icon(Icons.beach_access_sharp),
-    //         //       ),
-    //         //       Tab(
-    //         //         icon: Icon(Icons.brightness_5_sharp),
-    //         //       ),
-    //         //     ],
-    //         //   ),
-    //       ),
-    //       body: Container(
-    //         child: Center(
-    //           child: Card(
-    //             child: SizedBox(
-    //               height: 700,
-    //               width: 1000,
-    //               child: ListView(
-    //                 children: <Widget>[],
-    //               ),
-    //             ),
-    //             //  margin: EdgeInsets.only(top: 100,bottom: 400,),
-    //           ),
-    //         ),
-    //       ),
-    //       backgroundColor: Color.fromRGBO(255, 211, 251, 1),
-    //     ),
-    //   );
     return DefaultTabController(
       initialIndex: 1,
       length: 2,
@@ -128,7 +71,10 @@ class _MainPage extends State<MainPage> {
               child: ListView(
                 children: [
                   buildContentPost(context),
-                  bulidButtonAddPost(context),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: bulidButtonAddPost(context),
+                  ),
                 ],
               ),
             )
@@ -159,7 +105,9 @@ class _MainPage extends State<MainPage> {
             ),
             Expanded(
               child: ListView(
-                children: [],
+                children: [
+                  buildContentPost(context),
+                ],
               ),
             )
           ],
@@ -170,7 +118,7 @@ class _MainPage extends State<MainPage> {
 
   Widget bulidButtonAddPost(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () => Navigator.pushNamed(context, '/addpost'),
       color: Color.fromRGBO(255, 211, 251, 1),
       textColor: Colors.white,
       child: Icon(
