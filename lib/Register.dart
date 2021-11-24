@@ -71,7 +71,8 @@ class _Register extends State<Register> {
       ),
       child: DropdownButton<String>(
         value: _value,
-        items: <String>['แพทย์', 'รพสต.', 'อสม.', 'ผู้ป่วย'].map((String values) {
+        items:
+            <String>['แพทย์', 'รพสต.', 'อสม.', 'ผู้ป่วย'].map((String values) {
           return DropdownMenuItem<String>(
             value: values,
             child: Text(values),
@@ -227,7 +228,7 @@ Widget buildConfirmPasswordField(context) {
 Widget buildButtonRegister(context) {
   return RaisedButton(
     // color: Colors.accents,
-    onPressed: () => Navigator.pushNamed(context, '/register'),
+    onPressed: () => Navigator.pushNamed(context, '/mainpage'),
     child: Text('สมัครสมาชิก'),
     color: Colors.green,
     padding: EdgeInsets.all(20),
