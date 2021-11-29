@@ -1,7 +1,10 @@
+import 'dart:js';
+
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/MainPage.dart';
 import 'package:appilcation_for_ncds/PageStart.dart';
 import 'package:appilcation_for_ncds/Register.dart';
+import 'package:appilcation_for_ncds/PatientDetial.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -70,9 +73,10 @@ MaterialApp buildMaterialApp() {
     routes: {
       '/': (context) => StartPage(),
       // '/addbook': (context) => AddBookPage(),
-      '/mainpage': (context) =>  MainPage(),
-      '/register' : (context) => Register(),
-      '/addpost': (context) =>  AddPost(),
+      '/mainpage': (context) => MainPage(),
+      '/register': (context) => Register(),
+      '/addpost': (context) => AddPost(),
+      // '/patientdetial' : (context) =>
     },
     debugShowCheckedModeBanner: false,
   );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _MainPage();
@@ -106,7 +107,7 @@ class _MainPage extends State<MainPage> {
             Expanded(
               child: ListView(
                 children: [
-                  buildContentPost(context),
+                  buildContentPatient(context),
                 ],
               ),
             )
@@ -136,6 +137,46 @@ class _MainPage extends State<MainPage> {
       child: SizedBox(
         height: 200,
         width: 90,
+      ),
+    );
+  }
+
+  Widget buildContentPatient(BuildContext context) {
+    return Card(
+      color: Colors.amber,
+      child: SizedBox(
+        height: 200,
+        width: 90,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                // color: Colors.accents,
+                onPressed: () => Navigator.pushNamed(context, '/register'),
+                child: Text('ข้อมูล'),
+                color: Colors.green,
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                // color: Colors.accents,
+                onPressed: () => Navigator.pushNamed(context, '/register'),
+                child: Text('สมัครสมาชิก'),
+                color: Colors.green,
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
