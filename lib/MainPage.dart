@@ -10,7 +10,7 @@ class _MainPage extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 2,
       child: Container(
         child: Scaffold(
@@ -155,7 +155,7 @@ class _MainPage extends State<MainPage> {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 // color: Colors.accents,
-                onPressed: () => Navigator.pushNamed(context, '/register'),
+                onPressed: () => Navigator.pushNamed(context, '/patientmain'),
                 child: Text('ข้อมูล'),
                 color: Colors.green,
                 padding: EdgeInsets.all(20),
