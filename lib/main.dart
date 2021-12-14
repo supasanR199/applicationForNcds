@@ -1,4 +1,4 @@
-import 'dart:js';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/MainPage.dart';
@@ -8,6 +8,7 @@ import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   // runApp(MyApp());
   // runApp(MaterialApp(
   //   home: ShowInfomation(),
@@ -22,10 +23,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp>  _initialization = Firebase.initializeApp();
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Firestore Demo',
-      home: buildMaterialApp(),
+      home: FutureBuilder(
+        future: _initialization,
+        builder: (context,snapshot) {
+          if(snapshot.hasError){
+            print("Error");
+          }
+          if(snapshot.connectionState  == ConnectionState.done){
+             return buildMaterialApp();
+          }
+          return CircularProgressIndicator();
+        }
+      ),
       // debugShowCheckedModeBanner: false,
     );
   }
