@@ -1,7 +1,14 @@
+import 'dart:html';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/Register.dart';
 
 class StartPage extends StatelessWidget {
+  final email = TextEditingController();
+  final password = TextEditingController();
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,6 +88,7 @@ class StartPage extends StatelessWidget {
         top: 70,
       ),
       child: TextFormField(
+        controller: email,
         decoration: InputDecoration(
           labelText: 'ชื่อผู้ใช้งาน',
           icon: Icon(Icons.people),
@@ -104,6 +112,7 @@ class StartPage extends StatelessWidget {
         right: 50,
       ),
       child: TextFormField(
+        controller: password,
         decoration: InputDecoration(
           labelText: 'รหัสผู้ใช้งาน',
           icon: Icon(Icons.password),
@@ -116,7 +125,15 @@ class StartPage extends StatelessWidget {
   RaisedButton buildButtonLogin(context) {
     return RaisedButton(
       // color: Colors.accents,
-      onPressed: () => Navigator.pushNamed(context, '/mainpage'), 
+      onPressed: () async {
+        // await FirebaseAuth.instance
+        //     .signInWithEmailAndPassword(
+        //         email: email.text, password: password.text)
+        //     .then((value) {
+        //   Navigator.pushNamed(context, '/mainpage');
+        //   print("login");
+        // });
+      },
       color: Colors.white,
       child: Text('เข้าสู้ระบบ'),
       padding: EdgeInsets.all(20),
@@ -139,6 +156,4 @@ class StartPage extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(4))),
     );
   }
-
-  loginUsername() {}
 }
