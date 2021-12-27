@@ -1,13 +1,16 @@
 import 'dart:html';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/Register.dart';
 
 class StartPage extends StatelessWidget {
   final email = TextEditingController();
   final password = TextEditingController();
+  // FirebaseAuth firebaseAuth = FirebaseAuth();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -126,13 +129,21 @@ class StartPage extends StatelessWidget {
     return RaisedButton(
       // color: Colors.accents,
       onPressed: () async {
+        // await Firebase.initializeApp();
         // await FirebaseAuth.instance
         //     .signInWithEmailAndPassword(
-        //         email: email.text, password: password.text)
+        //   email: email.text,
+        //   password: password.text,
+        // )
         //     .then((value) {
         //   Navigator.pushNamed(context, '/mainpage');
         //   print("login");
+        // }).catchError((e) {
+        //   showDialog(
+        //       context: context, 
+        //       builder:(BuildContext context) => aletLogin(context, e.toString()));
         // });
+        Navigator.pushNamed(context, '/mainpage');
       },
       color: Colors.white,
       child: Text('เข้าสู้ระบบ'),
@@ -154,6 +165,19 @@ class StartPage extends StatelessWidget {
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4))),
+    );
+  }
+
+  Widget aletLogin(context, String e) {
+    return AlertDialog(
+      title: const Text('แจ้งเตือน'),
+      content: Text(e),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }

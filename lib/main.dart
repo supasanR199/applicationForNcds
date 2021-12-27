@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:appilcation_for_ncds/AddPost.dart';
@@ -7,8 +8,18 @@ import 'package:appilcation_for_ncds/Register.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions( 
+      apiKey: "AIzaSyB6TWU5KRbGhd0I5z_uX0P-4GEAAAtV-4U",
+      authDomain: "applicationforncds.firebaseapp.com",
+      projectId: "applicationforncds",
+      storageBucket: "applicationforncds.appspot.com",
+      messagingSenderId: "275231099903",
+      appId: "1:275231099903:web:dacf48738af9cb2e41b5ca",
+      measurementId: "G-YQV5KT112F"),
+  );
   // runApp(MyApp());
   // runApp(MaterialApp(
   //   home: ShowInfomation(),
