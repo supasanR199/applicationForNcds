@@ -23,12 +23,10 @@ class _MainPage extends State<MainPage> {
       future: FirebaseFirestore.instance
           .collection("UserWeb")
           .doc(auth.currentUser.uid)
-          .get().then((value){
-            user  = value.data();
-            print(user);
-          }),
+          .get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        userData = snapshot.data.data() as Map<String, dynamic>;
         return DefaultTabController(
           initialIndex: 0,
           length: 5,
@@ -41,6 +39,7 @@ class _MainPage extends State<MainPage> {
                 ),
                 backgroundColor: Colors.white,
                 actions: [
+                  // Text(userData['name']),
                   actionMenu(),
                 ],
                 bottom: TabBar(
@@ -363,7 +362,7 @@ class _MainPage extends State<MainPage> {
   Widget actionMenu() {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert),
-        // child: Text("${user['name']}"),
+        child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 child: ListTile(
@@ -378,6 +377,14 @@ class _MainPage extends State<MainPage> {
     return await FirebaseFirestore.instance
         .collection("UserWeb")
         .doc(auth.currentUser.uid)
-        .get();
+        .get()
+        .then((value) {
+      user = value.data();
+    });
+  }
+
+  Widget userText() {
+    requestData();
+    return Text(user["name"]);
   }
 }
