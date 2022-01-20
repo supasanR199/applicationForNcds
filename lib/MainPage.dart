@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:html';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -8,68 +14,84 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
   @override
+  final auth = FirebaseAuth.instance;
+  var user;
+  Map<String, dynamic> userData;
+
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 5,
-      child: Container(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Colors.white,
-            actions: [
-              actionMenu(),
-            ],
-            bottom: TabBar(
-              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-              tabs: <Widget>[
-                Tab(
-                  text: 'ผู้ป่วย',
-                  icon: Icon(Icons.cloud_outlined),
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance
+          .collection("UserWeb")
+          .doc(auth.currentUser.uid)
+          .get().then((value){
+            user  = value.data();
+            print(user);
+          }),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        return DefaultTabController(
+          initialIndex: 0,
+          length: 5,
+          child: Container(
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+                  style: TextStyle(color: Colors.black),
                 ),
-                Tab(
-                  text: 'โพสต์',
-                  icon: Icon(Icons.beach_access_sharp),
+                backgroundColor: Colors.white,
+                actions: [
+                  actionMenu(),
+                ],
+                bottom: TabBar(
+                  indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+                  tabs: <Widget>[
+                    Tab(
+                      text: 'ผู้ป่วย',
+                      icon: Icon(Icons.cloud_outlined),
+                    ),
+                    Tab(
+                      text: 'โพสต์',
+                      icon: Icon(Icons.beach_access_sharp),
+                    ),
+                    Tab(
+                      text: 'ยืนยันการสมัครสมาชิกผู้ป่วย/อสม.',
+                      icon: Icon(Icons.cloud_outlined),
+                    ),
+                    Tab(
+                      text: 'อสม.',
+                      icon: Icon(Icons.cloud_outlined),
+                    ),
+                    Tab(
+                      text: 'แชทพูดคุย',
+                      icon: Icon(Icons.cloud_outlined),
+                    ),
+                  ],
                 ),
-                Tab(
-                  text: 'ยืนยันการสมัครสมาชิกผู้ป่วย/อสม.',
-                  icon: Icon(Icons.cloud_outlined),
-                ),
-                 Tab(
-                  text: 'อสม.',
-                  icon: Icon(Icons.cloud_outlined),
-                ),
-                Tab(
-                  text: 'แชทพูดคุย',
-                  icon: Icon(Icons.cloud_outlined),
-                ),
-              ],
+              ),
+              body: TabBarView(
+                children: <Widget>[
+                  Center(
+                    child: buildPatientPage(context),
+                  ),
+                  Center(
+                    child: buildPostPage(context),
+                  ),
+                  Center(
+                    child: buildAcceptPage(context),
+                  ),
+                  Center(
+                    child: buildVolunteerPage(context),
+                  ),
+                  Center(
+                    child: buildChat(context),
+                  ),
+                ],
+              ),
             ),
           ),
-          body: TabBarView(
-            children: <Widget>[
-              Center(
-                child: buildPatientPage(context),
-              ),
-              Center(
-                child: buildPostPage(context),
-              ),
-              Center(
-                child: buildAcceptPage(context),
-              ),
-               Center(
-                child: buildVolunteerPage(context),
-              ),
-              Center(
-                child: buildChat(context),
-              ),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -283,7 +305,7 @@ class _MainPage extends State<MainPage> {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 // color: Colors.accents,
-                onPressed: () => Navigator.pushNamed(context, '/patientmain'),
+                onPressed: () => requestData(),
                 child: Text('ข้อมูล'),
                 color: Colors.green,
                 padding: EdgeInsets.all(20),
@@ -295,8 +317,8 @@ class _MainPage extends State<MainPage> {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 // color: Colors.accents,
-                onPressed: () => Navigator.pushNamed(context, '/register'),
-                child: Text('สมัครสมาชิก'),
+                onPressed: () => Navigator.pushNamed(context, '/labresults'),
+                child: Text('แจ้งผลตรวจจากห้องทดลอง'),
                 color: Colors.green,
                 padding: EdgeInsets.all(20),
                 shape: RoundedRectangleBorder(
@@ -341,6 +363,7 @@ class _MainPage extends State<MainPage> {
   Widget actionMenu() {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert),
+        // child: Text("${user['name']}"),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 child: ListTile(
@@ -349,5 +372,12 @@ class _MainPage extends State<MainPage> {
                 ),
               ),
             ]);
+  }
+
+  requestData() async {
+    return await FirebaseFirestore.instance
+        .collection("UserWeb")
+        .doc(auth.currentUser.uid)
+        .get();
   }
 }

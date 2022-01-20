@@ -6,6 +6,7 @@ import 'package:appilcation_for_ncds/MainPage.dart';
 import 'package:appilcation_for_ncds/PageStart.dart';
 import 'package:appilcation_for_ncds/Register.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
+import 'package:appilcation_for_ncds/LabResults.dart';
 import 'package:flutter/material.dart';
 
 void main() async{
@@ -89,7 +90,7 @@ class MyApp extends StatelessWidget {
 
 MaterialApp buildMaterialApp() {
   return MaterialApp(
-    title: 'FireStore Demo',
+    // title: 'FireStore Demo',
     theme: ThemeData(
       primarySwatch: Colors.amber,
     ),
@@ -101,6 +102,7 @@ MaterialApp buildMaterialApp() {
       '/register': (context) => Register(),
       '/addpost': (context) => AddPost(),
       '/patientmain' : (context) => PatientMain(),
+      '/labresults' : (context) => LabResults(),
     },
     debugShowCheckedModeBanner: false,
   );

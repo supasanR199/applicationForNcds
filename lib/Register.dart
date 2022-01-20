@@ -104,19 +104,18 @@ class _Register extends State<Register> {
             _registerModels.roles = _value;
           });
         },
-        validator: (value){
+        validator: (value) {
           print('validate');
-          if(value.isNotEmpty){
-            if(value.toString() ==  'รพสต.'){
+          if (value.isNotEmpty) {
+            if (value.toString() == 'รพสต.') {
               _registerModels.roles = 'hospital.';
-              print( _registerModels.roles);
-            }
-            else if(value.toString() ==  'บุคลากรแพทย์'){
+              print(_registerModels.roles);
+            } else if (value.toString() == 'บุคลากรแพทย์') {
               _registerModels.roles = 'medicalpersonnel';
-              print( _registerModels.roles);
+              print(_registerModels.roles);
             }
           }
-          if(value.isEmpty || value.toString()==null){
+          if (value.isEmpty || value.toString() == null) {
             return 'กรุณาเลือกหน้าที่การใช้งาน';
           }
           return null;
@@ -133,7 +132,8 @@ class _Register extends State<Register> {
         top: 70,
       ),
       child: TextFormField(
-        onSaved: (value) {
+        onChanged: (value) {
+          print(value);
           _registerModels.name = value;
         },
         controller: name,
@@ -141,7 +141,7 @@ class _Register extends State<Register> {
           labelText: 'ชื่อ',
           icon: Icon(Icons.people),
         ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+        validator: (value) => value.isEmpty ? 'ระบุชื่อ' : null,
       ),
     );
   }
@@ -154,7 +154,8 @@ class _Register extends State<Register> {
         top: 70,
       ),
       child: TextFormField(
-        onSaved: (value) {
+        onChanged: (value) {
+          print(value);
           _registerModels.surname = value;
         },
         controller: surname,
@@ -162,7 +163,7 @@ class _Register extends State<Register> {
           labelText: 'นามสกุล',
           icon: Icon(Icons.people),
         ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+        validator: (value) => value.isEmpty ? 'ระบุนามสกุล' : null,
       ),
     );
   }
@@ -203,7 +204,9 @@ class _Register extends State<Register> {
           validator: (value) {
             if (value.isEmpty) {
               return "ระบุเบอร์โทร";
-            } else if (value.length < 10) {
+            } else if (num.tryParse(value) == null) {
+              return "ระบุตัวเลขเท่านั้น";
+            } else if (value.length < 10 || value.length > 10) {
               return "ระบุเบอร์โทร10หลัก";
             }
             return null;
@@ -263,6 +266,9 @@ class _Register extends State<Register> {
         top: 70,
       ),
       child: TextFormField(
+          obscureText: true,
+          enableSuggestions: false,
+          autocorrect: false,
           onChanged: (value) {
             _registerModels.password = value;
           },
@@ -290,6 +296,9 @@ class _Register extends State<Register> {
         top: 70,
       ),
       child: TextFormField(
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
         decoration: InputDecoration(
           labelText: 'ยืนยันรหัสผู้ใช้งาน',
           icon: Icon(Icons.people),
@@ -324,13 +333,17 @@ class _Register extends State<Register> {
                   .set({
                 "email": _registerModels.email,
                 "name": _registerModels.name,
-                "password": _registerModels.password,
+                "surname": _registerModels.surname,
+                "phonenumber": _registerModels.phoneNumber,
                 "role": _registerModels.roles,
-                "surname": _registerModels.surname
               });
             });
-            _registerForm.currentState.reset();
+            Navigator.pushNamed(context, '/');
           } on FirebaseAuthException catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    aletLogin(context, e.toString()));
             print(e.message);
             print(validateEmail(_registerModels.email));
           }
@@ -351,5 +364,18 @@ class _Register extends State<Register> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
+  }
+
+  Widget aletLogin(context, String e) {
+    return AlertDialog(
+      title: const Text('แจ้งเตือน'),
+      content: Text(e),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
+    );
   }
 }

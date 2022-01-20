@@ -10,6 +10,8 @@ import 'package:appilcation_for_ncds/Register.dart';
 class StartPage extends StatelessWidget {
   final email = TextEditingController();
   final password = TextEditingController();
+  final _loginForm = GlobalKey<FormState>();
+
   // FirebaseAuth firebaseAuth = FirebaseAuth();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
@@ -31,34 +33,37 @@ class StartPage extends StatelessWidget {
               child: SizedBox(
                 height: 700,
                 width: 1000,
-                child: Column(
-                  children: [
-                    buildUserNameField(context),
-                    buildPasswordField(context),
-                    Row(
-                      children: [
-                        Padding(
-                          child: buildButtonLogin(context),
-                          padding: EdgeInsets.only(
-                            left: 50,
-                            right: 20,
-                            top: 70,
+                child: Form(
+                  key: _loginForm,
+                  child: Column(
+                    children: [
+                      buildUserNameField(context),
+                      buildPasswordField(context),
+                      Row(
+                        children: [
+                          Padding(
+                            child: buildButtonLogin(context),
+                            padding: EdgeInsets.only(
+                              left: 50,
+                              right: 20,
+                              top: 70,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          child: buildButtonRegister(context),
-                          padding: EdgeInsets.only(
-                            left: 0,
-                            right: 50,
-                            top: 70,
+                          Padding(
+                            child: buildButtonRegister(context),
+                            padding: EdgeInsets.only(
+                              left: 0,
+                              right: 50,
+                              top: 70,
+                            ),
                           ),
-                        ),
-                        // buildButtonLogin(context),
-                        // buildButtonRegister(context),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                  ],
+                          // buildButtonLogin(context),
+                          // buildButtonRegister(context),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
@@ -96,7 +101,7 @@ class StartPage extends StatelessWidget {
           labelText: 'ชื่อผู้ใช้งาน',
           icon: Icon(Icons.people),
         ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+        validator: (value) => value.isEmpty ? 'ระบุอีเมล' : null,
       ),
     );
     // TextFormField(
@@ -115,12 +120,15 @@ class StartPage extends StatelessWidget {
         right: 50,
       ),
       child: TextFormField(
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
         controller: password,
         decoration: InputDecoration(
           labelText: 'รหัสผู้ใช้งาน',
           icon: Icon(Icons.password),
         ),
-        validator: (value) => value.isEmpty ? 'Please fill in title' : null,
+        validator: (value) => value.isEmpty ? 'ระบุรหัสผ่าน' : null,
       ),
     );
   }
@@ -129,21 +137,24 @@ class StartPage extends StatelessWidget {
     return RaisedButton(
       // color: Colors.accents,
       onPressed: () async {
-        // await Firebase.initializeApp();
-        // await FirebaseAuth.instance
-        //     .signInWithEmailAndPassword(
-        //   email: email.text,
-        //   password: password.text,
-        // )
-        //     .then((value) {
-        //   Navigator.pushNamed(context, '/mainpage');
-        //   print("login");
-        // }).catchError((e) {
-        //   showDialog(
-        //       context: context, 
-        //       builder:(BuildContext context) => aletLogin(context, e.toString()));
-        // });
-        Navigator.pushNamed(context, '/mainpage');
+        if (_loginForm.currentState.validate()) {
+          await Firebase.initializeApp();
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+            email: email.text,
+            password: password.text,
+          )
+              .then((value) {
+            Navigator.pushNamed(context, '/mainpage');
+            print("login");
+          }).catchError((e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    aletLogin(context, e.toString()));
+            Navigator.pushNamed(context, '/');
+          });
+        }
       },
       color: Colors.white,
       child: Text('เข้าสู้ระบบ'),
