@@ -39,7 +39,7 @@ class _MainPage extends State<MainPage> {
                 ),
                 backgroundColor: Colors.white,
                 actions: [
-                  // Text(userData['name']),
+                  Text("${userData['name']}"),
                   actionMenu(),
                 ],
                 bottom: TabBar(
@@ -362,7 +362,7 @@ class _MainPage extends State<MainPage> {
   Widget actionMenu() {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert),
-        child: Text(userData["name"]),
+        // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 child: ListTile(

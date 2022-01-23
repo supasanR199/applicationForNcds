@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -7,6 +9,7 @@ import 'package:appilcation_for_ncds/PageStart.dart';
 import 'package:appilcation_for_ncds/Register.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/LabResults.dart';
+import 'package:appilcation_for_ncds/AdminMain.dart';
 import 'package:flutter/material.dart';
 
 void main() async{
@@ -103,6 +106,7 @@ MaterialApp buildMaterialApp() {
       '/addpost': (context) => AddPost(),
       '/patientmain' : (context) => PatientMain(),
       '/labresults' : (context) => LabResults(),
+      '/adminmain'  :(context)  => adminMain(),
     },
     debugShowCheckedModeBanner: false,
   );

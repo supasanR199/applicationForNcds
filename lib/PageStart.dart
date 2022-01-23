@@ -1,8 +1,10 @@
 import 'dart:html';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/Register.dart';
@@ -68,19 +70,6 @@ class StartPage extends StatelessWidget {
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
             ),
-            // child: ListView(
-            //   children: [
-            //     buildUserNameField(context),
-            //     buildPasswordField(context),
-            //     Row(
-            //       children: [
-            //         buildButtonLogin(context),
-            //         buildButtonRegister(context),
-            //       ],
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //     ),
-            //   ],
-            // ),
           ),
         ),
         backgroundColor: Color.fromRGBO(255, 211, 251, 1),
@@ -144,9 +133,27 @@ class StartPage extends StatelessWidget {
             email: email.text,
             password: password.text,
           )
-              .then((value) {
-            Navigator.pushNamed(context, '/mainpage');
+              .then((value) async {
+            var auth = FirebaseAuth.instance;
+            var userData;
+            await FirebaseFirestore.instance
+                .collection("UserWeb")
+                .doc(auth.currentUser.uid)
+                .get()
+                .then((value) {
+                userData = value.data();
+                print(value);
+            });
+            print(userData["role"]);
+            if (userData["role"] == "admin") {
+              Navigator.pushNamed(context, '/adminmain');
+            } else if (userData["role"] == "hospital") {
+              Navigator.pushNamed(context, '/mainpage');
+            } else if (userData["role"] == "medicalpersonnel") {
+              Navigator.pushNamed(context, '/mainpage');
+            }
             print("login");
+            // Navigator.pushNamed(context, '/mainpage');
           }).catchError((e) {
             showDialog(
                 context: context,
