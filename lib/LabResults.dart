@@ -10,8 +10,8 @@ class LabResults extends StatefulWidget {
 class _LabResults extends State<LabResults> {
   DateTime selectedDate = DateTime.now();
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Container(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -268,15 +268,17 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
-        decoration: InputDecoration(
-          labelText: 'วันที่บันทึก',
-          icon: Icon(Icons.people),
-        ),
-        onTap: () {
-         showDatePicker(context: context, initialDate:  DateTime.now() , firstDate: DateTime.now(), lastDate: DateTime(2222));
-        }
-                  
-      ),
+          decoration: InputDecoration(
+            labelText: 'วันที่บันทึก',
+            icon: Icon(Icons.people),
+          ),
+          onTap: () {
+            showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2222));
+          }),
     );
   }
 

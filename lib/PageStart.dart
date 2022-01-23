@@ -18,10 +18,8 @@ class StartPage extends StatelessWidget {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Container(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -141,8 +139,8 @@ class StartPage extends StatelessWidget {
                 .doc(auth.currentUser.uid)
                 .get()
                 .then((value) {
-                userData = value.data();
-                print(value);
+              userData = value.data();
+              print(value);
             });
             print(userData["role"]);
             if (userData["role"] == "admin") {

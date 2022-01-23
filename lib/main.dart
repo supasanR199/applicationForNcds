@@ -12,17 +12,17 @@ import 'package:appilcation_for_ncds/LabResults.dart';
 import 'package:appilcation_for_ncds/AdminMain.dart';
 import 'package:flutter/material.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions( 
-      apiKey: "AIzaSyB6TWU5KRbGhd0I5z_uX0P-4GEAAAtV-4U",
-      authDomain: "applicationforncds.firebaseapp.com",
-      projectId: "applicationforncds",
-      storageBucket: "applicationforncds.appspot.com",
-      messagingSenderId: "275231099903",
-      appId: "1:275231099903:web:dacf48738af9cb2e41b5ca",
-      measurementId: "G-YQV5KT112F"),
+    options: FirebaseOptions(
+        apiKey: "AIzaSyB6TWU5KRbGhd0I5z_uX0P-4GEAAAtV-4U",
+        authDomain: "applicationforncds.firebaseapp.com",
+        projectId: "applicationforncds",
+        storageBucket: "applicationforncds.appspot.com",
+        messagingSenderId: "275231099903",
+        appId: "1:275231099903:web:dacf48738af9cb2e41b5ca",
+        measurementId: "G-YQV5KT112F"),
   );
   // runApp(MyApp());
   // runApp(MaterialApp(
@@ -38,22 +38,22 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp>  _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Firestore Demo',
       home: FutureBuilder(
-        future: _initialization,
-        builder: (context,snapshot) {
-          if(snapshot.hasError){
-            print("Error");
-          }
-          if(snapshot.connectionState  == ConnectionState.done){
-             return buildMaterialApp();
-          }
-          return CircularProgressIndicator();
-        }
-      ),
+          future: _initialization,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print("Error");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return buildMaterialApp();
+            }
+            return CircularProgressIndicator();
+          }),
       // debugShowCheckedModeBanner: false,
     );
   }
@@ -91,8 +91,9 @@ class MyApp extends StatelessWidget {
   // }
 }
 
-MaterialApp buildMaterialApp() {
+Widget buildMaterialApp() {
   return MaterialApp(
+    debugShowCheckedModeBanner: false,
     // title: 'FireStore Demo',
     theme: ThemeData(
       primarySwatch: Colors.amber,
@@ -104,11 +105,10 @@ MaterialApp buildMaterialApp() {
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
       '/addpost': (context) => AddPost(),
-      '/patientmain' : (context) => PatientMain(),
-      '/labresults' : (context) => LabResults(),
-      '/adminmain'  :(context)  => adminMain(),
+      '/patientmain': (context) => PatientMain(),
+      '/labresults': (context) => LabResults(),
+      '/adminmain': (context) => adminMain(),
     },
-    debugShowCheckedModeBanner: false,
   );
 }
 
