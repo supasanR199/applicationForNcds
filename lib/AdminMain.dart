@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,12 +12,20 @@ class adminMain extends StatefulWidget {
 class _adminMainState extends State<adminMain> {
   @override
   Widget build(BuildContext context) {
+    bool isSwitched = false;
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('UserWeb')
           .where("Status", isEqualTo: false)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
         return Container(
           child: Scaffold(
             appBar: AppBar(
@@ -35,9 +45,38 @@ class _adminMainState extends State<adminMain> {
                       children: [
                         Expanded(
                           child: ListView(
-                            children: [
-                              showAllRequest(context),
-                            ],
+                            children: snapshot.data.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> snap =
+                                  document.data() as Map<String, dynamic>;
+                              return ListTile(
+                                title: Text(snap['name']),
+                                subtitle: Text(snap['surname']),
+                                trailing: Switch(
+                                  value: snapshot.data == null
+                                      ? false
+                                      : snap["Status"],
+                                  onChanged: (value) {
+                                    FirebaseFirestore.instance
+                                        .runTransaction((transaction) async {
+                                      // DocumentSnapshot freshSnap =
+                                      //     await transaction
+                                      //         .get(FirebaseFirestore
+                                      //             .instance
+                                      //             .collection('UserWeb')
+                                      //             .where("Status",
+                                      //                 isEqualTo: false)
+                                      //             .snapshots().);
+                                      // await transaction.update(
+                                      //     freshSnap.reference,
+                                      //     {"Status": value});
+                                    });
+                                  },
+                                  activeTrackColor: Colors.lightGreenAccent,
+                                  activeColor: Colors.green,
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
@@ -69,5 +108,17 @@ class _adminMainState extends State<adminMain> {
         ),
       ),
     );
+  }
+
+  Widget testListView() {
+    // return ListView(
+    //   children: snapshot.data.docs.map((DocumentSnapshot document) {
+    //     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    //     return ListTile(
+    //       title: Text(data['full_name']),
+    //       subtitle: Text(data['company']),
+    //     );
+    //   }).toList(),
+    // );
   }
 }
