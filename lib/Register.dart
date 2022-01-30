@@ -336,6 +336,7 @@ class _Register extends State<Register> {
                 "surname": _registerModels.surname,
                 "phonenumber": _registerModels.phoneNumber,
                 "role": _registerModels.roles,
+                "status": false
               });
             });
             Navigator.pushNamed(context, '/');

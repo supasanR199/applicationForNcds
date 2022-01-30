@@ -11,84 +11,79 @@ class adminMain extends StatefulWidget {
 
 class _adminMainState extends State<adminMain> {
   @override
+  var _docRef = FirebaseFirestore.instance
+      .collection('UserWeb')
+      .where('role', isNotEqualTo: 'admin');
+  var docId;
+  int index;
   Widget build(BuildContext context) {
-    bool isSwitched = false;
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('UserWeb')
-          .where("Status", isEqualTo: false)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
-        return Container(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-                style: TextStyle(color: Colors.black),
-              ),
-              backgroundColor: Colors.white,
-            ),
-            body: Container(
-              child: Center(
-                child: Card(
-                  child: SizedBox(
-                    height: 700,
-                    width: 1000,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            children: snapshot.data.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> snap =
-                                  document.data() as Map<String, dynamic>;
-                              return ListTile(
-                                title: Text(snap['name']),
-                                subtitle: Text(snap['surname']),
-                                trailing: Switch(
-                                  value: snapshot.data == null
-                                      ? false
-                                      : snap["Status"],
-                                  onChanged: (value) {
-                                    FirebaseFirestore.instance
-                                        .runTransaction((transaction) async {
-                                      // DocumentSnapshot freshSnap =
-                                      //     await transaction
-                                      //         .get(FirebaseFirestore
-                                      //             .instance
-                                      //             .collection('UserWeb')
-                                      //             .where("Status",
-                                      //                 isEqualTo: false)
-                                      //             .snapshots().);
-                                      // await transaction.update(
-                                      //     freshSnap.reference,
-                                      //     {"Status": value});
-                                    });
-                                  },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        body: Container(
+          child: Center(
+            child: Card(
+              child: SizedBox(
+                height: 700,
+                width: 1000,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream:
+                              _docRef.where('email', isNull: null).snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            return ListView(
+                              children: snapshot.data.docs
+                                  .map((DocumentSnapshot document ) {
+                                Map<String, dynamic> snap =
+                                    document.data() as Map<String, dynamic>;
+                                return ListTile(
+                                  title: Text("${snap["name"]}"),
+                                  subtitle: Text("${snap["surname"]}"),
+                                  trailing: Switch(
+                                    value: snap["status"],
+                                    onChanged: (value) {
+                                      docId = (snapshot.data.docs.map((e) => e.reference).toList());
+                                      print("DocumentReference<Map<String, dynamic>>(UserWeb/"+document.id+")");
+                                      // for find index in DocmentReference.
+                                      for(int i=0; i < docId.length; i++){
+                                        if(docId[i].toString() == "DocumentReference<Map<String, dynamic>>(UserWeb/"+document.id+")"){
+                                          index = i;
+                                        }
+                                      }
+                                      FirebaseFirestore.instance
+                                          .runTransaction((transaction) async {
+                                        DocumentSnapshot freshSnap =
+                                            await transaction.get(docId[index]);
+                                        await transaction.update(
+                                            freshSnap.reference,
+                                            {"status": value});
+                                      });
+                                    },
+                                    activeTrackColor: Colors.lightGreenAccent,
+                                    activeColor: Colors.green,
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          }),
                     ),
-                  ),
-                  //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+                  ],
                 ),
               ),
+              //  margin: EdgeInsets.only(top: 100,bottom: 400,),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

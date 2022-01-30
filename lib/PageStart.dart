@@ -143,13 +143,24 @@ class StartPage extends StatelessWidget {
               print(value);
             });
             print(userData["role"]);
-            if (userData["role"] == "admin") {
-              Navigator.pushNamed(context, '/adminmain');
-            } else if (userData["role"] == "hospital") {
-              Navigator.pushNamed(context, '/mainpage');
-            } else if (userData["role"] == "medicalpersonnel") {
-              Navigator.pushNamed(context, '/mainpage');
+            print(userData["status"]);
+            if (userData["status"]==true) {
+              if (userData["role"] == "admin") {
+                Navigator.pushNamed(context, '/adminmain');
+              } else if (userData["role"] == "hospital") {
+                Navigator.pushNamed(context, '/mainpage');
+              } else if (userData["role"] == "medicalpersonnel") {
+                Navigator.pushNamed(context, '/mainpage');
+              }
             }
+            else if(userData["status"]==false){
+             showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                     aletLogin(context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"));
+             
+            }
+
             print("login");
             // Navigator.pushNamed(context, '/mainpage');
           }).catchError((e) {
