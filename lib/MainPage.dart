@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:appilcation_for_ncds/PatientMain.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -17,80 +18,87 @@ class _MainPage extends State<MainPage> {
   final auth = FirebaseAuth.instance;
   var user;
   Map<String, dynamic> userData;
-
+  var _docRefPatient = FirebaseFirestore.instance
+      .collection("MobileUser")
+      .where("Role", isEqualTo: "Patient")
+      .snapshots();
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance
-          .collection("UserWeb")
-          .doc(auth.currentUser.uid)
-          .get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        userData = snapshot.data.data() as Map<String, dynamic>;
-        return DefaultTabController(
-          initialIndex: 0,
-          length: 5,
-          child: Container(
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-                  style: TextStyle(color: Colors.black),
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 5,
+      child: Container(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.white,
+            actions: [
+              FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection("UserWeb")
+                      .doc(auth.currentUser.uid)
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    userData = snapshot.data.data() as Map<String, dynamic>;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("${userData['name']}  ${userData['surname']}"),
+                      ],
+                    );
+                  }),
+              actionMenu(),
+            ],
+            bottom: TabBar(
+              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+              tabs: <Widget>[
+                Tab(
+                  text: 'ผู้ป่วย',
+                  icon: Icon(Icons.cloud_outlined),
                 ),
-                backgroundColor: Colors.white,
-                actions: [
-                  Text("${userData['name']}"),
-                  actionMenu(),
-                ],
-                bottom: TabBar(
-                  indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-                  tabs: <Widget>[
-                    Tab(
-                      text: 'ผู้ป่วย',
-                      icon: Icon(Icons.cloud_outlined),
-                    ),
-                    Tab(
-                      text: 'โพสต์',
-                      icon: Icon(Icons.beach_access_sharp),
-                    ),
-                    Tab(
-                      text: 'ยืนยันการสมัครสมาชิกผู้ป่วย/อสม.',
-                      icon: Icon(Icons.cloud_outlined),
-                    ),
-                    Tab(
-                      text: 'อสม.',
-                      icon: Icon(Icons.cloud_outlined),
-                    ),
-                    Tab(
-                      text: 'แชทพูดคุย',
-                      icon: Icon(Icons.cloud_outlined),
-                    ),
-                  ],
+                Tab(
+                  text: 'โพสต์',
+                  icon: Icon(Icons.beach_access_sharp),
                 ),
-              ),
-              body: TabBarView(
-                children: <Widget>[
-                  Center(
-                    child: buildPatientPage(context),
-                  ),
-                  Center(
-                    child: buildPostPage(context),
-                  ),
-                  Center(
-                    child: buildAcceptPage(context),
-                  ),
-                  Center(
-                    child: buildVolunteerPage(context),
-                  ),
-                  Center(
-                    child: buildChat(context),
-                  ),
-                ],
-              ),
+                Tab(
+                  text: 'ยืนยันการสมัครสมาชิกผู้ป่วย/อสม.',
+                  icon: Icon(Icons.cloud_outlined),
+                ),
+                Tab(
+                  text: 'อสม.',
+                  icon: Icon(Icons.cloud_outlined),
+                ),
+                Tab(
+                  text: 'แชทพูดคุย',
+                  icon: Icon(Icons.cloud_outlined),
+                ),
+              ],
             ),
           ),
-        );
-      },
+          body: TabBarView(
+            children: <Widget>[
+              Center(
+                child: buildPatientPage(context),
+              ),
+              Center(
+                child: buildPostPage(context),
+              ),
+              Center(
+                child: buildAcceptPage(context),
+              ),
+              Center(
+                child: buildVolunteerPage(context),
+              ),
+              Center(
+                child: buildChat(context),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -114,12 +122,31 @@ class _MainPage extends State<MainPage> {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  buildContentPatient(context),
-                ],
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _docRefPatient,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  return ListView(
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> snap =
+                          document.data() as Map<String, dynamic>;
+                      return ListTile(
+                        title: Text("${snap["Firstname"]}"),
+                        subtitle: Text("${snap["Lastname"]}"),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PatientMain(patienData: snap)));
+                        },
+                      );
+                    }).toList(),
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -214,12 +241,8 @@ class _MainPage extends State<MainPage> {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  buildContentPatient(context),
-                ],
-              ),
-            )
+              child: buildContentPatient(context),
+            ),
           ],
         ),
       ),
@@ -291,42 +314,50 @@ class _MainPage extends State<MainPage> {
   }
 
   Widget buildContentPatient(BuildContext context) {
-    return Card(
-      color: Colors.amber,
-      child: SizedBox(
-        height: 200,
-        width: 90,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                // color: Colors.accents,
-                onPressed: () => requestData(),
-                child: Text('ข้อมูล'),
-                color: Colors.green,
-                padding: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                // color: Colors.accents,
-                onPressed: () => Navigator.pushNamed(context, '/labresults'),
-                child: Text('แจ้งผลตรวจจากห้องทดลอง'),
-                color: Colors.green,
-                padding: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-              ),
-            )
-          ],
+    return Row(
+      children: [
+        // StreamBuilder<QuerySnapshot>(
+        //   stream: _docRefPatient,
+        //   builder:
+        //       (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        //     return ListView(
+        //       children: snapshot.data.docs.map((DocumentSnapshot document) {
+        //         Map<String, dynamic> snap =
+        //             document.data() as Map<String, dynamic>;
+        //         return ListTile(
+        //           title: Text("${snap["name"]}"),
+        //           subtitle: Text("${snap["surname"]}"),
+        //           //
+        //         );
+        //       }).toList(),
+        //     );
+        //   },
+        // ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RaisedButton(
+            // color: Colors.accents,
+            onPressed: () => requestData(),
+            child: Text('ข้อมูล'),
+            color: Colors.green,
+            padding: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RaisedButton(
+            // color: Colors.accents,
+            onPressed: () => Navigator.pushNamed(context, '/labresults'),
+            child: Text('แจ้งผลตรวจจากห้องทดลอง'),
+            color: Colors.green,
+            padding: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+          ),
+        )
+      ],
     );
   }
 

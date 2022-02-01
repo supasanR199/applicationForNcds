@@ -108,7 +108,7 @@ class _Register extends State<Register> {
           print('validate');
           if (value.isNotEmpty) {
             if (value.toString() == 'รพสต.') {
-              _registerModels.roles = 'hospital.';
+              _registerModels.roles = 'hospital';
               print(_registerModels.roles);
             } else if (value.toString() == 'บุคลากรแพทย์') {
               _registerModels.roles = 'medicalpersonnel';

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:appilcation_for_ncds/models/LabResultsModels.dart';
 
 class LabResults extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -9,6 +10,7 @@ class LabResults extends StatefulWidget {
 
 class _LabResults extends State<LabResults> {
   DateTime selectedDate = DateTime.now();
+  LabResultsModels _labResultsModels;
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
