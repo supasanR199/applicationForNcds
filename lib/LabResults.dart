@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/LabResultsModels.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class LabResults extends StatefulWidget {
-  State<StatefulWidget> createState() {
-    return _LabResults();
-  }
+  Map<String, dynamic> patienData;
+  DocumentReference  patienDataId;
+
+  LabResults({
+    Key key,
+    @required this.patienData, @required this.patienDataId
+  }) : super(key: key);
+  _LabResults createState() => _LabResults();
 }
 
 class _LabResults extends State<LabResults> {
@@ -78,6 +85,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.FBSFPG = value;
+        },
         decoration: InputDecoration(
           labelText: 'FBS/FPG',
           icon: Icon(Icons.people),
@@ -94,6 +104,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Hb1c = value;
+        },
         decoration: InputDecoration(
           labelText: 'Hb1c',
           icon: Icon(Icons.people),
@@ -110,6 +123,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.BUN = value;
+        },
         decoration: InputDecoration(
           labelText: 'BUN',
           icon: Icon(Icons.people),
@@ -126,6 +142,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Cr = value;
+        },
         decoration: InputDecoration(
           labelText: 'Cr',
           icon: Icon(Icons.people),
@@ -142,6 +161,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.LDL = value;
+        },
         decoration: InputDecoration(
           labelText: 'LDL',
           icon: Icon(Icons.people),
@@ -158,6 +180,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.HDL = value;
+        },
         decoration: InputDecoration(
           labelText: 'HDL',
           icon: Icon(Icons.people),
@@ -174,6 +199,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Chol = value;
+        },
         decoration: InputDecoration(
           labelText: 'Chol',
           icon: Icon(Icons.people),
@@ -190,6 +218,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Tg = value;
+        },
         decoration: InputDecoration(
           labelText: 'Tg',
           icon: Icon(Icons.people),
@@ -206,6 +237,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Microalbumin = value;
+        },
         decoration: InputDecoration(
           labelText: 'Micro-albumin',
           icon: Icon(Icons.people),
@@ -222,6 +256,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Uricacid = value;
+        },
         decoration: InputDecoration(
           labelText: 'Uric-acid',
           icon: Icon(Icons.people),
@@ -238,6 +275,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Proteininurine = value;
+        },
         decoration: InputDecoration(
           labelText: 'Protein-in-urine',
           icon: Icon(Icons.people),
@@ -254,6 +294,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Eyetest = value;
+        },
         decoration: InputDecoration(
           labelText: 'Eye-test',
           icon: Icon(Icons.people),
@@ -288,7 +331,10 @@ class _LabResults extends State<LabResults> {
     return RaisedButton(
       // color: Colors.accents,
       child: Text('บันทึก'),
-      onPressed: () => null,
+      onPressed: () {
+        print(widget.patienData.toString());
+        FirebaseFirestore.instance.collection("MobileUser").doc(widget.patienDataId.toString());
+      },
       color: Colors.green,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(

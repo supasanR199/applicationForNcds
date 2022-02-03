@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:appilcation_for_ncds/LabResults.dart';
 
 class PatientMain extends StatefulWidget {
   @override
   Map<String, dynamic> patienData;
-  PatientMain({
-    Key key,
-    @required this.patienData,
-  }) : super(key: key);
+  DocumentReference patienDataId;
+  PatientMain({Key key, @required this.patienData, @required this.patienDataId})
+      : super(key: key);
   _PatientMainState createState() => _PatientMainState();
 }
 
@@ -253,7 +253,17 @@ class _PatientMainState extends State<PatientMain> {
 
   Widget buttonLabTest(context) {
     return RaisedButton(
-      onPressed: () => null,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LabResults(
+              patienData: widget.patienData,
+              patienDataId: widget.patienDataId,
+            ),
+          ),
+        );
+      },
       child: Text("บันทึกผลตรวจจากห้องปฏิบัติการ"),
       color: Colors.green,
       padding: EdgeInsets.all(20),

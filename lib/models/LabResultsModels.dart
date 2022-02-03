@@ -10,6 +10,7 @@ class LabResultsModels {
   String Uricacid;
   String Proteininurine;
   String Eyetest;
+  String Tg;
 
   LabResultsModels(
       {this.FBSFPG,
@@ -22,5 +23,6 @@ class LabResultsModels {
       this.Uricacid,
       this.Microalbumin,
       this.Proteininurine,
-      this.Eyetest});
+      this.Eyetest,
+      this.Tg});
 }

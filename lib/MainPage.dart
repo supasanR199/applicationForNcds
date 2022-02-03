@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html';
+import 'dart:math';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -136,10 +137,13 @@ class _MainPage extends State<MainPage> {
                         subtitle: Text("${snap["Lastname"]}"),
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      PatientMain(patienData: snap)));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PatientMain(
+                                  patienData: snap,
+                                  patienDataId: document.reference),
+                            ),
+                          );
                         },
                       );
                     }).toList(),
