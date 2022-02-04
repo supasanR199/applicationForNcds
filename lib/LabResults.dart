@@ -1,23 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/LabResultsModels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:intl/intl.dart';
+import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 
 class LabResults extends StatefulWidget {
   Map<String, dynamic> patienData;
-  DocumentReference  patienDataId;
-
-  LabResults({
-    Key key,
-    @required this.patienData, @required this.patienDataId
-  }) : super(key: key);
+  DocumentReference patienDataId;
+  LabResults({Key key, @required this.patienData, @required this.patienDataId})
+      : super(key: key);
   _LabResults createState() => _LabResults();
 }
 
 class _LabResults extends State<LabResults> {
+  final _labResultsFrom = GlobalKey<FormState>();
+  TextEditingController crateAtDate = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  LabResultsModels _labResultsModels;
+  DateFormat myDateFormat = DateFormat("dd-MM-yyyy");
+  LabResultsModels _labResultsModels = LabResultsModels();
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
@@ -36,6 +38,7 @@ class _LabResults extends State<LabResults> {
                 height: 700,
                 width: 1000,
                 child: Form(
+                  key: _labResultsFrom,
                   child: ListView(
                     children: <Widget>[
                       buildFbsFpgField(context),
@@ -313,16 +316,33 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+          controller: crateAtDate,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'กรุณาระบุวันที่บันทึก';
+            } else {
+              return null;
+            }
+          },
           decoration: InputDecoration(
             labelText: 'วันที่บันทึก',
             icon: Icon(Icons.people),
           ),
-          onTap: () {
-            showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2222));
+          onTap: () async {
+            final DateTime selected = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now(),
+              lastDate: DateTime(2222),
+            );
+            if (selected != null && selected != selectedDate) {
+              setState(() {
+                selectedDate = selected;
+                print(selected);
+                crateAtDate.text = myDateFormat.format(selected);
+                _labResultsModels.createAt = selectedDate;
+              });
+            }
           }),
     );
   }
@@ -332,8 +352,48 @@ class _LabResults extends State<LabResults> {
       // color: Colors.accents,
       child: Text('บันทึก'),
       onPressed: () {
-        print(widget.patienData.toString());
-        FirebaseFirestore.instance.collection("MobileUser").doc(widget.patienDataId.toString());
+        if (_labResultsFrom.currentState.validate()) {
+          try {
+            showDialog(
+                    context: context,
+                    builder: (BuildContext context) => alertMessage(
+                        context, "ยืนยันการบันทึกผลตรวจจากห้องทดลอง"))
+                .then((value) async {
+              if (value == "CONFIRM") {
+                await FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .doc(widget.patienDataId.id)
+                    .collection("LabResultsHistory")
+                    .add({
+                  "FBSFPG": _labResultsModels.FBSFPG,
+                  "Hb1c": _labResultsModels.Hb1c,
+                  "BUN": _labResultsModels.BUN,
+                  "Cr": _labResultsModels.Cr,
+                  "LDL": _labResultsModels.LDL,
+                  "HDL": _labResultsModels.HDL,
+                  "Chol": _labResultsModels.Chol,
+                  "Microalbumin": _labResultsModels.Microalbumin,
+                  "Uricacid": _labResultsModels.Uricacid,
+                  "Proteininurine": _labResultsModels.Proteininurine,
+                  "Eyetest": _labResultsModels.Eyetest,
+                  "Tg": _labResultsModels.Tg,
+                  "creatAt": _labResultsModels.createAt
+                }).whenComplete(() {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          alertMessage(context, "บันทึกสำเร็จ"));
+                });
+              }
+            });
+          } on FirebaseException catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    alertMessage(context, e.toString()));
+          }
+        }
+        print(_labResultsModels.toString());
       },
       color: Colors.green,
       padding: EdgeInsets.all(20),

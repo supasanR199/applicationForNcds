@@ -11,6 +11,7 @@ class LabResultsModels {
   String Proteininurine;
   String Eyetest;
   String Tg;
+  DateTime createAt;
 
   LabResultsModels(
       {this.FBSFPG,
@@ -24,5 +25,6 @@ class LabResultsModels {
       this.Microalbumin,
       this.Proteininurine,
       this.Eyetest,
-      this.Tg});
+      this.Tg,
+      this.createAt});
 }

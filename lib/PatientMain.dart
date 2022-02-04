@@ -15,11 +15,10 @@ class PatientMain extends StatefulWidget {
 class _PatientMainState extends State<PatientMain> {
   @override
   Widget build(BuildContext context) {
-    String test;
     print(widget.patienData["NCDs"]);
     return DefaultTabController(
       initialIndex: 0,
-      length: 4,
+      length: 5,
       child: Container(
         child: Scaffold(
           appBar: AppBar(
@@ -43,6 +42,9 @@ class _PatientMainState extends State<PatientMain> {
                 Tab(
                   text: 'อารมณ์',
                 ),
+                Tab(
+                  text: 'ผลตรวจจากห้องปฏิบัติการ',
+                ),
               ],
             ),
           ),
@@ -60,6 +62,9 @@ class _PatientMainState extends State<PatientMain> {
               Center(
                   // child: buildPostPage(context),
                   ),
+              Center(
+                child: buildHistoryLabResultsPage(context),
+              ),
             ],
           ),
         ),
@@ -117,10 +122,13 @@ class _PatientMainState extends State<PatientMain> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("วันเกิด : " +
-                            convertDateTimeDisplay(widget.patienData["Birthday"]
-                                .toDate()
-                                .toString())),
+                        child: Text(
+                          "วันเกิด : " +
+                              convertDateTimeDisplay(widget
+                                  .patienData["Birthday"]
+                                  .toDate()
+                                  .toString()),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -198,6 +206,57 @@ class _PatientMainState extends State<PatientMain> {
                 children: <Widget>[
                   buttonLabTest(context),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildHistoryLabResultsPage(BuildContext context) {
+    return Card(
+      child: SizedBox(
+        height: 700,
+        width: 1000,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Text(
+                  'ผลตรวจจากห้องปฏิบัติการ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40),
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .doc(widget.patienDataId.id)
+                    .collection("LabResultsHistory")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  return ListView(
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> snap =
+                          document.data() as Map<String, dynamic>;
+                      return ListTile(
+                        title: Text(
+                          convertDateTimeDisplay(
+                              snap["creatAt"].toDate().toString()),
+                        ),
+                        onTap: () {},
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ),
           ],
