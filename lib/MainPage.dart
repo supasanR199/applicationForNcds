@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
+import 'package:appilcation_for_ncds/VolunteerMain.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -393,7 +394,36 @@ class _MainPage extends State<MainPage> {
               ),
             ),
             Expanded(
-              child: buildContentPatient(context),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .where("Role", isEqualTo: "Volunteer")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  return ListView(
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> snap =
+                          document.data() as Map<String, dynamic>;
+                      return ListTile(
+                        title: Text("${snap["Firstname"]}"),
+                        subtitle: Text("${snap["Lastname"]}"),
+                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VolunteerMain(
+                                  volunteerData: snap,
+                                  volunteerDataId: document.reference),
+                            ),
+                          );
+                         }
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
             ),
           ],
         ),
