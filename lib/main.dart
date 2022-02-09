@@ -104,7 +104,7 @@ Widget buildMaterialApp() {
       // '/addbook': (context) => AddBookPage(),
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
-      '/addpost': (context) => AddPost(),
+      // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),
       // '/labresults': (context) => LabResults(),
       '/adminmain': (context) => adminMain(),

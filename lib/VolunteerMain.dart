@@ -67,15 +67,18 @@ class _VolunteerMainState extends State<VolunteerMain> {
 
   Widget buildVolunteerDataPage(context) {
     print(widget.volunteerData["isBoss"]);
-    if(widget.volunteerData["isBoss"]==null){
-      FirebaseFirestore.instance.collection("MobileUser").doc(widget.volunteerDataId.id).update({"isBoss":  false});
+    if (widget.volunteerData["isBoss"] == null) {
+      FirebaseFirestore.instance
+          .collection("MobileUser")
+          .doc(widget.volunteerDataId.id)
+          .update({"isBoss": false});
     }
     return Card(
       child: SizedBox(
         height: 700,
         width: 1000,
         child: Padding(
-          padding: const EdgeInsets.only(left: 60,right: 60),
+          padding: const EdgeInsets.only(left: 60, right: 60),
           child: Column(
             children: <Widget>[
               Row(
@@ -144,12 +147,13 @@ class _VolunteerMainState extends State<VolunteerMain> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top:30),
+                padding: const EdgeInsets.only(top: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Visibility(child: buildButtonRegisterBoss(context),
-                    // visible: widget.volunteerData["isBoss"],
+                    Visibility(
+                      child: buildButtonRegisterBoss(context),
+                      // visible: widget.volunteerData["isBoss"],
                     ),
                   ],
                 ),
@@ -166,16 +170,20 @@ class _VolunteerMainState extends State<VolunteerMain> {
       color: Colors.green[100],
       child: Text("กำหนดให้เป็นหัวหน้าอาสาสมัคร"),
       padding: EdgeInsets.all(20),
-      onPressed: () {},
+      onPressed: () {
+        FirebaseFirestore.instance
+            .collection("MobileUser")
+            .doc(widget.volunteerDataId.id)
+            .update({"isBoss": true});
+      },
     );
   }
-  bool isBoss(String boss){
-    if(boss == "Boss"){
+
+  bool isBoss(String boss) {
+    if (boss == "Boss") {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
-  
 }

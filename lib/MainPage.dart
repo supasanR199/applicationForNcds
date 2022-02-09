@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 
@@ -8,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
+import 'package:appilcation_for_ncds/AddPost.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -24,6 +24,7 @@ class _MainPage extends State<MainPage> {
       .where('role', isNotEqualTo: 'admin');
   var _docRefMobile = FirebaseFirestore.instance.collection("MobileUser");
   var docId;
+  var _userData;
   int index;
 
   Map<String, dynamic> userData;
@@ -52,6 +53,7 @@ class _MainPage extends State<MainPage> {
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
                     userData = snapshot.data.data() as Map<String, dynamic>;
+                    _userData = userData;
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -247,7 +249,7 @@ class _MainPage extends State<MainPage> {
               padding: EdgeInsets.only(top: 0, bottom: 0),
               child: Expanded(
                 child: Text(
-                  "อสม. ผู้ป่วย",
+                  "อสม.และ ผู้ป่วย",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -326,16 +328,11 @@ class _MainPage extends State<MainPage> {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  buildContentPost(context),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: bulidButtonAddPost(context),
-                  ),
-                ],
-              ),
-            )
+              child: buildContentPost(context),
+            ),
+            Center(
+              child: bulidButtonAddPost(context),
+            ),
           ],
         ),
       ),
@@ -407,19 +404,18 @@ class _MainPage extends State<MainPage> {
                       Map<String, dynamic> snap =
                           document.data() as Map<String, dynamic>;
                       return ListTile(
-                        title: Text("${snap["Firstname"]}"),
-                        subtitle: Text("${snap["Lastname"]}"),
-                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VolunteerMain(
-                                  volunteerData: snap,
-                                  volunteerDataId: document.reference),
-                            ),
-                          );
-                         }
-                      );
+                          title: Text("${snap["Firstname"]}"),
+                          subtitle: Text("${snap["Lastname"]}"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VolunteerMain(
+                                    volunteerData: snap,
+                                    volunteerDataId: document.reference),
+                              ),
+                            );
+                          });
                     }).toList(),
                   );
                 },
@@ -433,7 +429,16 @@ class _MainPage extends State<MainPage> {
 
   Widget bulidButtonAddPost(BuildContext context) {
     return MaterialButton(
-      onPressed: () => Navigator.pushNamed(context, '/addpost'),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddPost(
+              userData: _userData,
+            ),
+          ),
+        );
+      },
       color: Color.fromRGBO(255, 211, 251, 1),
       textColor: Colors.white,
       child: Icon(
@@ -446,13 +451,60 @@ class _MainPage extends State<MainPage> {
   }
 
   Widget buildContentPost(BuildContext context) {
-    return Card(
-      color: Colors.amber,
-      child: SizedBox(
-        height: 200,
-        width: 90,
-      ),
-    );
+    return StreamBuilder<QuerySnapshot>(
+        stream:
+            FirebaseFirestore.instance.collection("RecommendPost").snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              children: snapshot.data.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> snap =
+                    document.data() as Map<String, dynamic>;
+                return GestureDetector(
+                  onTap: () => null,
+                  child: Card(
+                    color: Colors.amber,
+                    child: SizedBox(
+                      height: 200,
+                      width: 90,
+                      child: Expanded(
+                        child: Row(
+                          children: [
+                            // ListTile(
+                            //   title: Text("หัวเรื่อง" + "${snap["topic"]}"),
+                            // ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 8.0, right: 8.0),
+                                    child: Text(
+                                        "หัวเรื่อง  :" + "${snap["topic"]}"),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        "เนื้อเรื่อง :" + "${snap["content"]}"),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          } else {
+            return Text("ไม่มีโพสต์แนะนำ");
+          }
+        });
   }
 
   Widget buildContentAccept(BuildContext context) {
