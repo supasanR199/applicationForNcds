@@ -1,24 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-  String convertDateTimeDisplay(String date) {
-    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-    final DateFormat serverFormater = DateFormat("dd-MM-yyyy");
-    final DateTime displayDate = displayFormater.parse(date);
-    final String formatted = serverFormater.format(displayDate);
-    return formatted;
-  }
+String convertDateTimeDisplay(String date) {
+  final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+  final DateFormat serverFormater = DateFormat("dd-MM-yyyy");
+  final DateTime displayDate = displayFormater.parse(date);
+  final String formatted = serverFormater.format(displayDate);
+  return formatted;
+}
 
-   String calAge(String birthDayString) {
-    String pattern = "dd-MM-yyyy";
-    DateTime birthDay = DateFormat(pattern).parse(birthDayString);
-    DateTime today = DateTime.now();
-    var yeardiff = today.year - birthDay.year;
-    // print(birthDay);
-    // print(today.year);
-    // print(birthDay.year);
+String convertDateTimeDisplayAndTime(Timestamp date) {
+  var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
+  var d12 =
+      DateFormat('MM/dd/yyyy, hh:mm a').format(dt); // 12/31/2000, 10:00 PM
+  var d24 = DateFormat('dd/MM/yyyy, HH:mm').format(dt); // 31/12/2000, 22:00
+  print(date);
+  // final String formatted = "222";
+  return d24;
+}
 
-    // var daydiff = today.day - birthDay.day;
+String convertTimeDisplay(Timestamp date) {
+  var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
+  var d12 =
+      DateFormat('MM/dd/yyyy, hh:mm a').format(dt); // 12/31/2000, 10:00 PM
+  var d24 = DateFormat('HH:mm').format(dt); // 31/12/2000, 22:00
+  // final String formatted = "222";
+  return d24;
+}
 
-    return yeardiff.toString();
-  }
+String calCreateDay(String _date) {
+  String pattern = "dd-MM-yyyy";
+  DateTime date = DateFormat(pattern).parse(_date);
+  DateTime today = DateTime.now();
+  print(today.day);
+  print(date.day);
+  print("create at $date");
+  var daydiff = today.day - date.day;
+  var day = daydiff.toString().replaceAll("-", "");
+  return day;
+}
+
+String calAge(String birthDayString) {
+  String pattern = "dd-MM-yyyy";
+  DateTime birthDay = DateFormat(pattern).parse(birthDayString);
+  DateTime today = DateTime.now();
+  var yeardiff = today.year - birthDay.year;
+  // print(birthDay);
+  // print(today.year);
+  // print(birthDay.year);
+
+  // var daydiff = today.day - birthDay.day;
+
+  return yeardiff.toString();
+}

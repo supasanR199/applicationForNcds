@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:appilcation_for_ncds/LabResults.dart';
+import 'package:appilcation_for_ncds/LabResultsDetail.dart';
 
 class PatientMain extends StatefulWidget {
   @override
@@ -242,20 +243,35 @@ class _PatientMainState extends State<PatientMain> {
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  return ListView(
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> snap =
-                          document.data() as Map<String, dynamic>;
-                      return ListTile(
-                        title: Text(
-                          convertDateTimeDisplay(
-                              snap["creatAt"].toDate().toString()),
-                        ),
-                        onTap: () {},
-                      );
-                    }).toList(),
-                  );
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text(
+                            convertDateTimeDisplay(
+                                snap["creatAt"].toDate().toString()),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LabResultsDetail(
+                                  labResultsData: snap,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลข้อมูล"),
+                    );
+                  }
                 },
               ),
             ),

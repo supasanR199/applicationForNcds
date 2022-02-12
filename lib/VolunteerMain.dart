@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
+import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 
 class VolunteerMain extends StatefulWidget {
   @override
@@ -153,7 +154,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
                   children: [
                     Visibility(
                       child: buildButtonRegisterBoss(context),
-                      // visible: widget.volunteerData["isBoss"],
+                      visible: !widget.volunteerData["isBoss"],
                     ),
                   ],
                 ),
@@ -171,10 +172,30 @@ class _VolunteerMainState extends State<VolunteerMain> {
       child: Text("กำหนดให้เป็นหัวหน้าอาสาสมัคร"),
       padding: EdgeInsets.all(20),
       onPressed: () {
-        FirebaseFirestore.instance
-            .collection("MobileUser")
-            .doc(widget.volunteerDataId.id)
-            .update({"isBoss": true});
+        try {
+          showDialog(
+                  context: context,
+                  builder: (BuildContext context) => alertMessage(context,
+                      "คุณต้องการกำหนดให้คุณ  ${widget.volunteerData["Firstname"]} เป็นหัวหน้าอสม. ใช้หรือไม่?"))
+              .then((value) async {
+            if (value == "CONFIRM") {
+              await FirebaseFirestore.instance
+                  .collection("MobileUser")
+                  .doc(widget.volunteerDataId.id)
+                  .update({"isBoss": true}).whenComplete(() {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        alertMessage(context, "บันทึกสำเร็จ"));
+              });
+            }
+          });
+        } on FirebaseException catch (e) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  alertMessage(context, e.toString()));
+        }
       },
     );
   }

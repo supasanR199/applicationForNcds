@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
 import 'package:appilcation_for_ncds/AddPost.dart';
+import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -52,14 +54,23 @@ class _MainPage extends State<MainPage> {
                       .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    userData = snapshot.data.data() as Map<String, dynamic>;
-                    _userData = userData;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("${userData['name']}  ${userData['surname']}"),
-                      ],
-                    );
+                    if (snapshot.hasData) {
+                      userData = snapshot.data.data() as Map<String, dynamic>;
+                      _userData = userData;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("${userData['name']}  ${userData['surname']}"),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("กำลังโหลด"),
+                        ],
+                      );
+                    }
                   }),
               actionMenu(),
             ],
@@ -137,27 +148,33 @@ class _MainPage extends State<MainPage> {
                 stream: _docRefPatient,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  return ListView(
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> snap =
-                          document.data() as Map<String, dynamic>;
-                      return ListTile(
-                        title: Text("${snap["Firstname"]}"),
-                        subtitle: Text("${snap["Lastname"]}"),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PatientMain(
-                                  patienData: snap,
-                                  patienDataId: document.reference),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  );
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text("${snap["Firstname"]}"),
+                          subtitle: Text("${snap["Lastname"]}"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PatientMain(
+                                    patienData: snap,
+                                    patienDataId: document.reference),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลดข้อมูล"),
+                    );
+                  }
                 },
               ),
             ),
@@ -202,47 +219,53 @@ class _MainPage extends State<MainPage> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text("${snap["name"]}"),
-                          subtitle: Text("${snap["surname"]}"),
-                          trailing: Switch(
-                            value: snap["status"],
-                            onChanged: (value) {
-                              docId = (snapshot.data.docs
-                                  .map((e) => e.reference)
-                                  .toList());
-                              print(
-                                  "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                      document.id +
-                                      ")");
-                              // for find index in DocmentReference.
-                              for (int i = 0; i < docId.length; i++) {
-                                if (docId[i].toString() ==
+                    if (snapshot.hasData) {
+                      return ListView(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> snap =
+                              document.data() as Map<String, dynamic>;
+                          return ListTile(
+                            title: Text("${snap["name"]}"),
+                            subtitle: Text("${snap["surname"]}"),
+                            trailing: Switch(
+                              value: snap["status"],
+                              onChanged: (value) {
+                                docId = (snapshot.data.docs
+                                    .map((e) => e.reference)
+                                    .toList());
+                                print(
                                     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
                                         document.id +
-                                        ")") {
-                                  index = i;
+                                        ")");
+                                // for find index in DocmentReference.
+                                for (int i = 0; i < docId.length; i++) {
+                                  if (docId[i].toString() ==
+                                      "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                          document.id +
+                                          ")") {
+                                    index = i;
+                                  }
                                 }
-                              }
-                              FirebaseFirestore.instance
-                                  .runTransaction((transaction) async {
-                                DocumentSnapshot freshSnap =
-                                    await transaction.get(docId[index]);
-                                await transaction.update(
-                                    freshSnap.reference, {"status": value});
-                              });
-                            },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
-                          ),
-                        );
-                      }).toList(),
-                    );
+                                FirebaseFirestore.instance
+                                    .runTransaction((transaction) async {
+                                  DocumentSnapshot freshSnap =
+                                      await transaction.get(docId[index]);
+                                  await transaction.update(
+                                      freshSnap.reference, {"status": value});
+                                });
+                              },
+                              activeTrackColor: Colors.lightGreenAccent,
+                              activeColor: Colors.green,
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      return Center(
+                        child: Text("กำลังโหลดข้อมูล"),
+                      );
+                    }
                   }),
             ),
             Padding(
@@ -259,47 +282,53 @@ class _MainPage extends State<MainPage> {
                   stream: _docRefMobile.snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
-                          trailing: Switch(
-                            value: snap["status"],
-                            onChanged: (value) {
-                              docId = (snapshot.data.docs
-                                  .map((e) => e.reference)
-                                  .toList());
-                              print(
-                                  "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                      document.id +
-                                      ")");
-                              // for find index in DocmentReference.
-                              for (int i = 0; i < docId.length; i++) {
-                                if (docId[i].toString() ==
+                    if (snapshot.hasData) {
+                      return ListView(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> snap =
+                              document.data() as Map<String, dynamic>;
+                          return ListTile(
+                            title: Text("${snap["Firstname"]}"),
+                            subtitle: Text("${snap["Lastname"]}"),
+                            trailing: Switch(
+                              value: snap["status"],
+                              onChanged: (value) {
+                                docId = (snapshot.data.docs
+                                    .map((e) => e.reference)
+                                    .toList());
+                                print(
                                     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
                                         document.id +
-                                        ")") {
-                                  index = i;
+                                        ")");
+                                // for find index in DocmentReference.
+                                for (int i = 0; i < docId.length; i++) {
+                                  if (docId[i].toString() ==
+                                      "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                          document.id +
+                                          ")") {
+                                    index = i;
+                                  }
                                 }
-                              }
-                              FirebaseFirestore.instance
-                                  .runTransaction((transaction) async {
-                                DocumentSnapshot freshSnap =
-                                    await transaction.get(docId[index]);
-                                await transaction.update(
-                                    freshSnap.reference, {"status": value});
-                              });
-                            },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
-                          ),
-                        );
-                      }).toList(),
-                    );
+                                FirebaseFirestore.instance
+                                    .runTransaction((transaction) async {
+                                  DocumentSnapshot freshSnap =
+                                      await transaction.get(docId[index]);
+                                  await transaction.update(
+                                      freshSnap.reference, {"status": value});
+                                });
+                              },
+                              activeTrackColor: Colors.lightGreenAccent,
+                              activeColor: Colors.green,
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      return Center(
+                        child: Text("กำลังโหลดข้อมูล"),
+                      );
+                    }
                   }),
             ),
           ],
@@ -398,26 +427,32 @@ class _MainPage extends State<MainPage> {
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  return ListView(
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> snap =
-                          document.data() as Map<String, dynamic>;
-                      return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VolunteerMain(
-                                    volunteerData: snap,
-                                    volunteerDataId: document.reference),
-                              ),
-                            );
-                          });
-                    }).toList(),
-                  );
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                            title: Text("${snap["Firstname"]}"),
+                            subtitle: Text("${snap["Lastname"]}"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VolunteerMain(
+                                      volunteerData: snap,
+                                      volunteerDataId: document.reference),
+                                ),
+                              );
+                            });
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลดข้อมูล"),
+                    );
+                  }
                 },
               ),
             ),
@@ -465,31 +500,161 @@ class _MainPage extends State<MainPage> {
                   child: Card(
                     color: Colors.amber,
                     child: SizedBox(
-                      height: 200,
+                      height: 400,
                       width: 90,
                       child: Expanded(
                         child: Row(
                           children: [
-                            // ListTile(
-                            //   title: Text("หัวเรื่อง" + "${snap["topic"]}"),
-                            // ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 8.0, right: 8.0),
-                                    child: Text(
-                                        "หัวเรื่อง  :" + "${snap["topic"]}"),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "หัวเรื่อง  :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Text("${snap["topic"]}"),
+                                      ],
+                                    ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        "เนื้อเรื่อง :" + "${snap["content"]}"),
-                                  )
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "เนื้อเรื่อง :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "${snap["content"]}",
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "ผู้สร้างโพสต์แนะนำ :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${snap["createBy"]}",
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "เหมะสำหรับผู้ป่วย :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "อายุ:  ${snap["recommentForAge"]}",
+                                              ),
+                                              Text(
+                                                "ค่าBMI:  ${snap["recommentForBMI"]}",
+                                              ),
+                                              Text(
+                                                "โรค:  ${snap["recommentForDieases"]}",
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "สร้างโพสต์เมื่อวันที่ :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Text(
+                                          convertDateTimeDisplay(
+                                                  snap["createAt"]
+                                                      .toDate()
+                                                      .toString()) +
+                                              "" +
+                                              "สร้างมาแล้ว :" +
+                                              "" +
+                                              calCreateDay(
+                                                  convertDateTimeDisplay(
+                                                      snap["createAt"]
+                                                          .toDate()
+                                                          .toString())) +
+                                              "วัน",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "สร้างโพสต์เมื่อเวลา :",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        Text(
+                                          convertTimeDisplay(snap["createAt"]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
