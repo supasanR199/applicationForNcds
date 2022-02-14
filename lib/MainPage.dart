@@ -289,7 +289,10 @@ class _MainPage extends State<MainPage> {
                           Map<String, dynamic> snap =
                               document.data() as Map<String, dynamic>;
                           return ListTile(
-                            title: Text("${snap["Firstname"]}"),
+                            title: Row(children: [
+                              Text("${snap["Firstname"]}"),
+                              if (snap["isBoss"] == true) Text("(หัวหน้าอสม.)"),
+                            ]),
                             subtitle: Text("${snap["Lastname"]}"),
                             trailing: Switch(
                               value: snap["status"],
@@ -434,7 +437,10 @@ class _MainPage extends State<MainPage> {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
                         return ListTile(
-                            title: Text("${snap["Firstname"]}"),
+                            title: Row(children: [
+                              Text("${snap["Firstname"]}"),
+                              if (snap["isBoss"] == true) Text("(หัวหน้าอสม.)"),
+                            ]),
                             subtitle: Text("${snap["Lastname"]}"),
                             onTap: () {
                               Navigator.push(

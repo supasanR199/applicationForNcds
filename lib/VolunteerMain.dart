@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
+import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
+// import 'package:smart_select/smart_select.dart';
 
 class VolunteerMain extends StatefulWidget {
   @override
@@ -156,6 +158,10 @@ class _VolunteerMainState extends State<VolunteerMain> {
                       child: buildButtonRegisterBoss(context),
                       visible: !widget.volunteerData["isBoss"],
                     ),
+                    Visibility(
+                      child: buildButtonAddPatientForBoss(context),
+                      visible: widget.volunteerData["isBoss"],
+                    ),
                   ],
                 ),
               )
@@ -196,6 +202,59 @@ class _VolunteerMainState extends State<VolunteerMain> {
               builder: (BuildContext context) =>
                   alertMessage(context, e.toString()));
         }
+      },
+    );
+  }
+
+  Widget buildButtonCancelBoss(context) {
+    return RaisedButton(
+      color: Colors.green[100],
+      child: Text("ยกเลิกเป็นหัวหน้าอาสาสมัคร"),
+      padding: EdgeInsets.all(20),
+      onPressed: () {
+        try {
+          showDialog(
+                  context: context,
+                  builder: (BuildContext context) => alertMessage(context,
+                      "คุณต้องการกำหนดให้คุณ  ${widget.volunteerData["Firstname"]} เป็นหัวหน้าอสม. ใช้หรือไม่?"))
+              .then((value) async {
+            if (value == "CONFIRM") {
+              await FirebaseFirestore.instance
+                  .collection("MobileUser")
+                  .doc(widget.volunteerDataId.id)
+                  .update({"isBoss": false}).whenComplete(() {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        alertMessage(context, "บันทึกสำเร็จ"));
+              });
+            }
+          });
+        } on FirebaseException catch (e) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  alertMessage(context, e.toString()));
+        }
+      },
+    );
+  }
+
+  Widget buildButtonAddPatientForBoss(context) {
+    return RaisedButton(
+      color: Colors.green[100],
+      child: Text("เพิ่มผู้ป่วยในการดูแลให้หัวหน้าอสม."),
+      padding: EdgeInsets.all(20),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddPatienFoorVolunteer(
+              volunteerData: widget.volunteerData,
+              volunteerDataId: widget.volunteerDataId,
+            ),
+          ),
+        );
       },
     );
   }

@@ -10,6 +10,8 @@ import 'package:appilcation_for_ncds/Register.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/LabResults.dart';
 import 'package:appilcation_for_ncds/AdminMain.dart';
+import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
+
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -104,6 +106,7 @@ Widget buildMaterialApp() {
       // '/addbook': (context) => AddBookPage(),
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
+      // '/addPatientForVol': (context) => AddPatienFoorVolunteer(),
       // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),
       // '/labresults': (context) => LabResults(),
