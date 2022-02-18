@@ -144,7 +144,7 @@ class StartPage extends StatelessWidget {
             });
             print(userData["role"]);
             print(userData["status"]);
-            if (userData["status"]==true) {
+            if (userData["status"] == true) {
               if (userData["role"] == "admin") {
                 Navigator.pushNamed(context, '/adminmain');
               } else if (userData["role"] == "hospital") {
@@ -152,16 +152,16 @@ class StartPage extends StatelessWidget {
               } else if (userData["role"] == "medicalpersonnel") {
                 Navigator.pushNamed(context, '/mainpage');
               }
-            }
-            else if(userData["status"]==false){
-             showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                     aletLogin(context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"));
-             
+            } else if (userData["status"] == false) {
+              showDialog(
+                      context: context,
+                      builder: (BuildContext context) => aletLogin(
+                          context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"))
+                  .then((value) async {
+                await FirebaseAuth.instance.signOut();
+              });
             }
 
-            print("login");
             // Navigator.pushNamed(context, '/mainpage');
           }).catchError((e) {
             showDialog(

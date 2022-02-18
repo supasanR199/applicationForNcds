@@ -10,6 +10,9 @@ import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'widgetShare/ShowAlet.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -35,93 +38,102 @@ class _MainPage extends State<MainPage> {
       .where("Role", isEqualTo: "Patient")
       .snapshots();
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 5,
-      child: Container(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-              style: TextStyle(color: Colors.black),
+    FirebaseFirestore.instance.collection("UserLog").add({
+      "name": auth.currentUser.email,
+      "timeLogin": DateTime.now(),
+    });
+    if (auth.currentUser != null) {
+      return DefaultTabController(
+        initialIndex: 0,
+        length: 5,
+        child: Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+                style: TextStyle(color: Colors.black),
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              actions: [
+                FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection("UserWeb")
+                        .doc(auth.currentUser.uid)
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        userData = snapshot.data.data() as Map<String, dynamic>;
+                        _userData = userData;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("${userData['name']}  ${userData['surname']}"),
+                          ],
+                        );
+                      } else {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("กำลังโหลด"),
+                          ],
+                        );
+                      }
+                    }),
+                actionMenu(),
+              ],
+              bottom: TabBar(
+                indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+                tabs: <Widget>[
+                  Tab(
+                    text: 'ผู้ป่วย',
+                    icon: Icon(Icons.cloud_outlined),
+                  ),
+                  Tab(
+                    text: 'โพสต์',
+                    icon: Icon(Icons.beach_access_sharp),
+                  ),
+                  Tab(
+                    text: 'อสม.',
+                    icon: Icon(Icons.cloud_outlined),
+                  ),
+                  Tab(
+                    text: 'แชทพูดคุย',
+                    icon: Icon(Icons.cloud_outlined),
+                  ),
+                  Tab(
+                    text: 'ยืนยันผู้สมัครเข้าใช้งาน',
+                    icon: Icon(Icons.add_alert),
+                  ),
+                ],
+              ),
             ),
-            backgroundColor: Colors.white,
-            actions: [
-              FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection("UserWeb")
-                      .doc(auth.currentUser.uid)
-                      .get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      userData = snapshot.data.data() as Map<String, dynamic>;
-                      _userData = userData;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("${userData['name']}  ${userData['surname']}"),
-                        ],
-                      );
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("กำลังโหลด"),
-                        ],
-                      );
-                    }
-                  }),
-              actionMenu(),
-            ],
-            bottom: TabBar(
-              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-              tabs: <Widget>[
-                Tab(
-                  text: 'ผู้ป่วย',
-                  icon: Icon(Icons.cloud_outlined),
+            body: TabBarView(
+              children: <Widget>[
+                Center(
+                  child: buildPatientPage(context),
                 ),
-                Tab(
-                  text: 'โพสต์',
-                  icon: Icon(Icons.beach_access_sharp),
+                Center(
+                  child: buildPostPage(context),
                 ),
-                Tab(
-                  text: 'อสม.',
-                  icon: Icon(Icons.cloud_outlined),
+                Center(
+                  child: buildVolunteerPage(context),
                 ),
-                Tab(
-                  text: 'แชทพูดคุย',
-                  icon: Icon(Icons.cloud_outlined),
+                Center(
+                  child: buildChat(context),
                 ),
-                Tab(
-                  text: 'ยืนยันผู้สมัครเข้าใช้งาน',
-                  icon: Icon(Icons.add_alert),
+                Center(
+                  child: buildAcceptUsersPage(context),
                 ),
               ],
             ),
           ),
-          body: TabBarView(
-            children: <Widget>[
-              Center(
-                child: buildPatientPage(context),
-              ),
-              Center(
-                child: buildPostPage(context),
-              ),
-              Center(
-                child: buildVolunteerPage(context),
-              ),
-              Center(
-                child: buildChat(context),
-              ),
-              Center(
-                child: buildAcceptUsersPage(context),
-              ),
-            ],
-          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Text("not login");
+    }
   }
 
   Widget buildPatientPage(BuildContext context) {
@@ -301,13 +313,13 @@ class _MainPage extends State<MainPage> {
                                     .map((e) => e.reference)
                                     .toList());
                                 print(
-                                    "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                    "DocumentReference<Map<String, dynamic>>(MobileUser/" +
                                         document.id +
                                         ")");
                                 // for find index in DocmentReference.
                                 for (int i = 0; i < docId.length; i++) {
                                   if (docId[i].toString() ==
-                                      "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                      "DocumentReference<Map<String, dynamic>>(MobileUser/" +
                                           document.id +
                                           ")") {
                                     index = i;

@@ -36,6 +36,9 @@ dependencies:
   syncfusion_flutter_datepicker: ^19.4.41
   intl: ^0.17.0
   smart_select: ^4.3.2
+  day_picker: ^2.1.1
+  sticky_headers: ^0.2.0
+  radio_button_form_field: ^0.0.4
 
 dev_dependencies:
   flutter_test:
