@@ -343,7 +343,7 @@ class _AddPost extends State<AddPost> {
 
   initDataToDb() {
     _postContentModels.createBy =
-        widget.userData["name"] + widget.userData["surname"];
+        widget.userData["Firstname"] + widget.userData["Lastname"];
     _postContentModels.createAt = DateTime.now();
     _postContentModels.recommentForAge = [];
     _postContentModels.recommentForBMI = [];

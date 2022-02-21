@@ -12,6 +12,7 @@ import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
 import 'widgetShare/ShowAlet.dart';
+import 'package:appilcation_for_ncds/Chat.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -50,8 +51,8 @@ class _MainPage extends State<MainPage> {
       "email": auth.currentUser.email,
       "timeLogin": DateTime.now(),
       "uid": auth.currentUser.uid,
-      "name": await getDoc.then((value) => value.data()["name"]),
-      "surname": await getDoc.then((value) => value.data()["surname"]),
+      "Firstname": await getDoc.then((value) => value.data()["Firstname"]),
+      "Lastname": await getDoc.then((value) => value.data()["Lastname"]),
       "role": await getDoc.then((value) => value.data()["role"]),
       "logoutTime": null
     }).then((value) {
@@ -94,7 +95,8 @@ class _MainPage extends State<MainPage> {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("${userData['name']}  ${userData['surname']}"),
+                            Text(
+                                "${userData['Firstname']}  ${userData['Lastname']}"),
                           ],
                         );
                       } else {
@@ -263,8 +265,8 @@ class _MainPage extends State<MainPage> {
                           Map<String, dynamic> snap =
                               document.data() as Map<String, dynamic>;
                           return ListTile(
-                            title: Text("${snap["name"]}"),
-                            subtitle: Text("${snap["surname"]}"),
+                            title: Text("${snap["Firstname"]}"),
+                            subtitle: Text("${snap["Lastname"]}"),
                             trailing: Switch(
                               value: snap["status"],
                               onChanged: (value) {
@@ -756,30 +758,109 @@ class _MainPage extends State<MainPage> {
   }
 
   Widget buildChat(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: Card(
-                  color: Colors.amber,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text('col1'),
-                  ),
+    return Card(
+      child: SizedBox(
+        height: 700,
+        width: 1000,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Text(
+                  'แชทสนทนา',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40),
                 ),
               ),
-              Expanded(
-                child: Card(
-                  color: Colors.red,
-                  child: Text('col1'),
-                ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("UserWeb")
+                    .where("email", isNotEqualTo: auth.currentUser.email)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text("${snap["Firstname"]}"),
+                          subtitle: Text("${snap["Lastname"]}"),
+                          onTap: () async {
+                            await FirebaseFirestore.instance
+                                .collection("Message")
+                                .doc(auth.currentUser.uid + "-" + document.id)
+                                .set({"test": "test"});
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                  chatTo: snap,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลดข้อมูล"),
+                    );
+                  }
+                },
               ),
-            ],
-          ),
-        ],
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text("${snap["Firstname"]}"),
+                          subtitle: Text("${snap["Lastname"]}"),
+                          onTap: () async {
+                            await FirebaseFirestore.instance
+                                .collection("Message")
+                                .doc(auth.currentUser.uid + "-" + document.id)
+                                .set({"test": "test"});
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                  chatTo: snap,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลดข้อมูล"),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -836,9 +917,9 @@ class _MainPage extends State<MainPage> {
         .then((value) {
       var getData = value.data();
       setState(() {
-        _authDataModels.name = getData["name"];
+        _authDataModels.name = getData["Firstname"];
         _authDataModels.role = getData["role"];
-        _authDataModels.surname = getData["surname"];
+        _authDataModels.surname = getData["Lastname"];
       });
     });
   }

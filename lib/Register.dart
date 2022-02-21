@@ -332,8 +332,8 @@ class _Register extends State<Register> {
                   .doc(value.user.uid)
                   .set({
                 "email": _registerModels.email,
-                "name": _registerModels.name,
-                "surname": _registerModels.surname,
+                "Firstname": _registerModels.name,
+                "Lastname": _registerModels.surname,
                 "phonenumber": _registerModels.phoneNumber,
                 "role": _registerModels.roles,
                 "status": false

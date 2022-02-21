@@ -51,7 +51,7 @@ class _adminMainState extends State<adminMain> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("${userData['name']}  ${userData['surname']}"),
+                          Text("${userData['Firstname']}  ${userData['Lastname']}"),
                         ],
                       );
                     } else {
@@ -147,8 +147,8 @@ class _adminMainState extends State<adminMain> {
                               Map<String, dynamic> snap =
                                   document.data() as Map<String, dynamic>;
                               return ListTile(
-                                title: Text("${snap["name"]}"),
-                                subtitle: Text("${snap["surname"]}"),
+                                title: Text("${snap["Firstname"]}"),
+                                subtitle: Text("${snap["Lastname"]}"),
                                 trailing: Switch(
                                   value: snap["status"],
                                   onChanged: (value) {
@@ -327,7 +327,7 @@ class _adminMainState extends State<adminMain> {
     print(data.get("email"));
     return DataRow(
       cells: [
-        DataCell(Text(snap["name"])),
+        DataCell(Text(snap["Firstname"])),
         DataCell(Text(snap["email"])),
         DataCell(Text(snap["role"])),
         DataCell(Text(convertDateTimeDisplayAndTime(snap["timeLogin"]))),
