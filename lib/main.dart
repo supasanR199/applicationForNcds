@@ -14,6 +14,7 @@ import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
 
 import 'package:flutter/material.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -36,6 +37,7 @@ void main() async {
   //   ),
   //   debugShowCheckedModeBanner: false,
   // ));
+  
   runApp(MyApp());
 }
 

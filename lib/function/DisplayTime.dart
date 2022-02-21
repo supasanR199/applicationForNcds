@@ -54,3 +54,16 @@ String calAge(String birthDayString) {
 
   return yeardiff.toString();
 }
+
+int calTimeInUse(DateTime loginTime, DateTime logoutTime) {
+  // var _loginTimeData =
+  //     DateTime.fromMillisecondsSinceEpoch(loginTime.millisecondsSinceEpoch);
+  // var _logoutTimeData =
+  //     DateTime.fromMillisecondsSinceEpoch(logoutTime.millisecondsSinceEpoch);
+  // var _loginTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_loginTimeData);
+  // var _logoutTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_logoutTimeData);
+  print((logoutTime.difference(loginTime).inHours/24).round());
+  return (logoutTime.difference(loginTime).inHours/24).round();
+
+
+}

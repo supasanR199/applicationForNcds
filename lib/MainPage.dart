@@ -4,14 +4,13 @@ import 'dart:ui';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
 import 'widgetShare/ShowAlet.dart';
 
 class MainPage extends StatefulWidget {
@@ -22,6 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
   @override
+  AuthDataModels _authDataModels = AuthDataModels();
   final auth = FirebaseAuth.instance;
   var user;
   var _docRef = FirebaseFirestore.instance
@@ -30,7 +30,36 @@ class _MainPage extends State<MainPage> {
   var _docRefMobile = FirebaseFirestore.instance.collection("MobileUser");
   var docId;
   var _userData;
+  var loginTime;
+  DateTime logoutTime;
+  String _userLogId = "";
   int index;
+  void initState() {
+    // print(_userLogId);
+    super.initState();
+    asyncSingUp();
+  }
+
+  void asyncSingUp() async {
+    loginTime = DateTime.now();
+    var getDoc = FirebaseFirestore.instance
+        .collection("UserWeb")
+        .doc(auth.currentUser.uid)
+        .get();
+    FirebaseFirestore.instance.collection("UserLog").add({
+      "email": auth.currentUser.email,
+      "timeLogin": DateTime.now(),
+      "uid": auth.currentUser.uid,
+      "name": await getDoc.then((value) => value.data()["name"]),
+      "surname": await getDoc.then((value) => value.data()["surname"]),
+      "role": await getDoc.then((value) => value.data()["role"]),
+      "logoutTime": null
+    }).then((value) {
+      setState(() {
+        _userLogId = value.id;
+      });
+    });
+  }
 
   Map<String, dynamic> userData;
   var _docRefPatient = FirebaseFirestore.instance
@@ -38,10 +67,6 @@ class _MainPage extends State<MainPage> {
       .where("Role", isEqualTo: "Patient")
       .snapshots();
   Widget build(BuildContext context) {
-    FirebaseFirestore.instance.collection("UserLog").add({
-      "name": auth.currentUser.email,
-      "timeLogin": DateTime.now(),
-    });
     if (auth.currentUser != null) {
       return DefaultTabController(
         initialIndex: 0,
@@ -730,54 +755,6 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  Widget buildContentPatient(BuildContext context) {
-    return Row(
-      children: [
-        // StreamBuilder<QuerySnapshot>(
-        //   stream: _docRefPatient,
-        //   builder:
-        //       (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        //     return ListView(
-        //       children: snapshot.data.docs.map((DocumentSnapshot document) {
-        //         Map<String, dynamic> snap =
-        //             document.data() as Map<String, dynamic>;
-        //         return ListTile(
-        //           title: Text("${snap["name"]}"),
-        //           subtitle: Text("${snap["surname"]}"),
-        //           //
-        //         );
-        //       }).toList(),
-        //     );
-        //   },
-        // ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: RaisedButton(
-            // color: Colors.accents,
-            onPressed: () => requestData(),
-            child: Text('ข้อมูล'),
-            color: Colors.green,
-            padding: EdgeInsets.all(20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4))),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: RaisedButton(
-            // color: Colors.accents,
-            onPressed: () => Navigator.pushNamed(context, '/labresults'),
-            child: Text('แจ้งผลตรวจจากห้องทดลอง'),
-            color: Colors.green,
-            padding: EdgeInsets.all(20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4))),
-          ),
-        )
-      ],
-    );
-  }
-
   Widget buildChat(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
@@ -812,27 +789,57 @@ class _MainPage extends State<MainPage> {
         icon: Icon(Icons.more_vert),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              const PopupMenuItem(
+              PopupMenuItem(
                 child: ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('Item 1'),
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('ออกจากระบบ'),
+                  onTap: () async {
+                    logoutTime = DateTime.now();
+                    print(_userLogId);
+                    var getShit = _userLogId;
+                    print(getShit.isEmpty);
+                    if (getShit.isEmpty) {
+                      print(getShit.isEmpty);
+                    } else {
+                      logoutTime = DateTime.now();
+                      await FirebaseFirestore.instance
+                          .collection("UserLog")
+                          .doc(getShit)
+                          .update({
+                        "logoutTime": logoutTime,
+                        "useInWeb": calTimeInUse(loginTime, logoutTime)
+                      }).onError(
+                              (error, stackTrace) => print(error.toString()));
+                      auth.signOut().then((value) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              alertMessageOnlyOk(context, "ออกจากระบบแล้ว"),
+                        ).then((value) {
+                          if (value == "CONFIRM") {
+                            Navigator.pushNamed(context, "/");
+                          }
+                        });
+                      });
+                    }
+                  },
                 ),
               ),
             ]);
   }
 
-  requestData() async {
-    return await FirebaseFirestore.instance
+  getAuthData(DocumentReference<Map<String, dynamic>> value) async {
+    await FirebaseFirestore.instance
         .collection("UserWeb")
         .doc(auth.currentUser.uid)
         .get()
         .then((value) {
-      user = value.data();
+      var getData = value.data();
+      setState(() {
+        _authDataModels.name = getData["name"];
+        _authDataModels.role = getData["role"];
+        _authDataModels.surname = getData["surname"];
+      });
     });
-  }
-
-  Widget userText() {
-    requestData();
-    return Text(user["name"]);
   }
 }

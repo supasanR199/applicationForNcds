@@ -22,7 +22,7 @@ class _AddPost extends State<AddPost> {
   List<String> _valueNCDs = List();
   List<S2Choice<String>> frameworks = [
     S2Choice<String>(value: "diabetes", title: 'โรคเบาหวาน'),
-    S2Choice<String>(value: "hypertension", title: 'โรคความดันโลหิต'),
+    S2Choice<String>(value: "pressure", title: 'โรคความดันโลหิต'),
     S2Choice<String>(value: "fat", title: 'โรคอ้วน'),
   ];
   String _allBMI = "";
