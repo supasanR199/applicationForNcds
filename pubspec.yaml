@@ -39,6 +39,9 @@ dependencies:
   day_picker: ^2.1.1
   sticky_headers: ^0.2.0
   radio_button_form_field: ^0.0.4
+  hive: ^2.0.5
+  shared_preferences: ^2.0.13
+  shared_preferences_web: ^2.0.3
 
 dev_dependencies:
   flutter_test:

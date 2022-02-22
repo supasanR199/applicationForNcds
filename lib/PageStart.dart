@@ -1,22 +1,80 @@
+import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 
+import 'package:appilcation_for_ncds/MainPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'services/shared_preferences_service.dart';
 import 'package:appilcation_for_ncds/Register.dart';
+import 'routes.dart';
 
-class StartPage extends StatelessWidget {
+class StartPage extends StatefulWidget {
+  StartPage({Key key}) : super(key: key);
+
+  @override
+  _StartPageState createState() => _StartPageState();
+}
+
+class _StartPageState extends State<StartPage> {
+  @override
   final email = TextEditingController();
   final password = TextEditingController();
   final _loginForm = GlobalKey<FormState>();
+  final PrefService _prefService = PrefService();
+  var auth = FirebaseAuth.instance;
 
   // FirebaseAuth firebaseAuth = FirebaseAuth();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
+  void initState() {
+    var getPassword;
+    _prefService.readCache("email").then((value) async {
+      if (value != null) {
+        _prefService.readCache("password").then((value) {
+          getPassword = value;
+        });
+        print(_prefService.readCache("password").toString());
+        await Firebase.initializeApp();
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: value, password: getPassword)
+            .then((value) async {
+          var userData;
+          await FirebaseFirestore.instance
+              .collection("UserWeb")
+              .doc(auth.currentUser.uid)
+              .get()
+              .then((value) {
+            userData = value.data();
+          });
+          if (userData["status"] == true) {
+            if (userData["role"] == "admin") {
+              Navigator.pushNamed(context, '/adminmain');
+            } else if (userData["role"] == "hospital") {
+              Navigator.pushNamed(context, '/mainpage');
+            } else if (userData["role"] == "medicalpersonnel") {
+              Navigator.pushNamed(context, '/mainpage');
+            }
+          } else if (userData["status"] == false) {
+            showDialog(
+                    context: context,
+                    builder: (BuildContext context) => aletLogin(
+                        context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"))
+                .then((value) async {
+              await FirebaseAuth.instance.signOut();
+            });
+          }
+        });
+      } else {
+        print("error");
+      }
+    });
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
@@ -131,8 +189,10 @@ class StartPage extends StatelessWidget {
             email: email.text,
             password: password.text,
           )
-              .then((value) async {
-            var auth = FirebaseAuth.instance;
+              .whenComplete(() {
+            _prefService.createCache("password", password.text);
+            _prefService.createCache("email", email.text);
+          }).then((value) async {
             var userData;
             await FirebaseFirestore.instance
                 .collection("UserWeb")

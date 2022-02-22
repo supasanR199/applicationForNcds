@@ -67,6 +67,8 @@ class _MainPage extends State<MainPage> {
       .collection("MobileUser")
       .where("Role", isEqualTo: "Patient")
       .snapshots();
+
+  String groupChatId;
   Widget build(BuildContext context) {
     if (auth.currentUser != null) {
       return DefaultTabController(
@@ -790,19 +792,34 @@ class _MainPage extends State<MainPage> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
+
                         return ListTile(
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
                           onTap: () async {
+                            var currentHas = auth.currentUser.hashCode;
+                            var peerHas = document.hashCode;
+                            var currentId = auth.currentUser.uid;
+                            var peerId = document.id;
+                            if (currentHas <= peerHas) {
+                              groupChatId = '$currentId-$peerId';
+                            } else {
+                              groupChatId = '$peerId-$currentId';
+                            }
                             await FirebaseFirestore.instance
                                 .collection("Message")
-                                .doc(auth.currentUser.uid + "-" + document.id)
+                                .doc(groupChatId)
                                 .set({"test": "test"});
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ChatRoom(
                                   chatTo: snap,
+                                  groupChatId: groupChatId,
+                                  currentId: currentId,
+                                  peerHas: peerHas,
+                                  peerId: peerId,
+                                  currentHas: currentHas,
                                 ),
                               ),
                             );
@@ -835,15 +852,29 @@ class _MainPage extends State<MainPage> {
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
                           onTap: () async {
+                            var currentHas = auth.currentUser.hashCode;
+                            var peerHas = document.hashCode;
+                            var currentId = auth.currentUser.uid;
+                            var peerId = document.id;
+                            if (currentHas <= peerHas) {
+                              groupChatId = '$currentId-$peerId';
+                            } else {
+                              groupChatId = '$peerId-$currentId';
+                            }
                             await FirebaseFirestore.instance
                                 .collection("Message")
-                                .doc(auth.currentUser.uid + "-" + document.id)
+                                .doc(groupChatId)
                                 .set({"test": "test"});
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ChatRoom(
                                   chatTo: snap,
+                                  groupChatId: groupChatId,
+                                  currentId: currentId,
+                                  peerHas: peerHas,
+                                  peerId: peerId,
+                                  currentHas: currentHas,
                                 ),
                               ),
                             );
