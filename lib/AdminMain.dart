@@ -239,21 +239,21 @@ class _adminMainState extends State<adminMain> {
                     ],
                   ),
                 ),
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: fliterLog(context)
-                      ),
-                    ],
-                  ),
-                ),
+                //  Padding(
+                //   padding: EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: [
+                //       Expanded(
+                //         child: fliterLog(context)
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection("UserLog")
+                          .collection("UserLog").orderBy("timeLogin",descending: true | false)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -324,7 +324,8 @@ class _adminMainState extends State<adminMain> {
 
   DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
     Map<String, dynamic> snap = data.data() as Map<String, dynamic>;
-    print(data.get("email"));
+    print(data.data());
+    // print(data.get("email"));
     return DataRow(
       cells: [
         DataCell(Text(snap["Firstname"])),

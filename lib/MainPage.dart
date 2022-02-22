@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
 import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
+import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -32,6 +33,7 @@ class _MainPage extends State<MainPage> {
   var docId;
   var _userData;
   var loginTime;
+  final PrefService _prefService = PrefService();
   DateTime logoutTime;
   String _userLogId = "";
   int index;
@@ -797,19 +799,20 @@ class _MainPage extends State<MainPage> {
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
                           onTap: () async {
-                            var currentHas = auth.currentUser.hashCode;
-                            var peerHas = document.hashCode;
+                            var currentHas = auth.currentUser.uid.hashCode;
+                            var peerHas = document.id.hashCode;
                             var currentId = auth.currentUser.uid;
                             var peerId = document.id;
+                            print(currentHas);
+                            print(peerHas);
                             if (currentHas <= peerHas) {
                               groupChatId = '$currentId-$peerId';
                             } else {
                               groupChatId = '$peerId-$currentId';
                             }
                             await FirebaseFirestore.instance
-                                .collection("Message")
-                                .doc(groupChatId)
-                                .set({"test": "test"});
+                                .collection("Messages")
+                                .doc(groupChatId);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -852,19 +855,20 @@ class _MainPage extends State<MainPage> {
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
                           onTap: () async {
-                            var currentHas = auth.currentUser.hashCode;
-                            var peerHas = document.hashCode;
+                            var currentHas = auth.currentUser.uid.hashCode;
+                            var peerHas = document.id.hashCode;
                             var currentId = auth.currentUser.uid;
                             var peerId = document.id;
+                            print(currentHas);
+                            print(peerHas);
                             if (currentHas <= peerHas) {
                               groupChatId = '$currentId-$peerId';
                             } else {
                               groupChatId = '$peerId-$currentId';
                             }
                             await FirebaseFirestore.instance
-                                .collection("Message")
-                                .doc(groupChatId)
-                                .set({"test": "test"});
+                                .collection("Messages")
+                                .doc(groupChatId);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -907,22 +911,22 @@ class _MainPage extends State<MainPage> {
                   title: Text('ออกจากระบบ'),
                   onTap: () async {
                     logoutTime = DateTime.now();
-                    print(_userLogId);
-                    var getShit = _userLogId;
-                    print(getShit.isEmpty);
-                    if (getShit.isEmpty) {
-                      print(getShit.isEmpty);
+                    print(_userLogId.isEmpty);
+                    if (_userLogId.isEmpty) {
+                      print(_userLogId.isEmpty);
                     } else {
                       logoutTime = DateTime.now();
                       await FirebaseFirestore.instance
                           .collection("UserLog")
-                          .doc(getShit)
+                          .doc(_userLogId)
                           .update({
                         "logoutTime": logoutTime,
                         "useInWeb": calTimeInUse(loginTime, logoutTime)
                       }).onError(
                               (error, stackTrace) => print(error.toString()));
                       auth.signOut().then((value) {
+                        _prefService.removeCache("email");
+                        _prefService.removeCache("password");
                         showDialog(
                           context: context,
                           builder: (BuildContext context) =>
