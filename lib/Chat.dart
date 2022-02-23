@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:appilcation_for_ncds/ChatBubble.dart';
+import 'package:appilcation_for_ncds/widgetShare/ChatBubble.dart';
 
 class ChatRoom extends StatefulWidget {
   var chatTo;
@@ -63,31 +63,40 @@ class _ChatRoomState extends State<ChatRoom> {
                             .collection("Messages")
                             .doc(widget.groupChatId)
                             .collection(widget.groupChatId)
-                            .orderBy('timestamp',  descending: false)
+                            .orderBy('timestamp', descending: false)
                             .snapshots(),
+                        // ignore: missing_return
                         builder: (context, snapshot) {
-                          return Center(
-                            child: ListView(
-                              children: snapshot.data.docs
-                                  .map((DocumentSnapshot document) {
-                                Map<String, dynamic> snap =
-                                    document.data() as Map<String, dynamic>;
-                                    var isCurrentUser;
-                                    if(snap["idFrom"] ==  widget.currentId){
-                                      isCurrentUser = true;
-                                    }
-                                    else{
-                                      isCurrentUser = false;
-                                    }
-                                    if(snapshot.hasData){
-                                      return ChatBubble(text: snap["content"], isCurrentUser: isCurrentUser);
-                                    }
-                              }).toList(),
-                            ),
-                          );
-                        }
-                        //
-                        ),
+                          if (snapshot.hasData) {
+                            return Center(
+                              child: ListView(
+                                children: snapshot.data.docs
+                                    .map((DocumentSnapshot document) {
+                                  Map<String, dynamic> snap =
+                                      document.data() as Map<String, dynamic>;
+                                  var isCurrentUser;
+                                  if (snap["idFrom"] == widget.currentId) {
+                                    isCurrentUser = true;
+                                  } else {
+                                    isCurrentUser = false;
+                                  }
+
+                                  print(widget.chatTo['Firstname']);
+                                  return ChatBubble(
+                                    text: snap["content"],
+                                    isCurrentUser: isCurrentUser,
+                                    time: int.parse(snap["timestamp"]),
+                                    // peername: widget.chatTo['Firstname'],
+                                  );
+                                }).toList(),
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Text("กำลังโหลดข้อความ"),
+                            );
+                          }
+                        }),
                   ),
                   Row(
                     children: [

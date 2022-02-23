@@ -62,8 +62,12 @@ int calTimeInUse(DateTime loginTime, DateTime logoutTime) {
   //     DateTime.fromMillisecondsSinceEpoch(logoutTime.millisecondsSinceEpoch);
   // var _loginTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_loginTimeData);
   // var _logoutTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_logoutTimeData);
-  print((logoutTime.difference(loginTime).inHours/24).round());
-  return (logoutTime.difference(loginTime).inHours/24).round();
+  print((logoutTime.difference(loginTime).inHours / 24).round());
+  return (logoutTime.difference(loginTime).inHours / 24).round();
+}
 
-
+String chatTime(int date) {
+  var d24 = DateFormat('dd/MM/yyyy, HH:mm')
+      .format(DateTime.fromMillisecondsSinceEpoch(date));
+  return d24;
 }

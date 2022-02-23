@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:appilcation_for_ncds/LabResults.dart';
-import 'package:appilcation_for_ncds/LabResultsDetail.dart';
+import 'package:appilcation_for_ncds/detail/LabResultsDetail.dart';
 import 'package:appilcation_for_ncds/function/ListNCDs.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/AddReminderDrug.dart';
+import 'package:appilcation_for_ncds/detail/VisitDetail.dart';
 
 class PatientMain extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _PatientMainState extends State<PatientMain> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 6,
+      length: 7,
       child: Container(
         child: Scaffold(
           appBar: AppBar(
@@ -52,6 +53,9 @@ class _PatientMainState extends State<PatientMain> {
                 Tab(
                   text: 'เตือนรับประทานยา',
                 ),
+                Tab(
+                  text: 'บันทึกผลตรวจจากการลงพื้นที่ของอาสาสมัคร',
+                ),
               ],
             ),
           ),
@@ -74,6 +78,9 @@ class _PatientMainState extends State<PatientMain> {
               ),
               Center(
                 child: buildReminderDrug(context),
+              ),
+              Center(
+                child: buildVisitReport(context),
               ),
             ],
           ),
@@ -278,7 +285,7 @@ class _PatientMainState extends State<PatientMain> {
                     );
                   } else {
                     return Center(
-                      child: Text("กำลังโหลข้อมูล"),
+                      child: Text("ไม่มีประวัติการตรวจจากห้องแลป"),
                     );
                   }
                 },
@@ -371,6 +378,67 @@ class _PatientMainState extends State<PatientMain> {
             ),
             Expanded(
               child: buildButtonAddReminderDrug(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildVisitReport(BuildContext context) {
+    return Card(
+      child: SizedBox(
+        height: 700,
+        width: 1000,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'บันทึกผลตรวจจากการลงพื้นที่ของอาสาสมัคร',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40),
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .doc(widget.patienDataId.id)
+                    .collection("VisitReport")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text(document.id),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VisitDetail(
+                                  visit: null,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("ไม่มีประวัติการตรวจจากห้องแลป"),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
