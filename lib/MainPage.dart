@@ -796,8 +796,9 @@ class _MainPage extends State<MainPage> {
                             document.data() as Map<String, dynamic>;
 
                         return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
+                          title:
+                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                          subtitle: Text(""),
                           onTap: () async {
                             var currentHas = auth.currentUser.uid.hashCode;
                             var peerHas = document.id.hashCode;
@@ -852,8 +853,9 @@ class _MainPage extends State<MainPage> {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
                         return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
+                          title:
+                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                          subtitle: Text(""),
                           onTap: () async {
                             var currentHas = auth.currentUser.uid.hashCode;
                             var peerHas = document.id.hashCode;
@@ -956,6 +958,19 @@ class _MainPage extends State<MainPage> {
         _authDataModels.role = getData["role"];
         _authDataModels.surname = getData["Lastname"];
       });
+    });
+  }
+
+  getChatNoti() async {
+    Future getChat;
+    getChat = (await FirebaseFirestore.instance
+        .collection("Messages")
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .orderBy('timestamp', descending: false)
+        .get()) as Future;
+    getChat.then((value) {
+      print(value);
     });
   }
 }
