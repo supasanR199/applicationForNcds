@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -101,6 +102,7 @@ class _MainPage extends State<MainPage> {
                           children: [
                             Text(
                                 "${userData['Firstname']}  ${userData['Lastname']}"),
+                            actionMenu(userData["role"]),
                           ],
                         );
                       } else {
@@ -112,7 +114,6 @@ class _MainPage extends State<MainPage> {
                         );
                       }
                     }),
-                actionMenu(),
               ],
               bottom: TabBar(
                 indicatorColor: Color.fromRGBO(255, 211, 251, 1),
@@ -902,11 +903,27 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  Widget actionMenu() {
+  Widget actionMenu(String role) {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              PopupMenuItem(
+                child: ListTile(
+                  leading: Icon(Icons.add_chart_outlined),
+                  title: Text('ประเมินการใช้งาน'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EvaulatePage(
+                          role: role,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
               PopupMenuItem(
                 child: ListTile(
                   leading: Icon(Icons.exit_to_app),
