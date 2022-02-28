@@ -15,7 +15,7 @@ String convertDateTimeDisplayAndTime(Timestamp date) {
   var d12 =
       DateFormat('MM/dd/yyyy, hh:mm a').format(dt); // 12/31/2000, 10:00 PM
   var d24 = DateFormat('dd/MM/yyyy, HH:mm').format(dt); // 31/12/2000, 22:00
-  print(date);
+  // print(date);
   // final String formatted = "222";
   return d24;
 }

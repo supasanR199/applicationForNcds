@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:html';
 
+import 'package:appilcation_for_ncds/widgetShare/ShowChart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:appilcation_for_ncds/models/ChartData.dart';
 
 class adminMain extends StatefulWidget {
   @override
@@ -25,6 +28,13 @@ class _adminMainState extends State<adminMain> {
   final auth = FirebaseAuth.instance;
   var _userData;
   var _value = 'บุคลากรแพทย์';
+  List<ChartData> listDataChart = List<ChartData>();
+  double scoreCount;
+  double scoreMax;
+  void initState() {
+    getDataChart();
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -325,7 +335,7 @@ class _adminMainState extends State<adminMain> {
 
   DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
     Map<String, dynamic> snap = data.data() as Map<String, dynamic>;
-    print(data.data());
+    // print(data.data());
     // print(data.get("email"));
     return DataRow(
       cells: [
@@ -364,7 +374,7 @@ class _adminMainState extends State<adminMain> {
         );
       }).toList(),
       onChanged: (newValue) {
-        print(newValue);
+        // print(newValue);
         setState(() {
           _value = newValue;
         });
@@ -373,52 +383,36 @@ class _adminMainState extends State<adminMain> {
   }
 
   Widget buildBarChart(context) {
-    var data = [
-      _ChartData('CHN', 12),
-      _ChartData('GER', 15),
-      _ChartData('RUS', 30),
-      _ChartData('BRZ', 6.4),
-      _ChartData('IND', 14)
-    ];
-    var _tooltip = TooltipBehavior(enable: true);
     return Container(
       child: Center(
         child: Card(
           child: SizedBox(
             height: 700,
             width: 1000,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "อนุมัติเข้าใข้งาน",
-                          style: TextStyle(fontSize: 40),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "อนุมัติเข้าใข้งาน",
+                            style: TextStyle(fontSize: 40),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis:
-                      NumericAxis(minimum: 0, maximum: 40, interval: 10),
-                  tooltipBehavior: _tooltip,
-                  series: <ChartSeries<_ChartData, String>>[
-                    BarSeries<_ChartData, String>(
-                        dataSource: data,
-                        xValueMapper: (_ChartData data, _) => data.x,
-                        yValueMapper: (_ChartData data, _) => data.y,
-                        name: 'Gold',
-                        color: Color.fromRGBO(8, 142, 255, 1))
-                  ],
-                ),
-              ],
+                  ShowChart(
+                    dataSource: listDataChart,
+                    scoreMax: scoreMax,
+                  ),
+                ],
+              ),
             ),
           ),
           //  margin: EdgeInsets.only(top: 100,bottom: 400,),
@@ -426,10 +420,43 @@ class _adminMainState extends State<adminMain> {
       ),
     );
   }
-}
-class _ChartData {
-  _ChartData(this.x, this.y);
- 
-  final String x;
-  final double y;
+
+  Future getDataChart() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("Evaluate").get();
+    QuerySnapshot querySnapshot_topic;
+    setState(() {
+      scoreMax = (querySnapshot.docs.length * 4) as double;
+    });
+    print(scoreMax);
+    // print("scoreMax: $scoreMax");
+    querySnapshot.docs.forEach((element) async {
+      querySnapshot_topic = await FirebaseFirestore.instance
+          .collection("Evaluate")
+          .doc(element.id)
+          .collection("topic")
+          .orderBy("score", descending: false)
+          .get();
+      // print(element.id);
+      // print(element.data());
+      // print("----------------------------------------");
+      querySnapshot_topic.docs.forEach((element) {
+        ChartData keepData =
+            ChartData(element.get("topic"), element.get("score"));
+        // print(element.get("topic"));
+        // print(element.get("score"));
+
+        listDataChart.add(keepData);
+
+        // inspect(element.data());
+        // scoreCount = element.get("score") + scoreCount;
+        // print("sum is: {$scoreCount}");
+        // snapshot = element.data();
+        // print(snapshot);
+      });
+      print("+++++++++++++++++++++++++++++++++++++++++++");
+      print(listDataChart.length);
+      print("list is: $listDataChart");
+    });
+  }
 }
