@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class adminMain extends StatefulWidget {
   @override
@@ -24,11 +26,10 @@ class _adminMainState extends State<adminMain> {
   var _userData;
   var _value = 'บุคลากรแพทย์';
 
-
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 2,
+      length: 3,
       child: Container(
         child: Scaffold(
           appBar: AppBar(
@@ -51,7 +52,8 @@ class _adminMainState extends State<adminMain> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("${userData['Firstname']}  ${userData['Lastname']}"),
+                          Text(
+                              "${userData['Firstname']}  ${userData['Lastname']}"),
                         ],
                       );
                     } else {
@@ -77,6 +79,10 @@ class _adminMainState extends State<adminMain> {
                   text: 'ประวัติการเข้าใช้งาน',
                   icon: Icon(Icons.beach_access_sharp),
                 ),
+                Tab(
+                  text: 'ประวัติการเข้าใช้งาน',
+                  icon: Icon(Icons.beach_access_sharp),
+                ),
               ],
             ),
           ),
@@ -87,6 +93,9 @@ class _adminMainState extends State<adminMain> {
               ),
               Center(
                 child: buildLogPage(context),
+              ),
+              Center(
+                child: buildBarChart(context),
               ),
             ],
           ),
@@ -239,67 +248,59 @@ class _adminMainState extends State<adminMain> {
                     ],
                   ),
                 ),
-                //  Padding(
-                //   padding: EdgeInsets.all(8.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     children: [
-                //       Expanded(
-                //         child: fliterLog(context)
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection("UserLog").orderBy("timeLogin",descending: true | false)
+                          .collection("UserLog")
+                          .orderBy("timeLogin", descending: true | false)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: DataTable(
-                                columns: const <DataColumn>[
-                                  DataColumn(
-                                    label: Text(
-                                      'ชื่อ',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
+                            child: SingleChildScrollView(
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: DataTable(
+                                  columns: const <DataColumn>[
+                                    DataColumn(
+                                      label: Text(
+                                        'ชื่อ',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      'อีเมล',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
+                                    DataColumn(
+                                      label: Text(
+                                        'อีเมล',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      'ตำแหน่ง',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
+                                    DataColumn(
+                                      label: Text(
+                                        'ตำแหน่ง',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      'เวลาเข้าใช้งาน',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
+                                    DataColumn(
+                                      label: Text(
+                                        'เวลาเข้าใช้งาน',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
                                     ),
-                                  ),
-                                  // DataColumn(
-                                  //   label: Text(
-                                  //     'สถานะ',
-                                  //     style: TextStyle(
-                                  //         fontStyle: FontStyle.italic),
-                                  //   ),
-                                  // ),
-                                ],
-                                rows: _buildList(context, snapshot.data.docs),
+                                    // DataColumn(
+                                    //   label: Text(
+                                    //     'สถานะ',
+                                    //     style: TextStyle(
+                                    //         fontStyle: FontStyle.italic),
+                                    //   ),
+                                    // ),
+                                  ],
+                                  rows: _buildList(context, snapshot.data.docs),
+                                ),
                               ),
                             ),
                           );
@@ -348,26 +349,87 @@ class _adminMainState extends State<adminMain> {
           borderRadius: BorderRadius.all(Radius.circular(4))),
     );
   }
-  Widget fliterLog(context){
-    return  DropdownButtonFormField<String>(
-        value: _value,
-        decoration: InputDecoration(
-          labelText: 'หน้าที่การใช้งาน',
-          icon: Icon(Icons.people),
-        ),
-        items: <String>['บุคลากรแพทย์', 'รพสต.'].map((String values) {
-          return DropdownMenuItem<String>(
-            value: values,
-            child: Text(values),
-          );
-        }).toList(),
-        onChanged: (newValue) {
-          print(newValue);
-          setState(() {
-            _value = newValue;
-           
-          });
-        },
-      );
+
+  Widget fliterLog(context) {
+    return DropdownButtonFormField<String>(
+      value: _value,
+      decoration: InputDecoration(
+        labelText: 'หน้าที่การใช้งาน',
+        icon: Icon(Icons.people),
+      ),
+      items: <String>['บุคลากรแพทย์', 'รพสต.'].map((String values) {
+        return DropdownMenuItem<String>(
+          value: values,
+          child: Text(values),
+        );
+      }).toList(),
+      onChanged: (newValue) {
+        print(newValue);
+        setState(() {
+          _value = newValue;
+        });
+      },
+    );
   }
+
+  Widget buildBarChart(context) {
+    var data = [
+      _ChartData('CHN', 12),
+      _ChartData('GER', 15),
+      _ChartData('RUS', 30),
+      _ChartData('BRZ', 6.4),
+      _ChartData('IND', 14)
+    ];
+    var _tooltip = TooltipBehavior(enable: true);
+    return Container(
+      child: Center(
+        child: Card(
+          child: SizedBox(
+            height: 700,
+            width: 1000,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "อนุมัติเข้าใข้งาน",
+                          style: TextStyle(fontSize: 40),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SfCartesianChart(
+                  primaryXAxis: CategoryAxis(),
+                  primaryYAxis:
+                      NumericAxis(minimum: 0, maximum: 40, interval: 10),
+                  tooltipBehavior: _tooltip,
+                  series: <ChartSeries<_ChartData, String>>[
+                    BarSeries<_ChartData, String>(
+                        dataSource: data,
+                        xValueMapper: (_ChartData data, _) => data.x,
+                        yValueMapper: (_ChartData data, _) => data.y,
+                        name: 'Gold',
+                        color: Color.fromRGBO(8, 142, 255, 1))
+                  ],
+                ),
+              ],
+            ),
+          ),
+          //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+        ),
+      ),
+    );
+  }
+}
+class _ChartData {
+  _ChartData(this.x, this.y);
+ 
+  final String x;
+  final double y;
 }
