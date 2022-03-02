@@ -10,6 +10,7 @@ import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:appilcation_for_ncds/models/ChartData.dart';
+import 'package:appilcation_for_ncds/function/GetDataChart.dart';
 
 class adminMain extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _adminMainState extends State<adminMain> {
   @override
   void initState() {
     getDataChart();
-    calScoreFromList(elmentList);
+    getAllSumDataChart();
     super.initState();
   }
 
@@ -38,6 +39,8 @@ class _adminMainState extends State<adminMain> {
   double scoreCount;
   double scoreMax;
   List elmentList = List();
+  List<Future<List>> keepDataChart = List();
+  Map<String, double> keepDataTest = Map();
 
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -448,7 +451,6 @@ class _adminMainState extends State<adminMain> {
                     // setState(() {
                     elmentList.add(element.data());
                     listDataChart.add(keepData);
-
                     // });
                   },
                 );
@@ -486,6 +488,49 @@ class _adminMainState extends State<adminMain> {
     // calList.forEach((element) {});
     print("======================");
     // print(calList);
+  }
+
+  getAverateChart() async {
+    var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
+    print(getEva.docs);
+    getEva.docs.forEach((element) {
+      keepDataChart.add(getDocTopic(element.id));
+    });
+    // keepDataChart.forEach((element) {
+    //   element.then((value) {
+    //     value.forEach((element) {
+    //       print(element);
+    //     });
+    //   });
+    // });
+    // print(keepDataChart);
+    // keepDataChart.forEach((element) {
+    //   print(element);
+    // });
+  }
+
+  Future<List> getDocTopic(String uid) async {
+    var getDoc = await FirebaseFirestore.instance
+        .collection("Evaluate")
+        .doc(uid)
+        .collection("topic")
+        .get();
+    List _docs = List();
+    List _keepElemnt = List();
+
+    getDoc.docs.forEach((element) {
+      ChartData keepData =
+          ChartData(element.get("topic"), element.get("score"));
+      _keepElemnt.add(keepData);
+      // keepDataTest.addEntries({element.get("topic"), element.get("score")});
+      print(keepDataTest);
+    });
+    return _keepElemnt;
+  }
+
+  Future<List> getEvaluate() async {
+    var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
+    return getEva.docs;
   }
 
   countScore(List<ChartData> listData) {
