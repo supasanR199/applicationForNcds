@@ -18,6 +18,12 @@ class adminMain extends StatefulWidget {
 
 class _adminMainState extends State<adminMain> {
   @override
+  void initState() {
+    getDataChart();
+    calScoreFromList(elmentList);
+    super.initState();
+  }
+
   var _docRef = FirebaseFirestore.instance
       .collection('UserWeb')
       .where("role", isEqualTo: "hospital");
@@ -31,10 +37,7 @@ class _adminMainState extends State<adminMain> {
   List<ChartData> listDataChart = List<ChartData>();
   double scoreCount;
   double scoreMax;
-  void initState() {
-    getDataChart();
-    super.initState();
-  }
+  List elmentList = List();
 
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -422,41 +425,117 @@ class _adminMainState extends State<adminMain> {
   }
 
   Future getDataChart() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("Evaluate").get();
-    QuerySnapshot querySnapshot_topic;
-    setState(() {
-      scoreMax = (querySnapshot.docs.length * 4) as double;
-    });
-    print(scoreMax);
-    // print("scoreMax: $scoreMax");
-    querySnapshot.docs.forEach((element) async {
-      querySnapshot_topic = await FirebaseFirestore.instance
-          .collection("Evaluate")
-          .doc(element.id)
-          .collection("topic")
-          .orderBy("score", descending: false)
-          .get();
-      // print(element.id);
-      // print(element.data());
-      // print("----------------------------------------");
-      querySnapshot_topic.docs.forEach((element) {
-        ChartData keepData =
-            ChartData(element.get("topic"), element.get("score"));
-        // print(element.get("topic"));
-        // print(element.get("score"));
+    await FirebaseFirestore.instance.collection("Evaluate").get().then(
+      (value) async {
+        value.docs.forEach(
+          (element) async {
+            setState(() {
+              scoreMax = (element.data().length * 4) as double;
+            });
+            await FirebaseFirestore.instance
+                .collection("Evaluate")
+                .doc(element.id)
+                .collection("topic")
+                .orderBy("score", descending: false)
+                .get()
+                .then(
+              (value) {
+                value.docs.forEach(
+                  (element) {
+                    // print(element.data());
+                    ChartData keepData =
+                        ChartData(element.get("topic"), element.get("score"));
+                    // setState(() {
+                    elmentList.add(element.data());
+                    listDataChart.add(keepData);
 
-        listDataChart.add(keepData);
+                    // });
+                  },
+                );
+                // print(listDataChart.toSet().toList());
+                // calScoreFromList(listDataChart);
+                // countScore(listDataChart);
+              },
+            );
+          },
+        );
+      },
+    );
+    // print(listDataChart);
+    // print(elmentList);
+    // setState(() {
+    //   calScoreFromList(listDataChart, elmentList);
+    // });
+  }
 
-        // inspect(element.data());
-        // scoreCount = element.get("score") + scoreCount;
-        // print("sum is: {$scoreCount}");
-        // snapshot = element.data();
-        // print(snapshot);
-      });
-      print("+++++++++++++++++++++++++++++++++++++++++++");
-      print(listDataChart.length);
-      print("list is: $listDataChart");
+  calScoreFromList(List elmentList) {
+    // List test = getDataChart() as List;
+    print(elmentList);
+    // List listTopic = [];
+    // print(listTopic.toSet().toList());
+    // print(listTopic.toSet().toList().length);
+    // print(calList);
+    // elmentList.sort();
+    // print(elmentList);
+    // calList.forEach((element) {
+    //   listTopic.add(element.x);
+    // });
+    // for (int i = 0; i <= calList.length; i++) {}
+    // print(listTopic.toSet().toList());
+    // print(listTopic.toSet().toList().length);
+    // calList.forEach((element) {});
+    print("======================");
+    // print(calList);
+  }
+
+  countScore(List<ChartData> listData) {
+    List list4 = List();
+    List list3 = List();
+    List list2 = List();
+    List list1 = List();
+    List keepScoreList = List();
+    // keepScoreList.add({
+    //   "score_4": 0,
+    // });
+    // keepScoreList.add({
+    //   "score_3": 0,
+    // });
+    // keepScoreList.add({
+    //   "score_2": 0,
+    // });
+    // keepScoreList.add({
+    //   "score_1": 0,
+    // });
+    listData.forEach((element) {
+      print("element is:");
+      print(element.y);
+      if (element.y == 4) {
+        list4.add(1);
+        // var counter = 0;
+        // keepScoreList.add({"score_4": counter + 1});
+      } else if (element.y == 3) {
+        list3.add(1);
+        // var counter = 0;
+        // keepScoreList.add({"score_3": counter + 1});
+      } else if (element.y == 2) {
+        list2.add(1);
+        // var counter = 0;
+        // keepScoreList.add({"score_2": counter + 1});
+      } else if (element.y == 1) {
+        list1.add(1);
+        // var counter = 0;
+        // keepScoreList.add({"score_1": counter + 1});
+      }
     });
+    // print(list4);
+    // print(list3);
+    // print(list2);
+    // print(list1);
+    // print(list1.length+list2.length+list3.length+list4.length);
+    // print(keepScoreList.length);
+    // print(keepScoreList);
+
+    // print(keepScoreList.indexOf());
+    // print(keepScoreList[keepScoreList.indexOf("score_4")]);
   }
 }
