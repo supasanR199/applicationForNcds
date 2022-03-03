@@ -37,7 +37,7 @@ class _ShowChartState extends State<ShowChart> {
             dataSource: widget.dataSource,
             xValueMapper: (ChartData data, _) => data.x,
             yValueMapper: (ChartData data, _) => data.y,
-            name: 'Gold',
+            name: 'คะแนนการประเมิน',
             color: Color.fromRGBO(8, 142, 255, 1))
       ],
     );

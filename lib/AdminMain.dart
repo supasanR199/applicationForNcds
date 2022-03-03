@@ -21,7 +21,11 @@ class _adminMainState extends State<adminMain> {
   @override
   void initState() {
     getDataChart();
-    getAllSumDataChart();
+    getAllSumDataChart().then((value) {
+      setState(() {
+        keepAllSSumSocre = value;
+      });
+    });
     super.initState();
   }
 
@@ -41,13 +45,14 @@ class _adminMainState extends State<adminMain> {
   List elmentList = List();
   List<Future<List>> keepDataChart = List();
   Map<String, double> keepDataTest = Map();
-
+  List<ChartData> keepAllSSumSocre = List();
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
       length: 3,
       child: Container(
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
@@ -414,7 +419,7 @@ class _adminMainState extends State<adminMain> {
                     ),
                   ),
                   ShowChart(
-                    dataSource: listDataChart,
+                    dataSource: keepAllSSumSocre,
                     scoreMax: scoreMax,
                   ),
                 ],

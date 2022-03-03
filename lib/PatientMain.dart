@@ -1,4 +1,6 @@
+import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -13,12 +15,20 @@ class PatientMain extends StatefulWidget {
   @override
   Map<String, dynamic> patienData;
   DocumentReference patienDataId;
-  PatientMain({Key key, @required this.patienData, @required this.patienDataId})
+  bool isHospital;
+  PatientMain({Key key, @required this.patienData, @required this.patienDataId,@required this.isHospital})
       : super(key: key);
   _PatientMainState createState() => _PatientMainState();
 }
 
 class _PatientMainState extends State<PatientMain> {
+  var auth = FirebaseAuth.instance;
+  bool isHospital;
+  void initState() {
+    // checkIsHopital();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -26,6 +36,7 @@ class _PatientMainState extends State<PatientMain> {
       length: 7,
       child: Container(
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -68,7 +79,7 @@ class _PatientMainState extends State<PatientMain> {
                   // child: buildPostPage(context),
                   ),
               Center(
-                  // child: buildPatientPage(context),
+                  child: FoodRecord(patienId: widget.patienDataId,),
                   ),
               Center(
                   // child: buildPostPage(context),
@@ -455,23 +466,26 @@ class _PatientMainState extends State<PatientMain> {
   }
 
   Widget buttonLabTest(context) {
-    return RaisedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LabResults(
-              patienData: widget.patienData,
-              patienDataId: widget.patienDataId,
+    return Visibility(
+      visible: widget.isHospital,
+      child: RaisedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LabResults(
+                patienData: widget.patienData,
+                patienDataId: widget.patienDataId,
+              ),
             ),
-          ),
-        );
-      },
-      child: Text("บันทึกผลตรวจจากห้องปฏิบัติการ"),
-      color: Colors.green,
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          );
+        },
+        child: Text("บันทึกผลตรวจจากห้องปฏิบัติการ"),
+        color: Colors.green,
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4))),
+      ),
     );
   }
 
@@ -578,5 +592,23 @@ class _PatientMainState extends State<PatientMain> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4))),
     );
+  }
+
+  checkIsHopital() async {
+    await FirebaseFirestore.instance
+        .collection("UserWeb")
+        .doc(auth.currentUser.uid)
+        .get()
+        .then((value) {
+      if (value.data()["role"] == "hospital") {
+        setState(() {
+          isHospital = true;
+        });
+      } else {
+        setState(() {
+          isHospital = false;
+        });
+      }
+    });
   }
 }

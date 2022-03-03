@@ -31,7 +31,9 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),

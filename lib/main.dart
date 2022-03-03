@@ -15,6 +15,8 @@ import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import 'MedicaMain.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -109,6 +111,7 @@ Widget buildMaterialApp() {
       // '/addbook': (context) => AddBookPage(),
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
+      '/medicaMain':(context) => MedicaMain(),
       // '/addPatientForVol': (context) => AddPatienFoorVolunteer(),
       // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),

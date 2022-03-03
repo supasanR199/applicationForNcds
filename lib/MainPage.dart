@@ -79,6 +79,7 @@ class _MainPage extends State<MainPage> {
         length: 5,
         child: Container(
           child: Scaffold(
+            backgroundColor: Color.fromRGBO(255, 211, 251, 1),
             appBar: AppBar(
               title: Text(
                 "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -207,7 +208,8 @@ class _MainPage extends State<MainPage> {
                               MaterialPageRoute(
                                 builder: (context) => PatientMain(
                                     patienData: snap,
-                                    patienDataId: document.reference),
+                                    patienDataId: document.reference,
+                                    isHospital: true,),
                               ),
                             );
                           },
@@ -513,25 +515,28 @@ class _MainPage extends State<MainPage> {
   }
 
   Widget bulidButtonAddPost(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddPost(
-              userData: _userData,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MaterialButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPost(
+                userData: _userData,
+              ),
             ),
-          ),
-        );
-      },
-      color: Color.fromRGBO(255, 211, 251, 1),
-      textColor: Colors.white,
-      child: Icon(
-        Icons.add,
-        size: 24,
+          );
+        },
+        color: Color.fromRGBO(255, 211, 251, 1),
+        textColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          size: 24,
+        ),
+        padding: EdgeInsets.all(16),
+        shape: CircleBorder(),
       ),
-      padding: EdgeInsets.all(16),
-      shape: CircleBorder(),
     );
   }
 

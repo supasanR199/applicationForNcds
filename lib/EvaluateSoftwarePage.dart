@@ -282,32 +282,32 @@ class _EvaulatePageState extends State<EvaulatePage> {
                           }
                         },
                       ),
-                      EvaluateChoice(
-                        subject:
-                            "9.แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้เป็นอย่างดี",
-                      ),
-                      RadioButtonFormField(
-                        // toggleable: true,
-                        padding: EdgeInsets.all(8),
-                        context: context,
-                        value: 'value',
-                        display: 'display',
-                        data: data,
-                        onSaved: (newValue) {
-                          print(newValue);
-                          evaTopic_8.score = newValue;
-                          evaTopic_8.topic =
-                              "แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้เป็นอย่างดี";
-                          _evaList.add(evaTopic_8);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "โปรดให้คะแนนการประเมิน";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                      // EvaluateChoice(
+                      //   subject:
+                      //       "9.แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้เป็นอย่างดี",
+                      // ),
+                      // RadioButtonFormField(
+                      //   // toggleable: true,
+                      //   padding: EdgeInsets.all(8),
+                      //   context: context,
+                      //   value: 'value',
+                      //   display: 'display',
+                      //   data: data,
+                      //   onSaved: (newValue) {
+                      //     print(newValue);
+                      //     evaTopic_8.score = newValue;
+                      //     evaTopic_8.topic =
+                      //         "แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้เป็นอย่างดี";
+                      //     _evaList.add(evaTopic_8);
+                      //   },
+                      //   validator: (value) {
+                      //     if (value == null) {
+                      //       return "โปรดให้คะแนนการประเมิน";
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   },
+                      // ),
                       // Expanded(
                       //   child: Form(
                       //     key: _addForm,

@@ -23,6 +23,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
       length: 4,
       child: Container(
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",

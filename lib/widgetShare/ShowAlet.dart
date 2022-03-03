@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 Widget alertMessage(context, String e) {
   return AlertDialog(
@@ -27,5 +28,22 @@ Widget alertMessageOnlyOk(context, String e) {
         child: const Text('ยืนยัน'),
       ),
     ],
+  );
+}
+
+Widget showDateRang(context,DateTime minDate) {
+  return AlertDialog(
+    title: const Text('เลือกช่วงเวลา'),
+    content: SizedBox(
+      width: 300,
+      height: 300,
+      child: SfDateRangePicker(
+        monthViewSettings:
+            DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+        selectionMode: DateRangePickerSelectionMode.range,
+        maxDate: DateTime.now(),
+        minDate: minDate,
+      ),
+    ),
   );
 }

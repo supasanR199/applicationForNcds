@@ -56,7 +56,7 @@ class _StartPageState extends State<StartPage> {
             } else if (userData["role"] == "hospital") {
               Navigator.pushNamed(context, '/mainpage');
             } else if (userData["role"] == "medicalpersonnel") {
-              Navigator.pushNamed(context, '/mainpage');
+              Navigator.pushNamed(context, '/medicaMain');
             }
           } else if (userData["status"] == false) {
             showDialog(
@@ -210,7 +210,7 @@ class _StartPageState extends State<StartPage> {
               } else if (userData["role"] == "hospital") {
                 Navigator.pushNamed(context, '/mainpage');
               } else if (userData["role"] == "medicalpersonnel") {
-                Navigator.pushNamed(context, '/mainpage');
+                Navigator.pushNamed(context, '/medicaMain');
               }
             } else if (userData["status"] == false) {
               showDialog(
