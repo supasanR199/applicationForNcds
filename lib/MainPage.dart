@@ -207,9 +207,10 @@ class _MainPage extends State<MainPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PatientMain(
-                                    patienData: snap,
-                                    patienDataId: document.reference,
-                                    isHospital: true,),
+                                  patienData: snap,
+                                  patienDataId: document.reference,
+                                  isHospital: true,
+                                ),
                               ),
                             );
                           },

@@ -16,7 +16,11 @@ class PatientMain extends StatefulWidget {
   Map<String, dynamic> patienData;
   DocumentReference patienDataId;
   bool isHospital;
-  PatientMain({Key key, @required this.patienData, @required this.patienDataId,@required this.isHospital})
+  PatientMain(
+      {Key key,
+      @required this.patienData,
+      @required this.patienDataId,
+      @required this.isHospital})
       : super(key: key);
   _PatientMainState createState() => _PatientMainState();
 }
@@ -36,6 +40,7 @@ class _PatientMainState extends State<PatientMain> {
       length: 7,
       child: Container(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
             title: Text(
@@ -79,8 +84,10 @@ class _PatientMainState extends State<PatientMain> {
                   // child: buildPostPage(context),
                   ),
               Center(
-                  child: FoodRecord(patienId: widget.patienDataId,),
-                  ),
+                child: FoodRecord(
+                  patienId: widget.patienDataId,
+                ),
+              ),
               Center(
                   // child: buildPostPage(context),
                   ),

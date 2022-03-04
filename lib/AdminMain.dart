@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:html';
 
+import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowChart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:appilcation_for_ncds/models/ChartData.dart';
 import 'package:appilcation_for_ncds/function/GetDataChart.dart';
+
+import 'EvaluateSoftwarePage.dart';
+import 'services/shared_preferences_service.dart';
 
 class adminMain extends StatefulWidget {
   @override
@@ -46,6 +50,8 @@ class _adminMainState extends State<adminMain> {
   List<Future<List>> keepDataChart = List();
   Map<String, double> keepDataTest = Map();
   List<ChartData> keepAllSSumSocre = List();
+  final PrefService _prefService = PrefService();
+
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
@@ -75,6 +81,7 @@ class _adminMainState extends State<adminMain> {
                         children: [
                           Text(
                               "${userData['Firstname']}  ${userData['Lastname']}"),
+                          actionMenu(userData["role"]),
                         ],
                       );
                     } else {
@@ -587,5 +594,49 @@ class _adminMainState extends State<adminMain> {
 
     // print(keepScoreList.indexOf());
     // print(keepScoreList[keepScoreList.indexOf("score_4")]);
+  }
+
+  Widget actionMenu(String role) {
+    return PopupMenuButton(
+        icon: Icon(Icons.more_vert),
+        // child: Text(userData["name"]),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              PopupMenuItem(
+                child: ListTile(
+                  leading: Icon(Icons.add_chart_outlined),
+                  title: Text('ประเมินการใช้งาน'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EvaulatePage(
+                          role: role,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                    leading: Icon(Icons.exit_to_app),
+                    title: Text('ออกจากระบบ'),
+                    onTap: () async {
+                      auth.signOut().then((value) {
+                        _prefService.removeCache("email");
+                        _prefService.removeCache("password");
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              alertMessageOnlyOk(context, "ออกจากระบบแล้ว"),
+                        ).then((value) {
+                          if (value == "CONFIRM") {
+                            Navigator.pushNamed(context, "/");
+                          }
+                        });
+                      });
+                    }),
+              ),
+            ]);
   }
 }
