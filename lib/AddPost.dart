@@ -1,10 +1,15 @@
+// import 'dart:html';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/PostContentModels.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
+import 'package:file_picker/file_picker.dart';
+// import 'package:file';
 
 class AddPost extends StatefulWidget {
   Map<String, dynamic> userData;
@@ -249,7 +254,30 @@ class _AddPost extends State<AddPost> {
             padding: EdgeInsets.all(20),
             child: RaisedButton(
               // color: Colors.accents,
-              onPressed: () => Navigator.pushNamed(context, '/mainpage'),
+              onPressed: () async {
+                var pickUp = await FilePicker.platform.pickFiles(
+                    type: FileType.custom,
+                    allowedExtensions: ['png', 'jpg'],
+                    allowMultiple: false);
+                if (pickUp == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("ไม่มีการเพิ่มไฟล์"),
+                    ),
+                  );
+                }
+                // final path = pickUp.files.single.path;
+                final fileName = pickUp.files.single.name;
+                final fileBytes = pickUp.files.first.bytes;
+                // final file = File(path);
+                // print(path);
+                await FirebaseStorage.instance
+                    .ref("UserWebImg/picturePost/${fileName}")
+                    .putData(fileBytes)
+                    .onError((error, stackTrace) {
+                  print(error);
+                });
+              },
               color: Colors.white,
               child: Text('ฮัพโหลดรูปภาพ'),
               padding: EdgeInsets.all(20),

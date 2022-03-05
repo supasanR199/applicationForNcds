@@ -1,3 +1,5 @@
+import 'package:appilcation_for_ncds/function/getRecordPatient.dart';
+import 'package:appilcation_for_ncds/models/dairymodel.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -31,19 +33,41 @@ Widget alertMessageOnlyOk(context, String e) {
   );
 }
 
-Widget showDateRang(context,DateTime minDate) {
+Widget showDateRang(
+    context, DateTime minDate, DateTime maxDate, List<DairyModel> snap) {
+  DateRangePickerController _datePickerController = DateRangePickerController();
+  List<DateTime> dateBetween = List();
+  DateTime startDate;
+  DateTime endDate;
   return AlertDialog(
     title: const Text('เลือกช่วงเวลา'),
     content: SizedBox(
       width: 300,
       height: 300,
       child: SfDateRangePicker(
-        monthViewSettings:
-            DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
-        selectionMode: DateRangePickerSelectionMode.range,
-        maxDate: DateTime.now(),
-        minDate: minDate,
-      ),
+          monthViewSettings:
+              DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+          selectionMode: DateRangePickerSelectionMode.range,
+          maxDate: maxDate,
+          minDate: minDate,
+          showActionButtons: true,
+          onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+            final dynamic value = args.value;
+            startDate = args.value.startDate;
+            endDate = args.value.endDate;
+            // print(value);
+          },
+          onSubmit: (Object val) {
+            dateBetween = getDaysInBetween(startDate, endDate);
+            print(getValueFromDateRang(snap, dateBetween));
+            Navigator.pop(context, getValueFromDateRang(snap, dateBetween));
+
+            _datePickerController.selectedRange = null;
+          },
+          onCancel: () {
+            _datePickerController.selectedRange = null;
+            Navigator.pop(context);
+          }),
     ),
   );
 }
