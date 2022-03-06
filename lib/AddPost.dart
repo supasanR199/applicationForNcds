@@ -1,8 +1,9 @@
 // import 'dart:html';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/PostContentModels.dart';
@@ -31,6 +32,8 @@ class _AddPost extends State<AddPost> {
     S2Choice<String>(value: "fat", title: 'โรคอ้วน'),
   ];
   String _allBMI = "";
+  String fileName = "";
+  Uint8List fileBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -259,24 +262,22 @@ class _AddPost extends State<AddPost> {
                     type: FileType.custom,
                     allowedExtensions: ['png', 'jpg'],
                     allowMultiple: false);
+                setState(() {
+                  fileName = pickUp.files.first.name;
+                  fileBytes = pickUp.files.first.bytes;
+                });
+                // });
                 if (pickUp == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("ไม่มีการเพิ่มไฟล์"),
+                      content: Text("ไม่มีการเพิ่มไฟล์รูปภาพ"),
                     ),
                   );
                 }
                 // final path = pickUp.files.single.path;
-                final fileName = pickUp.files.single.name;
-                final fileBytes = pickUp.files.first.bytes;
+
                 // final file = File(path);
                 // print(path);
-                await FirebaseStorage.instance
-                    .ref("UserWebImg/picturePost/${fileName}")
-                    .putData(fileBytes)
-                    .onError((error, stackTrace) {
-                  print(error);
-                });
               },
               color: Colors.white,
               child: Text('ฮัพโหลดรูปภาพ'),
@@ -288,11 +289,12 @@ class _AddPost extends State<AddPost> {
               ),
             ),
           ),
+          Text('$fileName'),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
-                padding: EdgeInsets.only(right: 10),
+                padding: EdgeInsets.all(10),
                 child: RaisedButton(
                   onPressed: () async {
                     if (_formPost.currentState.validate()) {
@@ -308,8 +310,18 @@ class _AddPost extends State<AddPost> {
                               _postContentModels.recommentForDieases,
                           "recommentForAge": _postContentModels.recommentForAge,
                           "recommentForBMI": _postContentModels.recommentForBMI,
-                          "createBy": _postContentModels.createBy
+                          "createBy": _postContentModels.createBy,
+                          "imgPath":
+                              " gs://applicationforncds.appspot.com/UserWebImg/picturePost/$fileName"
                         }).whenComplete(() {
+                          firebase_storage.UploadTask task = firebase_storage
+                              .FirebaseStorage.instance
+                              .ref("UserWebImg/picturePost/${fileName}")
+                              .putData(fileBytes);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  showProcess(context, task));
                           showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
@@ -343,7 +355,13 @@ class _AddPost extends State<AddPost> {
               Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: RaisedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/mainpage'),
+                  onPressed: () {
+                    if (widget.userData["role"] == "hospital") {
+                      Navigator.pushNamed(context, '/mainpage');
+                    } else {
+                      Navigator.pushNamed(context, '/medicaMain');
+                    }
+                  },
                   color: Colors.red[100],
                   child: Text('ยกเลิก'),
                   padding: EdgeInsets.all(20),

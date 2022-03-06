@@ -1,7 +1,9 @@
 import 'package:appilcation_for_ncds/function/getRecordPatient.dart';
 import 'package:appilcation_for_ncds/models/dairymodel.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 Widget alertMessage(context, String e) {
   return AlertDialog(
@@ -70,4 +72,55 @@ Widget showDateRang(
           }),
     ),
   );
+}
+
+Widget showProcess(context, UploadTask value) {
+  bool isShowProgress = true;
+  return AlertDialog(
+      title: Text("อัปโหลด"),
+      content: SizedBox(
+        width: 300,
+        height: 150,
+        child: StreamBuilder<TaskSnapshot>(
+          stream: value.snapshotEvents,
+          builder: (context, snapshot) {
+            var gerPerset =
+                (snapshot.data.bytesTransferred / snapshot.data.totalBytes) *
+                    100;
+            if (gerPerset == 100) {
+              isShowProgress = false;
+            } else {
+              isShowProgress = true;
+            }
+            return Column(
+              children: [
+                Text("$gerPerset%"),
+                Visibility(
+                  visible: isShowProgress,
+                  child: LinearProgressIndicator(
+                    value: ((snapshot.data.bytesTransferred /
+                                snapshot.data.totalBytes) *
+                            100) /
+                        100,
+                    // valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  ),
+                ),
+                Visibility(
+                  visible: !isShowProgress,
+                  child: Column(children: [
+                    Icon(Icons.cloud_upload),
+                    Text("อัปโหบดเสร็จแล้ว")
+                  ]),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'CONFIRM'),
+          child: const Text('ยืนยัน'),
+        ),
+      ]);
 }

@@ -131,8 +131,8 @@ class _MedicaMainState extends State<MedicaMain> {
                 child: buildPatientPage(context),
               ),
               Center(
-                  child: buildPostPage(context),
-                  ),
+                child: buildPostPage(context),
+              ),
               // Center(
               //     // child: buildPatientPage(context),
               //     ),
@@ -184,9 +184,10 @@ class _MedicaMainState extends State<MedicaMain> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PatientMain(
-                                    patienData: snap,
-                                    patienDataId: document.reference,
-                                    isHospital: false,),
+                                  patienData: snap,
+                                  patienDataId: document.reference,
+                                  isHospital: false,
+                                ),
                               ),
                             );
                           },
@@ -266,7 +267,8 @@ class _MedicaMainState extends State<MedicaMain> {
               ),
             ]);
   }
-   Widget buildPostPage(BuildContext context) {
+
+  Widget buildPostPage(BuildContext context) {
     return Card(
       child: SizedBox(
         height: 700,
@@ -296,6 +298,7 @@ class _MedicaMainState extends State<MedicaMain> {
       ),
     );
   }
+
   Widget buildContentPost(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream:
@@ -482,6 +485,7 @@ class _MedicaMainState extends State<MedicaMain> {
           }
         });
   }
+
   Widget bulidButtonAddPost(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

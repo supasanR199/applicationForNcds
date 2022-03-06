@@ -11,6 +11,7 @@ class LabResultsModels {
   String Proteininurine;
   String Eyetest;
   String Tg;
+  String Other;
   DateTime createAt;
 
   LabResultsModels(
@@ -26,5 +27,6 @@ class LabResultsModels {
       this.Proteininurine,
       this.Eyetest,
       this.Tg,
+      this.Other,
       this.createAt});
 }

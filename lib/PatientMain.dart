@@ -1,4 +1,5 @@
 import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
+import 'package:appilcation_for_ncds/widgetShare/MoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -89,8 +90,10 @@ class _PatientMainState extends State<PatientMain> {
                 ),
               ),
               Center(
-                  // child: buildPostPage(context),
-                  ),
+                child: MoodRecord(
+                  patienId: widget.patienDataId,
+                ),
+              ),
               Center(
                 child: buildHistoryLabResultsPage(context),
               ),

@@ -63,6 +63,8 @@ class _FoodRecordState extends State<FoodRecord> {
   }
 
   Future<void> showdata() async {
+    // await FirebaseAuth.instance.authStateChanges().listen((event) async {
+    //   var uid = event!.uid;
     await FirebaseFirestore.instance
         .collection('MobileUser')
         .doc(widget.patienId.id)
@@ -76,8 +78,6 @@ class _FoodRecordState extends State<FoodRecord> {
           listforDate.add(model);
         });
       }
-      // print("## ${data.EndDate}");
-      // print("## ${sumfat}");
     });
   }
 

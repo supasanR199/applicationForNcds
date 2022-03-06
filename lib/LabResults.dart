@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +21,7 @@ class _LabResults extends State<LabResults> {
   final _labResultsFrom = GlobalKey<FormState>();
   TextEditingController crateAtDate = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  DateFormat myDateFormat = DateFormat("dd-MM-yyyy");
+  DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
   LabResultsModels _labResultsModels = LabResultsModels();
   Widget build(BuildContext context) {
     return Container(
@@ -308,6 +311,28 @@ class _LabResults extends State<LabResults> {
     );
   }
 
+  Padding buildOtherField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        onChanged: (value) {
+          _labResultsModels.Other = value;
+        },
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.newline,
+        maxLines: 10,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'บันทึกเพิ่มเติม',
+        ),
+      ),
+    );
+  }
+
   Padding buildDateField(context) {
     return Padding(
       padding: EdgeInsets.only(
@@ -338,8 +363,9 @@ class _LabResults extends State<LabResults> {
             if (selected != null && selected != selectedDate) {
               setState(() {
                 selectedDate = selected;
-                print(selected);
+                // print(selected);
                 crateAtDate.text = myDateFormat.format(selected);
+                // print(crateAtDate.text);
                 _labResultsModels.createAt = selectedDate;
               });
             }
@@ -364,7 +390,8 @@ class _LabResults extends State<LabResults> {
                     .collection("MobileUser")
                     .doc(widget.patienDataId.id)
                     .collection("LabResultsHistory")
-                    .add({
+                    .doc(crateAtDate.text)
+                    .set({
                   "FBSFPG": _labResultsModels.FBSFPG,
                   "Hb1c": _labResultsModels.Hb1c,
                   "BUN": _labResultsModels.BUN,
@@ -377,12 +404,40 @@ class _LabResults extends State<LabResults> {
                   "Proteininurine": _labResultsModels.Proteininurine,
                   "Eyetest": _labResultsModels.Eyetest,
                   "Tg": _labResultsModels.Tg,
+                  "Other": _labResultsModels.Other,
                   "creatAt": _labResultsModels.createAt
-                }).whenComplete(() {
+                })
+                    //     .add({
+                    //   "FBSFPG": _labResultsModels.FBSFPG,
+                    //   "Hb1c": _labResultsModels.Hb1c,
+                    //   "BUN": _labResultsModels.BUN,
+                    //   "Cr": _labResultsModels.Cr,
+                    //   "LDL": _labResultsModels.LDL,
+                    //   "HDL": _labResultsModels.HDL,
+                    //   "Chol": _labResultsModels.Chol,
+                    //   "Microalbumin": _labResultsModels.Microalbumin,
+                    //   "Uricacid": _labResultsModels.Uricacid,
+                    //   "Proteininurine": _labResultsModels.Proteininurine,
+                    //   "Eyetest": _labResultsModels.Eyetest,
+                    //   "Tg": _labResultsModels.Tg,
+                    //   "creatAt": _labResultsModels.createAt
+                    // })
+                    .whenComplete(() {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          alertMessage(context, "บันทึกสำเร็จ"));
+                          alertMessage(context, "บันทึกสำเร็จ")).then((value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PatientMain(
+                          patienDataId: widget.patienDataId,
+                          patienData: widget.patienData,
+                          isHospital: true,
+                        ),
+                      ),
+                    );
+                  });
                 });
               }
             });
@@ -390,10 +445,22 @@ class _LabResults extends State<LabResults> {
             showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    alertMessage(context, e.toString()));
+                    alertMessage(context, e.toString())).then(
+              (value) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PatientMain(
+                      patienDataId: widget.patienDataId,
+                      patienData: widget.patienData,
+                      isHospital: true,
+                    ),
+                  ),
+                );
+              },
+            );
           }
         }
-        print(_labResultsModels.toString());
       },
       color: Colors.green,
       padding: EdgeInsets.all(20),
