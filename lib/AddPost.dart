@@ -109,21 +109,19 @@ class _AddPost extends State<AddPost> {
           ),
           Padding(
             padding: EdgeInsets.all(20),
-            child: Expanded(
-              child: RangeSlider(
-                values: _currentRangeValues,
-                max: 100,
-                divisions: 100,
-                labels: RangeLabels(
-                  _currentRangeValues.start.round().toString(),
-                  _currentRangeValues.end.round().toString(),
-                ),
-                onChanged: (RangeValues values) {
-                  setState(() {
-                    _currentRangeValues = values;
-                  });
-                },
+            child: RangeSlider(
+              values: _currentRangeValues,
+              max: 100,
+              divisions: 100,
+              labels: RangeLabels(
+                _currentRangeValues.start.round().toString(),
+                _currentRangeValues.end.round().toString(),
               ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  _currentRangeValues = values;
+                });
+              },
             ),
           ),
           Visibility(
@@ -148,22 +146,20 @@ class _AddPost extends State<AddPost> {
             visible: rangHide(),
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: Expanded(
-                child: RangeSlider(
-                  values: _currentRangeValuesBMi,
-                  max: 30,
-                  min: 18.5,
-                  divisions: 11,
-                  labels: RangeLabels(
-                    _currentRangeValuesBMi.start.toStringAsFixed(1),
-                    _currentRangeValuesBMi.end.toStringAsFixed(1),
-                  ),
-                  onChanged: (RangeValues values) {
-                    setState(() {
-                      _currentRangeValuesBMi = values;
-                    });
-                  },
+              child: RangeSlider(
+                values: _currentRangeValuesBMi,
+                max: 30,
+                min: 18.5,
+                divisions: 11,
+                labels: RangeLabels(
+                  _currentRangeValuesBMi.start.toStringAsFixed(1),
+                  _currentRangeValuesBMi.end.toStringAsFixed(1),
                 ),
+                onChanged: (RangeValues values) {
+                  setState(() {
+                    _currentRangeValuesBMi = values;
+                  });
+                },
               ),
             ),
           ),

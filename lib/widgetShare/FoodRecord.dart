@@ -128,246 +128,237 @@ class _FoodRecordState extends State<FoodRecord> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: ListView(
-                              children: [
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'บันทึกการรับประทานอาหาร',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 40),
-                                    ),
+                          child: ListView(
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'บันทึกการรับประทานอาหาร',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 40),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 50,
-                                    right: 50,
-                                    top: 70,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 50,
+                                  right: 50,
+                                  top: 70,
+                                ),
+                                child: TextFormField(
+                                  // controller: crateAtDate,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'กรุณาระบุวันที่บันทึก';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: 'วันที่บันทึก',
+                                    icon: Icon(Icons.people),
                                   ),
-                                  child: TextFormField(
-                                    // controller: crateAtDate,
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'กรุณาระบุวันที่บันทึก';
-                                      } else {
-                                        return null;
+                                  onTap: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          showDateRang(
+                                              context,
+                                              getMinDateFromDiary(
+                                                  listforDate),
+                                              getMaxDateFromDiary(
+                                                  listforDate),
+                                              listforDate),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          print("print value{$value}");
+                                          listitem.clear();
+                                          print("print value{$listitem}");
+                                          listitem = value;
+                                          print("print value{$listitem}");
+                                        });
                                       }
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: 'วันที่บันทึก',
-                                      icon: Icon(Icons.people),
-                                    ),
-                                    onTap: () async {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            showDateRang(
-                                                context,
-                                                getMinDateFromDiary(
-                                                    listforDate),
-                                                getMaxDateFromDiary(
-                                                    listforDate),
-                                                listforDate),
-                                      ).then((value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            print("print value{$value}");
-                                            listitem.clear();
-                                            print("print value{$listitem}");
-                                            listitem = value;
-                                            print("print value{$listitem}");
-                                          });
-                                        }
-                                      });
-                                    },
+                                    });
+                                  },
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'หวาน',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'หวาน',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                                child: SizedBox(
+                                  width: 400,
+                                  child: ShowChartBar(
+                                    scoreMax: getSumAllChoice(
+                                        listitem, sweetChoiceList)[1],
+                                    dataSource: getSumAllChoice(
+                                        listitem, sweetChoiceList)[0],
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: SizedBox(
-                                    width: 400,
-                                    child: ShowChartBar(
-                                      scoreMax: getSumAllChoice(
-                                          listitem, sweetChoiceList)[1],
-                                      dataSource: getSumAllChoice(
-                                          listitem, sweetChoiceList)[0],
+                              ),
+                              Center(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      sweetChoiceList[0] +
+                                          ":" +
+                                          "น้ำเปล่า เครื่องดืมไม่ผสมน้ำตาล",
+                                      textAlign: TextAlign.start,
                                     ),
+                                    Text(
+                                        sweetChoiceList[1] +
+                                            ":" +
+                                            "น้ำอัดลม เครื่องดืมชง น้ำหวาน นมเปรี้ยว",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        sweetChoiceList[2] +
+                                            ":" +
+                                            "น้ำผักผลไม้สำเร็จรูป",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        sweetChoiceList[3] +
+                                            ":" +
+                                            "ไอศครีม เบอร์เกอรี่ หรือขนมไทย",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        sweetChoiceList[4] +
+                                            ":" +
+                                            "เติมน้ำตาบ น้ำผึ้ง น้ำเชื่อมเพิ่มในอาหาร",
+                                        textAlign: TextAlign.start),
+                                  ],
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'มัน',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          sweetChoiceList[0] +
-                                              ":" +
-                                              "น้ำเปล่า เครื่องดืมไม่ผสมน้ำตาล",
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        Text(
-                                            sweetChoiceList[1] +
-                                                ":" +
-                                                "น้ำอัดลม เครื่องดืมชง น้ำหวาน นมเปรี้ยว",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            sweetChoiceList[2] +
-                                                ":" +
-                                                "น้ำผักผลไม้สำเร็จรูป",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            sweetChoiceList[3] +
-                                                ":" +
-                                                "ไอศครีม เบอร์เกอรี่ หรือขนมไทย",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            sweetChoiceList[4] +
-                                                ":" +
-                                                "เติมน้ำตาบ น้ำผึ้ง น้ำเชื่อมเพิ่มในอาหาร",
-                                            textAlign: TextAlign.start),
-                                      ],
-                                    ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                                child: SizedBox(
+                                  width: 400,
+                                  child: ShowChartBar(
+                                    scoreMax: getSumAllChoice(
+                                        listitem, fatChoiceList)[1],
+                                    dataSource: getSumAllChoice(
+                                        listitem, fatChoiceList)[0],
                                   ),
                                 ),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'มัน',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 20),
+                              ),
+                              Center(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      fatChoiceList[0] +
+                                          ":" +
+                                          "เนื้อติดมันติดหนัง",
+                                      textAlign: TextAlign.start,
                                     ),
+                                    Text(
+                                        fatChoiceList[1] +
+                                            ":" +
+                                            "อาหารทอด ฟาสฟู๊ด ผัดน้ำมัน ",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        fatChoiceList[2] +
+                                            ":" +
+                                            "อาหารจานเดียวไขมันสูง หรือแกงกระทิ",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        fatChoiceList[3] +
+                                            ":" +
+                                            "เครื่องดื่มผสม นมข้นหวาน ครีมเทียม วิปปิ้งครีม",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        fatChoiceList[4] +
+                                            ":" +
+                                            "ซดน้ำผัด น้ำแกง หรือดราดลงในข้าว",
+                                        textAlign: TextAlign.start),
+                                  ],
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'เค็ม',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: SizedBox(
-                                    width: 400,
-                                    child: ShowChartBar(
-                                      scoreMax: getSumAllChoice(
-                                          listitem, fatChoiceList)[1],
-                                      dataSource: getSumAllChoice(
-                                          listitem, fatChoiceList)[0],
-                                    ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                                child: SizedBox(
+                                  width: 400,
+                                  child: ShowChartBar(
+                                    scoreMax: getSumAllChoice(
+                                        listitem, seltChoiceList)[1],
+                                    dataSource: getSumAllChoice(
+                                        listitem, seltChoiceList)[0],
                                   ),
                                 ),
-                                Expanded(
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          fatChoiceList[0] +
-                                              ":" +
-                                              "เนื้อติดมันติดหนัง",
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        Text(
-                                            fatChoiceList[1] +
-                                                ":" +
-                                                "อาหารทอด ฟาสฟู๊ด ผัดน้ำมัน ",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            fatChoiceList[2] +
-                                                ":" +
-                                                "อาหารจานเดียวไขมันสูง หรือแกงกระทิ",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            fatChoiceList[3] +
-                                                ":" +
-                                                "เครื่องดื่มผสม นมข้นหวาน ครีมเทียม วิปปิ้งครีม",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            fatChoiceList[4] +
-                                                ":" +
-                                                "ซดน้ำผัด น้ำแกง หรือดราดลงในข้าว",
-                                            textAlign: TextAlign.start),
-                                      ],
+                              ),
+                              Center(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      seltChoiceList[0] +
+                                          ":" +
+                                          "ชิมอาหารก่อนปรุง ปรุงน้อยหรือไม่ปรุ่งเพิ่ม",
+                                      textAlign: TextAlign.start,
                                     ),
-                                  ),
+                                    Text(
+                                        seltChoiceList[1] +
+                                            ":" +
+                                            "ใช้สมุนไพรเครื่องเทศแทนเครื่องปรุง",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        seltChoiceList[2] +
+                                            ":" +
+                                            "เนื้อสัตว์แปรรูป",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        seltChoiceList[3] +
+                                            ":" +
+                                            "อาหารสำเร็จ",
+                                        textAlign: TextAlign.start),
+                                    Text(
+                                        seltChoiceList[4] +
+                                            ":" +
+                                            "ผักผลไม้ของดอง หรือผลไม้จิ้มพริกเกลือ น้ำปลาหวาน",
+                                        textAlign: TextAlign.start),
+                                  ],
                                 ),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'เค็ม',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: SizedBox(
-                                    width: 400,
-                                    child: ShowChartBar(
-                                      scoreMax: getSumAllChoice(
-                                          listitem, seltChoiceList)[1],
-                                      dataSource: getSumAllChoice(
-                                          listitem, seltChoiceList)[0],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          seltChoiceList[0] +
-                                              ":" +
-                                              "ชิมอาหารก่อนปรุง ปรุงน้อยหรือไม่ปรุ่งเพิ่ม",
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        Text(
-                                            seltChoiceList[1] +
-                                                ":" +
-                                                "ใช้สมุนไพรเครื่องเทศแทนเครื่องปรุง",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            seltChoiceList[2] +
-                                                ":" +
-                                                "เนื้อสัตว์แปรรูป",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            seltChoiceList[3] +
-                                                ":" +
-                                                "อาหารสำเร็จ",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            seltChoiceList[4] +
-                                                ":" +
-                                                "ผักผลไม้ของดอง หรือผลไม้จิ้มพริกเกลือ น้ำปลาหวาน",
-                                            textAlign: TextAlign.start),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

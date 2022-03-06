@@ -252,11 +252,9 @@ class _MainPage extends State<MainPage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 40, bottom: 0),
-              child: Expanded(
-                child: Text(
-                  "บุคลากรทาการแพทย์",
-                  style: TextStyle(fontSize: 20),
-                ),
+              child: Text(
+                "บุคลากรทาการแพทย์",
+                style: TextStyle(fontSize: 20),
               ),
             ),
             Expanded(
@@ -317,11 +315,9 @@ class _MainPage extends State<MainPage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 0, bottom: 0),
-              child: Expanded(
-                child: Text(
-                  "อสม.และ ผู้ป่วย",
-                  style: TextStyle(fontSize: 20),
-                ),
+              child: Text(
+                "อสม.และ ผู้ป่วย",
+                style: TextStyle(fontSize: 20),
               ),
             ),
             Expanded(
@@ -558,164 +554,159 @@ class _MainPage extends State<MainPage> {
                     child: SizedBox(
                       height: 400,
                       width: 90,
-                      child: Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "หัวเรื่อง  :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "หัวเรื่อง  :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Text("${snap["topic"]}"),
-                                      ],
-                                    ),
+                                      ),
+                                      Text("${snap["topic"]}"),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "เนื้อเรื่อง :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "เนื้อเรื่อง :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                "${snap["content"]}",
-                                              ),
-                                            ],
-                                          ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "${snap["content"]}",
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "ผู้สร้างโพสต์แนะนำ :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "ผู้สร้างโพสต์แนะนำ :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "${snap["createBy"]}",
-                                              ),
-                                            ],
-                                          ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${snap["createBy"]}",
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "เหมะสำหรับผู้ป่วย :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "เหมะสำหรับผู้ป่วย :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "อายุ:  ${snap["recommentForAge"]}",
-                                              ),
-                                              Text(
-                                                "ค่าBMI:  ${snap["recommentForBMI"]}",
-                                              ),
-                                              Text(
-                                                "โรค:  ${snap["recommentForDieases"]}",
-                                              ),
-                                            ],
-                                          ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "อายุ:  ${snap["recommentForAge"]}",
+                                            ),
+                                            Text(
+                                              "ค่าBMI:  ${snap["recommentForBMI"]}",
+                                            ),
+                                            Text(
+                                              "โรค:  ${snap["recommentForDieases"]}",
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "สร้างโพสต์เมื่อวันที่ :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "สร้างโพสต์เมื่อวันที่ :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Text(
-                                          convertDateTimeDisplay(
-                                                  snap["createAt"]
-                                                      .toDate()
-                                                      .toString()) +
-                                              "" +
-                                              "สร้างมาแล้ว :" +
-                                              "" +
-                                              calCreateDay(
-                                                  convertDateTimeDisplay(
-                                                      snap["createAt"]
-                                                          .toDate()
-                                                          .toString())) +
-                                              "วัน",
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Text(
+                                        convertDateTimeDisplay(snap["createAt"]
+                                                .toDate()
+                                                .toString()) +
+                                            "" +
+                                            "สร้างมาแล้ว :" +
+                                            "" +
+                                            calCreateDay(convertDateTimeDisplay(
+                                                snap["createAt"]
+                                                    .toDate()
+                                                    .toString())) +
+                                            "วัน",
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0, right: 8.0),
-                                          child: Text(
-                                            "สร้างโพสต์เมื่อเวลา :",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Text(
+                                          "สร้างโพสต์เมื่อเวลา :",
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        Text(
-                                          convertTimeDisplay(snap["createAt"]),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Text(
+                                        convertTimeDisplay(snap["createAt"]),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -787,65 +778,65 @@ class _MainPage extends State<MainPage> {
                 ),
               ),
             ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("UserWeb")
-                    .where("email", isNotEqualTo: auth.currentUser.email)
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
+            // Expanded(
+            //   child: StreamBuilder<QuerySnapshot>(
+            //     stream: FirebaseFirestore.instance
+            //         .collection("UserWeb")
+            //         .where("email", isNotEqualTo: auth.currentUser.email)
+            //         .snapshots(),
+            //     builder: (BuildContext context,
+            //         AsyncSnapshot<QuerySnapshot> snapshot) {
+            //       if (snapshot.hasData) {
+            //         return ListView(
+            //           children:
+            //               snapshot.data.docs.map((DocumentSnapshot document) {
+            //             Map<String, dynamic> snap =
+            //                 document.data() as Map<String, dynamic>;
 
-                        return ListTile(
-                          title:
-                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
-                          subtitle: Text(""),
-                          onTap: () async {
-                            var currentHas = auth.currentUser.uid.hashCode;
-                            var peerHas = document.id.hashCode;
-                            var currentId = auth.currentUser.uid;
-                            var peerId = document.id;
-                            print(currentHas);
-                            print(peerHas);
-                            if (currentHas <= peerHas) {
-                              groupChatId = '$currentId-$peerId';
-                            } else {
-                              groupChatId = '$peerId-$currentId';
-                            }
-                            await FirebaseFirestore.instance
-                                .collection("Messages")
-                                .doc(groupChatId);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChatRoom(
-                                  chatTo: snap,
-                                  groupChatId: groupChatId,
-                                  currentId: currentId,
-                                  peerHas: peerHas,
-                                  peerId: peerId,
-                                  currentHas: currentHas,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
+            //             return ListTile(
+            //               title:
+            //                   Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+            //               subtitle: Text(""),
+            //               onTap: () async {
+            //                 var currentHas = auth.currentUser.uid.hashCode;
+            //                 var peerHas = document.id.hashCode;
+            //                 var currentId = auth.currentUser.uid;
+            //                 var peerId = document.id;
+            //                 print(currentHas);
+            //                 print(peerHas);
+            //                 if (currentHas <= peerHas) {
+            //                   groupChatId = '$currentId-$peerId';
+            //                 } else {
+            //                   groupChatId = '$peerId-$currentId';
+            //                 }
+            //                 await FirebaseFirestore.instance
+            //                     .collection("Messages")
+            //                     .doc(groupChatId);
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => ChatRoom(
+            //                       chatTo: snap,
+            //                       groupChatId: groupChatId,
+            //                       currentId: currentId,
+            //                       peerHas: peerHas,
+            //                       peerId: peerId,
+            //                       currentHas: currentHas,
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //             );
+            //           }).toList(),
+            //         );
+            //       } else {
+            //         return Center(
+            //           child: Text("กำลังโหลดข้อมูล"),
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
