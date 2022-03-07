@@ -102,28 +102,47 @@ class _AddPost extends State<AddPost> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'อายุ',
+                'บทความเหมาะกับผู้ที่มีอายุมากกว่า',
                 textAlign: TextAlign.left,
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.all(20),
-            child: RangeSlider(
-              values: _currentRangeValues,
-              max: 100,
-              divisions: 100,
-              labels: RangeLabels(
-                _currentRangeValues.start.round().toString(),
-                _currentRangeValues.end.round().toString(),
-              ),
-              onChanged: (RangeValues values) {
-                setState(() {
-                  _currentRangeValues = values;
-                });
+            child: TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "กรุณาระบุอายุ";
+                } else {
+                  return null;
+                }
               },
+              onChanged: (value) {
+                _postContentModels.recommentForAge = value;
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'บทความเหมาะกับผู้ที่มีอายุมากกว่า',
+              ),
             ),
           ),
+          // Padding(
+          //   padding: EdgeInsets.all(20),
+          //   child: RangeSlider(
+          //     values: _currentRangeValues,
+          //     max: 100,
+          //     divisions: 100,
+          //     labels: RangeLabels(
+          //       _currentRangeValues.start.round().toString(),
+          //       _currentRangeValues.end.round().toString(),
+          //     ),
+          //     onChanged: (RangeValues values) {
+          //       setState(() {
+          //         _currentRangeValues = values;
+          //       });
+          //     },
+          //   ),
+          // ),
           Visibility(
             visible: rangHide(),
             child: Padding(
@@ -146,21 +165,37 @@ class _AddPost extends State<AddPost> {
             visible: rangHide(),
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: RangeSlider(
-                values: _currentRangeValuesBMi,
-                max: 30,
-                min: 18.5,
-                divisions: 11,
-                labels: RangeLabels(
-                  _currentRangeValuesBMi.start.toStringAsFixed(1),
-                  _currentRangeValuesBMi.end.toStringAsFixed(1),
-                ),
-                onChanged: (RangeValues values) {
-                  setState(() {
-                    _currentRangeValuesBMi = values;
-                  });
+              child: TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "กรุณาระบุค่า BMI";
+                  } else {
+                    return null;
+                  }
                 },
+                onChanged: (value) {
+                  _postContentModels.recommentForBMI = value;
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'บทความเหมาะกับผู้ที่มีBMI มากกว่า',
+                ),
               ),
+              // child: RangeSlider(
+              //   values: _currentRangeValuesBMi,
+              //   max: 30,
+              //   min: 18.5,
+              //   divisions: 11,
+              //   labels: RangeLabels(
+              //     _currentRangeValuesBMi.start.toStringAsFixed(1),
+              //     _currentRangeValuesBMi.end.toStringAsFixed(1),
+              //   ),
+              //   onChanged: (RangeValues values) {
+              //     setState(() {
+              //       _currentRangeValuesBMi = values;
+              //     });
+              //   },
+              // ),
             ),
           ),
           Padding(
@@ -177,13 +212,47 @@ class _AddPost extends State<AddPost> {
                       _allBMI = "";
                     } else if (_allBMI != "all") {
                       _allBMI = "all";
-                      _postContentModels.recommentForBMI.add("all");
+                      _postContentModels.recommentForBMI = "all";
                     }
                     print(_allBMI);
                     _allBMI = value;
                   });
                 },
                 groupValue: _allBMI,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: 5,
+              top: 20,
+              right: 20,
+              left: 20,
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'บทความเหมาะกับผู้ที่มีค่า BMR มากกว่า',
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "กรุณาระบุค่า BMR";
+                } else {
+                  return null;
+                }
+              },
+              onChanged: (value) {
+                _postContentModels.recommentForBMR = value;
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'บทความเหมาะกับผู้ที่มีค่า BMR มากกว่า',
               ),
             ),
           ),
@@ -306,6 +375,7 @@ class _AddPost extends State<AddPost> {
                               _postContentModels.recommentForDieases,
                           "recommentForAge": _postContentModels.recommentForAge,
                           "recommentForBMI": _postContentModels.recommentForBMI,
+                          "recommentForBMR": _postContentModels.recommentForBMR,
                           "createBy": _postContentModels.createBy,
                           "imgPath":
                               " gs://applicationforncds.appspot.com/UserWebImg/picturePost/$fileName"
@@ -387,16 +457,16 @@ class _AddPost extends State<AddPost> {
     _postContentModels.createBy =
         widget.userData["Firstname"] + widget.userData["Lastname"];
     _postContentModels.createAt = DateTime.now();
-    _postContentModels.recommentForAge = [];
-    _postContentModels.recommentForBMI = [];
-    _postContentModels.recommentForAge.add(_currentRangeValues.start.round());
-    _postContentModels.recommentForAge.add(_currentRangeValues.end.round());
-    if (_allBMI == "all") {
-      _postContentModels.recommentForBMI.clear();
-      _postContentModels.recommentForBMI.add("all");
-    } else if (_allBMI != "all") {
-      _postContentModels.recommentForBMI.add(_currentRangeValuesBMi.start);
-      _postContentModels.recommentForBMI.add(_currentRangeValuesBMi.end);
-    }
+    // _postContentModels.recommentForAge = [];
+    // _postContentModels.recommentForBMI = [];
+    // _postContentModels.recommentForAge.add(_currentRangeValues.start.round());
+    // _postContentModels.recommentForAge.add(_currentRangeValues.end.round());
+    // if (_allBMI == "all") {
+    //   _postContentModels.recommentForBMI.clear();
+    //   _postContentModels.recommentForBMI.add("all");
+    // } else if (_allBMI != "all") {
+    //   _postContentModels.recommentForBMI.add(_currentRangeValuesBMi.start);
+    //   _postContentModels.recommentForBMI.add(_currentRangeValuesBMi.end);
+    // }
   }
 }
