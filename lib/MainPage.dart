@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
+import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -403,7 +404,7 @@ class _MainPage extends State<MainPage> {
               ),
             ),
             Expanded(
-              child: buildContentPost(context),
+              child: contentPage(context),
             ),
             Center(
               child: bulidButtonAddPost(context),

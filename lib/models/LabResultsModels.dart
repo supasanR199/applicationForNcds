@@ -1,4 +1,7 @@
 class LabResultsModels {
+  int weight;
+  int height;
+  double bmi;
   String FBSFPG;
   String Hb1c;
   String BUN;
@@ -15,7 +18,10 @@ class LabResultsModels {
   DateTime createAt;
 
   LabResultsModels(
-      {this.FBSFPG,
+      {this.weight,
+      this.height,
+      this.bmi,
+      this.FBSFPG,
       this.Hb1c,
       this.BUN,
       this.Cr,

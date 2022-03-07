@@ -20,9 +20,11 @@ class LabResults extends StatefulWidget {
 class _LabResults extends State<LabResults> {
   final _labResultsFrom = GlobalKey<FormState>();
   TextEditingController crateAtDate = TextEditingController();
+  TextEditingController bmi = TextEditingController();
   DateTime selectedDate = DateTime.now();
   DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
   LabResultsModels _labResultsModels = LabResultsModels();
+  double calBmi;
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
@@ -44,6 +46,33 @@ class _LabResults extends State<LabResults> {
                   key: _labResultsFrom,
                   child: ListView(
                     children: <Widget>[
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'การตรวจร่างกาย',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      buildWeightField(context),
+                      buildHeightField(context),
+                      buildBmiField(context),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'ผลตรวจจากห้องปฎิบัติการ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
                       buildFbsFpgField(context),
                       buildHb1cField(context),
                       buildBunField(context),
@@ -78,6 +107,75 @@ class _LabResults extends State<LabResults> {
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Padding buildWeightField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        onChanged: (value) {
+          _labResultsModels.weight = int.parse(value);
+        },
+        decoration: InputDecoration(
+          labelText: 'น้ำหนักผู้ป่วย(KG.)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildHeightField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        onChanged: (value) {
+          _labResultsModels.height = int.parse(value);
+          calBmi = _labResultsModels.weight /
+              ((_labResultsModels.height / 100) *
+                  (_labResultsModels.height / 100));
+          bmi.text = calBmi.toStringAsFixed(2);
+          _labResultsModels.bmi = calBmi;
+        },
+        decoration: InputDecoration(
+          labelText: 'ส่วนสูงผู้ป่วย(CM.)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildBmiField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        controller: bmi,
+        keyboardType: TextInputType.number,
+        readOnly: true,
+        onChanged: (value) {
+          // _labResultsModels.height = int.parse(value);
+          print(calBmi);
+          // bmi =  calBmi.;
+        },
+        decoration: InputDecoration(
+          labelText: 'ค่าBMI ของผู้ป่วย',
+          icon: Icon(Icons.people),
         ),
       ),
     );
@@ -392,6 +490,9 @@ class _LabResults extends State<LabResults> {
                     .collection("LabResultsHistory")
                     .doc(crateAtDate.text)
                     .set({
+                  "Height": _labResultsModels.height,
+                  "Weight": _labResultsModels.weight,
+                  "Bmi": _labResultsModels.bmi,
                   "FBSFPG": _labResultsModels.FBSFPG,
                   "Hb1c": _labResultsModels.Hb1c,
                   "BUN": _labResultsModels.BUN,
