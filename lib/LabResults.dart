@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/LabResultsModels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 
@@ -121,8 +122,11 @@ class _LabResults extends State<LabResults> {
       ),
       child: TextFormField(
         keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         onChanged: (value) {
-          _labResultsModels.weight = int.parse(value);
+          _labResultsModels.weight = value;
         },
         decoration: InputDecoration(
           labelText: 'น้ำหนักผู้ป่วย(KG.)',
@@ -141,13 +145,16 @@ class _LabResults extends State<LabResults> {
       ),
       child: TextFormField(
         keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         onChanged: (value) {
-          _labResultsModels.height = int.parse(value);
-          calBmi = _labResultsModels.weight /
-              ((_labResultsModels.height / 100) *
-                  (_labResultsModels.height / 100));
+          _labResultsModels.height = value;
+          calBmi = int.parse(_labResultsModels.weight) /
+              ((int.parse(_labResultsModels.height) / 100) *
+                  (int.parse(_labResultsModels.height) / 100));
           bmi.text = calBmi.toStringAsFixed(2);
-          _labResultsModels.bmi = calBmi;
+          _labResultsModels.bmi = bmi.text;
         },
         decoration: InputDecoration(
           labelText: 'ส่วนสูงผู้ป่วย(CM.)',
@@ -483,7 +490,21 @@ class _LabResults extends State<LabResults> {
                     builder: (BuildContext context) => alertMessage(
                         context, "ยืนยันการบันทึกผลตรวจจากห้องทดลอง"))
                 .then((value) async {
-              if (value == "CONFIRM") {
+              if (value == "CONFIRM"){
+                if (_labResultsModels.height != null) {
+                  await FirebaseFirestore.instance
+                      .collection("MobileUser")
+                      .doc(widget.patienDataId.id)
+                      .update({
+                    "Height":_labResultsModels.height
+                  });
+                } else if (_labResultsModels.weight != null) {
+                  await FirebaseFirestore.instance
+                      .collection("MobileUser")
+                      .doc(widget.patienDataId.id)
+                      .update({"Weight":_labResultsModels.weight});
+                }
+
                 await FirebaseFirestore.instance
                     .collection("MobileUser")
                     .doc(widget.patienDataId.id)

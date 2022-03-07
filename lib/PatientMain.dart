@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/MoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
@@ -277,6 +279,7 @@ class _PatientMainState extends State<PatientMain> {
                     .collection("MobileUser")
                     .doc(widget.patienDataId.id)
                     .collection("LabResultsHistory")
+                    // .orderBy('timestamp', descending: true)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -284,13 +287,11 @@ class _PatientMainState extends State<PatientMain> {
                     return ListView(
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
+                        print(document.id);
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
                         return ListTile(
-                          title: Text(
-                            convertDateTimeDisplay(
-                                snap["creatAt"].toDate().toString()),
-                          ),
+                          title: Text(document.id),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -304,6 +305,8 @@ class _PatientMainState extends State<PatientMain> {
                         );
                       }).toList(),
                     );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error));
                   } else {
                     return Center(
                       child: Text("ไม่มีประวัติการตรวจจากห้องแลป"),

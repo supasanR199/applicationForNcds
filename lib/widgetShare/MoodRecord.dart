@@ -24,28 +24,14 @@ class MoodRecord extends StatefulWidget {
 }
 
 class _MoodRecordState extends State<MoodRecord> {
-  List<String> moodChoiceList = ["mood1", "mood2", "mood3", "mood4", "mood5"];
   List<DairyModel> listitem = List();
   List<DairyModel> listforDate = List();
   void initState() {
-    // ignore: missing_return
-    // futureData = getFutureData(widget.patienId.id).then((value) {
-    //   value.docs.forEach((e) {
-    //     DairyModel model = DairyModel.fromMap(e.data());
-    //     setState(() {
-    //       listitem.add(model);
-    //     });
-    //     // print(listitem);
-    //   });
-    // });
-    // print(listitem);
     showdata();
     super.initState();
   }
 
   Future<void> showdata() async {
-    // await FirebaseAuth.instance.authStateChanges().listen((event) async {
-    //   var uid = event!.uid;
     await FirebaseFirestore.instance
         .collection('MobileUser')
         .doc(widget.patienId.id)
@@ -64,6 +50,8 @@ class _MoodRecordState extends State<MoodRecord> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> moodChoiceList = ["mood1", "mood2", "mood3", "mood4", "mood5"];
+
     return Container(
       child: Column(
         children: [
@@ -75,16 +63,17 @@ class _MoodRecordState extends State<MoodRecord> {
                   .get(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                return Card(
-                  child: SizedBox(
-                    height: 700,
-                    width: 1000,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10),
+                if (snapshot.hasData) {
+                  // debugger();
+                  // getSumAllChoiceMood(listitem, moodChoiceList);
+                  return Card(
+                    child: SizedBox(
+                      height: 700,
+                      width: 1000,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
                             child: ListView(
                               children: [
                                 Center(
@@ -146,59 +135,58 @@ class _MoodRecordState extends State<MoodRecord> {
                                   child: SizedBox(
                                     width: 400,
                                     child: ShowChartBar(
-                                      scoreMax: getSumAllChoice(
+                                      scoreMax: getSumAllChoiceFood(
                                           listitem, moodChoiceList)[1],
-                                      dataSource: getSumAllChoice(
+                                      dataSource: getSumAllChoiceFood(
                                           listitem, moodChoiceList)[0],
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          moodChoiceList[0] +
+                                Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        moodChoiceList[0] +
+                                            ":" +
+                                            "น้ำเปล่า เครื่องดืมไม่ผสมน้ำตาล",
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      Text(
+                                          moodChoiceList[1] +
                                               ":" +
-                                              "น้ำเปล่า เครื่องดืมไม่ผสมน้ำตาล",
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        Text(
-                                            moodChoiceList[1] +
-                                                ":" +
-                                                "น้ำอัดลม เครื่องดืมชง น้ำหวาน นมเปรี้ยว",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            moodChoiceList[2] +
-                                                ":" +
-                                                "น้ำผักผลไม้สำเร็จรูป",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            moodChoiceList[3] +
-                                                ":" +
-                                                "ไอศครีม เบอร์เกอรี่ หรือขนมไทย",
-                                            textAlign: TextAlign.start),
-                                        Text(
-                                            moodChoiceList[4] +
-                                                ":" +
-                                                "เติมน้ำตาบ น้ำผึ้ง น้ำเชื่อมเพิ่มในอาหาร",
-                                            textAlign: TextAlign.start),
-                                      ],
-                                    ),
+                                              "น้ำอัดลม เครื่องดืมชง น้ำหวาน นมเปรี้ยว",
+                                          textAlign: TextAlign.start),
+                                      Text(
+                                          moodChoiceList[2] +
+                                              ":" +
+                                              "น้ำผักผลไม้สำเร็จรูป",
+                                          textAlign: TextAlign.start),
+                                      Text(
+                                          moodChoiceList[3] +
+                                              ":" +
+                                              "ไอศครีม เบอร์เกอรี่ หรือขนมไทย",
+                                          textAlign: TextAlign.start),
+                                      Text(
+                                          moodChoiceList[4] +
+                                              ":" +
+                                              "เติมน้ำตาบ น้ำผึ้ง น้ำเชื่อมเพิ่มในอาหาร",
+                                          textAlign: TextAlign.start),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Text("กำลังโหลด");
+                }
               }),
         ],
       ),

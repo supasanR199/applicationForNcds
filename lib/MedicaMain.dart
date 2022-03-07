@@ -6,6 +6,7 @@ import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'PatientMain.dart';
 import 'models/AuthDataModels.dart';
@@ -32,6 +33,8 @@ class _MedicaMainState extends State<MedicaMain> {
       .collection("MobileUser")
       .where("Role", isEqualTo: "Patient")
       .snapshots();
+  DateTime selectedDate = DateTime.now();
+
   final PrefService _prefService = PrefService();
   DateTime logoutTime;
   String _userLogId = "";
@@ -68,7 +71,7 @@ class _MedicaMainState extends State<MedicaMain> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 2,
+      length: 3,
       child: Container(
         child: Scaffold(
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
@@ -117,9 +120,9 @@ class _MedicaMainState extends State<MedicaMain> {
                 Tab(
                   text: 'โพสต์',
                 ),
-                // Tab(
-                //   text: '',
-                // ),
+                Tab(
+                  text: 'นัดหมายเข้าพบ',
+                ),
                 // Tab(
                 //   text: '',
                 // ),
@@ -134,9 +137,9 @@ class _MedicaMainState extends State<MedicaMain> {
               Center(
                 child: buildPostPage(context),
               ),
-              // Center(
-              //     // child: buildPatientPage(context),
-              //     ),
+              Center(
+                child: buildAppointmentPage(context),
+              ),
               // Center(
               //     // child: buildPostPage(context),
               //     ),
@@ -180,6 +183,8 @@ class _MedicaMainState extends State<MedicaMain> {
                         return ListTile(
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
+                          trailing: Text(checkAppointmentFromMd(
+                              snap["AppointmentFromMd"])),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -269,6 +274,87 @@ class _MedicaMainState extends State<MedicaMain> {
             ]);
   }
 
+  Widget buildAppointmentPage(BuildContext context) {
+    return Card(
+      child: SizedBox(
+        height: 700,
+        width: 1000,
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Text(
+                  'นัดหมายเข้าพบ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40),
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .where("Role", isEqualTo: "Patient")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        Map<String, dynamic> snap =
+                            document.data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text("${snap["Firstname"]}"),
+                          subtitle: Text("${snap["Lastname"]}"),
+                          trailing: Text(checkAppointmentFromMd(
+                              snap["AppointmentFromMd"])),
+                          onTap: () async {
+                            final DateTime selected = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate:DateTime.now(),
+                              lastDate: DateTime(2222),
+                            );
+                            if (selected != null && selected != selectedDate) {
+                              setState(() {
+                                selectedDate = selected;
+                                FirebaseFirestore.instance
+                                    .collection("MobileUser")
+                                    .doc(document.id)
+                                    .update({
+                                  "AppointmentFromMd": selectedDate
+                                }).whenComplete(() {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        alertMessageOnlyOk(context,
+                                            "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
+                                  );
+                                });
+                              });
+                            }
+                          },
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text("กำลังโหลดข้อมูล"),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget buildPostPage(BuildContext context) {
     return Card(
       child: SizedBox(
@@ -298,6 +384,21 @@ class _MedicaMainState extends State<MedicaMain> {
         ),
       ),
     );
+  }
+
+  String checkAppointmentFromMd(Timestamp appoint) {
+    // var date = new DateTime.fromMicrosecondsSinceEpoch(appoint.toDate());
+    if (appoint == null) {
+      return "ยังไม่การนัดหมายวันเข้าพบ";
+    }
+    DateTime now = appoint.toDate();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
+    if (appoint != null) {
+      return formattedDate;
+    } else {
+      return "ยังไม่การนัดหมายวันเข้าพบ";
+    }
   }
 
   Widget buildContentPost(BuildContext context) {

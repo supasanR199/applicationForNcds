@@ -4,10 +4,11 @@ class PostContentModels {
   String topic;
   DateTime createAt;
   List recommentForDieases;
-  String recommentForAge;
+  int recommentForAge;
   // List<dynamic> recommentForBMI = List();
-  String recommentForBMI;
-  String recommentForBMR;
+  int recommentForBMI;
+  int recommentForBMR;
+  int recommentForTDEE;
 
   PostContentModels(
       {this.content,

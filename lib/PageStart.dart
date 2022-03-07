@@ -233,7 +233,7 @@ class _StartPageState extends State<StartPage> {
         }
       },
       color: Colors.white,
-      child: Text('เข้าสู้ระบบ'),
+      child: Text('เข้าสู่ระบบ'),
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(

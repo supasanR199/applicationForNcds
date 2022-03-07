@@ -1,5 +1,5 @@
 // import 'dart:html';
-import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/models/PostContentModels.dart';
+import 'package:flutter/services.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:file_picker/file_picker.dart';
@@ -23,8 +24,8 @@ class _AddPost extends State<AddPost> {
   TextEditingController age = TextEditingController();
   TextEditingController age1 = TextEditingController();
   PostContentModels _postContentModels = PostContentModels();
-  RangeValues _currentRangeValues = RangeValues(0, 100);
-  RangeValues _currentRangeValuesBMi = RangeValues(18.5, 30);
+  // RangeValues _currentRangeValues = RangeValues(0, 100);
+  // RangeValues _currentRangeValuesBMi = RangeValues(18.5, 30);
   List<String> _valueNCDs = List();
   List<S2Choice<String>> frameworks = [
     S2Choice<String>(value: "diabetes", title: 'โรคเบาหวาน'),
@@ -110,6 +111,10 @@ class _AddPost extends State<AddPost> {
           Padding(
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               validator: (value) {
                 if (value.isEmpty) {
                   return "กรุณาระบุอายุ";
@@ -118,7 +123,7 @@ class _AddPost extends State<AddPost> {
                 }
               },
               onChanged: (value) {
-                _postContentModels.recommentForAge = value;
+                _postContentModels.recommentForAge = int.parse(value);
               },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -166,6 +171,10 @@ class _AddPost extends State<AddPost> {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
                 validator: (value) {
                   if (value.isEmpty) {
                     return "กรุณาระบุค่า BMI";
@@ -174,7 +183,7 @@ class _AddPost extends State<AddPost> {
                   }
                 },
                 onChanged: (value) {
-                  _postContentModels.recommentForBMI = value;
+                  _postContentModels.recommentForBMI = int.parse(value);
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -212,7 +221,7 @@ class _AddPost extends State<AddPost> {
                       _allBMI = "";
                     } else if (_allBMI != "all") {
                       _allBMI = "all";
-                      _postContentModels.recommentForBMI = "all";
+                      _postContentModels.recommentForBMI = 0;
                     }
                     print(_allBMI);
                     _allBMI = value;
@@ -240,6 +249,10 @@ class _AddPost extends State<AddPost> {
           Padding(
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               validator: (value) {
                 if (value.isEmpty) {
                   return "กรุณาระบุค่า BMR";
@@ -248,11 +261,34 @@ class _AddPost extends State<AddPost> {
                 }
               },
               onChanged: (value) {
-                _postContentModels.recommentForBMR = value;
+                _postContentModels.recommentForBMR = int.parse(value);
               },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'บทความเหมาะกับผู้ที่มีค่า BMR มากกว่า',
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "กรุณาระบุค่า TDEE";
+                } else {
+                  return null;
+                }
+              },
+              onChanged: (value) {
+                _postContentModels.recommentForTDEE = int.parse(value);
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'บทความเหมาะกับผู้ที่มีค่า TDEE มากกว่า',
               ),
             ),
           ),
@@ -328,7 +364,8 @@ class _AddPost extends State<AddPost> {
                     allowedExtensions: ['png', 'jpg'],
                     allowMultiple: false);
                 setState(() {
-                  fileName = pickUp.files.first.name;
+                  fileName = widget.userData["role"] +
+                      Random().nextInt(1000).toString();
                   fileBytes = pickUp.files.first.bytes;
                 });
                 // });
@@ -376,9 +413,11 @@ class _AddPost extends State<AddPost> {
                           "recommentForAge": _postContentModels.recommentForAge,
                           "recommentForBMI": _postContentModels.recommentForBMI,
                           "recommentForBMR": _postContentModels.recommentForBMR,
+                          "recommentForTDEE":
+                              _postContentModels.recommentForTDEE,
                           "createBy": _postContentModels.createBy,
                           "imgPath":
-                              " gs://applicationforncds.appspot.com/UserWebImg/picturePost/$fileName"
+                              "gs://applicationforncds.appspot.com/UserWebImg/picturePost/$fileName"
                         }).whenComplete(() {
                           firebase_storage.UploadTask task = firebase_storage
                               .FirebaseStorage.instance

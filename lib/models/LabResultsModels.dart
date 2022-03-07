@@ -1,7 +1,7 @@
 class LabResultsModels {
-  int weight;
-  int height;
-  double bmi;
+  String weight;
+  String height;
+  String bmi;
   String FBSFPG;
   String Hb1c;
   String BUN;

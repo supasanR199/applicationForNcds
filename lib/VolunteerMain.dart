@@ -20,7 +20,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 4,
+      length: 1,
       child: Container(
         child: Scaffold(
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
@@ -36,15 +36,15 @@ class _VolunteerMainState extends State<VolunteerMain> {
                 Tab(
                   text: 'ข้อมูลอาสาสมัคร',
                 ),
-                Tab(
-                  text: 'ออกกำลังกาย',
-                ),
-                Tab(
-                  text: 'อาหาร',
-                ),
-                Tab(
-                  text: 'อารมณ์',
-                ),
+                // Tab(
+                //   text: 'ออกกำลังกาย',
+                // ),
+                // Tab(
+                //   text: 'อาหาร',
+                // ),
+                // Tab(
+                //   text: 'อารมณ์',
+                // ),
               ],
             ),
           ),

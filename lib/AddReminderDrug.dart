@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_select/smart_select.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+// import 'package:sticky_headers/sticky_headers.dart';
 import 'package:appilcation_for_ncds/models/RemindeDrugModels.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:radio_button_form_field/radio_button_form_field.dart';

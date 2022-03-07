@@ -141,6 +141,16 @@ class DairyModel {
       return this.sweetchoice4;
     } else if (name == "sweetchoice5") {
       return this.sweetchoice5;
+    } else if (name == "mood1") {
+      return this.mood1;
+    } else if (name == "mood2") {
+      return this.mood2;
+    } else if (name == "mood3") {
+      return this.mood3;
+    } else if (name == "mood4") {
+      return this.mood4;
+    } else if (name == "mood5") {
+      return this.mood5;
     }
   }
 }

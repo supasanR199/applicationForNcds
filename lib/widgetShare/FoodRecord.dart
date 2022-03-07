@@ -43,6 +43,8 @@ class _FoodRecordState extends State<FoodRecord> {
     "saltchoice4",
     "saltchoice5",
   ];
+  List<String> moodChoiceList = ["mood1", "mood2", "mood3", "mood4", "mood5"];
+
   Future<QuerySnapshot> futureData;
   List<DairyModel> listitem = List();
   List<DairyModel> listforDate = List();
