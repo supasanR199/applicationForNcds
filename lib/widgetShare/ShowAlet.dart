@@ -41,6 +41,9 @@ Widget showDateRang(
   List<DateTime> dateBetween = List();
   DateTime startDate;
   DateTime endDate;
+  if (minDate == maxDate) {
+    maxDate = DateTime.now();
+  }
   return AlertDialog(
     title: const Text('เลือกช่วงเวลา'),
     content: SizedBox(
@@ -57,10 +60,13 @@ Widget showDateRang(
             final dynamic value = args.value;
             startDate = args.value.startDate;
             endDate = args.value.endDate;
-            // print(value);
           },
           onSubmit: (Object val) {
-            dateBetween = getDaysInBetween(startDate, endDate);
+            if (endDate == null) {
+              dateBetween = getDaysInBetween(startDate, DateTime.now());
+            } else {
+              dateBetween = getDaysInBetween(startDate, endDate);
+            }
             print(getValueFromDateRang(snap, dateBetween));
             Navigator.pop(context, getValueFromDateRang(snap, dateBetween));
 

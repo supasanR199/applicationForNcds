@@ -38,11 +38,14 @@ Widget contentPage(BuildContext context) {
                                     ),
                                   ),
                                   Text("${snap["topic"]}"),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 8.0, right: 8.0),
-                                    child: delectPost(
-                                        context, document.id, snap["imgPath"]),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.0, right: 8.0),
+                                      child: delectPost(context, document.id,
+                                          snap["imgPath"]),
+                                    ),
                                   ),
                                 ],
                               ),

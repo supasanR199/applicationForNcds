@@ -22,30 +22,27 @@ class LabResultsDetail extends StatelessWidget {
             child: SizedBox(
               height: 700,
               width: 1000,
-              child: Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("FBSFPG:  ${labResultsData["FBSFPG"]}"),
-                    Text("Hb1c:  ${labResultsData["Hb1c"]}"),
-                    Text("BUN:  ${labResultsData["BUN"]}"),
-                    Text("Cr:  ${labResultsData["Cr"]}"),
-                    Text("LDL:  ${labResultsData["LDL"]}"),
-                    Text("HDL:  ${labResultsData["HDL"]}"),
-                    Text("Chol:  ${labResultsData["Chol"]}"),
-                    Text("Microalbumin:  ${labResultsData["Microalbumin"]}"),
-                    Text(
-                        "Proteininurine:  ${labResultsData["Proteininurine"]}"),
-                    Text("Eyetest:  ${labResultsData["Eyetest"]}"),
-                    Text("Tg:  ${labResultsData["Tg"]}"),
-                    Text(
-                      "บันทึกเมื่อวันที่: " +
-                          convertDateTimeDisplay(
-                              labResultsData["creatAt"].toDate().toString()),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("FBSFPG:  ${labResultsData["FBSFPG"]}"),
+                  Text("Hb1c:  ${labResultsData["Hb1c"]}"),
+                  Text("BUN:  ${labResultsData["BUN"]}"),
+                  Text("Cr:  ${labResultsData["Cr"]}"),
+                  Text("LDL:  ${labResultsData["LDL"]}"),
+                  Text("HDL:  ${labResultsData["HDL"]}"),
+                  Text("Chol:  ${labResultsData["Chol"]}"),
+                  Text("Microalbumin:  ${labResultsData["Microalbumin"]}"),
+                  Text("Proteininurine:  ${labResultsData["Proteininurine"]}"),
+                  Text("Eyetest:  ${labResultsData["Eyetest"]}"),
+                  Text("Tg:  ${labResultsData["Tg"]}"),
+                  Text(
+                    "บันทึกเมื่อวันที่: " +
+                        convertDateTimeDisplay(
+                            labResultsData["creatAt"].toDate().toString()),
+                  ),
+                ],
               ),
             ),
           ),

@@ -14,7 +14,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
   List<int> scoreList = List();
   snap.forEach((elements) {
     choice.forEach((element) {
-      debugger();
+      // debugger();
       KeepChoieAndSocre _keepsweet =
           KeepChoieAndSocre(element, int.parse(elements.getByName(element)));
       keepData.add(_keepsweet);
@@ -59,8 +59,7 @@ List getSumAllChoiceFood(List<DairyModel> snap, List<String> choice) {
             KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
                 element, int.parse(elements.getByName(element)));
             keepData.add(_keepsweet);
-          } 
-          else {
+          } else {
             print((elements.getByName(element)));
             KeepChoieAndSocre _keepsweets = KeepChoieAndSocre(element, 0);
             keepData.add(_keepsweets);
@@ -175,6 +174,10 @@ DateTime getMaxDateFromDiary(List<DairyModel> snap) {
 
 List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {
   List<DateTime> days = [];
+  if (startDate == endDate) {
+    days.add(startDate);
+    return days;
+  }
   for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
     days.add(startDate.add(Duration(days: i)));
   }
