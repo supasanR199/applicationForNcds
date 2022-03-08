@@ -222,7 +222,7 @@ class _FoodRecordState extends State<FoodRecord> {
                         Padding(
                           padding: EdgeInsets.all(20),
                           child: SizedBox(
-                            width: 400,
+                            width: 500,
                             child: ShowChartBar(
                               scoreMax:
                                   getSumAllChoice(listitem, sweetChoiceList)[1],
@@ -375,32 +375,9 @@ class _FoodRecordState extends State<FoodRecord> {
                 ),
               );
             }
-            return Card(
-              child: SizedBox(
-                height: 700,
-                width: 1000,
-                child: Column(
-                  children: [
-                    Text("has data"),
-                  ],
-                ),
-              ),
-            );
           } else {
             return Text("Don't have data");
           }
-          // if (snapshot.hasData) {
-          //   for (var i in snapshot.data.docs) {
-          //     DairyModel model = DairyModel.fromMap(i.data());
-          //     // setState(() {
-          //     listitem.add(model);
-          //     listforDate.add(model);
-          //     // });
-          //   }
-
-          // } else {
-          //   return Text("กำลังโหล");
-          // }
         }),
       ),
     );

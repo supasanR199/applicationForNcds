@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:html';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
+import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
+import 'package:appilcation_for_ncds/widgetShare/showPatienDisease.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +16,7 @@ import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
+import 'function/checkRole.dart';
 import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
 import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
@@ -39,6 +43,7 @@ class _MainPage extends State<MainPage> {
   DateTime logoutTime;
   String _userLogId = "";
   int index;
+  List<String> listNcds = List();
   void initState() {
     // print(_userLogId);
     super.initState();
@@ -200,9 +205,36 @@ class _MainPage extends State<MainPage> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
+                            var path;
+                            if(snap["Img"]  == null){
+                              path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                            }
+                            else{
+                              path = snap["Img"];
+                            }
                         return ListTile(
+                          leading: proFileShow(context,path),
+                          // CircleAvatar(
+                          //   radius: 48, // Image radius
+                          //   backgroundImage: getImg(snap["Img"]),
+                          // ),
                           title: Text("${snap["Firstname"]}"),
                           subtitle: Text("${snap["Lastname"]}"),
+                          trailing: DecoratedBox(
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 211, 251, 1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(checkDisease(snap["NCDs"])),
+                            ),
+                          ),
+                          // ListView.builder(
+                          //   itemCount: snap["NCDs"].length,
+                          //   itemBuilder: (context, i) {
+                          //     return showDisease(context, snap["NCDs"][i]);
+                          //   },
+                          // ),
                           onTap: () {
                             Navigator.push(
                               context,
