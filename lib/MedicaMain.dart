@@ -1,7 +1,9 @@
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
+import 'package:appilcation_for_ncds/widgetShare/EvaluateSoftwareForMed.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -97,7 +99,8 @@ class _MedicaMainState extends State<MedicaMain> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}"),
+                              "${userData['Firstname']}  ${userData['Lastname']}",
+                              style: TextStyle(color: Colors.black)),
                           actionMenu(userData["role"]),
                         ],
                       );
@@ -113,6 +116,7 @@ class _MedicaMainState extends State<MedicaMain> {
             ],
             bottom: TabBar(
               indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+              labelColor: Colors.black,
               tabs: <Widget>[
                 Tab(
                   text: 'ผู้ป่วย',
@@ -132,7 +136,7 @@ class _MedicaMainState extends State<MedicaMain> {
           body: TabBarView(
             children: <Widget>[
               Center(
-                child: buildPatientPage(context),
+                child: buildPatientPage(context, false),
               ),
               Center(
                 child: buildPostPage(context),
@@ -150,70 +154,6 @@ class _MedicaMainState extends State<MedicaMain> {
     );
   }
 
-  Widget buildPatientPage(BuildContext context) {
-    return Card(
-      child: SizedBox(
-        height: 700,
-        width: 1000,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Text(
-                  'ผู้ป่วย',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _docRefPatient,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
-                          trailing: Text(checkAppointmentFromMd(
-                              snap["AppointmentFromMd"])),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PatientMain(
-                                  patienData: snap,
-                                  patienDataId: document.reference,
-                                  isHospital: false,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget actionMenu(String role) {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert),
@@ -221,14 +161,17 @@ class _MedicaMainState extends State<MedicaMain> {
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
                 child: ListTile(
-                  leading: Icon(Icons.add_chart_outlined),
+                  leading: Icon(
+                    Icons.add_chart_outlined,
+                    color: Colors.black,
+                  ),
                   title: Text('ประเมินการใช้งาน'),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EvaulatePage(
-                          role: role,
+                        builder: (context) => EvaulateSoftwareForMd(
+                          role: userData["role"],
                         ),
                       ),
                     );
@@ -316,7 +259,7 @@ class _MedicaMainState extends State<MedicaMain> {
                             final DateTime selected = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate:DateTime.now(),
+                              firstDate: DateTime.now(),
                               lastDate: DateTime(2222),
                             );
                             if (selected != null && selected != selectedDate) {

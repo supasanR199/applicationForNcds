@@ -1,22 +1,15 @@
-import 'dart:developer';
-import 'dart:html';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
-import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
-import 'package:appilcation_for_ncds/widgetShare/showPatienDisease.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
 import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
-import 'function/checkRole.dart';
 import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
 import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
@@ -108,7 +101,9 @@ class _MainPage extends State<MainPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                "${userData['Firstname']}  ${userData['Lastname']}"),
+                              "${userData['Firstname']}  ${userData['Lastname']}",
+                              style: TextStyle(color: Colors.black),
+                            ),
                             actionMenu(userData["role"]),
                           ],
                         );
@@ -151,7 +146,7 @@ class _MainPage extends State<MainPage> {
             body: TabBarView(
               children: <Widget>[
                 Center(
-                  child: buildPatientPage(context),
+                  child: buildPatientPage(context, true),
                 ),
                 Center(
                   child: buildPostPage(context),
@@ -173,95 +168,6 @@ class _MainPage extends State<MainPage> {
     } else {
       return Text("not login");
     }
-  }
-
-  Widget buildPatientPage(BuildContext context) {
-    return Card(
-      child: SizedBox(
-        height: 700,
-        width: 1000,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Text(
-                  'ผู้ป่วย',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _docRefPatient,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                            var path;
-                            if(snap["Img"]  == null){
-                              path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-                            }
-                            else{
-                              path = snap["Img"];
-                            }
-                        return ListTile(
-                          leading: proFileShow(context,path),
-                          // CircleAvatar(
-                          //   radius: 48, // Image radius
-                          //   backgroundImage: getImg(snap["Img"]),
-                          // ),
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
-                          trailing: DecoratedBox(
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 211, 251, 1),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(checkDisease(snap["NCDs"])),
-                            ),
-                          ),
-                          // ListView.builder(
-                          //   itemCount: snap["NCDs"].length,
-                          //   itemBuilder: (context, i) {
-                          //     return showDisease(context, snap["NCDs"][i]);
-                          //   },
-                          // ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PatientMain(
-                                  patienData: snap,
-                                  patienDataId: document.reference,
-                                  isHospital: true,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget buildAcceptUsersPage(BuildContext context) {
@@ -935,7 +841,10 @@ class _MainPage extends State<MainPage> {
 
   Widget actionMenu(String role) {
     return PopupMenuButton(
-        icon: Icon(Icons.more_vert),
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.black,
+        ),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(

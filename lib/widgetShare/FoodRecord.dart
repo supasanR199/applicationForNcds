@@ -50,6 +50,9 @@ class _FoodRecordState extends State<FoodRecord> {
   Future<QuerySnapshot> futureData;
   List<DairyModel> listitem = List();
   List<DairyModel> listforDate = List();
+  List<DairyModel> listforDf = List();
+
+  TextEditingController crateAtDate = TextEditingController();
   void initState() {
     // ignore: missing_return
     // futureData = getFutureData(widget.patienId.id).then((value) {
@@ -80,6 +83,7 @@ class _FoodRecordState extends State<FoodRecord> {
         setState(() {
           listitem.add(model);
           listforDate.add(model);
+          listforDf.add(model);
         });
       }
       selectDate.clear();
@@ -143,71 +147,101 @@ class _FoodRecordState extends State<FoodRecord> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 50,
-                            right: 50,
-                            top: 70,
-                          ),
-                          child: TextFormField(
-                            // controller: crateAtDate,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'กรุณาระบุวันที่บันทึก';
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'วันที่บันทึก',
-                              icon: Icon(Icons.people),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 50,
+                                  right: 50,
+                                  top: 70,
+                                ),
+                                child: TextFormField(
+                                  readOnly: true,
+                                  controller: crateAtDate,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'กรุณาระบุวันที่บันทึก';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'วันที่บันทึก',
+                                      icon: Icon(Icons.people),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(Icons.cancel),
+                                        onPressed: () {
+                                          setState(() {
+                                            // listitem.clear();
+                                            print(listforDf);
+                                            // listitem.clear();
+                                            listitem = listforDf;
+                                            crateAtDate.text = "";
+                                          });
+                                        },
+                                      )),
+                                  onTap: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          showDateRang(
+                                              context,
+                                              getMinDateFromDiary(listforDate),
+                                              getMaxDateFromDiary(listforDate),
+                                              listforDate),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          listitem = value;
+                                          crateAtDate.text =
+                                              listitem.first.date +
+                                                  " - " +
+                                                  listforDate.last.date;
+                                        });
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                            onTap: () async {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => showDateRang(
-                                    context,
-                                    getMinDateFromDiary(listforDate),
-                                    getMaxDateFromDiary(listforDate),
-                                    listforDate),
-                              ).then((value) {
-                                if (value != null) {
-                                  setState(() {
-                                    print("print value{$value}");
-                                    listitem.clear();
-                                    print("print value{$listitem}");
-                                    listitem = value;
-                                    print("print value{$listitem}");
-                                  });
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                        DropdownButtonFormField<String>(
-                          value: _value,
-                          decoration: InputDecoration(
-                            labelText: 'วันที่บันทึก',
-                            icon: Icon(Icons.people),
-                          ),
-                          items: selectDate.map((String values) {
-                            print(values);
-                            return DropdownMenuItem<String>(
-                              value: values,
-                              child: Text(values),
-                            );
-                          }).toList(),
-                          onChanged: (newValue) {
-                            // print(newValue);
-                            setState(() {
-                              _value = newValue;
-                              var dateFromString = DateTime.parse(_value);
-                              List<DateTime> selectDateTimrList = List();
-                              selectDateTimrList.add(dateFromString);
-                              listitem = getValueFromDateRang(
-                                  listforDate, selectDateTimrList);
-                            });
-                          },
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 50,
+                                  right: 50,
+                                  top: 70,
+                                ),
+                                child: DropdownButtonFormField<String>(
+                                  value: _value,
+                                  decoration: InputDecoration(
+                                    labelText: 'วันที่บันทึก',
+                                    icon: Icon(Icons.people),
+                                  ),
+                                  items: selectDate.map((String values) {
+                                    print(values);
+                                    return DropdownMenuItem<String>(
+                                      value: values,
+                                      child: Text(values),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    // print(newValue);
+                                    setState(() {
+                                      _value = newValue;
+                                      var dateFromString =
+                                          DateTime.parse(_value);
+                                      List<DateTime> selectDateTimrList =
+                                          List();
+                                      selectDateTimrList.add(dateFromString);
+                                      listitem = getValueFromDateRang(
+                                          listforDate, selectDateTimrList);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Center(
                           child: Padding(
@@ -380,6 +414,18 @@ class _FoodRecordState extends State<FoodRecord> {
           }
         }),
       ),
+    );
+  }
+
+  Widget buildButtonClear(context) {
+    return RaisedButton(
+      // color: Colors.accents,
+      child: Text('ยกเลิก'),
+      onPressed: () {},
+      padding: EdgeInsets.all(20),
+      color: Colors.redAccent,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4))),
     );
   }
 }

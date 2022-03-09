@@ -26,9 +26,16 @@ class LabResultsDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("น้ำหนักของผู้ป่วย:  ${labResultsData["FBSFPG"]} KG."),
-                  Text("ส่วนสูงของผู้ป่วย:  ${labResultsData["FBSFPG"]} CM."),
-                  Text("ค่า BMI ของผู้ป่วย:  ${labResultsData["FBSFPG"]}"),
+                  Text("น้ำหนักของผู้ป่วย:  ${labResultsData["Weight"]} KG."),
+                  Text("ส่วนสูงของผู้ป่วย:  ${labResultsData["Height"]} CM."),
+                  Text("ค่า BMI ของผู้ป่วย:  ${labResultsData["Bmi"]}"),
+                  Text(
+                      "ตรวจชีพจรณ์(ครั่ง/ต่อนาที):  ${labResultsData["Pulse"]} KG."),
+                  Text(
+                      "ตรวจการหายใจ(ครั่ง/ต่อนาที):  ${labResultsData["Breat"]} CM."),
+                  Text(
+                      "ความดันโลหิต(mmHg/ต่อนาที):  ${labResultsData["BloodPressure"]}"),
+                  Text("DTX:  ${labResultsData["DTX"]}"),
                   Text("FBSFPG:  ${labResultsData["FBSFPG"]}"),
                   Text("Hb1c:  ${labResultsData["Hb1c"]}"),
                   Text("BUN:  ${labResultsData["BUN"]}"),

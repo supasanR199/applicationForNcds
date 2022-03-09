@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'dart:html';
 
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowChart.dart';
+import 'package:appilcation_for_ncds/widgetShare/UserLogAdmin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +80,8 @@ class _adminMainState extends State<adminMain> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}"),
+                              "${userData['Firstname']}  ${userData['Lastname']}",
+                              style: TextStyle(color: Colors.black)),
                           actionMenu(userData["role"]),
                         ],
                       );
@@ -98,6 +99,7 @@ class _adminMainState extends State<adminMain> {
             backgroundColor: Colors.white,
             bottom: TabBar(
               indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+              labelColor: Colors.black,
               tabs: <Widget>[
                 Tab(
                   text: 'อนุมัติเข้าใช้งานของบุคคลากร รพสต.',
@@ -252,7 +254,7 @@ class _adminMainState extends State<adminMain> {
                     children: [
                       Expanded(
                         child: Text(
-                          "อนุมัติเข้าใข้งาน",
+                          "การเข้าใช้งาน",
                           style: TextStyle(fontSize: 40),
                           textAlign: TextAlign.center,
                         ),
@@ -260,77 +262,62 @@ class _adminMainState extends State<adminMain> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "การเข้าใช้งาน",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
+                  child: FutureBuilder<QuerySnapshot>(
+                      future: FirebaseFirestore.instance
                           .collection("UserLog")
                           .orderBy("timeLogin", descending: true | false)
-                          .snapshots(),
+                          .get(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
-                            child: SingleChildScrollView(
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: DataTable(
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: Text(
-                                        'ชื่อ',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Text(
-                                        'อีเมล',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Text(
-                                        'ตำแหน่ง',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Text(
-                                        'เวลาเข้าใช้งาน',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                    ),
-                                    // DataColumn(
-                                    //   label: Text(
-                                    //     'สถานะ',
-                                    //     style: TextStyle(
-                                    //         fontStyle: FontStyle.italic),
-                                    //   ),
-                                    // ),
-                                  ],
-                                  rows: _buildList(context, snapshot.data.docs),
-                                ),
-                              ),
-                            ),
+                            child: UserLog(),
+                            // SingleChildScrollView(
+                            //   child: SizedBox(
+                            //     width: double.infinity,
+                            //     child: DataTable(
+                            //       columns: const <DataColumn>[
+                            //         DataColumn(
+                            //           label: Text(
+                            //             'ชื่อ',
+                            //             style: TextStyle(
+                            //                 fontStyle: FontStyle.italic),
+                            //           ),
+                            //         ),
+                            //         DataColumn(
+                            //           label: Text(
+                            //             'อีเมล',
+                            //             style: TextStyle(
+                            //                 fontStyle: FontStyle.italic),
+                            //           ),
+                            //         ),
+                            //         DataColumn(
+                            //           label: Text(
+                            //             'ตำแหน่ง',
+                            //             style: TextStyle(
+                            //                 fontStyle: FontStyle.italic),
+                            //           ),
+                            //         ),
+                            //         DataColumn(
+                            //           label: Text(
+                            //             'เวลาเข้าใช้งาน',
+                            //             style: TextStyle(
+                            //                 fontStyle: FontStyle.italic),
+                            //           ),
+                            //         ),
+                            //         // DataColumn(
+                            //         //   label: Text(
+                            //         //     'สถานะ',
+                            //         //     style: TextStyle(
+                            //         //         fontStyle: FontStyle.italic),
+                            //         //   ),
+                            //         // ),
+                            //       ],
+                            // rows: _buildList(context, snapshot.data.docs),
+                            //     ),
+                            //   ),
+                            // ),
                           );
                         } else {
                           return LinearProgressIndicator();
@@ -598,7 +585,10 @@ class _adminMainState extends State<adminMain> {
 
   Widget actionMenu(String role) {
     return PopupMenuButton(
-        icon: Icon(Icons.more_vert),
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.black,
+        ),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(

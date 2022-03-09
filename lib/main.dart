@@ -104,6 +104,8 @@ Widget buildMaterialApp() {
     // title: 'FireStore Demo',
     theme: ThemeData(
       primarySwatch: Colors.amber,
+      hoverColor: Colors.pink[50],
+      iconTheme: IconThemeData(color: Colors.black),
     ),
     initialRoute: '/',
     routes: {
@@ -111,7 +113,7 @@ Widget buildMaterialApp() {
       // '/addbook': (context) => AddBookPage(),
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
-      '/medicaMain':(context) => MedicaMain(),
+      '/medicaMain': (context) => MedicaMain(),
       // '/addPatientForVol': (context) => AddPatienFoorVolunteer(),
       // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),
@@ -121,6 +123,21 @@ Widget buildMaterialApp() {
   );
 }
 
+const MaterialColor pink = const MaterialColor(
+  0xFFFFFFFF,
+  const <int, Color>{
+    50: const Color(0xFFF8BBD0),
+    100: const Color(0xFFF8BBD0),
+    200: const Color(0xFFF8BBD0),
+    300: const Color(0xFFF8BBD0),
+    400: const Color(0xFFF8BBD0),
+    500: const Color(0xFFF8BBD0),
+    600: const Color(0xFFF8BBD0),
+    700: const Color(0xFFF8BBD0),
+    800: const Color(0xFFF8BBD0),
+    900: const Color(0xFFF8BBD0),
+  },
+);
 // class ShowInfomation extends StatefulWidget {
 //   State<StatefulWidget> createState() {
 //     return _ShowInfomationState();

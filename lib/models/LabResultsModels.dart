@@ -2,6 +2,10 @@ class LabResultsModels {
   String weight;
   String height;
   String bmi;
+  String pulse;
+  String breathe;
+  String bloodpressure;
+  String DTX;
   String FBSFPG;
   String Hb1c;
   String BUN;
@@ -21,6 +25,10 @@ class LabResultsModels {
       {this.weight,
       this.height,
       this.bmi,
+      this.pulse,
+      this.breathe,
+      this.bloodpressure,
+      this.DTX,
       this.FBSFPG,
       this.Hb1c,
       this.BUN,

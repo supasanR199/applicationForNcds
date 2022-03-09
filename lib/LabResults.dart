@@ -62,6 +62,10 @@ class _LabResults extends State<LabResults> {
                       buildWeightField(context),
                       buildHeightField(context),
                       buildBmiField(context),
+                      buildpulseField(context),
+                      buildBreatheField(context),
+                      buildBloodPressureField(context),
+                      buildDTXField(context),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -182,6 +186,98 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ค่าBMI ของผู้ป่วย',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildpulseField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        onChanged: (value) {
+          _labResultsModels.pulse = value;
+        },
+        decoration: InputDecoration(
+          labelText: 'ตรวจชีพจรณ์(ครั่ง/ต่อนาที)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildBreatheField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        onChanged: (value) {
+          _labResultsModels.breathe = value;
+        },
+        decoration: InputDecoration(
+          labelText: 'ตรวจการหายใจ(ครั่ง/ต่อนาที)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildBloodPressureField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        onChanged: (value) {
+          _labResultsModels.bloodpressure = value;
+        },
+        decoration: InputDecoration(
+          labelText: 'ความดันโลหิต(mmHg/ต่อนาที)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildDTXField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        onChanged: (value) {
+          _labResultsModels.DTX = value;
+        },
+        decoration: InputDecoration(
+          labelText: 'DTX',
           icon: Icon(Icons.people),
         ),
       ),
@@ -490,19 +586,17 @@ class _LabResults extends State<LabResults> {
                     builder: (BuildContext context) => alertMessage(
                         context, "ยืนยันการบันทึกผลตรวจจากห้องทดลอง"))
                 .then((value) async {
-              if (value == "CONFIRM"){
+              if (value == "CONFIRM") {
                 if (_labResultsModels.height != null) {
                   await FirebaseFirestore.instance
                       .collection("MobileUser")
                       .doc(widget.patienDataId.id)
-                      .update({
-                    "Height":_labResultsModels.height
-                  });
+                      .update({"Height": _labResultsModels.height});
                 } else if (_labResultsModels.weight != null) {
                   await FirebaseFirestore.instance
                       .collection("MobileUser")
                       .doc(widget.patienDataId.id)
-                      .update({"Weight":_labResultsModels.weight});
+                      .update({"Weight": _labResultsModels.weight});
                 }
 
                 await FirebaseFirestore.instance
@@ -514,6 +608,10 @@ class _LabResults extends State<LabResults> {
                   "Height": _labResultsModels.height,
                   "Weight": _labResultsModels.weight,
                   "Bmi": _labResultsModels.bmi,
+                  "Pulse": _labResultsModels.pulse,
+                  "Breat": _labResultsModels.breathe,
+                  "BloodPressure": _labResultsModels.bloodpressure,
+                  "DTX": _labResultsModels.DTX,
                   "FBSFPG": _labResultsModels.FBSFPG,
                   "Hb1c": _labResultsModels.Hb1c,
                   "BUN": _labResultsModels.BUN,

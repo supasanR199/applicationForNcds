@@ -45,7 +45,7 @@ Widget showDateRang(
     maxDate = DateTime.now();
   }
   return AlertDialog(
-    title: const Text('เลือกช่วงเวลา'),
+    title: const Text('เลือกช่วงวัน'),
     content: SizedBox(
       width: 300,
       height: 300,

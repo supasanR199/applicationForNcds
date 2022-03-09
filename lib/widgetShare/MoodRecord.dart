@@ -27,6 +27,7 @@ class _MoodRecordState extends State<MoodRecord> {
   List<DairyModel> listitem = List();
   List<DairyModel> listforDate = List();
   List<String> selectDate = List();
+  TextEditingController crateAtDate = TextEditingController();
   var _value;
 
   void initState() {
@@ -73,8 +74,8 @@ class _MoodRecordState extends State<MoodRecord> {
               .doc(widget.patienId.id)
               .collection("diary")
               .get(),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               if (listitem.length <= 0) {
                 return Card(
@@ -116,70 +117,103 @@ class _MoodRecordState extends State<MoodRecord> {
                               right: 50,
                               top: 70,
                             ),
-                            child: TextFormField(
-                              // controller: crateAtDate,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'กรุณาระบุวันที่บันทึก';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'วันที่บันทึก',
-                                icon: Icon(Icons.people),
-                              ),
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      showDateRang(
-                                          context,
-                                          getMinDateFromDiary(
-                                              listforDate),
-                                          getMaxDateFromDiary(
-                                              listforDate),
-                                          listforDate),
-                                ).then((value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      print("print value{$value}");
-                                      listitem.clear();
-                                      print("print value{$listitem}");
-                                      listitem = value;
-                                      print("print value{$listitem}");
-                                    });
-                                  }
-                                });
-                              },
-                            ),
                           ),
-                          DropdownButtonFormField<String>(
-                            value: _value,
-                            decoration: InputDecoration(
-                              labelText: 'วันที่บันทึก',
-                              icon: Icon(Icons.people),
-                            ),
-                            items: selectDate.map((String values) {
-                              print(values);
-                              return DropdownMenuItem<String>(
-                                value: values,
-                                child: Text(values),
-                              );
-                            }).toList(),
-                            onChanged: (newValue) {
-                              // print(newValue);
-                              setState(() {
-                                _value = newValue;
-                                var dateFromString =
-                                    DateTime.parse(_value);
-                                List<DateTime> selectDateTimrList =
-                                    List();
-                                selectDateTimrList.add(dateFromString);
-                                listitem = getValueFromDateRang(
-                                    listforDate, selectDateTimrList);
-                              });
-                            },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 50,
+                                    right: 50,
+                                    top: 70,
+                                  ),
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    controller: crateAtDate,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'กรุณาระบุวันที่บันทึก';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'วันที่บันทึก',
+                                        icon: Icon(Icons.people),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.cancel),
+                                          onPressed: () {
+                                            setState(() {
+                                              // listitem.clear();
+                                              listitem = listforDate;
+                                              crateAtDate.text = "";
+                                            });
+                                          },
+                                        )),
+                                    onTap: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            showDateRang(
+                                                context,
+                                                getMinDateFromDiary(
+                                                    listforDate),
+                                                getMaxDateFromDiary(
+                                                    listforDate),
+                                                listforDate),
+                                      ).then((value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            // listitem.clear();
+                                            listitem = value;
+                                            crateAtDate.text =
+                                                listitem.first.date +
+                                                    " - " +
+                                                    listforDate.last.date;
+                                          });
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 50,
+                                    right: 50,
+                                    top: 70,
+                                  ),
+                                  child: DropdownButtonFormField<String>(
+                                    value: _value,
+                                    decoration: InputDecoration(
+                                      labelText: 'วันที่บันทึก',
+                                      icon: Icon(Icons.people),
+                                    ),
+                                    items: selectDate.map((String values) {
+                                      print(values);
+                                      return DropdownMenuItem<String>(
+                                        value: values,
+                                        child: Text(values),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      // print(newValue);
+                                      setState(() {
+                                        _value = newValue;
+                                        var dateFromString =
+                                            DateTime.parse(_value);
+                                        List<DateTime> selectDateTimrList =
+                                            List();
+                                        selectDateTimrList.add(dateFromString);
+                                        listitem = getValueFromDateRang(
+                                            listforDate, selectDateTimrList);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: EdgeInsets.all(20),
@@ -195,10 +229,8 @@ class _MoodRecordState extends State<MoodRecord> {
                           ),
                           Center(
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   moodChoiceList[0] +

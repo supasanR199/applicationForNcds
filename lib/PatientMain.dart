@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/MoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
+import 'package:appilcation_for_ncds/widgetShare/ShowVisiter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,6 +54,7 @@ class _PatientMainState extends State<PatientMain> {
             backgroundColor: Colors.white,
             bottom: TabBar(
               indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+              labelColor: Colors.black,
               tabs: <Widget>[
                 Tab(
                   text: 'ข้อมูลผู้ป่วย',
@@ -442,13 +444,14 @@ class _PatientMainState extends State<PatientMain> {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
                         return ListTile(
+                          trailing: showWhoIs(context, snap["Visitor"]),
                           title: Text(document.id),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => VisitDetail(
-                                  visit: null,
+                                  visit: snap,
                                 ),
                               ),
                             );
