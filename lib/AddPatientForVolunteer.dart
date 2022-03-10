@@ -18,6 +18,7 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
         appBar: AppBar(
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -176,7 +177,7 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                         .collection("MobileUser")
                                         .where("Role", isEqualTo: "Patient")
                                         .where("isHaveCaretaker",
-                                            isEqualTo: true)
+                                            isEqualTo: true).where("CareTakerIs",isEqualTo: widget.volunteerDataId.id)
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {

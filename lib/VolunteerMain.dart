@@ -53,15 +53,15 @@ class _VolunteerMainState extends State<VolunteerMain> {
               Center(
                 child: buildVolunteerDataPage(context),
               ),
-              Center(
-                  // child: buildPostPage(context),
-                  ),
-              Center(
-                  // child: buildPatientPage(context),
-                  ),
-              Center(
-                  // child: buildPostPage(context),
-                  ),
+              // Center(
+              //     // child: buildPostPage(context),
+              //     ),
+              // Center(
+              //     // child: buildPatientPage(context),
+              //     ),
+              // Center(
+              //     // child: buildPostPage(context),
+              //     ),
             ],
           ),
         ),
