@@ -22,6 +22,9 @@ class _LabResults extends State<LabResults> {
   final _labResultsFrom = GlobalKey<FormState>();
   TextEditingController crateAtDate = TextEditingController();
   TextEditingController bmi = TextEditingController();
+  TextEditingController waistline = TextEditingController();
+  TextEditingController height = TextEditingController();
+  TextEditingController weight = TextEditingController();
   DateTime selectedDate = DateTime.now();
   DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
   LabResultsModels _labResultsModels = LabResultsModels();
@@ -62,6 +65,7 @@ class _LabResults extends State<LabResults> {
                       buildWeightField(context),
                       buildHeightField(context),
                       buildBmiField(context),
+                      buildWaistlineField(context),
                       buildpulseField(context),
                       buildBreatheField(context),
                       buildBloodPressureField(context),
@@ -122,15 +126,26 @@ class _LabResults extends State<LabResults> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 70,
+        top: 30,
       ),
       child: TextFormField(
+        controller: weight,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly
         ],
         onChanged: (value) {
-          _labResultsModels.weight = value;
+          // weight.text = value;
+          if (_labResultsModels.weight == null) {
+            _labResultsModels.weight = value;
+          } else {
+            _labResultsModels.weight = value;
+          }
+          calBmi = int.parse(_labResultsModels.weight) /
+              ((int.parse(_labResultsModels.height) / 100) *
+                  (int.parse(_labResultsModels.height) / 100));
+          bmi.text = calBmi.toStringAsFixed(2);
+          _labResultsModels.bmi = bmi.text;
         },
         decoration: InputDecoration(
           labelText: 'น้ำหนักผู้ป่วย(KG.)',
@@ -148,11 +163,18 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        controller: height,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly
         ],
         onChanged: (value) {
+          // height.text = value;
+          if (_labResultsModels.height == null) {
+            _labResultsModels.height = value;
+          } else {
+            _labResultsModels.height = value;
+          }
           _labResultsModels.height = value;
           calBmi = int.parse(_labResultsModels.weight) /
               ((int.parse(_labResultsModels.height) / 100) *
@@ -162,6 +184,33 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ส่วนสูงผู้ป่วย(CM.)',
+          icon: Icon(Icons.people),
+        ),
+      ),
+    );
+  }
+
+  Padding buildWaistlineField(context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 70,
+      ),
+      child: TextFormField(
+        // controller: waistline,
+        keyboardType: TextInputType.number,
+        onChanged: (value) {
+          waistline.text = value;
+          if (_labResultsModels.weight == null) {
+            _labResultsModels.waistline = value;
+          } else {
+            _labResultsModels.waistline = value;
+          }
+          _labResultsModels.waistline = value;
+        },
+        decoration: InputDecoration(
+          labelText: 'รอบเอว ของผู้ป่วย(CM.)',
           icon: Icon(Icons.people),
         ),
       ),
@@ -289,7 +338,7 @@ class _LabResults extends State<LabResults> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 70,
+        top: 30,
       ),
       child: TextFormField(
         onChanged: (value) {
@@ -581,22 +630,33 @@ class _LabResults extends State<LabResults> {
       onPressed: () {
         if (_labResultsFrom.currentState.validate()) {
           try {
+            print(_labResultsModels.height);
+            print(_labResultsModels.bmi);
+            print(_labResultsModels.waistline);
+            print(_labResultsModels.weight);
             showDialog(
                     context: context,
                     builder: (BuildContext context) => alertMessage(
                         context, "ยืนยันการบันทึกผลตรวจจากห้องทดลอง"))
                 .then((value) async {
               if (value == "CONFIRM") {
-                if (_labResultsModels.height != null) {
+                if (height.text != null) {
                   await FirebaseFirestore.instance
                       .collection("MobileUser")
                       .doc(widget.patienDataId.id)
-                      .update({"Height": _labResultsModels.height});
-                } else if (_labResultsModels.weight != null) {
+                      .update({"Height": height.text});
+                }
+                if (weight.text != null) {
                   await FirebaseFirestore.instance
                       .collection("MobileUser")
                       .doc(widget.patienDataId.id)
-                      .update({"Weight": _labResultsModels.weight});
+                      .update({"Weight": weight.text});
+                }
+                if (waistline.text != null) {
+                  await FirebaseFirestore.instance
+                      .collection("MobileUser")
+                      .doc(widget.patienDataId.id)
+                      .update({"Waistline": waistline.text});
                 }
 
                 await FirebaseFirestore.instance
@@ -607,6 +667,7 @@ class _LabResults extends State<LabResults> {
                     .set({
                   "Height": _labResultsModels.height,
                   "Weight": _labResultsModels.weight,
+                  "Waistline": _labResultsModels.waistline,
                   "Bmi": _labResultsModels.bmi,
                   "Pulse": _labResultsModels.pulse,
                   "Breat": _labResultsModels.breathe,

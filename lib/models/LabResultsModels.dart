@@ -1,6 +1,7 @@
 class LabResultsModels {
   String weight;
   String height;
+  String waistline;
   String bmi;
   String pulse;
   String breathe;
@@ -25,6 +26,7 @@ class LabResultsModels {
       {this.weight,
       this.height,
       this.bmi,
+      this.waistline,
       this.pulse,
       this.breathe,
       this.bloodpressure,

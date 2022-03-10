@@ -28,6 +28,7 @@ class LabResultsDetail extends StatelessWidget {
                 children: [
                   Text("น้ำหนักของผู้ป่วย:  ${labResultsData["Weight"]} KG."),
                   Text("ส่วนสูงของผู้ป่วย:  ${labResultsData["Height"]} CM."),
+                  Text("รอบเอวของผู้ป่วย:  ${labResultsData["Waistline"]} CM."),
                   Text("ค่า BMI ของผู้ป่วย:  ${labResultsData["Bmi"]}"),
                   Text(
                       "ตรวจชีพจรณ์(ครั่ง/ต่อนาที):  ${labResultsData["Pulse"]} KG."),
