@@ -1,6 +1,7 @@
 import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/function/checkRole.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
+import 'package:appilcation_for_ncds/widgetShare/StatusPatient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,35 @@ Widget buildPatientPage(BuildContext context, bool role) {
                         //   radius: 48, // Image radius
                         //   backgroundImage: getImg(snap["Img"]),
                         // ),
-                        title: Text("${snap["Firstname"]}"),
+                        title: Row(
+                          children: [
+                            Column(
+                              children: [
+                                // Text(
+                                //   "${snap["Firstname"]}",
+                                //   softWrap: false,
+                                // ),
+                                Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "${snap["Firstname"]}",
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                statusAlert(document.id),
+                              ],
+                            ),
+                          ],
+                        ),
                         subtitle: Text("${snap["Lastname"]}"),
                         trailing: DecoratedBox(
                           decoration: BoxDecoration(
@@ -63,18 +92,7 @@ Widget buildPatientPage(BuildContext context, bool role) {
                             child: Text(checkDisease(snap["NCDs"])),
                           ),
                         ),
-                        // ListView.builder(
-                        //   itemCount: snap["NCDs"].length,
-                        //   itemBuilder: (context, i) {
-                        //     return showDisease(context, snap["NCDs"][i]);
-                        //   },
-                        // ),
                         onTap: () {
-                          // if (role == "hospital") {
-                          //   isHospital = true;
-                          // } else {
-                          //   isHospital = false;
-                          // }
                           Navigator.push(
                             context,
                             MaterialPageRoute(
