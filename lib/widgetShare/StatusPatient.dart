@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+bool alert;
+
 Widget statusAlert(String id) {
-  bool alert;
   int fatalert;
   int saltalert;
   int sweetalert;
@@ -13,43 +14,89 @@ Widget statusAlert(String id) {
         .doc(id)
         .collection("eatalert")
         .snapshots(),
-    builder: ((BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (snapshot.hasData) {
-        // snapshot.data.docs.map((e) {
-        //   alert = e.get("alert");
-        //   fatalert = e.get("fatalert");
-        //   saltalert = e.get("saltalert");
-        //   sweetalert = e.get("sweetalert");
-        // });
-        // print(
-        //     "this is from map {$alert},{$fatalert},{$saltalert},{$sweetalert}");
-        if (snapshot.data.docs.isEmpty) {
+    builder:
+        ((BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotFood) {
+      if (snapshotFood.hasData) {
+        if (snapshotFood.data.docs.isEmpty) {
           return Text("");
         }
-        print(snapshot.data.docs.first.data());
-        return IconButton(
-          onPressed: () => {
-            showDialog(
-                context: context,
-                builder: (BuildContext conttext) => showStaus(
-                    snapshot.data.docs.first.get("fatalert"),
-                    snapshot.data.docs.first.get("saltalert"),
-                    snapshot.data.docs.first.get("sweetalert")))
-          },
-          icon: Icon(
-            Icons.bus_alert_sharp,
-            color: isAlert(
-              snapshot.data.docs.first.get("alert"),
-            ),
-          ),
-        );
+        return StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("MobileUser")
+                .doc(id)
+                .collection("moodalert")
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshotMood) {
+              if (snapshotMood.hasData) {
+                if (snapshotMood.data.docs.isEmpty) {
+                  alert = snapshotFood.data.docs.last.get("alert");
+                  return IconButton(
+                    onPressed: () => {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext conttext) => showStaus(
+                              snapshotFood.data.docs.last.get("fatalert"),
+                              snapshotFood.data.docs.last.get("saltalert"),
+                              snapshotFood.data.docs.last.get("sweetalert"),
+                              null))
+                    },
+                    icon: Icon(
+                      Icons.bus_alert_sharp,
+                      color: isAlert(
+                        alert,
+                      ),
+                    ),
+                  );
+                }
+                alert = snapshotFood.data.docs.last.get("alert") ||
+                    snapshotMood.data.docs.last.get("alert");
+                int mood;
+                return IconButton(
+                  onPressed: () => {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext conttext) => showStaus(
+                            snapshotFood.data.docs.last.get("fatalert"),
+                            snapshotFood.data.docs.last.get("saltalert"),
+                            snapshotFood.data.docs.last.get("sweetalert"),
+                            snapshotMood.data.docs.last.get("moodtoday")))
+                  },
+                  icon: Icon(
+                    Icons.bus_alert_sharp,
+                    color: isAlert(
+                      alert,
+                    ),
+                  ),
+                );
+              } else {
+                return Text("กำลังโหลด");
+              }
+            });
+        // IconButton(
+        //   onPressed: () => {
+        //     showDialog(
+        //         context: context,
+        //         builder: (BuildContext conttext) => showStaus(
+        //             snapshot.data.docs.last.get("fatalert"),
+        //             snapshot.data.docs.last.get("saltalert"),
+        //             snapshot.data.docs.last.get("sweetalert"),
+        //             id))
+        //   },
+        //   icon: Icon(
+        //     Icons.bus_alert_sharp,
+        //     color: isAlert(
+        //       alert,
+        //     ),
+        //   ),
+        // );
       }
       return Text("กำลังโหลด");
     }),
   );
 }
 
-Widget showStaus(int fatalert, int saltalert, int sweetalert) {
+Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert) {
   return AlertDialog(
     // title: Text("สถานะ"),
     content: SizedBox(
@@ -178,6 +225,40 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert) {
                 ),
                 Text("(ในวันนี้)",
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        color: moodstatus(moodalert)[1],
+                        size: 15,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "อารมณ์ในวันนี้",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 25),
+                      child: Text(
+                        moodstatus(moodalert)[0],
+                        style: TextStyle(fontSize: 14, color: Colors.black38),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -211,18 +292,20 @@ isAlert(bool isalert) {
   }
 }
 
-moodstatus(var val) {
-  if (val != "null") {
-    if (num.parse(val) <= 4) {
+moodstatus(int val) {
+  if (val != null) {
+    if (val <= 4) {
       return ["เครียดน้อย", Colors.green];
-    } else if (num.parse(val) >= 5 && num.parse(val) <= 7) {
+    } else if (val >= 5 && val <= 7) {
       return ["เครียดปานกลาง", Colors.yellow.shade700];
-    } else if (num.parse(val) >= 8 && num.parse(val) <= 9) {
+    } else if (val >= 8 && val <= 9) {
       return ["เครียดมาก", Colors.orange];
-    } else if (num.parse(val) >= 10) {
+    } else if (val >= 10) {
       return ["เครียดมากที่สุด", Colors.red];
     }
   } else {
     return ["ไม่มีข้อมูล", Colors.grey];
   }
 }
+
+getalert(String id) {}

@@ -273,51 +273,6 @@ class _adminMainState extends State<adminMain> {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: UserLog(),
-                            // SingleChildScrollView(
-                            //   child: SizedBox(
-                            //     width: double.infinity,
-                            //     child: DataTable(
-                            //       columns: const <DataColumn>[
-                            //         DataColumn(
-                            //           label: Text(
-                            //             'ชื่อ',
-                            //             style: TextStyle(
-                            //                 fontStyle: FontStyle.italic),
-                            //           ),
-                            //         ),
-                            //         DataColumn(
-                            //           label: Text(
-                            //             'อีเมล',
-                            //             style: TextStyle(
-                            //                 fontStyle: FontStyle.italic),
-                            //           ),
-                            //         ),
-                            //         DataColumn(
-                            //           label: Text(
-                            //             'ตำแหน่ง',
-                            //             style: TextStyle(
-                            //                 fontStyle: FontStyle.italic),
-                            //           ),
-                            //         ),
-                            //         DataColumn(
-                            //           label: Text(
-                            //             'เวลาเข้าใช้งาน',
-                            //             style: TextStyle(
-                            //                 fontStyle: FontStyle.italic),
-                            //           ),
-                            //         ),
-                            //         // DataColumn(
-                            //         //   label: Text(
-                            //         //     'สถานะ',
-                            //         //     style: TextStyle(
-                            //         //         fontStyle: FontStyle.italic),
-                            //         //   ),
-                            //         // ),
-                            //       ],
-                            // rows: _buildList(context, snapshot.data.docs),
-                            //     ),
-                            //   ),
-                            // ),
                           );
                         } else {
                           return LinearProgressIndicator();
@@ -453,9 +408,6 @@ class _adminMainState extends State<adminMain> {
                     // });
                   },
                 );
-                // print(listDataChart.toSet().toList());
-                // calScoreFromList(listDataChart);
-                // countScore(listDataChart);
               },
             );
           },

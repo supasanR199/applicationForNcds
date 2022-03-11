@@ -49,63 +49,74 @@ class _UserLogState extends State<UserLog> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            DropdownButtonFormField<String>(
-              value: _value,
-              decoration: InputDecoration(
-                labelText: 'ชื่อ',
-                icon: Icon(Icons.people),
-              ),
-              items: selectName.map((String values) {
-                print(values);
-                return DropdownMenuItem<String>(
-                  value: values,
-                  child: Text(values),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  getLog = getFilter(getLogDe, newValue, "Firstname");
-                });
-              },
-            ),
-            DropdownButtonFormField<String>(
-              value: _valueEmail,
-              decoration: InputDecoration(
-                labelText: 'email',
-                icon: Icon(Icons.people),
-              ),
-              items: selectEmail.map((String values) {
-                // print(values);
-                return DropdownMenuItem<String>(
-                  value: values,
-                  child: Text(values),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  getLog = getFilter(getLogDe, newValue, "email");
-                });
-              },
-            ),
-            DropdownButtonFormField<String>(
-              value: _value,
-              decoration: InputDecoration(
-                labelText: 'ตำแหน่ง',
-                icon: Icon(Icons.people),
-              ),
-              items: selectRole.map((String values) {
-                print(values);
-                return DropdownMenuItem<String>(
-                  value: values,
-                  child: Text(values),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                // print(newValue);
-                setState(() {
-                  getLog = getFilter(getLogDe, newValue, "role");
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _value,
+                    decoration: InputDecoration(
+                      labelText: 'ชื่อ',
+                      icon: Icon(Icons.people),
+                    ),
+                    items: selectName.map((String values) {
+                      print(values);
+                      return DropdownMenuItem<String>(
+                        value: values,
+                        child: Text(values),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        getLog = getFilter(getLogDe, newValue, "Firstname");
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _valueEmail,
+                    decoration: InputDecoration(
+                      labelText: 'email',
+                      icon: Icon(Icons.people),
+                    ),
+                    items: selectEmail.map((String values) {
+                      // print(values);
+                      return DropdownMenuItem<String>(
+                        value: values,
+                        child: Text(values),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        getLog = getFilter(getLogDe, newValue, "email");
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _value,
+                    decoration: InputDecoration(
+                      labelText: 'ตำแหน่ง',
+                      icon: Icon(Icons.people),
+                    ),
+                    items: selectRole.map((String values) {
+                      print(values);
+                      return DropdownMenuItem<String>(
+                        value: values,
+                        child: Text(values),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      // print(newValue);
+                      setState(() {
+                        getLog = getFilter(getLogDe, newValue, "role");
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               width: double.infinity,
