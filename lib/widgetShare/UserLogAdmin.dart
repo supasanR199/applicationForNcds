@@ -60,7 +60,7 @@ class _UserLogState extends State<UserLog> {
                       icon: Icon(Icons.people),
                     ),
                     items: selectName.map((String values) {
-                      print(values);
+                      // print(values);
                       return DropdownMenuItem<String>(
                         value: values,
                         child: Text(values),
@@ -102,7 +102,7 @@ class _UserLogState extends State<UserLog> {
                       icon: Icon(Icons.people),
                     ),
                     items: selectRole.map((String values) {
-                      print(values);
+                      // print(values);
                       return DropdownMenuItem<String>(
                         value: values,
                         child: Text(values),

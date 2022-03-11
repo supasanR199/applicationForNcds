@@ -798,8 +798,7 @@ class _MainPage extends State<MainPage> {
                             var peerHas = document.id.hashCode;
                             var currentId = auth.currentUser.uid;
                             var peerId = document.id;
-                            print(currentHas);
-                            print(peerHas);
+                          
                             if (currentHas <= peerHas) {
                               groupChatId = '$currentId-$peerId';
                             } else {
@@ -869,9 +868,9 @@ class _MainPage extends State<MainPage> {
                   title: Text('ออกจากระบบ'),
                   onTap: () async {
                     logoutTime = DateTime.now();
-                    print(_userLogId.isEmpty);
+                   
                     if (_userLogId.isEmpty) {
-                      print(_userLogId.isEmpty);
+                     
                     } else {
                       logoutTime = DateTime.now();
                       await FirebaseFirestore.instance
@@ -926,7 +925,7 @@ class _MainPage extends State<MainPage> {
         .orderBy('timestamp', descending: false)
         .get()) as Future;
     getChat.then((value) {
-      print(value);
+     
     });
   }
 }

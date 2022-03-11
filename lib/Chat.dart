@@ -83,7 +83,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     isCurrentUser = false;
                                   }
 
-                                  print(widget.chatTo['Firstname']);
+                                  // print(widget.chatTo['Firstname']);
                                   return ChatBubble(
                                     text: snap["content"],
                                     isCurrentUser: isCurrentUser,

@@ -110,7 +110,7 @@ class _adminMainState extends State<adminMain> {
                   icon: Icon(Icons.beach_access_sharp),
                 ),
                 Tab(
-                  text: 'ประวัติการเข้าใช้งาน',
+                  text: 'ประเมินการใช้งาน',
                   icon: Icon(Icons.beach_access_sharp),
                 ),
               ],
@@ -194,10 +194,10 @@ class _adminMainState extends State<adminMain> {
                                     docId = (snapshot.data.docs
                                         .map((e) => e.reference)
                                         .toList());
-                                    print(
-                                        "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                            document.id +
-                                            ")");
+                                    // print(
+                                    //     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                    //         document.id +
+                                    //         ")");
                                     // for find index in DocmentReference.
                                     for (int i = 0; i < docId.length; i++) {
                                       if (docId[i].toString() ==
@@ -359,7 +359,7 @@ class _adminMainState extends State<adminMain> {
                       children: [
                         Expanded(
                           child: Text(
-                            "อนุมัติเข้าใข้งาน",
+                            "ประเมินการใช้งาน",
                             style: TextStyle(fontSize: 40),
                             textAlign: TextAlign.center,
                           ),

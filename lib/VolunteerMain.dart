@@ -70,7 +70,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
   }
 
   Widget buildVolunteerDataPage(context) {
-    print(widget.volunteerData["isBoss"]);
+  
     if (widget.volunteerData["isBoss"] == null) {
       FirebaseFirestore.instance
           .collection("MobileUser")

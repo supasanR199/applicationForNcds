@@ -100,7 +100,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                           },
                           onChange: (value) {
                             setState(() {
-                              print(value.value);
+                              // print(value.value);
                               _valueTime = value.value;
                               _remindeDrugModels.time = _valueTime;
                             });
@@ -152,7 +152,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                           },
                           onSaved: (value) {
                             setState(() {
-                              print(value);
+                              // print(value);
                               _remindeDrugModels.timeToEat = value;
                               // myValue = value.toString();
                             });
@@ -195,7 +195,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                                     selectedDate = selected;
                                     exdDate.text =
                                         myDateFormat.format(selected);
-                                    print(selected);
+                                    // print(selected);
                                     _remindeDrugModels.exdDate = selectedDate;
                                   });
                                 }

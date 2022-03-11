@@ -98,21 +98,21 @@ class _Register extends State<Register> {
           );
         }).toList(),
         onChanged: (newValue) {
-          print(newValue);
+         
           setState(() {
             _value = newValue;
             _registerModels.roles = _value;
           });
         },
         validator: (value) {
-          print('validate');
+         
           if (value.isNotEmpty) {
             if (value.toString() == 'รพสต.') {
               _registerModels.roles = 'hospital';
-              print(_registerModels.roles);
+             
             } else if (value.toString() == 'บุคลากรแพทย์') {
               _registerModels.roles = 'medicalpersonnel';
-              print(_registerModels.roles);
+             
             }
           }
           if (value.isEmpty || value.toString() == null) {
@@ -133,7 +133,7 @@ class _Register extends State<Register> {
       ),
       child: TextFormField(
         onChanged: (value) {
-          print(value);
+         
           _registerModels.name = value;
         },
         controller: name,
@@ -155,7 +155,7 @@ class _Register extends State<Register> {
       ),
       child: TextFormField(
         onChanged: (value) {
-          print(value);
+        
           _registerModels.surname = value;
         },
         controller: surname,
@@ -345,8 +345,7 @@ class _Register extends State<Register> {
                 context: context,
                 builder: (BuildContext context) =>
                     aletLogin(context, e.toString()));
-            print(e.message);
-            print(validateEmail(_registerModels.email));
+            
           }
         }
         // _registerModels.name  = name.text;

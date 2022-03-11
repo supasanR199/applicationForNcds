@@ -29,7 +29,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
       // }
     });
     KeepChoieAndSocre keepsumall = KeepChoieAndSocre(element, (scoreList.sum));
-    print("${scoreList.sum} / ${scoreList.length} ${scoreList.toList()}");
+    // print("${scoreList.sum} / ${scoreList.length} ${scoreList.toList()}");
     keepDataReturn.add(keepsumall);
   });
   returnList.add(
@@ -37,7 +37,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
   );
   returnList.add(
       scoreList.reduce((curr, next) => curr > next ? curr : next).toDouble());
-  print("show snap ${returnList[0]}${returnList[1]}");
+  // print("show snap ${returnList[0]}${returnList[1]}");
   return returnList;
 }
 
@@ -58,12 +58,12 @@ List getSumAllChoiceFood(List<DairyModel> snap, List<String> choice) {
           // }
           // debugger();
           if (elements.getByName(element) != "null") {
-            print((elements.getByName(element)));
+            // print((elements.getByName(element)));
             KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
                 element, int.parse(elements.getByName(element)).toDouble());
             keepData.add(_keepsweet);
           } else {
-            print((elements.getByName(element)));
+            // print((elements.getByName(element)));
             KeepChoieAndSocre _keepsweets = KeepChoieAndSocre(element, 0);
             keepData.add(_keepsweets);
           }
@@ -86,7 +86,7 @@ List getSumAllChoiceFood(List<DairyModel> snap, List<String> choice) {
   );
   returnList.add(
       scoreList.reduce((curr, next) => curr > next ? curr : next).toDouble());
-  print("show snap ${returnList[0]}${returnList[1]}");
+  // print("show snap ${returnList[0]}${returnList[1]}");
   return returnList;
 }
 
@@ -103,19 +103,19 @@ List<DairyModel> getValueFromDateRang(
   //   DairyModel model = DairyModel.fromMap(element.data());
   //   getAllValue.add(model);
   // });
-  print("keepseethis ${snap.toList()}");
+  // print("keepseethis ${snap.toList()}");
   dateRang.forEach((element) {
     dateTimeStr.add(convertDateToString(element.toString()));
   });
   var counter = 0;
-  print("date is ${dateTimeStr.length}");
+  // print("date is ${dateTimeStr.length}");
   dateTimeStr.forEach((element) {
     snap.forEach((e) {
       if (element == e.date) {
-        print(e.date);
+        // print(e.date);
         getValueFromRangDates.add(e);
         counter++;
-        print(counter);
+        // print(counter);
       } else {}
     });
     // Iterable<DairyModel> getIter =

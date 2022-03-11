@@ -89,7 +89,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_0.score = newValue;
                           evaTopic_0.topic =
                               "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย";
@@ -115,7 +115,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_1.score = newValue;
                           evaTopic_1.topic =
                               "ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น";
@@ -165,7 +165,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_3.score = newValue;
                           evaTopic_3.topic =
                               "หน้าจอออกแบบสวยงาม ดึงดูดการใช้งานได้ดี";
@@ -191,7 +191,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_4.score = newValue;
                           evaTopic_4.topic =
                               "แอปพลิเคชันมีความง่ายต่อการบันทึกผลการตรวจของผู้ป่วย";
@@ -217,7 +217,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_5.score = newValue;
                           evaTopic_5.topic =
                               "ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา";
@@ -242,7 +242,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_6.score = newValue;
                           evaTopic_6.topic =
                               "แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้";
@@ -268,7 +268,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_7.score = newValue;
                           evaTopic_7.topic =
                               "การโต้ตอบระหว่างผู้ใช้งานกับแอปพลิเคชัน มีความสะดวกและเข้าใจง่าย";

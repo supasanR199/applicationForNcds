@@ -541,7 +541,7 @@ class _PatientMainState extends State<PatientMain> {
   String listTime(List ncds) {
     List ncdsListThai = [];
     for (var i = 0; i < ncds.length; i++) {
-      print(ncds[i]);
+     
       if (ncds[i] == "morning") {
         ncdsListThai.add("เช้า");
       } else if (ncds[i] == "affternoon") {

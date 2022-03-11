@@ -8,6 +8,6 @@ List<QueryDocumentSnapshot> getFilter(
       getReturn.add(element);
     }
   });
-  print(getReturn.toList());
+  // print(getReturn.toList());
   return getReturn;
 }

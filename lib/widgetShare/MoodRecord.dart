@@ -52,7 +52,7 @@ class _MoodRecordState extends State<MoodRecord> {
       selectDate.clear();
       listforDate.forEach((e) {
         setState(() {
-          print(e.date);
+          // print(e.date);
           selectDate.add(e.date);
         });
       });
@@ -191,7 +191,7 @@ class _MoodRecordState extends State<MoodRecord> {
                                       icon: Icon(Icons.people),
                                     ),
                                     items: selectDate.map((String values) {
-                                      print(values);
+                                      // print(values);
                                       return DropdownMenuItem<String>(
                                         value: values,
                                         child: Text(values),

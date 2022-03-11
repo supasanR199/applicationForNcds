@@ -84,7 +84,7 @@ class _EvaulateSoftwareForMd extends State<EvaulateSoftwareForMd> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_0.score = newValue;
                           evaTopic_0.topic =
                               "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย";
@@ -110,7 +110,7 @@ class _EvaulateSoftwareForMd extends State<EvaulateSoftwareForMd> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_1.score = newValue;
                           evaTopic_1.topic =
                               "ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น";
@@ -160,7 +160,7 @@ class _EvaulateSoftwareForMd extends State<EvaulateSoftwareForMd> {
                         display: 'display',
                         data: data,
                         onSaved: (newValue) {
-                          print(newValue);
+                          // print(newValue);
                           evaTopic_3.score = newValue;
                           evaTopic_3.topic =
                               "ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา";

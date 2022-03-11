@@ -67,7 +67,7 @@ Widget showDateRang(
             } else {
               dateBetween = getDaysInBetween(startDate, endDate);
             }
-            print(getValueFromDateRang(snap, dateBetween));
+            // print(getValueFromDateRang(snap, dateBetween));
             Navigator.pop(context, getValueFromDateRang(snap, dateBetween));
 
             _datePickerController.selectedRange = null;

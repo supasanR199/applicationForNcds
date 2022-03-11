@@ -37,7 +37,7 @@ class _StartPageState extends State<StartPage> {
         _prefService.readCache("password").then((value) {
           getPassword = value;
         });
-        print(_prefService.readCache("password").toString());
+        
         await Firebase.initializeApp();
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: value, password: getPassword)
@@ -200,10 +200,9 @@ class _StartPageState extends State<StartPage> {
                 .get()
                 .then((value) {
               userData = value.data();
-              print(value);
+            
             });
-            print(userData["role"]);
-            print(userData["status"]);
+       
             if (userData["status"] == true) {
               if (userData["role"] == "admin") {
                 Navigator.pushNamed(context, '/adminmain');

@@ -89,7 +89,7 @@ class _FoodRecordState extends State<FoodRecord> {
       selectDate.clear();
       listforDate.forEach((e) {
         setState(() {
-          print(e.date);
+          // print(e.date);
           selectDate.add(e.date);
         });
       });
@@ -174,7 +174,7 @@ class _FoodRecordState extends State<FoodRecord> {
                                         onPressed: () {
                                           setState(() {
                                             // listitem.clear();
-                                            print(listforDf);
+                                            // print(listforDf);
                                             // listitem.clear();
                                             listitem = listforDf;
                                             crateAtDate.text = "";
@@ -219,7 +219,7 @@ class _FoodRecordState extends State<FoodRecord> {
                                     icon: Icon(Icons.people),
                                   ),
                                   items: selectDate.map((String values) {
-                                    print(values);
+                                    // print(values);
                                     return DropdownMenuItem<String>(
                                       value: values,
                                       child: Text(values),

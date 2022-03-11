@@ -33,9 +33,8 @@ String calCreateDay(String _date) {
   String pattern = "dd-MM-yyyy";
   DateTime date = DateFormat(pattern).parse(_date);
   DateTime today = DateTime.now();
-  print(today.day);
-  print(date.day);
-  print("create at $date");
+ 
+ 
   var daydiff = today.day - date.day;
   var day = daydiff.toString().replaceAll("-", "");
   return day;
@@ -70,7 +69,7 @@ int calTimeInUse(DateTime loginTime, DateTime logoutTime) {
   //     DateTime.fromMillisecondsSinceEpoch(logoutTime.millisecondsSinceEpoch);
   // var _loginTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_loginTimeData);
   // var _logoutTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_logoutTimeData);
-  print((logoutTime.difference(loginTime).inHours / 24).round());
+ 
   return (logoutTime.difference(loginTime).inHours / 24).round();
 }
 

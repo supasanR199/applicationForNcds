@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           future: _initialization,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print("Error");
+              // print("Error");
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return buildMaterialApp();

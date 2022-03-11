@@ -184,9 +184,9 @@ class _MedicaMainState extends State<MedicaMain> {
                   title: Text('ออกจากระบบ'),
                   onTap: () async {
                     logoutTime = DateTime.now();
-                    print(_userLogId.isEmpty);
+                   
                     if (_userLogId.isEmpty) {
-                      print(_userLogId.isEmpty);
+                    
                     } else {
                       logoutTime = DateTime.now();
                       await FirebaseFirestore.instance

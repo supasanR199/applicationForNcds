@@ -223,7 +223,7 @@ class _AddPost extends State<AddPost> {
                       _allBMI = "all";
                       _postContentModels.recommentForBMI = 0;
                     }
-                    print(_allBMI);
+                    // print(_allBMI);
                     _allBMI = value;
                   });
                 },
@@ -306,7 +306,7 @@ class _AddPost extends State<AddPost> {
               value: _valueNCDs,
               choiceItems: frameworks,
               onChange: (state) => setState(() {
-                print(state.value);
+                // print(state.value);
                 _valueNCDs = state.value;
                 _postContentModels.recommentForDieases = state.value;
               }),
