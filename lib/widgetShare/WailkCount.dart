@@ -1,3 +1,5 @@
+import 'package:appilcation_for_ncds/function/GetDataChart.dart';
+import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -12,22 +14,25 @@ class WalkCount extends StatefulWidget {
 }
 
 class _WalkCountState extends State<WalkCount> {
-  final List<ChartData> chartData = [
-    ChartData('David', 25, Color.fromRGBO(9, 0, 136, 1)),
-    ChartData('Steve', 38, Color.fromRGBO(147, 0, 119, 1)),
-    ChartData('Jack', 34, Color.fromRGBO(228, 0, 124, 1)),
-    ChartData('Others', 52, Color.fromRGBO(255, 189, 57, 1))
-  ];
+  final List<KeepChoieAndSocre> chartData = List();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
       future: FirebaseFirestore.instance
           .collection("MobileUser")
           .doc(widget.patientId.id)
-          .collection("diary")
+          .collection("sensordiary")
           .get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
+          // print();
+          // showStep.choice = snapshot.data.docs.last.get("Date");
+          // showStep.score  = snapshot.data.docs.last.get("Step");
+          KeepChoieAndSocre showStep = KeepChoieAndSocre(
+            snapshot.data.docs.last.get("Date"),
+            snapshot.data.docs.last.get("Step"),
+          );
+          chartData.add(showStep);
           return Card(
             child: SizedBox(
               height: 700,
@@ -35,9 +40,6 @@ class _WalkCountState extends State<WalkCount> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // Center(
-                  //   child: Text("ยังไม่มีการบันทึกประจำวัน"),
-                  // ),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -48,13 +50,23 @@ class _WalkCountState extends State<WalkCount> {
                       ),
                     ),
                   ),
+                  Center(
+                    child: Text(
+                      "จำนวนก้าวเดินล่าสุดเมื่อวันที่ :  ${snapshot.data.docs.last.get("Date")}",
+                      style: TextStyle(fontSize: 14, color: Colors.black38),
+                    ),
+                  ),
                   SfCircularChart(series: <CircularSeries>[
-                    // Renders doughnut chart
-                    DoughnutSeries<ChartData, String>(
+                    RadialBarSeries<KeepChoieAndSocre, String>(
                         dataSource: chartData,
-                        pointColorMapper: (ChartData data, _) => data.color,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y)
+                        xValueMapper: (KeepChoieAndSocre data, _) =>
+                            data.choice,
+                        yValueMapper: (KeepChoieAndSocre data, _) => data.score,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                        cornerStyle: CornerStyle.bothCurve,
+                        maximumValue: 100,
+                        innerRadius: '80%',
+                        strokeWidth: 5.0),
                   ])
                 ],
               ),
@@ -66,11 +78,4 @@ class _WalkCountState extends State<WalkCount> {
       },
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, [this.color]);
-  final String x;
-  final double y;
-  final Color color;
 }
