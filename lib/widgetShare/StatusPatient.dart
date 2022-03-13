@@ -39,6 +39,8 @@ Widget statusAlert(String id) {
                               snapshotFood.data.docs.last.get("fatalert"),
                               snapshotFood.data.docs.last.get("saltalert"),
                               snapshotFood.data.docs.last.get("sweetalert"),
+                              null,
+                              snapshotFood.data.docs.last.id,
                               null))
                     },
                     icon: Icon(
@@ -55,12 +57,15 @@ Widget statusAlert(String id) {
                 return IconButton(
                   onPressed: () => {
                     showDialog(
-                        context: context,
-                        builder: (BuildContext conttext) => showStaus(
-                            snapshotFood.data.docs.last.get("fatalert"),
-                            snapshotFood.data.docs.last.get("saltalert"),
-                            snapshotFood.data.docs.last.get("sweetalert"),
-                            snapshotMood.data.docs.last.get("moodtoday")))
+                      context: context,
+                      builder: (BuildContext conttext) => showStaus(
+                          snapshotFood.data.docs.last.get("fatalert"),
+                          snapshotFood.data.docs.last.get("saltalert"),
+                          snapshotFood.data.docs.last.get("sweetalert"),
+                          snapshotMood.data.docs.last.get("moodtoday"),
+                          snapshotFood.data.docs.last.id,
+                          snapshotMood.data.docs.last.id),
+                    ),
                   },
                   icon: Icon(
                     Icons.bus_alert_sharp,
@@ -96,7 +101,9 @@ Widget statusAlert(String id) {
   );
 }
 
-Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert) {
+Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
+    String dayFood, String dayMood) {
+  // print(getDate(dayFood));
   return AlertDialog(
     // title: Text("สถานะ"),
     content: SizedBox(
@@ -115,7 +122,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert) {
                     fontSize: 18,
                   ),
                 ),
-                Text("(ในเดือนนี้)",
+                Text("(ในเดือน $dayFood)",
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
               ],
             ),
@@ -223,7 +230,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert) {
                     fontSize: 18,
                   ),
                 ),
-                Text("(ในวันนี้)",
+                Text("(ในวัน $dayMood)",
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -237,7 +244,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert) {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
-                          "อารมณ์ในวันนี้",
+                          "แบบทดสอบอารมณ์",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -308,4 +315,7 @@ moodstatus(int val) {
   }
 }
 
-getalert(String id) {}
+getDate(String mount) {
+  DateTime dateTime = DateTime.parse(mount + "-1");
+  print(dateTime);
+}

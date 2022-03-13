@@ -4,6 +4,7 @@ import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/MoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowVisiter.dart';
+import 'package:appilcation_for_ncds/widgetShare/WailkCount.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -86,8 +87,10 @@ class _PatientMainState extends State<PatientMain> {
                 child: buildPatientPage(context),
               ),
               Center(
-                  // child: buildPostPage(context),
-                  ),
+                child: WalkCount(
+                  patientId: widget.patienDataId,
+                ),
+              ),
               Center(
                 child: FoodRecord(
                   patienId: widget.patienDataId,
@@ -541,7 +544,6 @@ class _PatientMainState extends State<PatientMain> {
   String listTime(List ncds) {
     List ncdsListThai = [];
     for (var i = 0; i < ncds.length; i++) {
-     
       if (ncds[i] == "morning") {
         ncdsListThai.add("เช้า");
       } else if (ncds[i] == "affternoon") {
