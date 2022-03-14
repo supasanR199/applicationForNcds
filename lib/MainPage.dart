@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
+import 'package:appilcation_for_ncds/function/checkChat.dart';
+import 'package:appilcation_for_ncds/function/checkRole.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +77,7 @@ class _MainPage extends State<MainPage> {
     if (auth.currentUser != null) {
       return DefaultTabController(
         initialIndex: 0,
-        length: 5,
+        length: 6,
         child: Container(
           child: Scaffold(
             backgroundColor: Color.fromRGBO(255, 211, 251, 1),
@@ -121,6 +123,10 @@ class _MainPage extends State<MainPage> {
                 indicatorColor: Color.fromRGBO(255, 211, 251, 1),
                 tabs: <Widget>[
                   Tab(
+                    text: 'ระบบด้วยรวม',
+                    icon: Icon(Icons.add_alert),
+                  ),
+                  Tab(
                     text: 'ผู้ป่วย',
                     icon: Icon(Icons.cloud_outlined),
                   ),
@@ -145,6 +151,9 @@ class _MainPage extends State<MainPage> {
             ),
             body: TabBarView(
               children: <Widget>[
+                Center(
+                  child: buildPatientPage(context, true),
+                ),
                 Center(
                   child: buildPatientPage(context, true),
                 ),
@@ -717,65 +726,6 @@ class _MainPage extends State<MainPage> {
                 ),
               ),
             ),
-            // Expanded(
-            //   child: StreamBuilder<QuerySnapshot>(
-            //     stream: FirebaseFirestore.instance
-            //         .collection("UserWeb")
-            //         .where("email", isNotEqualTo: auth.currentUser.email)
-            //         .snapshots(),
-            //     builder: (BuildContext context,
-            //         AsyncSnapshot<QuerySnapshot> snapshot) {
-            //       if (snapshot.hasData) {
-            //         return ListView(
-            //           children:
-            //               snapshot.data.docs.map((DocumentSnapshot document) {
-            //             Map<String, dynamic> snap =
-            //                 document.data() as Map<String, dynamic>;
-
-            //             return ListTile(
-            //               title:
-            //                   Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
-            //               subtitle: Text(""),
-            //               onTap: () async {
-            //                 var currentHas = auth.currentUser.uid.hashCode;
-            //                 var peerHas = document.id.hashCode;
-            //                 var currentId = auth.currentUser.uid;
-            //                 var peerId = document.id;
-            //                 print(currentHas);
-            //                 print(peerHas);
-            //                 if (currentHas <= peerHas) {
-            //                   groupChatId = '$currentId-$peerId';
-            //                 } else {
-            //                   groupChatId = '$peerId-$currentId';
-            //                 }
-            //                 await FirebaseFirestore.instance
-            //                     .collection("Messages")
-            //                     .doc(groupChatId);
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => ChatRoom(
-            //                       chatTo: snap,
-            //                       groupChatId: groupChatId,
-            //                       currentId: currentId,
-            //                       peerHas: peerHas,
-            //                       peerId: peerId,
-            //                       currentHas: currentHas,
-            //                     ),
-            //                   ),
-            //                 );
-            //               },
-            //             );
-            //           }).toList(),
-            //         );
-            //       } else {
-            //         return Center(
-            //           child: Text("กำลังโหลดข้อมูล"),
-            //         );
-            //       }
-            //     },
-            //   ),
-            // ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -784,45 +734,58 @@ class _MainPage extends State<MainPage> {
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        return ListTile(
-                          title:
-                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
-                          subtitle: Text(""),
-                          onTap: () async {
-                            var currentHas = auth.currentUser.uid.hashCode;
-                            var peerHas = document.id.hashCode;
-                            var currentId = auth.currentUser.uid;
-                            var peerId = document.id;
-                          
-                            if (currentHas <= peerHas) {
-                              groupChatId = '$currentId-$peerId';
-                            } else {
-                              groupChatId = '$peerId-$currentId';
-                            }
-                            await FirebaseFirestore.instance
-                                .collection("Messages")
-                                .doc(groupChatId);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChatRoom(
-                                  chatTo: snap,
-                                  groupChatId: groupChatId,
-                                  currentId: currentId,
-                                  peerHas: peerHas,
-                                  peerId: peerId,
-                                  currentHas: currentHas,
+                    return SizedBox(
+                      height: 500,
+                      width: 600,
+                      child: ListView(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> snap =
+                              document.data() as Map<String, dynamic>;
+                          var currentHas = auth.currentUser.uid.hashCode;
+                          var peerHas = document.id.hashCode;
+                          var currentId = auth.currentUser.uid;
+                          var peerId = document.id;
+                          if (currentHas <= peerHas) {
+                            groupChatId = '$currentId-$peerId';
+                          } else {
+                            groupChatId = '$peerId-$currentId';
+                          }
+                          return ListTile(
+                            title: Text(
+                                "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
+                            subtitle: checkChat(groupChatId),
+                            trailing: checkChatTime(groupChatId),
+                            onTap: () async {
+                              var currentHas = auth.currentUser.uid.hashCode;
+                              var peerHas = document.id.hashCode;
+                              var currentId = auth.currentUser.uid;
+                              var peerId = document.id;
+                              if (currentHas <= peerHas) {
+                                groupChatId = '$currentId-$peerId';
+                              } else {
+                                groupChatId = '$peerId-$currentId';
+                              }
+                              await FirebaseFirestore.instance
+                                  .collection("Messages")
+                                  .doc(groupChatId);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                    chatTo: snap,
+                                    groupChatId: groupChatId,
+                                    currentId: currentId,
+                                    peerHas: peerHas,
+                                    peerId: peerId,
+                                    currentHas: currentHas,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
                     );
                   } else {
                     return Center(
@@ -868,9 +831,8 @@ class _MainPage extends State<MainPage> {
                   title: Text('ออกจากระบบ'),
                   onTap: () async {
                     logoutTime = DateTime.now();
-                   
+
                     if (_userLogId.isEmpty) {
-                     
                     } else {
                       logoutTime = DateTime.now();
                       await FirebaseFirestore.instance
@@ -924,8 +886,6 @@ class _MainPage extends State<MainPage> {
         .collection(groupChatId)
         .orderBy('timestamp', descending: false)
         .get()) as Future;
-    getChat.then((value) {
-     
-    });
+    getChat.then((value) {});
   }
 }

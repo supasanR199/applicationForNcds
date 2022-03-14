@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 
 class ChatBubble extends StatelessWidget {
-  const ChatBubble({
+  ChatBubble({
     Key key,
     @required this.text,
     @required this.isCurrentUser,
     @required this.time,
     // @required this.peername
   }) : super(key: key);
-  final String text;
+  String text;
   final bool isCurrentUser;
   final int time;
   // final String peername;
 
   @override
   Widget build(BuildContext context) {
+    if (text == null) {
+      text = "";
+    }
     return Padding(
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(

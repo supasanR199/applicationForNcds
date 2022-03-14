@@ -211,7 +211,7 @@ Widget delectPost(BuildContext context, String id, String imgPath) {
                 .delete();
             await FirebaseStorage.instance.ref(imgPath).delete();
           } else if (value == 'CANCEL') {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           }
         });
       });

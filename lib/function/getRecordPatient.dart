@@ -196,3 +196,18 @@ Future<QuerySnapshot> getFutureData(String id) async {
       .get();
   return _returndata;
 }
+
+List<KeepChoieAndSocre> getStepFromDate(
+    List<KeepChoieAndSocre> getAll, String select) {
+  List<KeepChoieAndSocre> _listReturn = List();
+  Iterable<KeepChoieAndSocre> getItemFormDate;
+  debugger();
+  getAll.forEach((element) {
+    getItemFormDate = getAll.where((e) => e.choice.contains(select));
+  });
+  // print(getItemFormDate.toList());
+  getItemFormDate.forEach((element) {
+    _listReturn.add(element);
+  });
+  return _listReturn;
+}

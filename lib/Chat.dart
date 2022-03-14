@@ -129,36 +129,38 @@ class _ChatRoomState extends State<ChatRoom> {
                       ),
                       SizedBox(width: 5),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: FloatingActionButton(
                           onPressed: () async {
-                            var documentReference = await FirebaseFirestore
-                                .instance
-                                .collection('Messages')
-                                .doc(widget.groupChatId)
-                                .collection(widget.groupChatId)
-                                .doc(DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString());
-
-                            FirebaseFirestore.instance
-                                .runTransaction((transaction) async {
-                              await transaction.set(
-                                documentReference,
-                                {
-                                  'idFrom': widget.currentId,
-                                  'idTo': widget.peerId,
-                                  'timestamp': DateTime.now()
+                            if (chatContent != null) {
+                              var documentReference = await FirebaseFirestore
+                                  .instance
+                                  .collection('Messages')
+                                  .doc(widget.groupChatId)
+                                  .collection(widget.groupChatId)
+                                  .doc(DateTime.now()
                                       .millisecondsSinceEpoch
-                                      .toString(),
-                                  'content': chatContent,
-                                },
-                              );
-                            });
-                            _formChat.currentState.reset();
+                                      .toString());
+
+                              FirebaseFirestore.instance
+                                  .runTransaction((transaction) async {
+                                await transaction.set(
+                                  documentReference,
+                                  {
+                                    'idFrom': widget.currentId,
+                                    'idTo': widget.peerId,
+                                    'timestamp': DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString(),
+                                    'content': chatContent,
+                                  },
+                                );
+                              });
+                              _formChat.currentState.reset();
+                            }
                           },
                           // tooltip: 'Create',
-                          child: const Icon(Icons.send),
+                          child: Icon(Icons.send),
                         ),
                       ),
                     ],
