@@ -85,6 +85,7 @@ class _MainPage extends State<MainPage> {
               title: Text(
                 "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
                 style: TextStyle(color: Colors.black),
+                // textAlign: TextAlign.left,
               ),
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
