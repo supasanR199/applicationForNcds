@@ -364,8 +364,9 @@ class _AddPost extends State<AddPost> {
                     allowedExtensions: ['png', 'jpg'],
                     allowMultiple: false);
                 setState(() {
-                  fileName = widget.userData["role"] +
-                      Random().nextInt(1000).toString();
+                  fileName =  pickUp.files.first.name;
+                  // widget.userData["role"] +
+                  //     Random().nextInt(1000).toString();
                   fileBytes = pickUp.files.first.bytes;
                 });
                 // });
