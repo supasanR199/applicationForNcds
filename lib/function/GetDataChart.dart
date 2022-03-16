@@ -69,3 +69,25 @@ Future<List> getEvaluate() async {
   var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
   return getEva.docs;
 }
+
+getAllDataInSys(List<QueryDocumentSnapshot<Object>> listAllPatien) {
+  List getAlert = List();
+  // print(listAllPatien.toList());
+  listAllPatien.forEach((element) async {
+    var getFire = await FirebaseFirestore.instance
+        .collection("MobileUser")
+        .doc(element.id)
+        .collection("eatalert")
+        .get()
+        .then((value) {
+      print(value);
+      getAlert.add(value);
+    });
+    // getAlert.add(getFire);
+    // getFire.docs.forEach((element) {
+    //   print("this is get ${element}");
+    //   getAlert.add(element);
+    // });
+  });
+  // print("this is get ${getAlert.toList()}");
+}

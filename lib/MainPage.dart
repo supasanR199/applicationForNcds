@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:appilcation_for_ncds/function/checkChat.dart';
 import 'package:appilcation_for_ncds/function/checkRole.dart';
+import 'package:appilcation_for_ncds/widgetShare/AllStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
+import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/VolunteerMain.dart';
@@ -153,7 +155,7 @@ class _MainPage extends State<MainPage> {
             body: TabBarView(
               children: <Widget>[
                 Center(
-                  child: buildPatientPage(context, true),
+                  child: AllStarus(),
                 ),
                 Center(
                   child: buildPatientPage(context, true),
@@ -428,7 +430,15 @@ class _MainPage extends State<MainPage> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
+                        var path;
+                        if (snap["Img"] == null) {
+                          path =
+                              "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                        } else {
+                          path = snap["Img"];
+                        }
                         return ListTile(
+                            leading: proFileShow(context, path),
                             title: Row(children: [
                               Text("${snap["Firstname"]}"),
                               if (snap["isBoss"] == true) Text("(หัวหน้าอสม.)"),
@@ -752,7 +762,16 @@ class _MainPage extends State<MainPage> {
                           } else {
                             groupChatId = '$peerId-$currentId';
                           }
+
+                          var path;
+                          if (snap["Img"] == null) {
+                            path =
+                                "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                          } else {
+                            path = snap["Img"];
+                          }
                           return ListTile(
+                            leading: proFileShow(context, path),
                             title: Text(
                                 "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
                             subtitle: checkChat(groupChatId),
@@ -767,6 +786,9 @@ class _MainPage extends State<MainPage> {
                               } else {
                                 groupChatId = '$peerId-$currentId';
                               }
+
+                              print(
+                                  "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
                               await FirebaseFirestore.instance
                                   .collection("Messages")
                                   .doc(groupChatId);

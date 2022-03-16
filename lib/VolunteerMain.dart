@@ -70,7 +70,6 @@ class _VolunteerMainState extends State<VolunteerMain> {
   }
 
   Widget buildVolunteerDataPage(context) {
-  
     if (widget.volunteerData["isBoss"] == null) {
       FirebaseFirestore.instance
           .collection("MobileUser")
@@ -152,12 +151,17 @@ class _VolunteerMainState extends State<VolunteerMain> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Visibility(
                       child: buildButtonRegisterBoss(context),
                       visible: !widget.volunteerData["isBoss"],
+                    ),
+                    Visibility(
+                      child: buildButtonCancelBoss(context),
+                      visible: widget.volunteerData["isBoss"],
                     ),
                     Visibility(
                       child: buildButtonAddPatientForBoss(context),
@@ -208,36 +212,39 @@ class _VolunteerMainState extends State<VolunteerMain> {
   }
 
   Widget buildButtonCancelBoss(context) {
-    return RaisedButton(
-      color: Colors.green[100],
-      child: Text("ยกเลิกเป็นหัวหน้าอาสาสมัคร"),
-      padding: EdgeInsets.all(20),
-      onPressed: () {
-        try {
-          showDialog(
-                  context: context,
-                  builder: (BuildContext context) => alertMessage(context,
-                      "คุณต้องการกำหนดให้คุณ  ${widget.volunteerData["Firstname"]} เป็นหัวหน้าอสม. ใช้หรือไม่?"))
-              .then((value) async {
-            if (value == "CONFIRM") {
-              await FirebaseFirestore.instance
-                  .collection("MobileUser")
-                  .doc(widget.volunteerDataId.id)
-                  .update({"isBoss": false}).whenComplete(() {
-                showDialog(
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: RaisedButton(
+        color: Colors.red[100],
+        child: Text("ยกเลิกเป็นหัวหน้าอาสาสมัคร"),
+        padding: EdgeInsets.all(20),
+        onPressed: () {
+          try {
+            showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        alertMessage(context, "บันทึกสำเร็จ"));
-              });
-            }
-          });
-        } on FirebaseException catch (e) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) =>
-                  alertMessage(context, e.toString()));
-        }
-      },
+                    builder: (BuildContext context) => alertMessage(context,
+                        "คุณต้องการยกเลิก  ${widget.volunteerData["Firstname"]} จากการเป็นเป็นหัวหน้าอสม. ใช้หรือไม่?"))
+                .then((value) async {
+              if (value == "CONFIRM") {
+                await FirebaseFirestore.instance
+                    .collection("MobileUser")
+                    .doc(widget.volunteerDataId.id)
+                    .update({"isBoss": false}).whenComplete(() {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          alertMessage(context, "บันทึกสำเร็จ"));
+                });
+              }
+            });
+          } on FirebaseException catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    alertMessage(context, e.toString()));
+          }
+        },
+      ),
     );
   }
 

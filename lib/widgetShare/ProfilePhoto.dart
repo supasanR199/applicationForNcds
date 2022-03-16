@@ -27,10 +27,13 @@ Widget proFilePostShow(context, String path) {
       future: FirebaseStorage.instance.ref(path).getDownloadURL(),
       builder: (context, snap) {
         if (snap.hasData) {
-          return Image.network(
-            snap.data,
-            width: 160,
-            height: 160,
+          return Padding(
+            padding: EdgeInsets.all(15),
+            child: Image.network(
+              snap.data,
+              width: 160,
+              height: 160,
+            ),
           );
           // return CircleAvatar(
           //   radius: 48, // Image radius
