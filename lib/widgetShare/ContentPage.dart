@@ -28,7 +28,7 @@ Widget contentPage(BuildContext context) {
                   child: Card(
                     color: Colors.pink[50],
                     child: SizedBox(
-                      height: 200,
+                      // height: 200,
                       // width: 50,
                       child: Row(
                         children: [

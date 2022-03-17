@@ -65,7 +65,7 @@ Widget showDateRang(
           },
           onSubmit: (Object val) {
             if (endDate == null) {
-              dateBetween = getDaysInBetween(startDate, DateTime.now());
+              dateBetween = getDaysInBetween(startDate, startDate);
             } else {
               dateBetween = getDaysInBetween(startDate, endDate);
             }
@@ -110,7 +110,8 @@ Widget showDateRangMood(
           },
           onSubmit: (Object val) {
             if (endDate == null) {
-              dateBetween = getDaysInBetween(startDate, DateTime.now());
+              // print(1);
+              dateBetween = getDaysInBetween(startDate, startDate);
             } else {
               dateBetween = getDaysInBetween(startDate, endDate);
             }

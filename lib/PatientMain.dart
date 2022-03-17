@@ -405,9 +405,7 @@ class _PatientMainState extends State<PatientMain> {
                     }
                   }),
             ),
-            Expanded(
-              child: buildButtonAddReminderDrug(context),
-            ),
+            buildButtonAddReminderDrug(context),
           ],
         ),
       ),
@@ -509,26 +507,29 @@ class _PatientMainState extends State<PatientMain> {
   }
 
   Widget buildButtonAddReminderDrug(context) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddReminderDrug(
-              patienData: widget.patienData,
-              patienDataId: widget.patienDataId,
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: MaterialButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddReminderDrug(
+                patienData: widget.patienData,
+                patienDataId: widget.patienDataId,
+              ),
             ),
-          ),
-        );
-      },
-      color: Color.fromRGBO(255, 211, 251, 1),
-      textColor: Colors.white,
-      child: Icon(
-        Icons.add,
-        size: 24,
+          );
+        },
+        color: Color.fromRGBO(255, 211, 251, 1),
+        textColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          size: 24,
+        ),
+        padding: EdgeInsets.all(16),
+        shape: CircleBorder(),
       ),
-      padding: EdgeInsets.all(16),
-      shape: CircleBorder(),
     );
   }
 
