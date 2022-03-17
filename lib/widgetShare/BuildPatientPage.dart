@@ -49,10 +49,6 @@ Widget buildPatientPage(BuildContext context, bool role) {
                       }
                       return ListTile(
                         leading: proFileShow(context, path),
-                        // CircleAvatar(
-                        //   radius: 48, // Image radius
-                        //   backgroundImage: getImg(snap["Img"]),
-                        // ),
                         title: Row(
                           children: [
                             Column(

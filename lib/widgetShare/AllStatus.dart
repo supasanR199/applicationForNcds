@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/function/GetDataChart.dart';
 import 'package:appilcation_for_ncds/models/AlertModels.dart';
 import 'package:appilcation_for_ncds/models/MutiChartData.dart';
@@ -25,6 +26,7 @@ class _AllSrarusState extends State<AllStarus> {
   List<int> dangerus = List();
   List<AlertModels> listData = List();
   List<MutiChartData> keepChartData = List();
+  DateTime selectedDate;
 
   void initState() {
     // print(_userLogId);
@@ -87,7 +89,50 @@ class _AllSrarusState extends State<AllStarus> {
                 height: 1000,
                 child: Column(
                   children: [
-                    // showMonthPicker(),
+                    FloatingActionButton(
+                      onPressed: () {
+                        showMonthPicker(
+                          context: context,
+                          firstDate: DateTime(DateTime.now().year - 1, 5),
+                          lastDate: DateTime(DateTime.now().year + 1, 9),
+                          initialDate: selectedDate ?? DateTime.now(),
+                          locale: Locale("en"),
+                        ).then((date) {
+                          if (date != null) {
+                            setState(() {
+                              selectedDate = date;
+                              var b = convertMouth(selectedDate) + "-01";
+                              // convertMouth(selectedDate);
+                              print(b);
+                              var a = DateTime.parse(b);
+                              print(a);
+                            });
+                          }
+                        });
+                      },
+                      child: Icon(Icons.calendar_today),
+                    ),
+                    SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      series: <CartesianSeries>[
+                        ColumnSeries<MutiChartData, String>(
+                            dataSource: keepChartData,
+                            xValueMapper: (MutiChartData data, _) => data.x,
+                            yValueMapper: (MutiChartData data, _) => data.y),
+                        ColumnSeries<MutiChartData, String>(
+                            dataSource: keepChartData,
+                            xValueMapper: (MutiChartData data, _) => data.x,
+                            yValueMapper: (MutiChartData data, _) => data.y1),
+                        ColumnSeries<MutiChartData, String>(
+                            dataSource: keepChartData,
+                            xValueMapper: (MutiChartData data, _) => data.x,
+                            yValueMapper: (MutiChartData data, _) => data.y2),
+                        ColumnSeries<MutiChartData, String>(
+                            dataSource: keepChartData,
+                            xValueMapper: (MutiChartData data, _) => data.x,
+                            yValueMapper: (MutiChartData data, _) => data.y3)
+                      ],
+                    ),
                     SfCartesianChart(
                       primaryXAxis: CategoryAxis(),
                       series: <CartesianSeries>[
