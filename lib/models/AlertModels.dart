@@ -21,6 +21,7 @@ class AlertModels {
       'fatalert': fatalert,
       'saltalert': saltalert,
       'sweetalert': sweetalert,
+      "date": date,
     };
   }
 

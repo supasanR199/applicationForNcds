@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/models/AlertModels.dart';
+import 'package:appilcation_for_ncds/models/AlertMoodModels.dart';
 import 'package:appilcation_for_ncds/models/ChartData.dart';
+import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:appilcation_for_ncds/models/MutiChartData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/src/iterable_extensions.dart';
@@ -72,7 +75,10 @@ Future<List> getEvaluate() async {
   return getEva.docs;
 }
 
-List<MutiChartData> getAllAlertDataInSys(List<AlertModels> listAllPatien) {
+List<MutiChartData> getAllAlertDataInSys(
+    List<AlertModels> listAllPatien, DateTime dateSelect) {
+  String initMouth = convertMouth(dateSelect);
+  //
   List getScore = List();
   List getAlert = List();
   //
@@ -94,7 +100,7 @@ List<MutiChartData> getAllAlertDataInSys(List<AlertModels> listAllPatien) {
   List<int> sweetalertdangerus = List();
 
   listAllPatien.forEach((element) {
-    if (element.date == "2022-3") {
+    if (element.date == initMouth) {
       if (element.fatalert != 0) {
         if (element.fatalert == 5) {
           fatalertnomal.add(1);
@@ -154,44 +160,140 @@ List<MutiChartData> getAllAlertDataInSys(List<AlertModels> listAllPatien) {
   _returnList.add(keepfat);
   _returnList.add(keepsalt);
   _returnList.add(keepsweet);
-  _returnList.forEach((e) {
-    print("this name  ${e.x}");
-    print("this nomal ${e.y}");
-    print("this mediam  ${e.y1}");
-    print("this alert ${e.y2}");
-    print("this dangerus  ${e.y3}");
-  });
-  // print("this nomal ${fatalertnomal.toList()}");
-  // print("this mediam${fatalertmediam.toList()}");
-  // print("this alert${fatalertalert.toList()}");
-  // print("this dangerus ${fatalertdangerus.toList()}");
-
-  // print("this nomal ${saltalertnomal.toList()}");
-  // print("this mediam${saltalertmediam.toList()}");
-  // print("this alert${saltalertalert.toList()}");
-  // print("this dangerus ${saltalertangerus.toList()}");
-
-  // print("this nomal ${sweetalertnomal.toList()}");
-  // print("this mediam${sweetalertmediam.toList()}");
-  // print("this alert${sweetalertalert.toList()}");
-  // print("this dangerus ${sweetalertdangerus.toList()}");
+  _returnList.forEach((e) {});
 
   return _returnList;
 }
 
-setToList(num val) {
-  List<int> fatalertnomal = List();
-  List<int> fatalertmediam = List();
-  List<int> fatalertalert = List();
-  List<int> fatalertdangerus = List();
+List<KeepChoieAndSocre> getAllAlertDataInSysMood(
+    List<AlertMoodModels> listAllPatien, List<DateTime> dateSelect) {
+  List<String> dateToSring = List();
+  // String initDay = convertDay(dateSelect);
   //
-  List<int> saltalertnomal = List();
-  List<int> saltalertmediam = List();
-  List<int> saltalertalert = List();
-  List<int> saltalertangerus = List();
+  List getScore = List();
+  List getAlert = List();
   //
-  List<int> sweetalerttnomal = List();
-  List<int> sweetalerttmediam = List();
-  List<int> sweetalertalert = List();
-  List<int> sweetalertdangerus = List();
+  List<KeepChoieAndSocre> _returnList = List();
+  //
+
+  List<int> moodalertnomal = List();
+  List<int> moodalertmediam = List();
+  List<int> moodalertalert = List();
+  List<int> moodalertdangerus = List();
+
+  dateSelect.forEach((element) {
+    dateToSring.add(convertDay(element));
+  });
+
+  listAllPatien.forEach((element) {
+    dateToSring.forEach((e) {
+      if (e == element.date) {
+        if (element.moodtoday == 5) {
+          moodalertnomal.add(1);
+        } else if (element.moodtoday >= 6 && element.moodtoday <= 9) {
+          moodalertmediam.add(1);
+        } else if (element.moodtoday >= 10 && element.moodtoday <= 13) {
+          moodalertalert.add(1);
+        } else if (element.moodtoday >= 14) {
+          moodalertdangerus.add(1);
+        }
+      }
+    });
+    // if (element.date == initDay) {
+    //   if (element.moodtoday != 0) {
+    //     if (element.moodtoday == 5) {
+    //       moodalertnomal.add(1);
+    //     } else if (element.moodtoday >= 6 && element.moodtoday <= 9) {
+    //       moodalertmediam.add(1);
+    //     } else if (element.moodtoday >= 10 && element.moodtoday <= 13) {
+    //       moodalertalert.add(1);
+    //     } else if (element.moodtoday >= 14) {
+    //       moodalertdangerus.add(1);
+    //     }
+    //   }
+    // }
+  });
+  KeepChoieAndSocre nomal =
+      KeepChoieAndSocre("nomal", moodalertnomal.sum.toDouble());
+  KeepChoieAndSocre mediam =
+      KeepChoieAndSocre("mediam", moodalertmediam.sum.toDouble());
+  KeepChoieAndSocre alert =
+      KeepChoieAndSocre("alert", moodalertalert.sum.toDouble());
+  KeepChoieAndSocre dangerus =
+      KeepChoieAndSocre("dangerus", moodalertnomal.sum.toDouble());
+
+  // MutiChartData keepfat = MutiChartData(
+  //     "มัน",
+  //     fatalertnomal.sum.toDouble(),
+  //     fatalertmediam.sum.toDouble(),
+  //     fatalertalert.sum.toDouble(),
+  //     fatalertdangerus.sum.toDouble());
+  // MutiChartData keepsalt = MutiChartData(
+  //     "เค็ม",
+  //     saltalertnomal.sum.toDouble(),
+  //     saltalertmediam.sum.toDouble(),
+  //     saltalertalert.sum.toDouble(),
+  //     saltalertangerus.sum.toDouble());
+  // MutiChartData keepsweet = MutiChartData(
+  //     "หวาน",
+  //     sweetalertnomal.sum.toDouble(),
+  //     sweetalertmediam.sum.toDouble(),
+  //     sweetalertalert.sum.toDouble(),
+  //     sweetalertdangerus.sum.toDouble());
+  _returnList.add(nomal);
+  _returnList.add(mediam);
+  _returnList.add(alert);
+  _returnList.add(dangerus);
+
+  // _returnList.forEach((e) {});
+
+  return _returnList;
+}
+
+DateTime getMinDate(List<AlertModels> snap) {
+  List<String> getDate = List();
+  snap.forEach((element) {
+    // print(element.get("date"));
+    getDate.add(element.getByName("date"));
+  });
+  String a = getDate.min;
+  var b = a.substring(0, 5) + "0" + a.substring(5) + "-01";
+  print(b);
+  // print(getDate.min+"-1");
+  // getDate.sort();
+  return DateTime.parse(b);
+}
+
+DateTime getMaxDate(List<AlertModels> snap) {
+  List<String> getDate = List();
+  snap.forEach((element) {
+    // print(element.get("date"));
+    getDate.add(element.getByName("date"));
+  });
+  String a = getDate.max;
+  var b = a.substring(0, 5) + "0" + a.substring(5) + "-01";
+  print(b);
+  // print(getDate.max+"-1");
+  // getDate.sort();
+  return DateTime.parse(b);
+}
+
+DateTime getMinDateMood(List<AlertMoodModels> snap) {
+  List<String> getDate = List();
+  snap.forEach((element) {
+    // print(element.get("date"));
+    getDate.add(element.getByName("date"));
+  });
+
+  return DateTime.parse(getDate.min);
+}
+
+DateTime getMaxDateMood(List<AlertMoodModels> snap) {
+  List<String> getDate = List();
+  snap.forEach((element) {
+    // print(element.get("date"));
+    getDate.add(element.getByName("date"));
+  });
+
+  return DateTime.parse(getDate.max);
 }

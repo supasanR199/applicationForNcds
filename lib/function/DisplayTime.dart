@@ -82,7 +82,14 @@ String chatTime(int date) {
 String convertMouth(DateTime date) {
   // var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
   var d12 =DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
-  var d24 = DateFormat('yyyy-MM').format(date); // 31/12/2000, 22:00
+  var d24 = DateFormat('yyyy-M').format(date); // 31/12/2000, 22:00
+  // final String formatted = "222";
+  return d24;
+}
+String convertDay(DateTime date) {
+  // var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
+  var d12 =DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
+  var d24 = DateFormat('yyyy-MM-dd').format(date); // 31/12/2000, 22:00
   // final String formatted = "222";
   return d24;
 }

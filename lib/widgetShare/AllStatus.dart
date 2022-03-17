@@ -1,7 +1,10 @@
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/function/GetDataChart.dart';
 import 'package:appilcation_for_ncds/models/AlertModels.dart';
+import 'package:appilcation_for_ncds/models/AlertMoodModels.dart';
+import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:appilcation_for_ncds/models/MutiChartData.dart';
+import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -17,15 +20,15 @@ class AllStarus extends StatefulWidget {
 class _AllSrarusState extends State<AllStarus> {
   @override
   // List getAllData = List();
-  List<int> sweetalert = List();
-  List<int> fatalert = List();
-  List<int> saltalert = List();
-  List<int> nomal = List();
-  List<int> mediam = List();
-  List<int> alert = List();
-  List<int> dangerus = List();
+
   List<AlertModels> listData = List();
+  List<AlertModels> listDataForDate = List();
+  List<AlertMoodModels> listDataMood = List();
+  List<AlertMoodModels> listDataForDateMood = List();
+
   List<MutiChartData> keepChartData = List();
+  List<KeepChoieAndSocre> keepChartDataMood = List();
+  List<DateTime> initListDate = [DateTime.now()];
   DateTime selectedDate;
 
   void initState() {
@@ -59,8 +62,30 @@ class _AllSrarusState extends State<AllStarus> {
           AlertModels model = AlertModels.fromMap(i.data());
           setState(() {
             listData.add(model);
+            listDataForDate.add(model);
             // print("this is shit${listData.length}");
             // listforDate.add(model);
+            keepChartData = getAllAlertDataInSys(listData, DateTime.now());
+          });
+        }
+      });
+    });
+    listid.forEach((e) async {
+      await FirebaseFirestore.instance
+          .collection("MobileUser")
+          .doc(e)
+          .collection("moodalert")
+          .get()
+          .then((value) {
+        for (var i in value.docs) {
+          AlertMoodModels model = AlertMoodModels.fromMap(i.data());
+          setState(() {
+            listDataMood.add(model);
+            listDataForDateMood.add(model);
+            // print("this is shit${listData.length}");
+            // listforDate.add(model);
+            keepChartDataMood =
+                getAllAlertDataInSysMood(listDataMood, initListDate);
           });
         }
       });
@@ -68,12 +93,6 @@ class _AllSrarusState extends State<AllStarus> {
   }
 
   Widget build(BuildContext context) {
-    // List<MutiChartData> chartData = <MutiChartData>[
-    //   MutiChartData('หวาน', 128, 129, 101, 10),
-    //   MutiChartData('มัน', 123, 92, 93, 10),
-    //   MutiChartData('เค็ม', 107, 106, 90, 10),
-    //   // ChartData('USA', 87, 95, 71, 10),
-    // ];
     return FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
             .collection("MobileUser")
@@ -81,80 +100,96 @@ class _AllSrarusState extends State<AllStarus> {
             .get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            keepChartData = getAllAlertDataInSys(listData);
-
             return Card(
               child: SizedBox(
                 width: 700,
                 height: 1000,
-                child: Column(
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        showMonthPicker(
-                          context: context,
-                          firstDate: DateTime(DateTime.now().year - 1, 5),
-                          lastDate: DateTime(DateTime.now().year + 1, 9),
-                          initialDate: selectedDate ?? DateTime.now(),
-                          locale: Locale("en"),
-                        ).then((date) {
-                          if (date != null) {
-                            setState(() {
-                              selectedDate = date;
-                              var b = convertMouth(selectedDate) + "-01";
-                              // convertMouth(selectedDate);
-                              print(b);
-                              var a = DateTime.parse(b);
-                              print(a);
-                            });
-                          }
-                        });
-                      },
-                      child: Icon(Icons.calendar_today),
-                    ),
-                    SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
-                      series: <CartesianSeries>[
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y1),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y2),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y3)
-                      ],
-                    ),
-                    SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
-                      series: <CartesianSeries>[
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y1),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y2),
-                        ColumnSeries<MutiChartData, String>(
-                            dataSource: keepChartData,
-                            xValueMapper: (MutiChartData data, _) => data.x,
-                            yValueMapper: (MutiChartData data, _) => data.y3)
-                      ],
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          showMonthPicker(
+                            context: context,
+                            firstDate: getMinDate(listDataForDate),
+                            lastDate: getMaxDate(listDataForDate),
+                            initialDate: selectedDate ?? DateTime.now(),
+                            locale: Locale("en"),
+                          ).then((date) {
+                            if (date != null) {
+                              setState(() {
+                                selectedDate = date;
+                                keepChartData = getAllAlertDataInSys(
+                                    listData, selectedDate);
+
+                                // var b = convertMouth(selectedDate) + "-01";
+                                // // convertMouth(selectedDate);
+                                // print(b);
+                                // var a = DateTime.parse(b);
+                                // print(a);
+                              });
+                            }
+                          });
+                        },
+                        child: Icon(Icons.calendar_today),
+                      ),
+                      SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        series: <CartesianSeries>[
+                          ColumnSeries<MutiChartData, String>(
+                              dataSource: keepChartData,
+                              xValueMapper: (MutiChartData data, _) => data.x,
+                              yValueMapper: (MutiChartData data, _) => data.y),
+                          ColumnSeries<MutiChartData, String>(
+                              dataSource: keepChartData,
+                              xValueMapper: (MutiChartData data, _) => data.x,
+                              yValueMapper: (MutiChartData data, _) => data.y1),
+                          ColumnSeries<MutiChartData, String>(
+                              dataSource: keepChartData,
+                              xValueMapper: (MutiChartData data, _) => data.x,
+                              yValueMapper: (MutiChartData data, _) => data.y2),
+                          ColumnSeries<MutiChartData, String>(
+                              dataSource: keepChartData,
+                              xValueMapper: (MutiChartData data, _) => data.x,
+                              yValueMapper: (MutiChartData data, _) => data.y3)
+                        ],
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => showDateRangMood(
+                                context,
+                                getMinDateMood(listDataForDateMood),
+                                getMaxDateMood(listDataForDateMood),
+                                listDataForDateMood),
+                          ).then((value) {
+                            print(value);
+                            if (value != null) {
+                              setState(() {
+                                keepChartDataMood = getAllAlertDataInSysMood(
+                                    listDataMood, value);
+                              });
+                            }
+                          });
+                        },
+                        child: Icon(Icons.calendar_today),
+                      ),
+                      SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        primaryYAxis: NumericAxis(),
+                        // tooltipBehavior: _tooltip,
+                        series: <ChartSeries<dynamic, String>>[
+                          ColumnSeries<dynamic, String>(
+                              dataSource: keepChartDataMood,
+                              xValueMapper: (dynamic data, _) => data.choice,
+                              yValueMapper: (dynamic data, _) => data.score,
+                              name: 'คะแนนการประเมิน',
+                              color: Color.fromRGBO(8, 142, 255, 1))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
@@ -163,14 +198,6 @@ class _AllSrarusState extends State<AllStarus> {
           }
         });
   }
-}
-
-class SumModels {
-  SumModels(this.x, this.y, this.y1, this.y2);
-  final String x;
-  final double y;
-  final double y1;
-  final double y2;
 }
 
 statuseat(num val) {
