@@ -201,7 +201,7 @@ List<KeepChoieAndSocre> getStepFromDate(
     List<KeepChoieAndSocre> getAll, String select) {
   List<KeepChoieAndSocre> _listReturn = List();
   Iterable<KeepChoieAndSocre> getItemFormDate;
-  debugger();
+  // debugger();
   getAll.forEach((element) {
     getItemFormDate = getAll.where((e) => e.choice.contains(select));
   });

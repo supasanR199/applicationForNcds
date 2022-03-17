@@ -88,16 +88,17 @@ class _WalkCountState extends State<WalkCount> {
                         width: 500,
                         height: 200,
                         child: SfCartesianChart(
-                            primaryXAxis: CategoryAxis(),
-                            series: <ChartSeries>[
-                              // Renders line chart
-                              LineSeries<KeepChoieAndSocre, String>(
-                                  dataSource: getAll,
-                                  xValueMapper: (KeepChoieAndSocre data, _) =>
-                                      data.choice,
-                                  yValueMapper: (KeepChoieAndSocre data, _) =>
-                                      data.score)
-                            ]),
+                          primaryXAxis: CategoryAxis(),
+                          series: <ChartSeries>[
+                            // Renders line chart
+                            LineSeries<KeepChoieAndSocre, String>(
+                                dataSource: getAll,
+                                xValueMapper: (KeepChoieAndSocre data, _) =>
+                                    data.choice,
+                                yValueMapper: (KeepChoieAndSocre data, _) =>
+                                    data.score)
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
