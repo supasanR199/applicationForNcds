@@ -297,3 +297,14 @@ DateTime getMaxDateMood(List<AlertMoodModels> snap) {
 
   return DateTime.parse(getDate.max);
 }
+
+DateTime getMinDateStep(List<String> snap) {
+  // List<String> getDate = List();
+  // snap.forEach((element) {
+  //   // print(element.get("date"));
+  //   getDate.add(element.getByName("date"));
+  // });
+
+  return DateTime.parse(snap.min);
+}
+

@@ -15,8 +15,7 @@ Widget contentPage(BuildContext context) {
             Map<String, dynamic> snap = document.data() as Map<String, dynamic>;
             var path;
             if (snap["imgPath"] == null) {
-              path =
-                  "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+              path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
             } else {
               path = snap["imgPath"];
             }

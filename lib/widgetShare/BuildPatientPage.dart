@@ -42,8 +42,7 @@ Widget buildPatientPage(BuildContext context, bool role) {
                           document.data() as Map<String, dynamic>;
                       var path;
                       if (snap["Img"] == null) {
-                        path =
-                            "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                        path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
                       } else {
                         path = snap["Img"];
                       }

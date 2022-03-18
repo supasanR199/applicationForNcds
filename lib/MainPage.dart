@@ -127,27 +127,27 @@ class _MainPage extends State<MainPage> {
                 tabs: <Widget>[
                   Tab(
                     text: 'ระบบด้วยรวม',
-                    icon: Icon(Icons.add_alert),
+                    icon: Icon(Icons.people_alt),
                   ),
                   Tab(
                     text: 'ผู้ป่วย',
-                    icon: Icon(Icons.cloud_outlined),
+                    icon: Icon(Icons.emoji_people),
                   ),
                   Tab(
                     text: 'โพสต์',
-                    icon: Icon(Icons.beach_access_sharp),
+                    icon: Icon(Icons.post_add),
                   ),
                   Tab(
                     text: 'อสม.',
-                    icon: Icon(Icons.cloud_outlined),
+                    icon: Icon(Icons.emoji_people),
                   ),
                   Tab(
                     text: 'แชทพูดคุย',
-                    icon: Icon(Icons.cloud_outlined),
+                    icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons')),
                   ),
                   Tab(
                     text: 'ยืนยันผู้สมัครเข้าใช้งาน',
-                    icon: Icon(Icons.add_alert),
+                    icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons')),
                   ),
                 ],
               ),

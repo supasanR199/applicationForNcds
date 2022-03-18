@@ -5,6 +5,7 @@ import 'package:appilcation_for_ncds/function/getRecordPatient.dart';
 import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class WalkCount extends StatefulWidget {
@@ -20,13 +21,17 @@ class _WalkCountState extends State<WalkCount> {
   List<KeepChoieAndSocre> getAll = List();
   List<String> selectDay = List();
   String showStepCount;
+  DateTime selectedDate = DateTime.now();
+  TextEditingController crateAtDate = TextEditingController();
+  DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
+
   var _value;
   void initState() {
     FirebaseFirestore.instance
         .collection("MobileUser")
         .doc(widget.patientId.id)
         .collection("sensordiary")
-        .orderBy("Date", descending: true)
+        .orderBy("Date", descending: false)
         .get()
         .then((value) {
       value.docs.forEach((element) {
@@ -40,11 +45,12 @@ class _WalkCountState extends State<WalkCount> {
         getAll.forEach((element) {
           selectDay.add(element.choice);
         });
-        chartData.add(getAll.first);
-        showStepCount = getAll.first.score.toString();
-        _value = getAll.first.choice.toString();
+        chartData.add(getAll.last);
+        showStepCount = getAll.last.score.toString();
+        _value = getAll.last.choice.toString();
       });
     });
+    crateAtDate.text = myDateFormat.format(DateTime.now());
     super.initState();
   }
 
@@ -101,36 +107,92 @@ class _WalkCountState extends State<WalkCount> {
                         ),
                       ),
                     ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     left: 50,
+                    //     right: 50,
+                    //     top: 70,
+                    //   ),
+                    //   child: DropdownButtonFormField<String>(
+                    //     value: _value,
+                    //     decoration: InputDecoration(
+                    //       labelText: 'วันที่บันทึก',
+                    //       icon: Icon(Icons.people),
+                    //     ),
+                    //     items: selectDay.map((String values) {
+                    //       // print(values);
+                    //       return DropdownMenuItem<String>(
+                    //         value: values,
+                    //         child: Text(values),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (newValue) {
+                    //       // print(newValue);
+                    //       setState(() {
+                    //         // debugger();
+                    //         _value = newValue;
+                    //         chartData.clear();
+                    //         chartData = getStepFromDate(getAll, _value);
+                    //         showStepCount = chartData.first.score.toString();
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(
                         left: 50,
                         right: 50,
                         top: 70,
                       ),
-                      child: DropdownButtonFormField<String>(
-                        value: _value,
-                        decoration: InputDecoration(
-                          labelText: 'วันที่บันทึก',
-                          icon: Icon(Icons.people),
-                        ),
-                        items: selectDay.map((String values) {
-                          // print(values);
-                          return DropdownMenuItem<String>(
-                            value: values,
-                            child: Text(values),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          // print(newValue);
-                          setState(() {
-                            // debugger();
-                            _value = newValue;
-                            chartData.clear();
-                            chartData = getStepFromDate(getAll, _value);
-                            showStepCount = chartData.first.score.toString();
-                          });
-                        },
-                      ),
+                      child: TextFormField(
+                          readOnly: true,
+                          controller: crateAtDate,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'กรุณาระบุวันที่บันทึก';
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'วันที่บันทึก',
+                              icon: Icon(Icons.people),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.cancel),
+                                onPressed: () {
+                                  setState(() {
+                                    // listitem.clear();
+                                    // print(listforDf);
+                                    // listitem.clear();
+                                    chartData = getStepFromDate(getAll,
+                                        myDateFormat.format(DateTime.now()));
+                                    showStepCount =
+                                        chartData.first.score.toString();
+                                    crateAtDate.text =
+                                        myDateFormat.format(DateTime.now());
+                                  });
+                                },
+                              )),
+                          onTap: () async {
+                            final DateTime selected = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: getMinDateStep(selectDay),
+                              lastDate: DateTime.now(),
+                            );
+                            if (selected != null && selected != selectedDate) {
+                              setState(() {
+                                selectedDate = selected;
+                                crateAtDate.text =
+                                    myDateFormat.format(selected);
+                                chartData.clear();
+                                chartData = getStepFromDate(
+                                    getAll, myDateFormat.format(selectedDate));
+                                showStepCount =
+                                    chartData.first.score.toString();
+                              });
+                            }
+                          }),
                     ),
                     SfCircularChart(annotations: <CircularChartAnnotation>[
                       CircularChartAnnotation(

@@ -107,6 +107,24 @@ class _AllSrarusState extends State<AllStarus> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'ผลสรุปจากการทำแบบประเมินอาหาร',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      // Center(
+                      //   child: Text(
+                      //     "ล่าสุดเมื่อเดือนที่ :  ${listDataForDate.last.date}",
+                      //     style: TextStyle(fontSize: 14, color: Colors.black38),
+                      //   ),
+                      // ),
                       FloatingActionButton(
                         onPressed: () {
                           showMonthPicker(
@@ -153,6 +171,18 @@ class _AllSrarusState extends State<AllStarus> {
                               xValueMapper: (MutiChartData data, _) => data.x,
                               yValueMapper: (MutiChartData data, _) => data.y3)
                         ],
+                      ),
+                       Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'ผลสรุปจากการทำแบบประเมินอารมณ์',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
                       ),
                       FloatingActionButton(
                         onPressed: () {

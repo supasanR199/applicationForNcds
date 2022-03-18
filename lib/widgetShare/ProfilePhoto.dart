@@ -5,24 +5,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget proFileShow(context, String path) {
+  // if (path == "lib/img/not-available.png") {
+  //   return CircleAvatar(
+  //     radius: 48,
+  //     backgroundImage: Image.asset(path).image,
+  //   );
+  // }
   return FutureBuilder<String>(
       future: FirebaseStorage.instance.ref(path).getDownloadURL(),
       builder: (context, snap) {
+        // if (snap.connectionState == ConnectionState.done) {
+        //   return new CircularProgressIndicator();
+        // }
         if (snap.hasData) {
           return CircleAvatar(
             radius: 48, // Image radius
             backgroundImage: Image.network(snap.data).image,
           );
         } else {
-          return CircleAvatar(
-            radius: 48, // Image radius
-            // backgroundImage: Image.network(snap.data).image,
-          );
+          return new CircularProgressIndicator();
         }
       });
 }
 
 Widget proFilePostShow(context, String path) {
+  // if (path == "lib/img/not-available.png") {
+  //   return Padding(
+  //     padding: EdgeInsets.all(15),
+  //     child: Image.asset(
+  //       path,
+  //       width: 160,
+  //       height: 160,
+  //     ),
+  //   );
+  // }
   return FutureBuilder<String>(
       future: FirebaseStorage.instance.ref(path).getDownloadURL(),
       builder: (context, snap) {

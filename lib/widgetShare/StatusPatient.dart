@@ -44,7 +44,7 @@ Widget statusAlert(String id) {
                               null))
                     },
                     icon: Icon(
-                      Icons.bus_alert_sharp,
+                      IconData(0xe04a, fontFamily: 'MaterialIcons'),
                       color: isAlert(
                         alert,
                       ),
@@ -68,7 +68,7 @@ Widget statusAlert(String id) {
                     ),
                   },
                   icon: Icon(
-                    Icons.bus_alert_sharp,
+                    IconData(0xe04a, fontFamily: 'MaterialIcons'),
                     color: isAlert(
                       alert,
                     ),

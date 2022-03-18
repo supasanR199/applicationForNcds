@@ -206,8 +206,14 @@ List<KeepChoieAndSocre> getStepFromDate(
     getItemFormDate = getAll.where((e) => e.choice.contains(select));
   });
   // print(getItemFormDate.toList());
-  getItemFormDate.forEach((element) {
-    _listReturn.add(element);
-  });
+  if (getItemFormDate.isEmpty) {
+    KeepChoieAndSocre zero = KeepChoieAndSocre(select, 0);
+    _listReturn.add(zero);
+  } else {
+    getItemFormDate.forEach((element) {
+      _listReturn.add(element);
+    });
+  }
+
   return _listReturn;
 }
