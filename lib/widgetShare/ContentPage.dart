@@ -51,6 +51,7 @@ Widget contentPage(BuildContext context) {
                                     // ),
                                     Text("${snap["topic"]}",
                                         style: TextStyle(fontSize: 20)),
+                                    
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: Padding(

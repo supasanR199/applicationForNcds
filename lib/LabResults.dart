@@ -198,7 +198,11 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         // controller: waistline,
+
         keyboardType: TextInputType.number,
         onChanged: (value) {
           waistline.text = value;
@@ -341,6 +345,9 @@ class _LabResults extends State<LabResults> {
         top: 30,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.FBSFPG = value;
         },
@@ -360,6 +367,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Hb1c = value;
         },
@@ -379,6 +389,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.BUN = value;
         },
@@ -398,6 +411,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Cr = value;
         },
@@ -417,6 +433,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.LDL = value;
         },
@@ -436,6 +455,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.HDL = value;
         },
@@ -455,6 +477,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Chol = value;
         },
@@ -474,6 +499,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Tg = value;
         },
@@ -493,6 +521,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Microalbumin = value;
         },
@@ -512,6 +543,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Uricacid = value;
         },
@@ -531,6 +565,9 @@ class _LabResults extends State<LabResults> {
         top: 70,
       ),
       child: TextFormField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter(RegExp(r'[0-9,-]'), allow: true)
+        ],
         onChanged: (value) {
           _labResultsModels.Proteininurine = value;
         },
