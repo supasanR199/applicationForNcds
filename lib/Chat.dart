@@ -85,6 +85,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                                   // print(widget.chatTo['Firstname']);
                                   return ChatBubble(
+                                    peerName: widget.chatTo,
                                     text: snap["content"],
                                     isCurrentUser: isCurrentUser,
                                     time: int.parse(snap["timestamp"]),

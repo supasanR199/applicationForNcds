@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 
 class ChatBubble extends StatelessWidget {
-  ChatBubble({
-    Key key,
-    @required this.text,
-    @required this.isCurrentUser,
-    @required this.time,
-    // @required this.peername
-  }) : super(key: key);
+  ChatBubble(
+      {Key key,
+      @required this.text,
+      @required this.isCurrentUser,
+      @required this.time,
+      @required this.peerName
+      // @required this.peername
+      })
+      : super(key: key);
   String text;
   final bool isCurrentUser;
   final int time;
+  var peerName;
   // final String peername;
 
   @override
@@ -33,6 +36,10 @@ class ChatBubble extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Text("${peerName["Firstname"]} ${peerName["Lastname"]}"),
+            ),
             DecoratedBox(
               // chat bubble decoration
               decoration: BoxDecoration(

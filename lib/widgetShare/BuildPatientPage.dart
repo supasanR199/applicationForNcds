@@ -29,6 +29,7 @@ Widget buildPatientPage(BuildContext context, bool role) {
               ),
             ),
           ),
+          // Expanded(child: ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _docRefPatient,
@@ -42,63 +43,75 @@ Widget buildPatientPage(BuildContext context, bool role) {
                           document.data() as Map<String, dynamic>;
                       var path;
                       if (snap["Img"] == null) {
-                        path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                        path =
+                            "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
                       } else {
                         path = snap["Img"];
                       }
-                      return ListTile(
-                        leading: proFileShow(context, path),
-                        title: Row(
-                          children: [
-                            Column(
-                              children: [
-                                // Text(
-                                //   "${snap["Firstname"]}",
-                                //   softWrap: false,
-                                // ),
-                                Text.rich(
-                                  TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "${snap["Firstname"]}",
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                statusAlert(document.id),
-                              ],
-                            ),
-                          ],
-                        ),
-                        subtitle: Text("${snap["Lastname"]}"),
-                        trailing: DecoratedBox(
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 211, 251, 1),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(checkDisease(snap["NCDs"])),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                              side:
+                                  BorderSide(color: Colors.pink[100], width: 3),
+                              borderRadius: BorderRadius.circular(20)),
+                          leading: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: proFileShow(context, path),
                           ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PatientMain(
-                                patienData: snap,
-                                patienDataId: document.reference,
-                                isHospital: role,
+                          title: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  // Text(
+                                  //   "${snap["Firstname"]}",
+                                  //   softWrap: false,
+                                  // ),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "${snap["Firstname"]}  ${snap["Lastname"]}",
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
+                              Column(
+                                children: [
+                                  statusAlert(document.id),
+                                ],
+                              ),
+                            ],
+                          ),
+                          // subtitle: Text("${snap["Lastname"]}"),
+                          trailing: DecoratedBox(
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 211, 251, 1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(checkDisease(snap["NCDs"])),
                             ),
-                          );
-                        },
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PatientMain(
+                                  patienData: snap,
+                                  patienDataId: document.reference,
+                                  isHospital: role,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }).toList(),
                   );
