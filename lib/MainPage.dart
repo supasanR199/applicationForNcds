@@ -75,6 +75,8 @@ class _MainPage extends State<MainPage> {
       .snapshots();
 
   String groupChatId;
+  String groupChatIds;
+
   Widget build(BuildContext context) {
     if (auth.currentUser != null) {
       return DefaultTabController(
@@ -763,9 +765,9 @@ class _MainPage extends State<MainPage> {
                           var currentId = auth.currentUser.uid;
                           var peerId = document.id;
                           if (currentHas <= peerHas) {
-                            groupChatId = '$currentId-$peerId';
+                            groupChatIds = '$currentId-$peerId';
                           } else {
-                            groupChatId = '$peerId-$currentId';
+                            groupChatIds = '$peerId-$currentId';
                           }
 
                           var path;
@@ -779,8 +781,8 @@ class _MainPage extends State<MainPage> {
                             leading: proFileShow(context, path),
                             title: Text(
                                 "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
-                            subtitle: checkChat(groupChatId),
-                            trailing: checkChatTime(groupChatId),
+                            subtitle: checkChat(groupChatIds),
+                            trailing: checkChatTime(groupChatIds),
                             onTap: () async {
                               var currentHas = auth.currentUser.uid.hashCode;
                               var peerHas = document.id.hashCode;
