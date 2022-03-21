@@ -103,7 +103,7 @@ Widget buildMaterialApp() {
     debugShowCheckedModeBanner: false,
     // title: 'FireStore Demo',
     theme: ThemeData(
-      primarySwatch: Colors.amber,
+      primarySwatch: Colors.pink,
       hoverColor: Colors.pink[50],
       iconTheme: IconThemeData(color: Colors.black),
     ),

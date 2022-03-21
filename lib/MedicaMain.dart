@@ -156,7 +156,7 @@ class _MedicaMainState extends State<MedicaMain> {
 
   Widget actionMenu(String role) {
     return PopupMenuButton(
-        icon: Icon(Icons.more_vert),
+        icon: Icon(Icons.more_vert, color: Colors.black),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
@@ -184,9 +184,8 @@ class _MedicaMainState extends State<MedicaMain> {
                   title: Text('ออกจากระบบ'),
                   onTap: () async {
                     logoutTime = DateTime.now();
-                   
+
                     if (_userLogId.isEmpty) {
-                    
                     } else {
                       logoutTime = DateTime.now();
                       await FirebaseFirestore.instance
@@ -250,37 +249,46 @@ class _MedicaMainState extends State<MedicaMain> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> snap =
                             document.data() as Map<String, dynamic>;
+                        List appoint = List();
+                        if (snap["AppointmentFromMd"] != null) {
+                          appoint = snap["AppointmentFromMd"];
+                        } else {
+                          appoint.add(null);
+                          appoint.add(null);
+                        }
                         return ListTile(
-                          title: Text("${snap["Firstname"]}"),
-                          subtitle: Text("${snap["Lastname"]}"),
-                          trailing: Text(checkAppointmentFromMd(
-                              snap["AppointmentFromMd"])),
-                          onTap: () async {
-                            final DateTime selected = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2222),
-                            );
-                            if (selected != null && selected != selectedDate) {
-                              setState(() {
-                                selectedDate = selected;
-                                FirebaseFirestore.instance
-                                    .collection("MobileUser")
-                                    .doc(document.id)
-                                    .update({
-                                  "AppointmentFromMd": selectedDate
-                                }).whenComplete(() {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        alertMessageOnlyOk(context,
-                                            "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
-                                  );
-                                });
-                              });
-                            }
-                          },
+                          title:
+                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                          subtitle: Text(checkAppointmentFromMd(appoint[0])),
+                          trailing: bulidButtonApployment(context, document),
+                          // Text(checkAppointmentFromMd(
+                          //     snap["AppointmentFromMd"])),
+                          // onTap: () async {
+                          //   final DateTime selected = await showDatePicker(
+                          //     context: context,
+                          //     initialDate: DateTime.now(),
+                          //     firstDate: DateTime.now(),
+                          //     lastDate: DateTime(2222),
+                          //   );
+                          //   if (selected != null && selected != selectedDate) {
+                          //     setState(() {
+                          //       selectedDate = selected;
+                          //       FirebaseFirestore.instance
+                          //           .collection("MobileUser")
+                          //           .doc(document.id)
+                          //           .update({
+                          //         "AppointmentFromMd": selectedDate
+                          //       }).whenComplete(() {
+                          //         showDialog(
+                          //           context: context,
+                          //           builder: (BuildContext context) =>
+                          //               alertMessageOnlyOk(context,
+                          //                   "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
+                          //         );
+                          //       });
+                          //     });
+                          //   }
+                          // },
                         );
                       }).toList(),
                     );
@@ -329,16 +337,16 @@ class _MedicaMainState extends State<MedicaMain> {
     );
   }
 
-  String checkAppointmentFromMd(Timestamp appoint) {
+  String checkAppointmentFromMd(String appoint) {
     // var date = new DateTime.fromMicrosecondsSinceEpoch(appoint.toDate());
     if (appoint == null) {
       return "ยังไม่การนัดหมายวันเข้าพบ";
     }
-    DateTime now = appoint.toDate();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    // DateTime now = appoint.toDate();
+    // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
     if (appoint != null) {
-      return formattedDate;
+      return appoint;
     } else {
       return "ยังไม่การนัดหมายวันเข้าพบ";
     }
@@ -555,6 +563,186 @@ class _MedicaMainState extends State<MedicaMain> {
         padding: EdgeInsets.all(16),
         shape: CircleBorder(),
       ),
+    );
+  }
+
+  Widget bulidButtonApployment(
+      BuildContext context, DocumentSnapshot document) {
+    TextEditingController dateText = TextEditingController();
+    TextEditingController timeText = TextEditingController();
+    DateTime selected;
+    TimeOfDay selectedTime;
+    return RaisedButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  content: SizedBox(
+                    width: 250,
+                    height: 250,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("นัดวัน/เวลา",
+                                style: TextStyle(fontSize: 25)),
+                          ),
+                        ),
+                        // Text("วัน"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              controller: dateText,
+                              onTap: () async {
+                                selected = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2222),
+                                  // ignore: missing_return
+                                ).then((value) {
+                                  if (value != null) {
+                                    DateFormat serverFormater =
+                                        DateFormat("yyyy-MM-dd");
+                                    String formatted =
+                                        serverFormater.format(value);
+                                    dateText.text = formatted;
+                                  } else {
+                                    dateText.clear();
+                                  }
+                                });
+                              },
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                suffixIcon: Icon(Icons.calendar_today),
+                                labelText: "วัน",
+                                fillColor: Colors.white,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // borderSide: BorderSide(
+                                  //   color: Color.fromRGBO(255, 211, 251, 1),
+                                  // ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // borderSide: BorderSide(
+                                  //   color: Colors.red,
+                                  //   width: 2.0,
+                                  // ),
+                                ),
+                              )),
+                        ),
+                        // Text("เวลา"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              controller: timeText,
+                              onTap: () async {
+                                TimeOfDay initTime = TimeOfDay.now();
+                                selectedTime = await showTimePicker(
+                                  initialTime: initTime,
+                                  context: context,
+                                  // ignore: missing_return
+                                ).then((value) {
+                                  if (value != null) {
+                                    DateTime date2 = DateFormat.jm()
+                                        .parse(value.format(context));
+                                    timeText.text =
+                                        DateFormat("HH:mm:ss").format(date2);
+                                  } else {
+                                    timeText.clear();
+                                  }
+                                  // timeText.text = value;
+                                });
+                              },
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                suffixIcon: Icon(Icons.lock_clock),
+                                labelText: "เวลา",
+                                fillColor: Colors.white,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // borderSide: BorderSide(
+                                  //   color: Colors.blue,
+                                  // ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // borderSide: BorderSide(
+                                  //   color: Colors.red,
+                                  //   width: 2.0,
+                                  // ),
+                                ),
+                              )),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              alertMessage(context,
+                                                  "คุณแน่ใจจะนัดคุณ ${document.get("Firstname")}  ${document.get("Lastname")}  ไปที่ รพสต. ในวันที่ ${dateText.text}  เวลา  ${timeText.text}"))
+                                      .then((value) {
+                                    if (value == "CONFIRM") {
+                                      List appointmentFromMd = List();
+                                      appointmentFromMd.add(dateText.text);
+                                      appointmentFromMd.add(timeText.text);
+                                      FirebaseFirestore.instance
+                                          .collection("MobileUser")
+                                          .doc(document.id)
+                                          .update({
+                                        "AppointmentFromMd": appointmentFromMd
+                                      });
+                                      Navigator.pop(context);
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                                textColor: Colors.black,
+                                child: Text('ยืนยัน'),
+                                color: Colors.greenAccent[100],
+                                padding: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                textColor: Colors.black,
+                                child: Text('ยกเลิก'),
+                                color: Colors.redAccent[100],
+                                padding: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ));
+      },
+      // color: Color.fromRGBO(255, 211, 251, 1),
+      textColor: Colors.black,
+      child: Text('นัดหมายผู้ป่วยมาที่ รพสต.'),
+      color: Colors.greenAccent[100],
+      padding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4))),
     );
   }
 }

@@ -18,12 +18,16 @@ class ChatBubble extends StatelessWidget {
   final int time;
   var peerName;
   // final String peername;
-
+  var path;
   @override
   Widget build(BuildContext context) {
     if (text == null) {
       text = "";
     }
+    peerName["Img"] == null
+        ? path =
+            "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png"
+        : path = peerName["Img"];
     if (isCurrentUser) {
       return Padding(
         // asymmetric padding
@@ -89,7 +93,7 @@ class ChatBubble extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  chatProFileShow(context, peerName["Img"]),
+                  chatProFileShow(context, path),
                 ],
               ),
               Padding(
@@ -113,8 +117,9 @@ class ChatBubble extends StatelessWidget {
                         child: Text(
                           text,
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color:
-                                  isCurrentUser ? Colors.white : Colors.black87),
+                              color: isCurrentUser
+                                  ? Colors.white
+                                  : Colors.black87),
                         ),
                       ),
                     ),
