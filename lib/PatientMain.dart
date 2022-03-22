@@ -48,6 +48,7 @@ class _PatientMainState extends State<PatientMain> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
+            centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
               style: TextStyle(color: Colors.black),

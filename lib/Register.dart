@@ -28,6 +28,7 @@ class _Register extends State<Register> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),
@@ -98,21 +99,17 @@ class _Register extends State<Register> {
           );
         }).toList(),
         onChanged: (newValue) {
-         
           setState(() {
             _value = newValue;
             _registerModels.roles = _value;
           });
         },
         validator: (value) {
-         
           if (value.isNotEmpty) {
             if (value.toString() == 'รพสต.') {
               _registerModels.roles = 'hospital';
-             
             } else if (value.toString() == 'บุคลากรแพทย์') {
               _registerModels.roles = 'medicalpersonnel';
-             
             }
           }
           if (value.isEmpty || value.toString() == null) {
@@ -133,7 +130,6 @@ class _Register extends State<Register> {
       ),
       child: TextFormField(
         onChanged: (value) {
-         
           _registerModels.name = value;
         },
         controller: name,
@@ -155,7 +151,6 @@ class _Register extends State<Register> {
       ),
       child: TextFormField(
         onChanged: (value) {
-        
           _registerModels.surname = value;
         },
         controller: surname,
@@ -345,7 +340,6 @@ class _Register extends State<Register> {
                 context: context,
                 builder: (BuildContext context) =>
                     aletLogin(context, e.toString()));
-            
           }
         }
         // _registerModels.name  = name.text;

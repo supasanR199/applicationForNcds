@@ -41,6 +41,7 @@ class _AddPost extends State<AddPost> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),

@@ -78,6 +78,7 @@ class _MedicaMainState extends State<MedicaMain> {
         child: Scaffold(
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
+            centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
               style: TextStyle(color: Colors.black),

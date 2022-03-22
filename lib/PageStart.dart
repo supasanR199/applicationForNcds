@@ -37,7 +37,7 @@ class _StartPageState extends State<StartPage> {
         _prefService.readCache("password").then((value) {
           getPassword = value;
         });
-        
+
         await Firebase.initializeApp();
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: value, password: getPassword)
@@ -79,6 +79,7 @@ class _StartPageState extends State<StartPage> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),
@@ -200,9 +201,8 @@ class _StartPageState extends State<StartPage> {
                 .get()
                 .then((value) {
               userData = value.data();
-            
             });
-       
+
             if (userData["status"] == true) {
               if (userData["role"] == "admin") {
                 Navigator.pushNamed(context, '/adminmain');

@@ -60,6 +60,7 @@ class _adminMainState extends State<adminMain> {
         child: Scaffold(
           backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           appBar: AppBar(
+            centerTitle: false,
             automaticallyImplyLeading: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",

@@ -86,6 +86,7 @@ class _MainPage extends State<MainPage> {
           child: Scaffold(
             backgroundColor: Color.fromRGBO(255, 211, 251, 1),
             appBar: AppBar(
+              centerTitle: false,
               title: Text(
                 "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
                 style: TextStyle(color: Colors.black),
@@ -257,7 +258,8 @@ class _MainPage extends State<MainPage> {
                           Map<String, dynamic> snap =
                               document.data() as Map<String, dynamic>;
                           return ListTile(
-                            title: Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                            title: Text(
+                                "${snap["Firstname"]}  ${snap["Lastname"]}"),
                             // subtitle: Text("${snap["Lastname"]}"),
                             trailing: Switch(
                               value: snap["status"],
