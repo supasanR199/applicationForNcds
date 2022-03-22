@@ -89,7 +89,7 @@ class _Register extends State<Register> {
         value: _value,
         decoration: InputDecoration(
           labelText: 'หน้าที่การใช้งาน',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
         items: <String>['บุคลากรแพทย์', 'รพสต.'].map((String values) {
           return DropdownMenuItem<String>(
@@ -139,7 +139,7 @@ class _Register extends State<Register> {
         controller: name,
         decoration: InputDecoration(
           labelText: 'ชื่อ',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
         validator: (value) => value.isEmpty ? 'ระบุชื่อ' : null,
       ),
@@ -161,7 +161,7 @@ class _Register extends State<Register> {
         controller: surname,
         decoration: InputDecoration(
           labelText: 'นามสกุล',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
         validator: (value) => value.isEmpty ? 'ระบุนามสกุล' : null,
       ),
@@ -199,7 +199,7 @@ class _Register extends State<Register> {
           controller: phonenumber,
           decoration: InputDecoration(
             labelText: 'เบอร์โทรผู้ใช้งาน',
-            icon: Icon(Icons.people),
+            // icon: Icon(Icons.people),
           ),
           validator: (value) {
             if (value.isEmpty) {
@@ -228,7 +228,7 @@ class _Register extends State<Register> {
         controller: email,
         decoration: InputDecoration(
           labelText: 'อีเมลผู้ใช้งาน',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
         validator: (value) {
           if (!validateEmail(value) || value.isEmpty) {
@@ -275,7 +275,7 @@ class _Register extends State<Register> {
           controller: password,
           decoration: InputDecoration(
             labelText: 'รหัสผู้ใช้งาน',
-            icon: Icon(Icons.people),
+            // icon: Icon(Icons.people),
           ),
           validator: (value) {
             if (value.isEmpty) {
@@ -301,7 +301,7 @@ class _Register extends State<Register> {
         autocorrect: false,
         decoration: InputDecoration(
           labelText: 'ยืนยันรหัสผู้ใช้งาน',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
         validator: (value) {
           if (value.isEmpty) {

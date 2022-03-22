@@ -128,28 +128,61 @@ class _MainPage extends State<MainPage> {
                 indicatorColor: Color.fromRGBO(255, 211, 251, 1),
                 tabs: <Widget>[
                   Tab(
-                    text: 'ระบบด้วยรวม',
-                    icon: Icon(Icons.people_alt),
+                    child: Text(
+                      "ระบบด้วยรวม",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(
+                      Icons.people_alt,
+                      color: Colors.black,
+                    ),
                   ),
                   Tab(
-                    text: 'ผู้ป่วย',
-                    icon: Icon(Icons.emoji_people),
+                    // text: 'ผู้ป่วย',
+                    child: Text(
+                      "ผู้ป่วย",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(
+                      Icons.emoji_people,
+                      color: Colors.black,
+                    ),
                   ),
                   Tab(
-                    text: 'โพสต์',
-                    icon: Icon(Icons.post_add),
+                    child: Text(
+                      "โพสต์",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(
+                      Icons.post_add,
+                      color: Colors.black,
+                    ),
                   ),
                   Tab(
-                    text: 'อสม.',
-                    icon: Icon(Icons.emoji_people),
+                    child: Text(
+                      "อสม.",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(
+                      Icons.emoji_people,
+                      color: Colors.black,
+                    ),
                   ),
                   Tab(
-                    text: 'แชทพูดคุย',
-                    icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons')),
+                    child: Text(
+                      "แชทพูดคุย",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons'),
+                        color: Colors.black),
                   ),
                   Tab(
-                    text: 'ยืนยันผู้สมัครเข้าใช้งาน',
-                    icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons')),
+                    child: Text(
+                      "ยืนยันผู้สมัครเข้าใช้งาน",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons'),
+                        color: Colors.black),
                   ),
                 ],
               ),
@@ -224,8 +257,8 @@ class _MainPage extends State<MainPage> {
                           Map<String, dynamic> snap =
                               document.data() as Map<String, dynamic>;
                           return ListTile(
-                            title: Text("${snap["Firstname"]}"),
-                            subtitle: Text("${snap["Lastname"]}"),
+                            title: Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                            // subtitle: Text("${snap["Lastname"]}"),
                             trailing: Switch(
                               value: snap["status"],
                               onChanged: (value) {
@@ -286,10 +319,10 @@ class _MainPage extends State<MainPage> {
                               document.data() as Map<String, dynamic>;
                           return ListTile(
                             title: Row(children: [
-                              Text("${snap["Firstname"]}"),
+                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
                               if (snap["isBoss"] == true) Text("(หัวหน้าอสม.)"),
                             ]),
-                            subtitle: Text("${snap["Lastname"]}"),
+                            // subtitle: Text("${snap["Lastname"]}"),
                             trailing: Switch(
                               value: snap["status"],
                               onChanged: (value) {
