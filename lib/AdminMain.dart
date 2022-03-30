@@ -23,13 +23,35 @@ class adminMain extends StatefulWidget {
 
 class _adminMainState extends State<adminMain> {
   @override
+  List<String> evaIdList = [
+    "Hospital",
+    "Medicalpersonnel",
+    "Patient",
+    "Volunteer"
+  ];
   void initState() {
-    getDataChart();
-    getAllSumDataChart().then((value) {
-      setState(() {
-        keepAllSSumSocre = value;
-      });
-    });
+    // getDataChart();
+    // getAllSumDataChart().then((value) {
+    //   setState(() {
+    //     keepAllSSumSocre = value;
+    //     print(value);
+    //   });
+    // });
+    // FirebaseFirestore.instance.collection("Evaluate").get().then((value) {
+    //   print("show new evaluate${value.docs}");
+    //   value.docs.forEach((element) {
+    //     print("show element${element.id}");
+
+    //   });
+    // });
+    // evaIdList.forEach((element) {
+    //   FirebaseFirestore.instance
+    //       .collection("Evaluate")
+    //       .doc(element).col
+    //       .get()
+    //       .then((value) {
+    //       });
+    // });
     super.initState();
   }
 
@@ -382,45 +404,45 @@ class _adminMainState extends State<adminMain> {
     );
   }
 
-  Future getDataChart() async {
-    await FirebaseFirestore.instance.collection("Evaluate").get().then(
-      (value) async {
-        value.docs.forEach(
-          (element) async {
-            setState(() {
-              scoreMax = (element.data().length * 4) as double;
-            });
-            await FirebaseFirestore.instance
-                .collection("Evaluate")
-                .doc(element.id)
-                .collection("topic")
-                .orderBy("score", descending: false)
-                .get()
-                .then(
-              (value) {
-                value.docs.forEach(
-                  (element) {
-                    // print(element.data());
-                    ChartData keepData =
-                        ChartData(element.get("topic"), element.get("score"));
-                    // setState(() {
-                    elmentList.add(element.data());
-                    listDataChart.add(keepData);
-                    // });
-                  },
-                );
-              },
-            );
-          },
-        );
-      },
-    );
-    // print(listDataChart);
-    // print(elmentList);
-    // setState(() {
-    //   calScoreFromList(listDataChart, elmentList);
-    // });
-  }
+  // Future getDataChart() async {
+  //   await FirebaseFirestore.instance.collection("Evaluate").get().then(
+  //     (value) async {
+  //       value.docs.forEach(
+  //         (element) async {
+  //           setState(() {
+  //             scoreMax = (element.data().length * 4) as double;
+  //           });
+  //           await FirebaseFirestore.instance
+  //               .collection("Evaluate")
+  //               .doc(element.id)
+  //               .collection("topic")
+  //               .orderBy("score", descending: false)
+  //               .get()
+  //               .then(
+  //             (value) {
+  //               value.docs.forEach(
+  //                 (element) {
+  //                   // print(element.data());
+  //                   ChartData keepData =
+  //                       ChartData(element.get("topic"), element.get("score"));
+  //                   // setState(() {
+  //                   elmentList.add(element.data());
+  //                   listDataChart.add(keepData);
+  //                   // });
+  //                 },
+  //               );
+  //             },
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  //   // print(listDataChart);
+  //   // print(elmentList);
+  //   // setState(() {
+  //   //   calScoreFromList(listDataChart, elmentList);
+  //   // });
+  // }
 
   calScoreFromList(List elmentList) {
     // List test = getDataChart() as List;

@@ -27,7 +27,6 @@ List<ChartData> keepChartDataList = List();
 Future<List<ChartData>> getAllSumDataChart() async {
   List keepDataChart = List();
   var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
-
   getEva.docs.forEach((element) {
     keepDataChart.add(getDocTopic(element.id));
   });
