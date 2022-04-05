@@ -84,44 +84,36 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                             .contains(searchText.toLowerCase());
                       }).toList();
                     }
-                    return ListView.separated(
-                      reverse: true,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: documents.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider();
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        print("show doc ${documents.length}");
-                        // var path;
-                        // if (documents[index]["Img"] == null) {
-                        //   path =
-                        //       "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-                        // } else {
-                        //   path = documents[index]["Img"];
-                        // }
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Padding(
+                    return ListView.builder(
+                        itemCount: documents.length,
+                        itemBuilder: (context, index) {
+                          var path;
+                          // if (documents[index]["Img"] == null) {
+                          //   path =
+                          //       "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                          // } else {
+                          //   path = documents[index]["Img"];
+                          // }
+                          return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.pink[100], width: 3),
-                                  borderRadius: BorderRadius.circular(20)),
+                                side: BorderSide(
+                                    color: Colors.pink[100], width: 3),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               leading: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                // child: proFileShow(context, path),
+                                child: proFileShow(context, path),
                               ),
                               title: Row(
                                 children: [
                                   Column(
                                     children: [
-                                      Text(
-                                        "${documents[index]["Firstname"]}",
-                                        softWrap: false,
-                                      ),
+                                      // Text(
+                                      //   "${snap["Firstname"]}",
+                                      //   softWrap: false,
+                                      // ),
                                       Text.rich(
                                         TextSpan(
                                           style: TextStyle(
@@ -137,90 +129,52 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                                       )
                                     ],
                                   ),
+                                  Column(
+                                    children: [
+                                      statusAlert(documents[index].id),
+                                    ],
+                                  ),
                                 ],
                               ),
+                              subtitle: Text(
+                                checkDisease(documents[index]["NCDs"]),
+                              ),
+                              // DecoratedBox(
+                              //   decoration: BoxDecoration(
+                              //       color: Color.fromRGBO(255, 211, 251, 1),
+                              //       borderRadius: BorderRadius.circular(5)),
+                              //   child: Padding(
+                              //     padding: EdgeInsets.all(8.0),
+                              //     child: Text(
+                              //         checkDisease(documents[index]["NCDs"])),
+                              //   ),
+                              // ),
+                              trailing: DecoratedBox(
+                                decoration: BoxDecoration(
+                                    color: Colors.green[100],
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text("ข้อมูล"),
+                                ),
+                              ),
+                              onTap: () {
+                                Map<String, dynamic> snap = documents[index]
+                                    .data() as Map<String, dynamic>;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PatientMain(
+                                      patienData: snap,
+                                      patienDataId: documents[index].reference,
+                                      isHospital: widget.role,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                        );
-                      },
-                      // children:
-                      //     snapshot.data.docs.map((DocumentSnapshot document) {
-                      //   Map<String, dynamic> snap =
-                      //       document.data() as Map<String, dynamic>;
-                      //   var path;
-                      //   if (snap["Img"] == null) {
-                      //     path =
-                      //         "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-                      //   } else {
-                      //     path = snap["Img"];
-                      //   }
-                      //   return Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: ListTile(
-                      //       shape: RoundedRectangleBorder(
-                      //           side: BorderSide(
-                      //               color: Colors.pink[100], width: 3),
-                      //           borderRadius: BorderRadius.circular(20)),
-                      //       leading: Padding(
-                      //         padding: const EdgeInsets.all(8.0),
-                      //         child: proFileShow(context, path),
-                      //       ),
-                      //       title: Row(
-                      //         children: [
-                      //           Column(
-                      //             children: [
-                      //               // Text(
-                      //               //   "${snap["Firstname"]}",
-                      //               //   softWrap: false,
-                      //               // ),
-                      //               Text.rich(
-                      //                 TextSpan(
-                      //                   style: TextStyle(
-                      //                     fontSize: 17,
-                      //                   ),
-                      //                   children: [
-                      //                     TextSpan(
-                      //                       text:
-                      //                           "${snap["Firstname"]}  ${snap["Lastname"]}",
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           ),
-                      //           Column(
-                      //             children: [
-                      //               statusAlert(document.id),
-                      //             ],
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       // subtitle: Text("${snap["Lastname"]}"),
-                      //       trailing: DecoratedBox(
-                      //         decoration: BoxDecoration(
-                      //             color: Color.fromRGBO(255, 211, 251, 1),
-                      //             borderRadius: BorderRadius.circular(5)),
-                      //         child: Padding(
-                      //           padding: EdgeInsets.all(8.0),
-                      //           child: Text(checkDisease(snap["NCDs"])),
-                      //         ),
-                      //       ),
-                      //       onTap: () {
-                      //         Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //             builder: (context) => PatientMain(
-                      //               patienData: snap,
-                      //               patienDataId: document.reference,
-                      //               isHospital: widget.role,
-                      //             ),
-                      //           ),
-                      //         );
-                      //       },
-                      //     ),
-                      //   );
-                      // }).toList(),
-                    );
+                          );
+                        });
                   } else {
                     return Center(
                       child: Text("กำลังโหลดข้อมูล"),
