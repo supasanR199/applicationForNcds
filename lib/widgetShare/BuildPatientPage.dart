@@ -9,6 +9,11 @@ var _docRefPatient = FirebaseFirestore.instance
     .collection("MobileUser")
     .where("Role", isEqualTo: "Patient")
     .snapshots();
+TextEditingController _searchController = TextEditingController();
+CollectionReference allPatient =
+    FirebaseFirestore.instance.collection("MobileUser");
+List<DocumentSnapshot> documents = [];
+String searchText = '';
 bool isHospital;
 Widget buildPatientPage(BuildContext context, bool role) {
   return Card(
@@ -30,6 +35,22 @@ Widget buildPatientPage(BuildContext context, bool role) {
             ),
           ),
           // Expanded(child: ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                labelText: 'ค้นหา',
+                enabledBorder: OutlineInputBorder(
+                  // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  // borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _docRefPatient,

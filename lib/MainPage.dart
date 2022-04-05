@@ -5,6 +5,7 @@ import 'package:appilcation_for_ncds/function/checkChat.dart';
 import 'package:appilcation_for_ncds/function/checkRole.dart';
 import 'package:appilcation_for_ncds/widgetShare/AllStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:flutter/material.dart';
@@ -194,7 +195,7 @@ class _MainPage extends State<MainPage> {
                   child: AllStarus(),
                 ),
                 Center(
-                  child: buildPatientPage(context, true),
+                  child: BuildPatientSearch(role: true),
                 ),
                 Center(
                   child: buildPostPage(context),

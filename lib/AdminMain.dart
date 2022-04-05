@@ -41,7 +41,6 @@ class _adminMainState extends State<adminMain> {
     //   print("show new evaluate${value.docs}");
     //   value.docs.forEach((element) {
     //     print("show element${element.id}");
-
     //   });
     // });
     // evaIdList.forEach((element) {
@@ -52,6 +51,7 @@ class _adminMainState extends State<adminMain> {
     //       .then((value) {
     //       });
     // });
+
     super.initState();
   }
 
