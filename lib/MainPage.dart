@@ -6,6 +6,7 @@ import 'package:appilcation_for_ncds/function/checkRole.dart';
 import 'package:appilcation_for_ncds/widgetShare/AllStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildVolunteerSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:flutter/material.dart';
@@ -201,7 +202,7 @@ class _MainPage extends State<MainPage> {
                   child: buildPostPage(context),
                 ),
                 Center(
-                  child: buildVolunteerPage(context),
+                  child: BuildVolunteerSearch(),
                 ),
                 Center(
                   child: buildChat(context),
@@ -429,84 +430,6 @@ class _MainPage extends State<MainPage> {
                 ],
               ),
             )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildVolunteerPage(BuildContext context) {
-    return Card(
-      child: SizedBox(
-        height: 700,
-        width: 1000,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Text(
-                  'อสม.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("MobileUser")
-                    .where("Role", isEqualTo: "Volunteer")
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        var path;
-                        if (snap["Img"] == null) {
-                          path =
-                              "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-                        } else {
-                          path = snap["Img"];
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                              leading: proFileShow(context, path),
-                              title: Row(children: [
-                                Text(
-                                    "${snap["Firstname"]}  ${snap["Lastname"]}"),
-                                if (snap["isBoss"] == true)
-                                  Text("(หัวหน้าอสม.)"),
-                              ]),
-                              // subtitle: Text("${snap["Lastname"]}"),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VolunteerMain(
-                                        volunteerData: snap,
-                                        volunteerDataId: document.reference),
-                                  ),
-                                );
-                              }),
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
           ],
         ),
       ),
