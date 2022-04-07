@@ -88,12 +88,18 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                         itemCount: documents.length,
                         itemBuilder: (context, index) {
                           var path;
+                          try {
+                            path = documents[index]["img"];
+                          } catch (e) {
+                            path = "";
+                          }
                           // if (documents[index]["Img"] == null) {
                           //   path =
                           //       "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
                           // } else {
                           //   path = documents[index]["Img"];
                           // }
+                          print(documents[index]["Img"]);
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(

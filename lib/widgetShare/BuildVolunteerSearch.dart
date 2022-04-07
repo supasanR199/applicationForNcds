@@ -17,7 +17,6 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
   List<DocumentSnapshot> documents = [];
   String searchText = '';
   TextEditingController _searchController = TextEditingController();
-  List<DocumentSnapshot> document = [];
 
   Widget build(BuildContext context) {
     return Card(
@@ -68,6 +67,16 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
+                    documents = snapshot.data.docs;
+                    if (searchText.length > 0) {
+                      documents = documents.where((element) {
+                        return element
+                            .get('Firstname')
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase());
+                      }).toList();
+                    }
                     return ListView.builder(
                       itemCount: documents.length,
                       itemBuilder: (context, index) {
