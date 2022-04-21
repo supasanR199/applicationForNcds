@@ -101,7 +101,6 @@ class MyApp extends StatelessWidget {
 Widget buildMaterialApp() {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
-    // title: 'FireStore Demo',
     theme: ThemeData(
       primarySwatch: Colors.pink,
       hoverColor: Colors.pink[50],
