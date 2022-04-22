@@ -44,9 +44,10 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             // Expanded(child: ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 60),
               child: TextFormField(
                 controller: _searchController,
                 onChanged: (value) {
@@ -58,15 +59,16 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                   labelText: 'ค้นหา',
                   enabledBorder: OutlineInputBorder(
                     // borderSide: const BorderSide(width: 3, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     // borderSide: const BorderSide(width: 3, color: Colors.red),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream:
@@ -95,84 +97,100 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                           // }
                           // print(documents[index]["Img"]);
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Colors.pink[100], width: 3),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              leading: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                // child: proFileShow(context, path),
-                              ),
-                              title: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      // Text(
-                                      //   "${snap["Firstname"]}",
-                                      //   softWrap: false,
-                                      // ),
-                                      Text.rich(
-                                        TextSpan(
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                              text:
-                                                  "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}",
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      statusAlert(documents[index].id),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              subtitle: Text(
-                                checkDisease(documents[index]["NCDs"]),
-                              ),
-                              // DecoratedBox(
-                              //   decoration: BoxDecoration(
-                              //       color: Color.fromRGBO(255, 211, 251, 1),
-                              //       borderRadius: BorderRadius.circular(5)),
-                              //   child: Padding(
-                              //     padding: EdgeInsets.all(8.0),
-                              //     child: Text(
-                              //         checkDisease(documents[index]["NCDs"])),
-                              //   ),
-                              // ),
-                              trailing: DecoratedBox(
-                                decoration: BoxDecoration(
-                                    color: Colors.green[100],
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text("ข้อมูล"),
-                                ),
-                              ),
-                              onTap: () {
-                                Map<String, dynamic> snap = documents[index]
-                                    .data() as Map<String, dynamic>;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PatientMain(
-                                      patienData: snap,
-                                      patienDataId: documents[index].reference,
-                                      isHospital: widget.role,
-                                    ),
-                                  ),
-                                );
-                              },
+                            padding: EdgeInsets.symmetric(horizontal: 60),
+                            // padding: const EdgeInsets.all(0),
+                            child: Container(
+                            decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
                             ),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                shape: RoundedRectangleBorder(
+                                  // side: BorderSide(
+                                  //     color: Colors.pink[100], width: 3),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                leading: Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  // child: proFileShow(context, path),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        // Text(
+                                        //   "${snap["Firstname"]}",
+                                        //   softWrap: false,
+                                        // ),
+                                        Text.rich(
+                                          TextSpan(
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}",
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        statusAlert(documents[index].id),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Text(
+                                  checkDisease(documents[index]["NCDs"]),
+                                ),
+                                // DecoratedBox(
+                                //   decoration: BoxDecoration(
+                                //       color: Color.fromRGBO(255, 211, 251, 1),
+                                //       borderRadius: BorderRadius.circular(5)),
+                                //   child: Padding(
+                                //     padding: EdgeInsets.all(8.0),
+                                //     child: Text(
+                                //         checkDisease(documents[index]["NCDs"])),
+                                //   ),
+                                // ),
+                                trailing: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                      color: Colors.greenAccent.shade700,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text("ข้อมูล",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+                                  ),
+                                ),
+                                hoverColor: Colors.grey.shade200,
+                                onTap: () {
+                                  Map<String, dynamic> snap = documents[index]
+                                      .data() as Map<String, dynamic>;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PatientMain(
+                                        patienData: snap,
+                                        patienDataId: documents[index].reference,
+                                        isHospital: widget.role,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              Divider(
+                                thickness: 2,
+                                color: Colors.grey.shade300,
+                              )
+                                ],
+                              )
+                            ),
+                            
                           );
                         });
                   } else {
@@ -186,6 +204,11 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
     );
   }
 }

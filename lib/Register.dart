@@ -61,6 +61,8 @@ class _Register extends State<Register> {
                            children: [
                              SizedBox(height: 40,),
                              Image.asset("icon/icon-hospital.png",scale: 4,),
+                             SizedBox(height: 20,),
+                             Text("โรงพยาบาลส่งเสริมสุขภาพตำบล",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),),
                            ],
                          ),
                                 decoration: BoxDecoration(

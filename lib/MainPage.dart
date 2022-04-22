@@ -190,27 +190,35 @@ class _MainPage extends State<MainPage> {
                 ],
               ),
             ),
-            body: TabBarView(
-              children: <Widget>[
-                Center(
-                  child: AllStarus(),
-                ),
-                Center(
-                  child: BuildPatientSearch(role: true),
-                ),
-                Center(
-                  child: buildPostPage(context),
-                ),
-                Center(
-                  child: BuildVolunteerSearch(),
-                ),
-                Center(
-                  child: buildChat(context),
-                ),
-                Center(
-                  child: buildAcceptUsersPage(context),
-                ),
-              ],
+            body: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("img/doctor-patient.png"),
+            fit: BoxFit.cover,
+          ),
+        ),   
+              child: TabBarView(
+                children: <Widget>[
+                  Center(
+                    child: AllStarus(),
+                  ),
+                  Center(
+                    child: BuildPatientSearch(role: true),
+                  ),
+                  Center(
+                    child: buildPostPage(context),
+                  ),
+                  Center(
+                    child: BuildVolunteerSearch(),
+                  ),
+                  Center(
+                    child: buildChat(context),
+                  ),
+                  Center(
+                    child: buildAcceptUsersPage(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -375,6 +383,7 @@ class _MainPage extends State<MainPage> {
 
   Widget buildPostPage(BuildContext context) {
     return Card(
+      color: Colors.grey.shade50,
       child: SizedBox(
         height: 700,
         width: 1000,
@@ -401,6 +410,11 @@ class _MainPage extends State<MainPage> {
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),      
     );
   }
 
@@ -450,7 +464,7 @@ class _MainPage extends State<MainPage> {
             ),
           );
         },
-        color: Color.fromRGBO(255, 211, 251, 1),
+        color: Colors.blueAccent.shade100,
         textColor: Colors.white,
         child: Icon(
           Icons.add,
