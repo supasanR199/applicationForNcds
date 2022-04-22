@@ -87,19 +87,13 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                     return ListView.builder(
                         itemCount: documents.length,
                         itemBuilder: (context, index) {
-                          var path;
-                          try {
-                            path = documents[index]["img"];
-                          } catch (e) {
-                            path = "";
-                          }
-                          // if (documents[index]["Img"] == null) {
-                          //   path =
-                          //       "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-                          // } else {
-                          //   path = documents[index]["Img"];
+                          // var path;
+                          // try {
+                          //   path = documents[index]["img"];
+                          // } catch (e) {
+                          //   path = "";
                           // }
-                          print(documents[index]["Img"]);
+                          // print(documents[index]["Img"]);
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
@@ -110,7 +104,7 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                               ),
                               leading: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: proFileShow(context, path),
+                                // child: proFileShow(context, path),
                               ),
                               title: Row(
                                 children: [
