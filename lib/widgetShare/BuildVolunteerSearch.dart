@@ -37,8 +37,10 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 60),
+              // padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _searchController,
                 onChanged: (value) {
@@ -50,15 +52,16 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                   labelText: 'ค้นหา',
                   enabledBorder: OutlineInputBorder(
                     // borderSide: const BorderSide(width: 3, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     // borderSide: const BorderSide(width: 3, color: Colors.red),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _allVolunteers
@@ -88,32 +91,45 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                         //   path = documents[index]["Img"];
                         // }
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              side:
-                                  BorderSide(color: Colors.pink[100], width: 3),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            // leading: proFileShow(context, path),
-                            title: Row(children: [
-                              Text(
-                                  "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}"),
-                              if (documents[index]["isBoss"] == true)
-                                Text("(หัวหน้าอสม.)"),
-                            ]),
-                            // subtitle: Text("${snap["Lastname"]}"),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VolunteerMain(
-                                      volunteerData: documents[index],
-                                      volunteerDataId:
-                                          documents[index].reference),
+                          padding: EdgeInsets.symmetric(horizontal: 60),
+                          // padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    // side:
+                                    //     BorderSide(
+                                    //       color: Colors.pink[100], width: 3),
+                                          borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  // leading: proFileShow(context, path),
+                                  title: Row(children: [
+                                    Text(
+                                        "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}"),
+                                    if (documents[index]["isBoss"] == true)
+                                      Text("(หัวหน้าอสม.)"),
+                                  ]),
+                                  hoverColor: Colors.grey.shade200,
+                                  // subtitle: Text("${snap["Lastname"]}"),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VolunteerMain(
+                                            volunteerData: documents[index],
+                                            volunteerDataId:
+                                                documents[index].reference),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
+                                Divider(
+                                thickness: 2,
+                                color: Colors.grey.shade300,
+                              )
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -129,6 +145,11 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),      
     );
   }
 }
