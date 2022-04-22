@@ -253,3 +253,5 @@ google-services.json
 pubspec.lock
 .flutter-plugins-dependencies
 *.lock
+pubspec.lock
+.flutter-plugins-dependencies
