@@ -35,8 +35,14 @@ class _Register extends State<Register> {
           ),
           backgroundColor: Colors.white,
         ),
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         body: Container(
+        decoration: BoxDecoration(
+          // image: DecorationImage(
+          //   image: AssetImage("img/doctor.jpg"),
+          //   fit: BoxFit.cover,
+          // ),
+        ),           
           child: Center(
             child: Card(
               child: SizedBox(
@@ -44,34 +50,126 @@ class _Register extends State<Register> {
                 width: 1000,
                 child: Form(
                   key: _registerForm,
-                  child: ListView(
-                    children: <Widget>[
-                      buildNameField(context),
-                      buildSurNameField(context),
-                      buildUserPhoneNumberField(context),
-                      buildSelectRold(context),
-                      buildUserEmailField(context),
-                      buildPasswordField(context),
-                      buildConfirmPasswordField(context),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            child: buildButtonRegister(context),
-                            padding: EdgeInsets.only(
-                              left: 50,
-                              right: 20,
-                              top: 70,
-                              bottom: 50,
-                            ),
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 700,
+                        width: 350,
+                       child : Container(
+                         child: Column(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             SizedBox(height: 40,),
+                             Image.asset("icon/icon-hospital.png",scale: 4,),
+                           ],
+                         ),
+                                decoration: BoxDecoration(
+                                image: DecorationImage(
+                                image: AssetImage("img/register.jpg"),
+                                fit: BoxFit.cover,
+                                
+                              ),
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)
+                              ),
+                            ), 
                       ),
+
+                      ),
+                      // SizedBox(width: 40,),
+                      Expanded(
+                        child: Container(
+                        child: Column(
+                          children: [
+                        SizedBox(height: 20,),
+                        Text("สมัครสมาชิก",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold),),
+                        SizedBox(height: 20,),
+                        buildNameField(context),
+                        SizedBox(height: 20,),
+                        buildSurNameField(context),
+                        SizedBox(height: 20,),
+                        buildUserPhoneNumberField(context),
+                        SizedBox(height: 20,),
+                        buildUserEmailField(context),
+                        SizedBox(height: 20,),
+                        buildPasswordField(context),
+                        SizedBox(height: 20,),
+                        buildConfirmPasswordField(context),
+                        SizedBox(height: 20,),     
+                        buildSelectRold(context),
+                        SizedBox(height: 40,), 
+                        Container(
+                        child: buildButtonRegister(context),
+                        ),
+                        //     Row(children: [
+                        //       Column(
+                        //         children: [
+                        // buildNameField(context),
+                        // SizedBox(height: 20,),
+                        // buildSurNameField(context),
+                        // SizedBox(height: 20,),
+                        // buildUserPhoneNumberField(context),
+                        // SizedBox(height: 20,),
+                        // buildUserEmailField(context),
+                        // SizedBox(height: 20,),
+                        // buildPasswordField(context),
+                        // SizedBox(height: 20,),
+                        // buildConfirmPasswordField(context),     
+                        // // buildSelectRold(context),                                
+                        //         ],
+                        //       ),
+                        // // SizedBox(width: 50,),
+                        
+                        // //       Column(
+                        // //         children: [
+                        // // buildUserEmailField(context),
+                        // // SizedBox(height: 20,),
+                        // // buildPasswordField(context),
+                        // // SizedBox(height: 20,),
+                        // // buildConfirmPasswordField(context),                                
+                        // //         ],
+                        // //       )
+                        //     ],),
+                                        
+                          ],
+                        ),
+                        ),
+                      )
+
                     ],
-                  ),
+                  ),                  
+                  // child: ListView(
+                  //   children: <Widget>[
+                  //     buildNameField(context),
+                  //     buildSurNameField(context),
+                  //     buildUserPhoneNumberField(context),
+                  //     buildSelectRold(context),
+                  //     buildUserEmailField(context),
+                  //     buildPasswordField(context),
+                  //     buildConfirmPasswordField(context),
+                  //     Row(
+                  //       children: <Widget>[
+                  //         Padding(
+                  //           child: buildButtonRegister(context),
+                  //           padding: EdgeInsets.only(
+                  //             left: 50,
+                  //             right: 20,
+                  //             top: 70,
+                  //             bottom: 50,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //     ),
+                  //   ],
+                  // ),
                 ),
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+              Radius.circular(10),
+              ),
+            ),
             ),
           ),
         ),
@@ -80,16 +178,20 @@ class _Register extends State<Register> {
   }
 
   Widget buildSelectRold(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+    return Container(
+      // padding: EdgeInsets.only(
+      //   left: 50,
+      //   right: 50,
+      //   top: 70,
+      // ),
+      width: 300,
       child: DropdownButtonFormField<String>(
         value: _value,
         decoration: InputDecoration(
           labelText: 'หน้าที่การใช้งาน',
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),                  
           // icon: Icon(Icons.people),
         ),
         items: <String>['บุคลากรแพทย์', 'รพสต.'].map((String values) {
@@ -121,34 +223,31 @@ class _Register extends State<Register> {
     );
   }
 
-  Padding buildNameField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+  Widget buildNameField(context) {
+    return Container(
+      width: 300,
       child: TextFormField(
+        obscureText: true,
         onChanged: (value) {
           _registerModels.name = value;
         },
         controller: name,
         decoration: InputDecoration(
+          border: OutlineInputBorder(),
           labelText: 'ชื่อ',
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),
           // icon: Icon(Icons.people),
         ),
         validator: (value) => value.isEmpty ? 'ระบุชื่อ' : null,
+        
       ),
     );
   }
 
-  Padding buildSurNameField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+  Widget buildSurNameField(context) {
+    return Container(
+      width: 300,
       child: TextFormField(
         onChanged: (value) {
           _registerModels.surname = value;
@@ -156,6 +255,9 @@ class _Register extends State<Register> {
         controller: surname,
         decoration: InputDecoration(
           labelText: 'นามสกุล',
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),            
           // icon: Icon(Icons.people),
         ),
         validator: (value) => value.isEmpty ? 'ระบุนามสกุล' : null,
@@ -181,12 +283,8 @@ class _Register extends State<Register> {
 // }
 
   Widget buildUserPhoneNumberField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+    return Container(
+      width: 300,
       child: TextFormField(
           onSaved: (value) {
             _registerModels.phoneNumber = value;
@@ -195,6 +293,9 @@ class _Register extends State<Register> {
           decoration: InputDecoration(
             labelText: 'เบอร์โทรผู้ใช้งาน',
             // icon: Icon(Icons.people),
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),              
           ),
           validator: (value) {
             if (value.isEmpty) {
@@ -210,12 +311,8 @@ class _Register extends State<Register> {
   }
 
   Widget buildUserEmailField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+    return Container(
+      width: 300,
       child: TextFormField(
         onSaved: (value) {
           _registerModels.email = value;
@@ -224,6 +321,9 @@ class _Register extends State<Register> {
         decoration: InputDecoration(
           labelText: 'อีเมลผู้ใช้งาน',
           // icon: Icon(Icons.people),
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),          
         ),
         validator: (value) {
           if (!validateEmail(value) || value.isEmpty) {
@@ -254,12 +354,8 @@ class _Register extends State<Register> {
 // }
 
   Widget buildPasswordField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+    return Container(
+      width: 300,
       child: TextFormField(
           obscureText: true,
           enableSuggestions: false,
@@ -271,6 +367,9 @@ class _Register extends State<Register> {
           decoration: InputDecoration(
             labelText: 'รหัสผู้ใช้งาน',
             // icon: Icon(Icons.people),
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),             
           ),
           validator: (value) {
             if (value.isEmpty) {
@@ -284,12 +383,8 @@ class _Register extends State<Register> {
   }
 
   Widget buildConfirmPasswordField(context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 70,
-      ),
+    return Container(
+      width: 300,
       child: TextFormField(
         obscureText: true,
         enableSuggestions: false,
@@ -297,6 +392,9 @@ class _Register extends State<Register> {
         decoration: InputDecoration(
           labelText: 'ยืนยันรหัสผู้ใช้งาน',
           // icon: Icon(Icons.people),
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),),           
         ),
         validator: (value) {
           if (value.isEmpty) {
@@ -311,45 +409,49 @@ class _Register extends State<Register> {
   }
 
   Widget buildButtonRegister(context) {
-    return RaisedButton(
-      // color: Colors.accents,
-      onPressed: () async {
-        if (_registerForm.currentState.validate()) {
-          _registerForm.currentState.save();
-          try {
-            await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _registerModels.email,
-                    password: _registerModels.password)
-                .then((value) {
-              FirebaseFirestore.instance
-                  .collection('UserWeb')
-                  .doc(value.user.uid)
-                  .set({
-                "email": _registerModels.email,
-                "Firstname": _registerModels.name,
-                "Lastname": _registerModels.surname,
-                "phonenumber": _registerModels.phoneNumber,
-                "role": _registerModels.roles,
-                "status": false
+    return Container(
+      width: 300,
+      child: RaisedButton(
+        // color: Colors.accents,
+        hoverColor: Colors.grey.shade300,
+        onPressed: () async {
+          if (_registerForm.currentState.validate()) {
+            _registerForm.currentState.save();
+            try {
+              await FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(
+                      email: _registerModels.email,
+                      password: _registerModels.password)
+                  .then((value) {
+                FirebaseFirestore.instance
+                    .collection('UserWeb')
+                    .doc(value.user.uid)
+                    .set({
+                  "email": _registerModels.email,
+                  "Firstname": _registerModels.name,
+                  "Lastname": _registerModels.surname,
+                  "phonenumber": _registerModels.phoneNumber,
+                  "role": _registerModels.roles,
+                  "status": false
+                });
               });
-            });
-            Navigator.pushNamed(context, '/');
-          } on FirebaseAuthException catch (e) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    aletLogin(context, e.toString()));
+              Navigator.pushNamed(context, '/');
+            } on FirebaseAuthException catch (e) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      aletLogin(context, e.toString()));
+            }
           }
-        }
-        // _registerModels.name  = name.text;
-        // print(_registerModels.name);
-      },
-      child: Text('สมัครสมาชิก'),
-      color: Colors.green,
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          // _registerModels.name  = name.text;
+          // print(_registerModels.name);
+        },
+        child: Text('สมัครสมาชิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        color: Colors.greenAccent.shade700,
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+      ),
     );
   }
 
