@@ -19,6 +19,7 @@ import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
 import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
 import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
+import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -47,6 +48,8 @@ class _MainPage extends State<MainPage> {
     // print(_userLogId);
     super.initState();
     asyncSingUp();
+    _items = _generateItems;
+    _headline = _items.firstWhere((item) => item.isSelected).text;
   }
 
   void asyncSingUp() async {
@@ -78,146 +81,275 @@ class _MainPage extends State<MainPage> {
 
   String groupChatId;
   String groupChatIds;
+  List<CollapsibleItem> _items;
+  String _headline;
+  List<CollapsibleItem> get _generateItems {
+    return [
+      CollapsibleItem(
+        text: 'ระบบด้วยรวม',
+        icon: Icons.stacked_bar_chart_sharp,
+        onPressed: () => setState(() => _headline = 'all'),
+        isSelected: true,
+      ),
+      CollapsibleItem(
+        text: 'ผู้ป่วย',
+        icon: Icons.people_alt,
+        onPressed: () => setState(() => _headline = 'patient'),
+      ),
+      CollapsibleItem(
+        text: 'อสม.',
+        icon: Icons.assignment_ind,
+        onPressed: () => setState(() => _headline = 'volenter'),
+      ),
+      CollapsibleItem(
+        text: 'แชทพูดคุย',
+        icon: IconData(0xe153, fontFamily: 'MaterialIcons'),
+        onPressed: () => setState(() => _headline = 'chat'),
+      ),
+      CollapsibleItem(
+        text: 'โพสต์',
+        icon: Icons.post_add,
+        onPressed: () => setState(() => _headline = 'post'),
+      ),
+      CollapsibleItem(
+        text: 'ยืนยันสมัครเข้าใช้งาน',
+        icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
+        onPressed: () => setState(() => _headline = 'accept'),
+      ),
+    ];
+  }
 
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     if (auth.currentUser != null) {
-      return DefaultTabController(
-        initialIndex: 0,
-        length: 6,
-        child: Container(
-          child: Scaffold(
-            backgroundColor: Color.fromRGBO(255, 211, 251, 1),
-            appBar: AppBar(
-              centerTitle: false,
-              title: Text(
-                "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-                style: TextStyle(color: Colors.black),
-                // textAlign: TextAlign.left,
-              ),
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              actions: [
-                FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection("UserWeb")
-                        .doc(auth.currentUser.uid)
-                        .get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        userData = snapshot.data.data() as Map<String, dynamic>;
-                        _userData = userData;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            actionMenu(userData["role"]),
-                          ],
-                        );
-                      } else {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("กำลังโหลด"),
-                          ],
-                        );
-                      }
-                    }),
-              ],
-              bottom: TabBar(
-                indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-                tabs: <Widget>[
-                  Tab(
-                    child: Text(
-                      "ระบบด้วยรวม",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.people_alt,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    // text: 'ผู้ป่วย',
-                    child: Text(
-                      "ผู้ป่วย",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.emoji_people,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "โพสต์",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.post_add,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "อสม.",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.emoji_people,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "แชทพูดคุย",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons'),
-                        color: Colors.black),
-                  ),
-                  Tab(
-                    child: Text(
-                      "ยืนยันผู้สมัครเข้าใช้งาน",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons'),
-                        color: Colors.black),
-                  ),
-                ],
-              ),
+      return
+          // DefaultTabController(
+          //   initialIndex: 0,
+          //   length: 6,
+          //   child:
+          Container(
+        child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+          appBar: AppBar(
+            leading: Image.asset("icon/logo.png"),
+            centerTitle: false,
+            title: Text(
+              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+              style: TextStyle(color: Colors.black),
+              // textAlign: TextAlign.left,
             ),
-            body: TabBarView(
-              children: <Widget>[
-                Center(
-                  child: AllStarus(),
-                ),
-                Center(
-                  child: BuildPatientSearch(role: true),
-                ),
-                Center(
-                  child: buildPostPage(context),
-                ),
-                Center(
-                  child: BuildVolunteerSearch(),
-                ),
-                Center(
-                  child: buildChat(context),
-                ),
-                Center(
-                  child: buildAcceptUsersPage(context),
-                ),
-              ],
-            ),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            actions: [
+              FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection("UserWeb")
+                      .doc(auth.currentUser.uid)
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      userData = snapshot.data.data() as Map<String, dynamic>;
+                      _userData = userData;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${userData['Firstname']}  ${userData['Lastname']}",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          actionMenu(userData["role"]),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("กำลังโหลด"),
+                        ],
+                      );
+                    }
+                  }),
+            ],
+            //   bottom: TabBar(
+            //     indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+            //     tabs: <Widget>[
+            //       Tab(
+            //         child: Text(
+            //           "ระบบด้วยรวม",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.people_alt,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         // text: 'ผู้ป่วย',
+            //         child: Text(
+            //           "ผู้ป่วย",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.emoji_people,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "โพสต์",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.post_add,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "อสม.",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.emoji_people,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "แชทพูดคุย",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons'),
+            //             color: Colors.black),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "ยืนยันผู้สมัครเข้าใช้งาน",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons'),
+            //             color: Colors.black),
+            //       ),
+            //     ],
+            //   ),
           ),
+          body: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection("UserWeb")
+                  .doc(auth.currentUser.uid)
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  userData = snapshot.data.data() as Map<String, dynamic>;
+                  _userData = userData;
+                  var userName  = _userData["Firstname"]+_userData["Lastname"];
+                  return CollapsibleSidebar(
+                    // isCollapsed: true,
+                    selectedIconColor: Colors.white,
+                    items: _items,
+                    isCollapsed: false,
+                    title: userName,
+                    showToggleButton: false,
+                    // title: 'MENU',
+                    // avatarImg:false,
+                    avatarImg: AssetImage('assets/icon/logo.png'),
+                    // title: 'John Smith',
+                    // onTitleTap: () {
+                    //   // ScaffoldMessenger.of(context).showSnackBar(
+                    //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+                    // },
+                    toggleTitle: 'ปิดแถบเมนู',
+                    body: _body(size, context, _headline),
+                    backgroundColor: Colors.grey.shade900,
+                    selectedTextColor: Colors.white,
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                    ),
+                    titleStyle: TextStyle(
+                        fontSize: 20,
+                        // fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                    toggleTitleStyle:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+                    sidebarBoxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 20,
+                        spreadRadius: 0.01,
+                        offset: Offset(3, 3),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("กำลังโหลด"),
+                    ],
+                  );
+                }
+              }),
         ),
       );
+      // );
     } else {
-      return Text("not login");
+      Navigator.pushNamed(context, '/');
     }
+  }
+
+  Widget _body(Size size, BuildContext context, String selected) {
+    if (selected == "all") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: AllStarus()),
+      );
+    } else if (selected == "patient") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: BuildPatientSearch(role: true)),
+      );
+    } else if (selected == "post") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildPostPage(context)),
+      );
+    } else if (selected == "volenter") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: BuildVolunteerSearch()),
+      );
+    } else if (selected == "chat") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildChat(context)),
+      );
+    } else if (selected == "accept") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildAcceptUsersPage(context)),
+      );
+    }
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      // color: Colors.blueGrey[50],
+      child: Center(child: AllStarus()),
+    );
   }
 
   Widget buildAcceptUsersPage(BuildContext context) {
@@ -375,6 +507,7 @@ class _MainPage extends State<MainPage> {
 
   Widget buildPostPage(BuildContext context) {
     return Card(
+      color: Colors.grey.shade50,
       child: SizedBox(
         height: 700,
         width: 1000,
@@ -399,6 +532,11 @@ class _MainPage extends State<MainPage> {
               child: bulidButtonAddPost(context),
             ),
           ],
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
         ),
       ),
     );
@@ -450,7 +588,7 @@ class _MainPage extends State<MainPage> {
             ),
           );
         },
-        color: Color.fromRGBO(255, 211, 251, 1),
+        color: Colors.blueAccent.shade100,
         textColor: Colors.white,
         child: Icon(
           Icons.add,
@@ -688,21 +826,23 @@ class _MainPage extends State<MainPage> {
     return Card(
       child: SizedBox(
         height: 700,
-        width: 1000,
+        width: 800,
         child: Column(
           children: <Widget>[
+            SizedBox(height: 30,),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
                 ),
                 child: Text(
-                  'แชทสนทนา',
+                  'รายชื่อแชทสนทนา',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40),
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -736,42 +876,59 @@ class _MainPage extends State<MainPage> {
                           } else {
                             path = snap["Img"];
                           }
-                          return ListTile(
-                            leading: proFileShow(context, path),
-                            title: Text(
-                                "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
-                            subtitle: checkChat(groupChatIds),
-                            trailing: checkChatTime(groupChatIds),
-                            onTap: () async {
-                              var currentHas = auth.currentUser.uid.hashCode;
-                              var peerHas = document.id.hashCode;
-                              var currentId = auth.currentUser.uid;
-                              var peerId = document.id;
-                              if (currentHas <= peerHas) {
-                                groupChatId = '$currentId-$peerId';
-                              } else {
-                                groupChatId = '$peerId-$currentId';
-                              }
 
-                              print(
-                                  "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
-                              await FirebaseFirestore.instance
-                                  .collection("Messages")
-                                  .doc(groupChatId);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatRoom(
-                                    chatTo: snap,
-                                    groupChatId: groupChatId,
-                                    currentId: currentId,
-                                    peerHas: peerHas,
-                                    peerId: peerId,
-                                    currentHas: currentHas,
+                          return Container(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
                                   ),
                                 ),
-                              );
-                            },
+                              leading: proFileShow(context, path),
+                              title: Text(
+                                  "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
+                              subtitle: checkChat(groupChatIds),
+                              trailing: checkChatTime(groupChatIds),
+                              hoverColor:  Colors.grey.shade200,
+                              onTap: () async {
+                                var currentHas = auth.currentUser.uid.hashCode;
+                                var peerHas = document.id.hashCode;
+                                var currentId = auth.currentUser.uid;
+                                var peerId = document.id;
+                                if (currentHas <= peerHas) {
+                                  groupChatId = '$currentId-$peerId';
+                                } else {
+                                  groupChatId = '$peerId-$currentId';
+                                }
+
+                                print(
+                                    "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
+                                await FirebaseFirestore.instance
+                                    .collection("Messages")
+                                    .doc(groupChatId);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatRoom(
+                                      chatTo: snap,
+                                      groupChatId: groupChatId,
+                                      currentId: currentId,
+                                      peerHas: peerHas,
+                                      peerId: peerId,
+                                      currentHas: currentHas,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),  
+                            Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                )                                                          
+                              ],
+                            )
                           );
                         }).toList(),
                       ),
@@ -787,6 +944,11 @@ class _MainPage extends State<MainPage> {
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),      
     );
   }
 

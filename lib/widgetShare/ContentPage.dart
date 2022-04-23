@@ -22,176 +22,195 @@ Widget contentPage(BuildContext context) {
             return GestureDetector(
               onTap: () => null,
               child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Card(
-                    color: Colors.pink[50],
-                    child: SizedBox(
-                      // height: 200,
-                      // width: 50,
-                      child: Row(
-                        children: [
-                          proFilePostShow(context, path),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                padding: EdgeInsets.symmetric(horizontal: 60),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(),
+                      // padding: EdgeInsets.symmetric(horizontal: 60),
+                      // padding: const EdgeInsets.all(10),
+                      child: Card(
+                        color: Colors.white,
+                        child: SizedBox(
+                          height: 200,
+                          // width: 50,
+                          child: Row(
+                            children: [
+                              proFilePostShow(context, path),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    // Padding(
-                                    //   padding:
-                                    //       EdgeInsets.only(left: 8.0, right: 8.0),
-                                    //   child: Text(
-                                    //     "หัวเรื่อง  :",
-                                    //     style: TextStyle(fontSize: 20),
+                                    SizedBox(height: 20,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        // Padding(
+                                        //   padding:
+                                        //       EdgeInsets.only(left: 8.0, right: 8.0),
+                                        //   child: Text(
+                                        //     "หัวเรื่อง  :",
+                                        //     style: TextStyle(fontSize: 20),
+                                        //   ),
+                                        // ),
+                                        Text("${snap["topic"]}",
+                                            style: TextStyle(fontSize: 20)),
+                                        
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8.0, right: 8.0),
+                                            child: delectPost(context, document.id,
+                                                snap["imgPath"]),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Expanded(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(left: 8.0, right: 8.0),
+                                    //         child: Text(
+                                    //           "เนื้อเรื่อง :",
+                                    //           style: TextStyle(fontSize: 20),
+                                    //         ),
+                                    //       ),
+                                    Text(
+                                      "${snap["content"]}",overflow: TextOverflow.fade,maxLines: 6,
+                                    ),
+                                    //     ],
                                     //   ),
                                     // ),
-                                    Text("${snap["topic"]}",
-                                        style: TextStyle(fontSize: 20)),
-                                    
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 8.0, right: 8.0),
-                                        child: delectPost(context, document.id,
-                                            snap["imgPath"]),
-                                      ),
-                                    ),
+                                    // Expanded(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(left: 8.0, right: 8.0),
+                                    //         child: Text(
+                                    //           "ผู้สร้างโพสต์แนะนำ :",
+                                    //           style: TextStyle(fontSize: 20),
+                                    //         ),
+                                    //       ),
+                                    //       Expanded(
+                                    //         child: Column(
+                                    //           mainAxisAlignment:
+                                    //               MainAxisAlignment.center,
+                                    //           crossAxisAlignment:
+                                    //               CrossAxisAlignment.start,
+                                    //           children: [
+                                    //             Text(
+                                    //               "${snap["createBy"]}",
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(left: 8.0, right: 8.0),
+                                    //         child: Text(
+                                    //           "เหมะสำหรับผู้ป่วย :",
+                                    //           style: TextStyle(fontSize: 20),
+                                    //         ),
+                                    //       ),
+                                    //       Expanded(
+                                    //         child: Column(
+                                    //           mainAxisAlignment:
+                                    //               MainAxisAlignment.center,
+                                    //           crossAxisAlignment:
+                                    //               CrossAxisAlignment.start,
+                                    //           children: [
+                                    //             Text(
+                                    //               "อายุ:  ${snap["recommentForAge"]}",
+                                    //             ),
+                                    //             Text(
+                                    //               "ค่าBMI:  ${snap["recommentForBMI"]}",
+                                    //             ),
+                                    //             Text(
+                                    //               "โรค:  ${snap["recommentForDieases"]}",
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(left: 8.0, right: 8.0),
+                                    //         child: Text(
+                                    //           "สร้างโพสต์เมื่อวันที่ :",
+                                    //           style: TextStyle(fontSize: 20),
+                                    //         ),
+                                    //       ),
+                                    //       Text(
+                                    //         convertDateTimeDisplay(snap["createAt"]
+                                    //                 .toDate()
+                                    //                 .toString()) +
+                                    //             "" +
+                                    //             "สร้างมาแล้ว :" +
+                                    //             "" +
+                                    //             calCreateDay(convertDateTimeDisplay(
+                                    //                 snap["createAt"]
+                                    //                     .toDate()
+                                    //                     .toString())) +
+                                    //             "วัน",
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // Expanded(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(left: 8.0, right: 8.0),
+                                    //         child: Text(
+                                    //           "สร้างโพสต์เมื่อเวลา :",
+                                    //           style: TextStyle(fontSize: 20),
+                                    //         ),
+                                    //       ),
+                                    //       Text(
+                                    //         convertTimeDisplay(snap["createAt"]),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
-                                // Expanded(
-                                //   child: Row(
-                                //     children: [
-                                //       Padding(
-                                //         padding:
-                                //             EdgeInsets.only(left: 8.0, right: 8.0),
-                                //         child: Text(
-                                //           "เนื้อเรื่อง :",
-                                //           style: TextStyle(fontSize: 20),
-                                //         ),
-                                //       ),
-                                Text(
-                                  "${snap["content"]}",
-                                ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Expanded(
-                                //   child: Row(
-                                //     children: [
-                                //       Padding(
-                                //         padding:
-                                //             EdgeInsets.only(left: 8.0, right: 8.0),
-                                //         child: Text(
-                                //           "ผู้สร้างโพสต์แนะนำ :",
-                                //           style: TextStyle(fontSize: 20),
-                                //         ),
-                                //       ),
-                                //       Expanded(
-                                //         child: Column(
-                                //           mainAxisAlignment:
-                                //               MainAxisAlignment.center,
-                                //           crossAxisAlignment:
-                                //               CrossAxisAlignment.start,
-                                //           children: [
-                                //             Text(
-                                //               "${snap["createBy"]}",
-                                //             ),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Expanded(
-                                //   child: Row(
-                                //     children: [
-                                //       Padding(
-                                //         padding:
-                                //             EdgeInsets.only(left: 8.0, right: 8.0),
-                                //         child: Text(
-                                //           "เหมะสำหรับผู้ป่วย :",
-                                //           style: TextStyle(fontSize: 20),
-                                //         ),
-                                //       ),
-                                //       Expanded(
-                                //         child: Column(
-                                //           mainAxisAlignment:
-                                //               MainAxisAlignment.center,
-                                //           crossAxisAlignment:
-                                //               CrossAxisAlignment.start,
-                                //           children: [
-                                //             Text(
-                                //               "อายุ:  ${snap["recommentForAge"]}",
-                                //             ),
-                                //             Text(
-                                //               "ค่าBMI:  ${snap["recommentForBMI"]}",
-                                //             ),
-                                //             Text(
-                                //               "โรค:  ${snap["recommentForDieases"]}",
-                                //             ),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Expanded(
-                                //   child: Row(
-                                //     children: [
-                                //       Padding(
-                                //         padding:
-                                //             EdgeInsets.only(left: 8.0, right: 8.0),
-                                //         child: Text(
-                                //           "สร้างโพสต์เมื่อวันที่ :",
-                                //           style: TextStyle(fontSize: 20),
-                                //         ),
-                                //       ),
-                                //       Text(
-                                //         convertDateTimeDisplay(snap["createAt"]
-                                //                 .toDate()
-                                //                 .toString()) +
-                                //             "" +
-                                //             "สร้างมาแล้ว :" +
-                                //             "" +
-                                //             calCreateDay(convertDateTimeDisplay(
-                                //                 snap["createAt"]
-                                //                     .toDate()
-                                //                     .toString())) +
-                                //             "วัน",
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Expanded(
-                                //   child: Row(
-                                //     children: [
-                                //       Padding(
-                                //         padding:
-                                //             EdgeInsets.only(left: 8.0, right: 8.0),
-                                //         child: Text(
-                                //           "สร้างโพสต์เมื่อเวลา :",
-                                //           style: TextStyle(fontSize: 20),
-                                //         ),
-                                //       ),
-                                //       Text(
-                                //         convertTimeDisplay(snap["createAt"]),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(width: 10,)
+                            ],
                           ),
-                        ],
+                        ),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.black87),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
                       ),
                     ),
-                  ),
-                ),
+                              // Divider(
+                              //   thickness: 2,
+                              //   color: Colors.grey.shade300,
+                              // )
+                  ],
+                ),                
               ),
             );
           }).toList(),

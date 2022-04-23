@@ -80,24 +80,55 @@ class _StartPageState extends State<StartPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
+          leading: Image.asset("icon/logo.png"),
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.white,
         ),
-        body: Container(
+        body: Container(  
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("img/doctor.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),              
           child: Center(
             child: Card(
               child: SizedBox(
-                height: 700,
-                width: 1000,
+                height: 600,
+                width: 500,
                 child: Form(
                   key: _loginForm,
                   child: Column(
                     children: [
+                      SizedBox(height: 30,),
+                      Text("เข้าสู่ระบบ",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 20,),      
+                      Image.asset("icon/login.png",scale: 3,),                
                       buildUserNameField(context),
                       buildPasswordField(context),
+                      SizedBox(height: 20,), 
+                      TextButton(
+                                  onPressed: (){
+                                      // Navigator.push(context,
+                                      // MaterialPageRoute(builder: (context) => forgetpassword()));
+                                  }, 
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                  Text("ลืมรหัสผ่าน",style: TextStyle(fontSize: 18,color: Colors.black87,)),
+                                  Text(" ต้องการเปลี่ยน",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black,))                        
+                                  ],
+                                ),
+                                style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.all(16.0),
+                                        primary: Colors.white,
+                                        textStyle: const TextStyle(fontSize: 20),
+                                      ),
+                                ),
+                      SizedBox(height: 15,),                      
                       Row(
                         children: [
                           Padding(
@@ -105,7 +136,7 @@ class _StartPageState extends State<StartPage> {
                             padding: EdgeInsets.only(
                               left: 50,
                               right: 20,
-                              top: 70,
+                              // top: 40,
                             ),
                           ),
                           Padding(
@@ -113,7 +144,7 @@ class _StartPageState extends State<StartPage> {
                             padding: EdgeInsets.only(
                               left: 0,
                               right: 50,
-                              top: 70,
+                              // top: 40,
                             ),
                           ),
                           // buildButtonLogin(context),
@@ -126,6 +157,12 @@ class _StartPageState extends State<StartPage> {
                 ),
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),
             ),
           ),
         ),
@@ -139,7 +176,7 @@ class _StartPageState extends State<StartPage> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 70,
+        // top: 5,
       ),
       child: TextFormField(
         controller: email,
@@ -164,6 +201,7 @@ class _StartPageState extends State<StartPage> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
+        top: 10
       ),
       child: TextFormField(
         obscureText: true,
@@ -179,78 +217,86 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  RaisedButton buildButtonLogin(context) {
-    return RaisedButton(
-      // color: Colors.accents,
-      onPressed: () async {
-        if (_loginForm.currentState.validate()) {
-          await Firebase.initializeApp();
-          await FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-            email: email.text,
-            password: password.text,
-          )
-              .whenComplete(() {
-            _prefService.createCache("password", password.text);
-            _prefService.createCache("email", email.text);
-          }).then((value) async {
-            var userData;
-            await FirebaseFirestore.instance
-                .collection("UserWeb")
-                .doc(auth.currentUser.uid)
-                .get()
-                .then((value) {
-              userData = value.data();
-            });
-
-            if (userData["status"] == true) {
-              if (userData["role"] == "admin") {
-                Navigator.pushNamed(context, '/adminmain');
-              } else if (userData["role"] == "hospital") {
-                Navigator.pushNamed(context, '/mainpage');
-              } else if (userData["role"] == "medicalpersonnel") {
-                Navigator.pushNamed(context, '/medicaMain');
-              }
-            } else if (userData["status"] == false) {
-              showDialog(
-                      context: context,
-                      builder: (BuildContext context) => aletLogin(
-                          context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"))
-                  .then((value) async {
-                await FirebaseAuth.instance.signOut();
+   buildButtonLogin(context) {
+    return Container(
+      width: 160,
+      child: RaisedButton(
+        // color: Colors.accents,
+        hoverColor: Colors.grey.shade300,
+        onPressed: () async {
+          if (_loginForm.currentState.validate()) {
+            await Firebase.initializeApp();
+            await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+              email: email.text,
+              password: password.text,
+            )
+                .whenComplete(() {
+              _prefService.createCache("password", password.text);
+              _prefService.createCache("email", email.text);
+            }).then((value) async {
+              var userData;
+              await FirebaseFirestore.instance
+                  .collection("UserWeb")
+                  .doc(auth.currentUser.uid)
+                  .get()
+                  .then((value) {
+                userData = value.data();
               });
-            }
 
-            // Navigator.pushNamed(context, '/mainpage');
-          }).catchError((e) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    aletLogin(context, e.toString()));
-            Navigator.pushNamed(context, '/');
-          });
-        }
-      },
-      color: Colors.white,
-      child: Text('เข้าสู่ระบบ'),
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(4),
+              if (userData["status"] == true) {
+                if (userData["role"] == "admin") {
+                  Navigator.pushNamed(context, '/adminmain');
+                } else if (userData["role"] == "hospital") {
+                  Navigator.pushNamed(context, '/mainpage');
+                } else if (userData["role"] == "medicalpersonnel") {
+                  Navigator.pushNamed(context, '/medicaMain');
+                }
+              } else if (userData["status"] == false) {
+                showDialog(
+                        context: context,
+                        builder: (BuildContext context) => aletLogin(
+                            context, "ท่านยังไม่ได้รับอนุมัติให้เข้าสู้ระบบ"))
+                    .then((value) async {
+                  await FirebaseAuth.instance.signOut();
+                });
+              }
+
+              // Navigator.pushNamed(context, '/mainpage');
+            }).catchError((e) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      aletLogin(context, e.toString()));
+              Navigator.pushNamed(context, '/');
+            });
+          }
+        },
+        color: Colors.greenAccent.shade700,
+        child: Text('เข้าสู่ระบบ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
         ),
       ),
     );
   }
 
-  RaisedButton buildButtonRegister(context) {
-    return RaisedButton(
-      // color: Colors.accents,
-      onPressed: () => Navigator.pushNamed(context, '/register'),
-      child: Text('สมัครสมาชิก'),
-      color: Colors.green,
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+   buildButtonRegister(context) {
+    return Container(
+      width: 160,
+      child: RaisedButton(
+        // color: Colors.accents,
+        hoverColor: Colors.grey.shade300,
+        onPressed: () => Navigator.pushNamed(context, '/register'),
+        child: Text('สมัครสมาชิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        color: Colors.blueAccent.shade100,
+        padding: EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+      ),
     );
   }
 

@@ -43,23 +43,37 @@ Widget proFilePostShow(context, String path) {
       future: FirebaseStorage.instance.ref(path).getDownloadURL(),
       builder: (context, snap) {
         if (snap.hasData) {
-          return Padding(
-            padding: EdgeInsets.all(15),
-            child: Image.network(
+          return Container(
+               padding:const EdgeInsets.only(left: 15,right: 25),
+              child: Image.network(
               snap.data,
-              width: 160,
-              height: 160,
+              width: 150,
+              height: 150,
+              fit: BoxFit.cover,
             ),
-          );
+                                      );
+          // Padding(
+          //   padding: EdgeInsets.all(15),
+          //   child: Image.network(
+          //     snap.data,
+          //     width: 160,
+          //     height: 160,
+          //   ),
+          // );
           // return CircleAvatar(
           //   radius: 48, // Image radius
           //   backgroundImage: Image.network(snap.data).image,
           // );
         } else {
-          return CircleAvatar(
-            radius: 48, // Image radius
-            // backgroundImage: Image.network(snap.data).image,
-          );
+          return Container(
+               padding:const EdgeInsets.only(left: 15,right: 25),
+              child: Image.asset(
+              "img/noimage.png",
+              width: 150,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
+                                      );
         }
       });
 }
