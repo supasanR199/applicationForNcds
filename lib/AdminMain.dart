@@ -15,6 +15,7 @@ import 'package:appilcation_for_ncds/function/GetDataChart.dart';
 
 import 'EvaluateSoftwarePage.dart';
 import 'services/shared_preferences_service.dart';
+import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
 class adminMain extends StatefulWidget {
   @override
@@ -53,6 +54,7 @@ class _adminMainState extends State<adminMain> {
     // });
 
     super.initState();
+    _items = _generateItems;
   }
 
   var _docRef = FirebaseFirestore.instance
@@ -73,87 +75,199 @@ class _adminMainState extends State<adminMain> {
   Map<String, double> keepDataTest = Map();
   List<ChartData> keepAllSSumSocre = List();
   final PrefService _prefService = PrefService();
+  List<CollapsibleItem> _items;
+  String _headline;
+  List<CollapsibleItem> get _generateItems {
+    return [
+      CollapsibleItem(
+        text: 'อนุมัติเข้าใช้งานของบุคคลากร รพสต.',
+        icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
+        onPressed: () => setState(() => _headline = 'all'),
+        isSelected: true,
+      ),
+      CollapsibleItem(
+        text: 'ประวัติการเข้าใช้งาน',
+        icon: Icons.assignment_ind,
+        onPressed: () => setState(() => _headline = 'patient'),
+      ),
+      CollapsibleItem(
+        text: 'ประเมินการใช้งาน',
+        icon: Icons.stacked_bar_chart_sharp,
+        onPressed: () => setState(() => _headline = 'volenter'),
+      ),
+    ];
+  }
 
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 3,
-      child: Container(
-        child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
-          appBar: AppBar(
-            centerTitle: false,
-            automaticallyImplyLeading: false,
-            title: Text(
-              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-              style: TextStyle(color: Colors.black),
-            ),
-            actions: [
-              FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection("UserWeb")
-                      .doc(auth.currentUser.uid)
-                      .get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      userData = snapshot.data.data() as Map<String, dynamic>;
-                      _userData = userData;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}",
-                              style: TextStyle(color: Colors.black)),
-                          actionMenu(userData["role"]),
-                        ],
-                      );
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("กำลังโหลด"),
-                        ],
-                      );
-                    }
-                  }),
-              // actionMenu(),
-            ],
-            backgroundColor: Colors.white,
-            bottom: TabBar(
-              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-              labelColor: Colors.black,
-              tabs: <Widget>[
-                Tab(
-                  text: 'อนุมัติเข้าใช้งานของบุคคลากร รพสต.',
-                  icon: Icon(Icons.people),
-                ),
-                Tab(
-                  text: 'ประวัติการเข้าใช้งาน',
-                  icon: Icon(Icons.beach_access_sharp),
-                ),
-                Tab(
-                  text: 'ประเมินการใช้งาน',
-                  icon: Icon(Icons.beach_access_sharp),
-                ),
-              ],
-            ),
+    var size = MediaQuery.of(context).size;
+
+    // DefaultTabController(
+    //   initialIndex: 0,
+    //   length: 3,
+    return Container(
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        appBar: AppBar(
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          title: Text(
+            "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+            style: TextStyle(color: Colors.black),
           ),
-          body: TabBarView(
-            children: [
-              Center(
-                child: buildPAcceptPage(context),
-              ),
-              Center(
-                child: buildLogPage(context),
-              ),
-              Center(
-                child: buildBarChart(context),
-              ),
-            ],
-          ),
+          actions: [
+            FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection("UserWeb")
+                    .doc(auth.currentUser.uid)
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    userData = snapshot.data.data() as Map<String, dynamic>;
+                    _userData = userData;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            "${userData['Firstname']}  ${userData['Lastname']}",
+                            style: TextStyle(color: Colors.black)),
+                        actionMenu(userData["role"]),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("กำลังโหลด"),
+                      ],
+                    );
+                  }
+                }),
+            // actionMenu(),
+          ],
+          backgroundColor: Colors.white,
+          // bottom: TabBar(
+          //   indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+          //   labelColor: Colors.black,
+          //   tabs: <Widget>[
+          //     Tab(
+          //       text: 'อนุมัติเข้าใช้งานของบุคคลากร รพสต.',
+          //       icon: Icon(Icons.people),
+          //     ),
+          //     Tab(
+          //       text: 'ประวัติการเข้าใช้งาน',
+          //       icon: Icon(Icons.beach_access_sharp),
+          //     ),
+          //     Tab(
+          //       text: 'ประเมินการใช้งาน',
+          //       icon: Icon(Icons.beach_access_sharp),
+          //     ),
+          //   ],
+          // ),
         ),
+        body: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection("UserWeb")
+                  .doc(auth.currentUser.uid)
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  userData = snapshot.data.data() as Map<String, dynamic>;
+                  _userData = userData;
+                  var userName  = _userData["Firstname"]+_userData["Lastname"];
+                  return CollapsibleSidebar(
+                    // isCollapsed: true,
+                    selectedIconColor: Colors.white,
+                    items: _items,
+                    isCollapsed: true,
+                    title: userName,
+                    showToggleButton: true,
+                    // title: 'MENU',
+                    // avatarImg:false,
+                    avatarImg: AssetImage('assets/icon/logo.png'),
+                    // title: 'John Smith',
+                    // onTitleTap: () {
+                    //   // ScaffoldMessenger.of(context).showSnackBar(
+                    //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+                    // },
+                    toggleTitle: 'ปิดแถบเมนู',
+                    body: _body(size, context, _headline),
+                    backgroundColor: Colors.grey.shade900,
+                    selectedTextColor: Colors.white,
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                    ),
+                    titleStyle: TextStyle(
+                        fontSize: 20,
+                        // fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                    toggleTitleStyle:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+                    sidebarBoxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 20,
+                        spreadRadius: 0.01,
+                        offset: Offset(3, 3),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("กำลังโหลด"),
+                    ],
+                  );
+                }
+              }),
+        // TabBarView(
+        //   children: [
+        //     Center(
+        //       child: buildPAcceptPage(context),
+        //     ),
+        //     Center(
+        //       child: buildLogPage(context),
+        //     ),
+        //     Center(
+        //       child: buildBarChart(context),
+        //     ),
+        //   ],
+        // ),
       ),
+    );
+  }
+
+  Widget _body(Size size, BuildContext context, String selected) {
+    if (selected == "all") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: buildPAcceptPage(context)),
+      );
+    } else if (selected == "patient") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildLogPage(context)),
+      );
+    } else if (selected == "post") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildBarChart(context)),
+      );
+    }
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      // color: Colors.blueGrey[50],
+      child: Center(child: buildPAcceptPage(context)),
     );
   }
 

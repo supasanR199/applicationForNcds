@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'PatientMain.dart';
 import 'models/AuthDataModels.dart';
 import 'services/shared_preferences_service.dart';
+import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
 class MedicaMain extends StatefulWidget {
   @override
@@ -42,10 +43,33 @@ class _MedicaMainState extends State<MedicaMain> {
   String _userLogId = "";
   int index;
   Map<String, dynamic> userData;
+  List<CollapsibleItem> _items;
+  String _headline;
+  List<CollapsibleItem> get _generateItems {
+    return [
+      CollapsibleItem(
+        text: 'ผู้ป่วย',
+        icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
+        onPressed: () => setState(() => _headline = 'all'),
+        isSelected: true,
+      ),
+      CollapsibleItem(
+        text: 'โพสต์',
+        icon: Icons.assignment_ind,
+        onPressed: () => setState(() => _headline = 'patient'),
+      ),
+      CollapsibleItem(
+        text: 'นัดหมายเข้าพบ',
+        icon: Icons.stacked_bar_chart_sharp,
+        onPressed: () => setState(() => _headline = 'volenter'),
+      ),
+    ];
+  }
 
   void initState() {
     // print(_userLogId);
     super.initState();
+    _items = _generateItems;
     asyncSingUp();
   }
 
@@ -71,87 +95,179 @@ class _MedicaMainState extends State<MedicaMain> {
   }
 
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 3,
-      child: Container(
-        child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
-          appBar: AppBar(
-            centerTitle: false,
-            title: Text(
-              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-              style: TextStyle(color: Colors.black),
-            ),
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            actions: [
-              FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection("UserWeb")
-                      .doc(auth.currentUser.uid)
-                      .get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      userData = snapshot.data.data() as Map<String, dynamic>;
-                      _userData = userData;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}",
-                              style: TextStyle(color: Colors.black)),
-                          actionMenu(userData["role"]),
-                        ],
-                      );
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("กำลังโหลด"),
-                        ],
-                      );
-                    }
-                  }),
-            ],
-            bottom: TabBar(
-              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-              labelColor: Colors.black,
-              tabs: <Widget>[
-                Tab(
-                  text: 'ผู้ป่วย',
-                ),
-                Tab(
-                  text: 'โพสต์',
-                ),
-                Tab(
-                  text: 'นัดหมายเข้าพบ',
-                ),
-                // Tab(
-                //   text: '',
-                // ),
-              ],
-            ),
+    var size = MediaQuery.of(context).size;
+
+    return
+        // DefaultTabController(
+        //   initialIndex: 0,
+        //   length: 3,
+        Container(
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(
+            "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+            style: TextStyle(color: Colors.black),
           ),
-          body: TabBarView(
-            children: <Widget>[
-              Center(
-                child: buildPatientPage(context, false),
-              ),
-              Center(
-                child: buildPostPage(context),
-              ),
-              Center(
-                child: buildAppointmentPage(context),
-              ),
-              // Center(
-              //     // child: buildPostPage(context),
-              //     ),
-            ],
-          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          actions: [
+            FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection("UserWeb")
+                    .doc(auth.currentUser.uid)
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    userData = snapshot.data.data() as Map<String, dynamic>;
+                    _userData = userData;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            "${userData['Firstname']}  ${userData['Lastname']}",
+                            style: TextStyle(color: Colors.black)),
+                        actionMenu(userData["role"]),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("กำลังโหลด"),
+                      ],
+                    );
+                  }
+                }),
+          ],
+          // bottom: TabBar(
+          //   indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+          //   labelColor: Colors.black,
+          //   tabs: <Widget>[
+          //     Tab(
+          //       text: 'ผู้ป่วย',
+          //     ),
+          //     Tab(
+          //       text: 'โพสต์',
+          //     ),
+          //     Tab(
+          //       text: 'นัดหมายเข้าพบ',
+          //     ),
+          //     // Tab(
+          //     //   text: '',
+          //     // ),
+          //   ],
+          // ),
         ),
+        body: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection("UserWeb")
+                .doc(auth.currentUser.uid)
+                .get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                userData = snapshot.data.data() as Map<String, dynamic>;
+                _userData = userData;
+                var userName = _userData["Firstname"] + _userData["Lastname"];
+                return CollapsibleSidebar(
+                  // isCollapsed: true,
+                  selectedIconColor: Colors.white,
+                  items: _items,
+                  isCollapsed: true,
+                  title: userName,
+                  showToggleButton: true,
+                  // title: 'MENU',
+                  // avatarImg:false,
+                  avatarImg: AssetImage('assets/icon/logo.png'),
+                  // title: 'John Smith',
+                  // onTitleTap: () {
+                  //   // ScaffoldMessenger.of(context).showSnackBar(
+                  //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+                  // },
+                  toggleTitle: 'ปิดแถบเมนู',
+                  body: _body(size, context, _headline),
+                  backgroundColor: Colors.grey.shade900,
+                  selectedTextColor: Colors.white,
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  titleStyle: TextStyle(
+                      fontSize: 20,
+                      // fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold),
+                  toggleTitleStyle:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+                  sidebarBoxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 20,
+                      spreadRadius: 0.01,
+                      offset: Offset(3, 3),
+                    ),
+                  ],
+                );
+              } else {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("กำลังโหลด"),
+                  ],
+                );
+              }
+            }),
+        // TabBarView(
+        //   children: <Widget>[
+        //     Center(
+        //       child: buildPatientPage(context, false),
+        //     ),
+        //     Center(
+        //       child: buildPostPage(context),
+        //     ),
+        //     Center(
+        //       child: buildAppointmentPage(context),
+        //     ),
+        //     // Center(
+        //     //     // child: buildPostPage(context),
+        //     //     ),
+        //   ],
+        // ),
       ),
+    );
+    // );
+  }
+
+  Widget _body(Size size, BuildContext context, String selected) {
+    if (selected == "all") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: buildPatientPage(context, false)),
+      );
+    } else if (selected == "patient") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildPostPage(context)),
+      );
+    } else if (selected == "post") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: buildAppointmentPage(context)),
+      );
+    }
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      // color: Colors.blueGrey[50],
+      child: Center(child: buildAppointmentPage(context)),
     );
   }
 
