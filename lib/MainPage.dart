@@ -87,33 +87,33 @@ class _MainPage extends State<MainPage> {
     return [
       CollapsibleItem(
         text: 'ระบบด้วยรวม',
-        icon: Icons.assessment,
+        icon: Icons.stacked_bar_chart_sharp,
         onPressed: () => setState(() => _headline = 'all'),
         isSelected: true,
       ),
       CollapsibleItem(
         text: 'ผู้ป่วย',
-        icon: Icons.icecream,
+        icon: Icons.people_alt,
         onPressed: () => setState(() => _headline = 'patient'),
       ),
       CollapsibleItem(
-        text: 'โพสต์',
-        icon: Icons.search,
-        onPressed: () => setState(() => _headline = 'post'),
-      ),
-      CollapsibleItem(
         text: 'อสม.',
-        icon: Icons.notifications,
+        icon: Icons.assignment_ind,
         onPressed: () => setState(() => _headline = 'volenter'),
       ),
       CollapsibleItem(
         text: 'แชทพูดคุย',
-        icon: Icons.settings,
+        icon: IconData(0xe153, fontFamily: 'MaterialIcons'),
         onPressed: () => setState(() => _headline = 'chat'),
+      ),      
+      CollapsibleItem(
+        text: 'โพสต์',
+        icon: Icons.post_add,
+        onPressed: () => setState(() => _headline = 'post'),
       ),
       CollapsibleItem(
         text: 'ยืนยันสมัครเข้าใช้งาน',
-        icon: Icons.home,
+        icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
         onPressed: () => setState(() => _headline = 'accept'),
       ),
     ];
@@ -235,34 +235,33 @@ class _MainPage extends State<MainPage> {
             //   ),
           ),
           body: CollapsibleSidebar(
-            isCollapsed: true,
+            // isCollapsed: true,
+            selectedIconColor:Colors.white,
             items: _items,
+            // title: 'MENU',
+            // avatarImg:false,
             // avatarImg: _avatarImg,
             // title: 'John Smith',
-            onTitleTap: () {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
-            },
+            // onTitleTap: () {
+            //   // ScaffoldMessenger.of(context).showSnackBar(
+            //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+            // },
+            toggleTitle: 'ปิดแถบเมนู', 
             body: _body(size, context, _headline),
-            backgroundColor: Colors.white,
-            selectedTextColor: Colors.limeAccent,
-            textStyle: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+            backgroundColor: Colors.grey.shade900,
+            selectedTextColor: Colors.white,
+            textStyle: TextStyle(fontSize: 15,),
             titleStyle: TextStyle(
                 fontSize: 20,
-                fontStyle: FontStyle.italic,
+                // fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold),
             toggleTitleStyle:
                 TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
             sidebarBoxShadow: [
               BoxShadow(
-                color: Colors.indigo,
+                color: Colors.black54,
                 blurRadius: 20,
-                spreadRadius: 0.01,
-                offset: Offset(3, 3),
-              ),
-              BoxShadow(
-                color: Colors.green,
-                blurRadius: 50,
                 spreadRadius: 0.01,
                 offset: Offset(3, 3),
               ),
@@ -281,49 +280,49 @@ class _MainPage extends State<MainPage> {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: AllStarus()),
       );
     } else if (selected == "patient") {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: BuildPatientSearch(role: true)),
       );
     } else if (selected == "post") {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: buildPostPage(context)),
       );
     } else if (selected == "volenter") {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: BuildVolunteerSearch()),
       );
     } else if (selected == "chat") {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: buildChat(context)),
       );
     } else if (selected == "accept") {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: buildAcceptUsersPage(context)),
       );
     }
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.blueGrey[50],
+      // color: Colors.blueGrey[50],
       child: Center(child: AllStarus()),
     );
   }
