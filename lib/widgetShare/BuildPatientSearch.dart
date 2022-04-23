@@ -29,180 +29,410 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
     return Card(
       child: SizedBox(
         height: 700,
-        width: 1000,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Text(
-                  'ผู้ป่วย',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            SizedBox(height: 30,),
-            // Expanded(child: ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 60),
-              child: TextFormField(
-                controller: _searchController,
-                onChanged: (value) {
-                  setState(() {
-                    searchText = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'ค้นหา',
-                  enabledBorder: OutlineInputBorder(
-                    // borderSide: const BorderSide(width: 3, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    // borderSide: const BorderSide(width: 3, color: Colors.red),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 30,),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream:
-                    _allPatient.where("Role", isEqualTo: "Patient").snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    documents = snapshot.data.docs;
-                    if (searchText.length > 0) {
-                      documents = documents.where((element) {
-                        return element
-                            .get('Firstname')
-                            .toString()
-                            .toLowerCase()
-                            .contains(searchText.toLowerCase());
-                      }).toList();
-                    }
-                    return ListView.builder(
-                        itemCount: documents.length,
-                        itemBuilder: (context, index) {
-                          // var path;
-                          // try {
-                          //   path = documents[index]["img"];
-                          // } catch (e) {
-                          //   path = "";
-                          // }
-                          // print(documents[index]["Img"]);
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 60),
-                            // padding: const EdgeInsets.all(0),
-                            child: Container(
-                            decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            ),
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                shape: RoundedRectangleBorder(
-                                  // side: BorderSide(
-                                  //     color: Colors.pink[100], width: 3),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                leading: Padding(
-                                  padding: const EdgeInsets.all(0),
-                                  // child: proFileShow(context, path),
-                                ),
-                                title: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        // Text(
-                                        //   "${snap["Firstname"]}",
-                                        //   softWrap: false,
-                                        // ),
-                                        Text.rich(
-                                          TextSpan(
-                                            style: TextStyle(
-                                              fontSize: 17,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text:
-                                                    "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}",
-                                              ),
-                                            ],
+        width: 1200,
+        child: Row(
+          children: [
+            SizedBox(
+                        height: 700,
+                        width: 350,
+                       child : Container(
+                         padding: const EdgeInsets.only(left: 30,right: 30),
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             SizedBox(height: 40,),
+                            //  Image.asset("icon/icon-hospital.png",scale: 4,),
+                            Text('รายชื่อผู้ป่วย',textAlign: TextAlign.center,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),),
+                             SizedBox(height: 5,),
+                             Text("   ท่านสามารถค้นหาชื่อผู้ป่วยในระบบและคลิกที่รายชื่อผู้ป่วยเพื่อดูข้อมูลได้",style: TextStyle(color: Colors.white,fontSize: 20),),
+                             SizedBox(height: 5,),
+                             Row(
+                               children: [
+                                 Icon(IconData(0xe04a, fontFamily: 'MaterialIcons'),color: Colors.red,),
+                                 Text("   ผู้ป่วยมีพฤติกรรมเสี่ยง",style: TextStyle(color: Colors.white,fontSize: 20),),
+                               ],
+                             ),
+                             SizedBox(height: 3,),
+                             Row(
+                               children: [
+                                 Icon(IconData(0xe04a, fontFamily: 'MaterialIcons'),color: Colors.green,),
+                                 Text("   ผู้ป่วยยังไม่มีความเสี่ยง",style: TextStyle(color: Colors.white,fontSize: 20),),
+                               ],
+                             )                             
+                           ],
+                         ),
+                                decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.modulate,
+                                  ),
+                                image: AssetImage("img/patientpage.jpg"),
+                                fit: BoxFit.cover,
+                                
+                              ),
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)
+                              ),
+                            ), 
+                      ),
+                      ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    // Center(
+                                    //   child: Padding(
+                                    //     padding: const EdgeInsets.only(
+                                    //       top: 10,
+                                    //     ),
+                                    //     child: Text(
+                                    //       'ผู้ป่วย',
+                                    //       textAlign: TextAlign.center,
+                                    //       style: TextStyle(fontSize: 40),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 30,),
+                                    // Expanded(child: ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 60),
+                                      child: TextFormField(
+                                        controller: _searchController,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            searchText = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          labelText: 'ค้นหาผู้ป่วย',
+                                          enabledBorder: OutlineInputBorder(
+                                            // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
-                                        )
-                                      ],
+                                          focusedBorder: OutlineInputBorder(
+                                            // borderSide: const BorderSide(width: 3, color: Colors.red),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        statusAlert(documents[index].id),
-                                      ],
+                                    SizedBox(height: 30,),
+                                    Expanded(
+                                      child: StreamBuilder<QuerySnapshot>(
+                                        stream:
+                                            _allPatient.where("Role", isEqualTo: "Patient").snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                                          if (snapshot.hasData) {
+                                            documents = snapshot.data.docs;
+                                            if (searchText.length > 0) {
+                                              documents = documents.where((element) {
+                                                return element
+                                                    .get('Firstname')
+                                                    .toString()
+                                                    .toLowerCase()
+                                                    .contains(searchText.toLowerCase());
+                                              }).toList();
+                                            }
+                                            return ListView.builder(
+                                                itemCount: documents.length,
+                                                itemBuilder: (context, index) {
+                                                  // var path;
+                                                  // try {
+                                                  //   path = documents[index]["img"];
+                                                  // } catch (e) {
+                                                  //   path = "";
+                                                  // }
+                                                  // print(documents[index]["Img"]);
+                                                  return Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 60),
+                                                    // padding: const EdgeInsets.all(0),
+                                                    child: Container(
+                                                    decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                      child: Column(
+                                                        children: [
+                                                          ListTile(
+                                                        shape: RoundedRectangleBorder(
+                                                          // side: BorderSide(
+                                                          //     color: Colors.pink[100], width: 3),
+                                                          borderRadius: BorderRadius.circular(20),
+                                                        ),
+                                                        leading: Padding(
+                                                          padding: const EdgeInsets.all(0),
+                                                          // child: proFileShow(context, path),
+                                                        ),
+                                                        title: Row(
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                // Text(
+                                                                //   "${snap["Firstname"]}",
+                                                                //   softWrap: false,
+                                                                // ),
+                                                                Text.rich(
+                                                                  TextSpan(
+                                                                    style: TextStyle(
+                                                                      fontSize: 17,
+                                                                    ),
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        text:
+                                                                            "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}",
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Column(
+                                                              children: [
+                                                                statusAlert(documents[index].id),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        subtitle: Text(
+                                                          checkDisease(documents[index]["NCDs"]),
+                                                        ),
+                                                        // DecoratedBox(
+                                                        //   decoration: BoxDecoration(
+                                                        //       color: Color.fromRGBO(255, 211, 251, 1),
+                                                        //       borderRadius: BorderRadius.circular(5)),
+                                                        //   child: Padding(
+                                                        //     padding: EdgeInsets.all(8.0),
+                                                        //     child: Text(
+                                                        //         checkDisease(documents[index]["NCDs"])),
+                                                        //   ),
+                                                        // ),
+                                                        trailing: DecoratedBox(
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.greenAccent.shade700,
+                                                              borderRadius: BorderRadius.circular(10)),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(8.0),
+                                                            child: Text("ข้อมูล",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+                                                          ),
+                                                        ),
+                                                        hoverColor: Colors.grey.shade200,
+                                                        onTap: () {
+                                                          Map<String, dynamic> snap = documents[index]
+                                                              .data() as Map<String, dynamic>;
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) => PatientMain(
+                                                                patienData: snap,
+                                                                patienDataId: documents[index].reference,
+                                                                isHospital: widget.role,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                      Divider(
+                                                        thickness: 2,
+                                                        color: Colors.grey.shade300,
+                                                      )
+                                                        ],
+                                                      )
+                                                    ),
+                                                    
+                                                  );
+                                                });
+                                          } else {
+                                            return Center(
+                                              child: Text("กำลังโหลดข้อมูล"),
+                                            );
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
-                                subtitle: Text(
-                                  checkDisease(documents[index]["NCDs"]),
-                                ),
-                                // DecoratedBox(
-                                //   decoration: BoxDecoration(
-                                //       color: Color.fromRGBO(255, 211, 251, 1),
-                                //       borderRadius: BorderRadius.circular(5)),
-                                //   child: Padding(
-                                //     padding: EdgeInsets.all(8.0),
-                                //     child: Text(
-                                //         checkDisease(documents[index]["NCDs"])),
-                                //   ),
-                                // ),
-                                trailing: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                      color: Colors.greenAccent.shade700,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text("ข้อมูล",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                                  ),
-                                ),
-                                hoverColor: Colors.grey.shade200,
-                                onTap: () {
-                                  Map<String, dynamic> snap = documents[index]
-                                      .data() as Map<String, dynamic>;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PatientMain(
-                                        patienData: snap,
-                                        patienDataId: documents[index].reference,
-                                        isHospital: widget.role,
-                                      ),
-                                    ),
-                                  );
-                                },
                               ),
-                              Divider(
-                                thickness: 2,
-                                color: Colors.grey.shade300,
-                              )
-                                ],
-                              )
-                            ),
-                            
-                          );
-                        });
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
+                            ),                      
           ],
-        ),
+        )
+        // Expanded(
+        //   child: Container(
+        //     child: Column(
+        //       children: <Widget>[
+        //         Center(
+        //           child: Padding(
+        //             padding: const EdgeInsets.only(
+        //               top: 10,
+        //             ),
+        //             child: Text(
+        //               'ผู้ป่วย',
+        //               textAlign: TextAlign.center,
+        //               style: TextStyle(fontSize: 40),
+        //             ),
+        //           ),
+        //         ),
+        //         SizedBox(height: 30,),
+        //         // Expanded(child: ),
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 60),
+        //           child: TextFormField(
+        //             controller: _searchController,
+        //             onChanged: (value) {
+        //               setState(() {
+        //                 searchText = value;
+        //               });
+        //             },
+        //             decoration: InputDecoration(
+        //               labelText: 'ค้นหา',
+        //               enabledBorder: OutlineInputBorder(
+        //                 // borderSide: const BorderSide(width: 3, color: Colors.blue),
+        //                 borderRadius: BorderRadius.circular(10),
+        //               ),
+        //               focusedBorder: OutlineInputBorder(
+        //                 // borderSide: const BorderSide(width: 3, color: Colors.red),
+        //                 borderRadius: BorderRadius.circular(10),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //         SizedBox(height: 30,),
+        //         Expanded(
+        //           child: StreamBuilder<QuerySnapshot>(
+        //             stream:
+        //                 _allPatient.where("Role", isEqualTo: "Patient").snapshots(),
+        //             builder: (BuildContext context,
+        //                 AsyncSnapshot<QuerySnapshot> snapshot) {
+        //               if (snapshot.hasData) {
+        //                 documents = snapshot.data.docs;
+        //                 if (searchText.length > 0) {
+        //                   documents = documents.where((element) {
+        //                     return element
+        //                         .get('Firstname')
+        //                         .toString()
+        //                         .toLowerCase()
+        //                         .contains(searchText.toLowerCase());
+        //                   }).toList();
+        //                 }
+        //                 return ListView.builder(
+        //                     itemCount: documents.length,
+        //                     itemBuilder: (context, index) {
+        //                       // var path;
+        //                       // try {
+        //                       //   path = documents[index]["img"];
+        //                       // } catch (e) {
+        //                       //   path = "";
+        //                       // }
+        //                       // print(documents[index]["Img"]);
+        //                       return Padding(
+        //                         padding: EdgeInsets.symmetric(horizontal: 60),
+        //                         // padding: const EdgeInsets.all(0),
+        //                         child: Container(
+        //                         decoration: BoxDecoration(
+        //                         borderRadius: BorderRadius.circular(20),
+        //                         ),
+        //                           child: Column(
+        //                             children: [
+        //                               ListTile(
+        //                             shape: RoundedRectangleBorder(
+        //                               // side: BorderSide(
+        //                               //     color: Colors.pink[100], width: 3),
+        //                               borderRadius: BorderRadius.circular(20),
+        //                             ),
+        //                             leading: Padding(
+        //                               padding: const EdgeInsets.all(0),
+        //                               // child: proFileShow(context, path),
+        //                             ),
+        //                             title: Row(
+        //                               children: [
+        //                                 Column(
+        //                                   children: [
+        //                                     // Text(
+        //                                     //   "${snap["Firstname"]}",
+        //                                     //   softWrap: false,
+        //                                     // ),
+        //                                     Text.rich(
+        //                                       TextSpan(
+        //                                         style: TextStyle(
+        //                                           fontSize: 17,
+        //                                         ),
+        //                                         children: [
+        //                                           TextSpan(
+        //                                             text:
+        //                                                 "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}",
+        //                                           ),
+        //                                         ],
+        //                                       ),
+        //                                     )
+        //                                   ],
+        //                                 ),
+        //                                 Column(
+        //                                   children: [
+        //                                     statusAlert(documents[index].id),
+        //                                   ],
+        //                                 ),
+        //                               ],
+        //                             ),
+        //                             subtitle: Text(
+        //                               checkDisease(documents[index]["NCDs"]),
+        //                             ),
+        //                             // DecoratedBox(
+        //                             //   decoration: BoxDecoration(
+        //                             //       color: Color.fromRGBO(255, 211, 251, 1),
+        //                             //       borderRadius: BorderRadius.circular(5)),
+        //                             //   child: Padding(
+        //                             //     padding: EdgeInsets.all(8.0),
+        //                             //     child: Text(
+        //                             //         checkDisease(documents[index]["NCDs"])),
+        //                             //   ),
+        //                             // ),
+        //                             trailing: DecoratedBox(
+        //                               decoration: BoxDecoration(
+        //                                   color: Colors.greenAccent.shade700,
+        //                                   borderRadius: BorderRadius.circular(10)),
+        //                               child: Padding(
+        //                                 padding: EdgeInsets.all(8.0),
+        //                                 child: Text("ข้อมูล",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+        //                               ),
+        //                             ),
+        //                             hoverColor: Colors.grey.shade200,
+        //                             onTap: () {
+        //                               Map<String, dynamic> snap = documents[index]
+        //                                   .data() as Map<String, dynamic>;
+        //                               Navigator.push(
+        //                                 context,
+        //                                 MaterialPageRoute(
+        //                                   builder: (context) => PatientMain(
+        //                                     patienData: snap,
+        //                                     patienDataId: documents[index].reference,
+        //                                     isHospital: widget.role,
+        //                                   ),
+        //                                 ),
+        //                               );
+        //                             },
+        //                           ),
+        //                           Divider(
+        //                             thickness: 2,
+        //                             color: Colors.grey.shade300,
+        //                           )
+        //                             ],
+        //                           )
+        //                         ),
+                                
+        //                       );
+        //                     });
+        //               } else {
+        //                 return Center(
+        //                   child: Text("กำลังโหลดข้อมูล"),
+        //                 );
+        //               }
+        //             },
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
           shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(

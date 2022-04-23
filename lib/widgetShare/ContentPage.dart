@@ -30,7 +30,7 @@ Widget contentPage(BuildContext context) {
                       // padding: EdgeInsets.symmetric(horizontal: 60),
                       // padding: const EdgeInsets.all(10),
                       child: Card(
-                        // color: Colors.pink[50],
+                        color: Colors.white,
                         child: SizedBox(
                           height: 200,
                           // width: 50,
@@ -193,9 +193,16 @@ Widget contentPage(BuildContext context) {
                                   ],
                                 ),
                               ),
+                              SizedBox(width: 10,)
                             ],
                           ),
                         ),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.black87),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
                       ),
                     ),
                               // Divider(

@@ -305,7 +305,7 @@ class _MainPage extends State<MainPage> {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        // color: Colors.blueGrey[50],
+        color: Colors.blueGrey[50],
         child: Center(child: AllStarus()),
       );
     } else if (selected == "patient") {
@@ -826,21 +826,23 @@ class _MainPage extends State<MainPage> {
     return Card(
       child: SizedBox(
         height: 700,
-        width: 1000,
+        width: 800,
         child: Column(
           children: <Widget>[
+            SizedBox(height: 30,),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
                 ),
                 child: Text(
-                  'แชทสนทนา',
+                  'รายชื่อแชทสนทนา',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40),
                 ),
               ),
             ),
+            SizedBox(height: 30,),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -874,42 +876,59 @@ class _MainPage extends State<MainPage> {
                           } else {
                             path = snap["Img"];
                           }
-                          return ListTile(
-                            leading: proFileShow(context, path),
-                            title: Text(
-                                "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
-                            subtitle: checkChat(groupChatIds),
-                            trailing: checkChatTime(groupChatIds),
-                            onTap: () async {
-                              var currentHas = auth.currentUser.uid.hashCode;
-                              var peerHas = document.id.hashCode;
-                              var currentId = auth.currentUser.uid;
-                              var peerId = document.id;
-                              if (currentHas <= peerHas) {
-                                groupChatId = '$currentId-$peerId';
-                              } else {
-                                groupChatId = '$peerId-$currentId';
-                              }
 
-                              print(
-                                  "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
-                              await FirebaseFirestore.instance
-                                  .collection("Messages")
-                                  .doc(groupChatId);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatRoom(
-                                    chatTo: snap,
-                                    groupChatId: groupChatId,
-                                    currentId: currentId,
-                                    peerHas: peerHas,
-                                    peerId: peerId,
-                                    currentHas: currentHas,
+                          return Container(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
                                   ),
                                 ),
-                              );
-                            },
+                              leading: proFileShow(context, path),
+                              title: Text(
+                                  "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
+                              subtitle: checkChat(groupChatIds),
+                              trailing: checkChatTime(groupChatIds),
+                              hoverColor:  Colors.grey.shade200,
+                              onTap: () async {
+                                var currentHas = auth.currentUser.uid.hashCode;
+                                var peerHas = document.id.hashCode;
+                                var currentId = auth.currentUser.uid;
+                                var peerId = document.id;
+                                if (currentHas <= peerHas) {
+                                  groupChatId = '$currentId-$peerId';
+                                } else {
+                                  groupChatId = '$peerId-$currentId';
+                                }
+
+                                print(
+                                    "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
+                                await FirebaseFirestore.instance
+                                    .collection("Messages")
+                                    .doc(groupChatId);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatRoom(
+                                      chatTo: snap,
+                                      groupChatId: groupChatId,
+                                      currentId: currentId,
+                                      peerHas: peerHas,
+                                      peerId: peerId,
+                                      currentHas: currentHas,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),  
+                            Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.shade300,
+                                )                                                          
+                              ],
+                            )
                           );
                         }).toList(),
                       ),
@@ -925,6 +944,11 @@ class _MainPage extends State<MainPage> {
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),      
     );
   }
 
