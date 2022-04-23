@@ -105,7 +105,7 @@ class _MainPage extends State<MainPage> {
         text: 'แชทพูดคุย',
         icon: IconData(0xe153, fontFamily: 'MaterialIcons'),
         onPressed: () => setState(() => _headline = 'chat'),
-      ),      
+      ),
       CollapsibleItem(
         text: 'โพสต์',
         icon: Icons.post_add,
@@ -234,39 +234,64 @@ class _MainPage extends State<MainPage> {
             //     ],
             //   ),
           ),
-          body: CollapsibleSidebar(
-            // isCollapsed: true,
-            selectedIconColor:Colors.white,
-            items: _items,
-            // title: 'MENU',
-            // avatarImg:false,
-            // avatarImg: _avatarImg,
-            // title: 'John Smith',
-            // onTitleTap: () {
-            //   // ScaffoldMessenger.of(context).showSnackBar(
-            //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
-            // },
-            toggleTitle: 'ปิดแถบเมนู', 
-            body: _body(size, context, _headline),
-            backgroundColor: Colors.grey.shade900,
-            selectedTextColor: Colors.white,
-            textStyle: TextStyle(fontSize: 15,),
-            titleStyle: TextStyle(
-                fontSize: 20,
-                // fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold),
-            toggleTitleStyle:
-                TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          body: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection("UserWeb")
+                  .doc(auth.currentUser.uid)
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  userData = snapshot.data.data() as Map<String, dynamic>;
+                  _userData = userData;
+                  var userName  = _userData["Firstname"]+_userData["Lastname"];
+                  return CollapsibleSidebar(
+                    // isCollapsed: true,
+                    selectedIconColor: Colors.white,
+                    items: _items,
+                    isCollapsed: false,
+                    title: userName,
+                    showToggleButton: false,
+                    // title: 'MENU',
+                    // avatarImg:false,
+                    avatarImg: AssetImage('assets/icon/logo.png'),
+                    // title: 'John Smith',
+                    // onTitleTap: () {
+                    //   // ScaffoldMessenger.of(context).showSnackBar(
+                    //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+                    // },
+                    toggleTitle: 'ปิดแถบเมนู',
+                    body: _body(size, context, _headline),
+                    backgroundColor: Colors.grey.shade900,
+                    selectedTextColor: Colors.white,
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                    ),
+                    titleStyle: TextStyle(
+                        fontSize: 20,
+                        // fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                    toggleTitleStyle:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 
-            sidebarBoxShadow: [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 20,
-                spreadRadius: 0.01,
-                offset: Offset(3, 3),
-              ),
-            ],
-          ),
+                    sidebarBoxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 20,
+                        spreadRadius: 0.01,
+                        offset: Offset(3, 3),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("กำลังโหลด"),
+                    ],
+                  );
+                }
+              }),
         ),
       );
       // );
