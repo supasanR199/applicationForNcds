@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget proFileShow(context, String path) {
+Widget proFileShow(context, String path, String gender) {
   // if (path == "lib/img/not-available.png") {
   //   return CircleAvatar(
   //     radius: 48,
@@ -23,7 +23,23 @@ Widget proFileShow(context, String path) {
             backgroundImage: Image.network(snap.data).image,
           );
         } else {
-          return new CircularProgressIndicator();
+              if (gender == "ชาย") {
+              return CircleAvatar(
+                radius: 48, // Image radius
+                backgroundImage: Image.asset("icon/man.png").image,
+              );            
+              } else if (gender == "หญิง") {
+              return CircleAvatar(
+                radius: 48, // Image radius
+                backgroundImage: Image.asset("icon/woman.png").image,
+              );            
+              }else{
+              return CircleAvatar(
+                radius: 48, // Image radius
+                backgroundImage: Image.asset("img/noimage.png").image,
+              );
+              }
+          // return new CircularProgressIndicator();
         }
       });
 }

@@ -78,7 +78,7 @@ Widget buildPatientPage(BuildContext context, bool role) {
                               borderRadius: BorderRadius.circular(20)),
                           leading: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: proFileShow(context, path),
+                            child: proFileShow(context, path,"${snap["Gender"]}"),
                           ),
                           title: Row(
                             children: [

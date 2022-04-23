@@ -31,7 +31,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           centerTitle: false,
           backgroundColor: Colors.white,
@@ -43,20 +43,20 @@ class _ChatRoomState extends State<ChatRoom> {
         body: Center(
           child: Card(
             child: SizedBox(
-              height: 700,
-              width: 1000,
+              height: 900,
+              width: 700,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        top: 10,
+                        top: 20,bottom: 30
                       ),
                       child: Text(
-                        'แชทสนทนากับ ${widget.chatTo['Firstname']}',
+                        'คุณ ${widget.chatTo['Firstname']} ${widget.chatTo['Lastname']}',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 40),
+                        style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -116,12 +116,12 @@ class _ChatRoomState extends State<ChatRoom> {
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: Colors.blue),
+                                      width: 3, color: Colors.grey),
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      width: 3, color: Colors.green),
+                                      width: 3, color: Colors.blueAccent),
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
@@ -129,10 +129,13 @@ class _ChatRoomState extends State<ChatRoom> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 5),
+                      // SizedBox(width: 5),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: FloatingActionButton(
+                          
+                          hoverColor: Colors.grey.shade200,
+                          backgroundColor: Colors.white,
                           onPressed: () async {
                             if (chatContent != null) {
                               var documentReference = await FirebaseFirestore
@@ -162,7 +165,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             }
                           },
                           // tooltip: 'Create',
-                          child: Icon(Icons.send),
+                          child: Icon(Icons.send,color: Colors.blueAccent,),
                         ),
                       ),
                     ],
@@ -170,6 +173,11 @@ class _ChatRoomState extends State<ChatRoom> {
                 ],
               ),
             ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),              
           ),
         ),
       ),
