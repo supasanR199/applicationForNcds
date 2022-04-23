@@ -54,7 +54,7 @@ class _StartPageState extends State<StartPage> {
             if (userData["role"] == "admin") {
               Navigator.pushNamed(context, '/adminmain');
             } else if (userData["role"] == "hospital") {
-              Navigator.pushNamed(context, '/mainpage');
+              Navigator.pushNamed(context, '/test');
             } else if (userData["role"] == "medicalpersonnel") {
               Navigator.pushNamed(context, '/medicaMain');
             }

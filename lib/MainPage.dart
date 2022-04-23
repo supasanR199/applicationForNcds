@@ -19,6 +19,7 @@ import 'package:appilcation_for_ncds/models/AuthDataModels.dart';
 import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
 import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
+import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -78,6 +79,68 @@ class _MainPage extends State<MainPage> {
 
   String groupChatId;
   String groupChatIds;
+  List<CollapsibleItem> _items;
+  String _headline;
+  List<CollapsibleItem> get _generateItems {
+    return [
+      CollapsibleItem(
+        text: 'Dashboard',
+        icon: Icons.assessment,
+        onPressed: () => setState(() => _headline = 'DashBoard'),
+        isSelected: true,
+      ),
+      CollapsibleItem(
+        text: 'Ice-Cream',
+        icon: Icons.icecream,
+        onPressed: () => setState(() => _headline = 'Errors'),
+      ),
+      CollapsibleItem(
+        text: 'Search',
+        icon: Icons.search,
+        onPressed: () => setState(() => _headline = 'Search'),
+      ),
+      CollapsibleItem(
+        text: 'Notifications',
+        icon: Icons.notifications,
+        onPressed: () => setState(() => _headline = 'Notifications'),
+      ),
+      CollapsibleItem(
+        text: 'Settings',
+        icon: Icons.settings,
+        onPressed: () => setState(() => _headline = 'Settings'),
+      ),
+      CollapsibleItem(
+        text: 'Home',
+        icon: Icons.home,
+        onPressed: () => setState(() => _headline = 'Home'),
+      ),
+      CollapsibleItem(
+        text: 'Alarm',
+        icon: Icons.access_alarm,
+        onPressed: () => setState(() => _headline = 'Alarm'),
+      ),
+      CollapsibleItem(
+        text: 'Eco',
+        icon: Icons.eco,
+        onPressed: () => setState(() => _headline = 'Eco'),
+      ),
+      CollapsibleItem(
+        text: 'Event',
+        icon: Icons.event,
+        onPressed: () => setState(() => _headline = 'Event'),
+      ),
+      CollapsibleItem(
+        text: 'Email',
+        icon: Icons.email,
+        onPressed: () => setState(() => _headline = 'Email'),
+      ),
+      CollapsibleItem(
+        text: 'Face',
+        icon: Icons.face,
+        onPressed: () => setState(() => _headline = 'Face'),
+      ),
+    ];
+  }
 
   Widget build(BuildContext context) {
     if (auth.currentUser != null) {
@@ -191,13 +254,14 @@ class _MainPage extends State<MainPage> {
                 ],
               ),
             ),
+            drawer: Drawer(child: ListView()),
             body: Container(
-          decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("img/doctor-patient.png"),
-            fit: BoxFit.cover,
-          ),
-        ),   
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("img/doctor-patient.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: TabBarView(
                 children: <Widget>[
                   Center(
@@ -225,7 +289,7 @@ class _MainPage extends State<MainPage> {
         ),
       );
     } else {
-      return Text("not login");
+      Navigator.pushNamed(context, '/');
     }
   }
 
@@ -411,11 +475,11 @@ class _MainPage extends State<MainPage> {
           ],
         ),
       ),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),      
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
     );
   }
 

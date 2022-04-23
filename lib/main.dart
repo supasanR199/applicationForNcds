@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:appilcation_for_ncds/TestWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -113,6 +114,7 @@ Widget buildMaterialApp() {
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
       '/medicaMain': (context) => MedicaMain(),
+      '/test':(context) => SidebarPage(),
       // '/addPatientForVol': (context) => AddPatienFoorVolunteer(),
       // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),
