@@ -127,9 +127,9 @@ class _MainPage extends State<MainPage> {
           //   initialIndex: 0,
           //   length: 6,
           //   child:
-          Container(
+          Container(        
         child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+          backgroundColor: Colors.blueGrey[50],
           appBar: AppBar(
             leading: Image.asset("icon/logo.png"),
             centerTitle: false,
@@ -249,9 +249,9 @@ class _MainPage extends State<MainPage> {
                     // isCollapsed: true,
                     selectedIconColor: Colors.white,
                     items: _items,
-                    isCollapsed: false,
+                    isCollapsed: true,
                     title: userName,
-                    showToggleButton: false,
+                    showToggleButton: true,
                     // title: 'MENU',
                     // avatarImg:false,
                     avatarImg: AssetImage('assets/icon/logo.png'),
