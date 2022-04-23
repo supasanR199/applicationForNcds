@@ -48,6 +48,8 @@ class _MainPage extends State<MainPage> {
     // print(_userLogId);
     super.initState();
     asyncSingUp();
+    _items = _generateItems;
+    _headline = _items.firstWhere((item) => item.isSelected).text;
   }
 
   void asyncSingUp() async {
@@ -84,213 +86,246 @@ class _MainPage extends State<MainPage> {
   List<CollapsibleItem> get _generateItems {
     return [
       CollapsibleItem(
-        text: 'Dashboard',
+        text: 'ระบบด้วยรวม',
         icon: Icons.assessment,
-        onPressed: () => setState(() => _headline = 'DashBoard'),
+        onPressed: () => setState(() => _headline = 'all'),
         isSelected: true,
       ),
       CollapsibleItem(
-        text: 'Ice-Cream',
+        text: 'ผู้ป่วย',
         icon: Icons.icecream,
-        onPressed: () => setState(() => _headline = 'Errors'),
+        onPressed: () => setState(() => _headline = 'patient'),
       ),
       CollapsibleItem(
-        text: 'Search',
+        text: 'โพสต์',
         icon: Icons.search,
-        onPressed: () => setState(() => _headline = 'Search'),
+        onPressed: () => setState(() => _headline = 'post'),
       ),
       CollapsibleItem(
-        text: 'Notifications',
+        text: 'อสม.',
         icon: Icons.notifications,
-        onPressed: () => setState(() => _headline = 'Notifications'),
+        onPressed: () => setState(() => _headline = 'volenter'),
       ),
       CollapsibleItem(
-        text: 'Settings',
+        text: 'แชทพูดคุย',
         icon: Icons.settings,
-        onPressed: () => setState(() => _headline = 'Settings'),
+        onPressed: () => setState(() => _headline = 'chat'),
       ),
       CollapsibleItem(
-        text: 'Home',
+        text: 'ยืนยันสมัครเข้าใช้งาน',
         icon: Icons.home,
-        onPressed: () => setState(() => _headline = 'Home'),
-      ),
-      CollapsibleItem(
-        text: 'Alarm',
-        icon: Icons.access_alarm,
-        onPressed: () => setState(() => _headline = 'Alarm'),
-      ),
-      CollapsibleItem(
-        text: 'Eco',
-        icon: Icons.eco,
-        onPressed: () => setState(() => _headline = 'Eco'),
-      ),
-      CollapsibleItem(
-        text: 'Event',
-        icon: Icons.event,
-        onPressed: () => setState(() => _headline = 'Event'),
-      ),
-      CollapsibleItem(
-        text: 'Email',
-        icon: Icons.email,
-        onPressed: () => setState(() => _headline = 'Email'),
-      ),
-      CollapsibleItem(
-        text: 'Face',
-        icon: Icons.face,
-        onPressed: () => setState(() => _headline = 'Face'),
+        onPressed: () => setState(() => _headline = 'accept'),
       ),
     ];
   }
 
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     if (auth.currentUser != null) {
-      return DefaultTabController(
-        initialIndex: 0,
-        length: 6,
-        child: Container(
-          child: Scaffold(
-            backgroundColor: Color.fromRGBO(255, 211, 251, 1),
-            appBar: AppBar(
-              leading: Image.asset("icon/logo.png"),
-              centerTitle: false,
-              title: Text(
-                "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
-                style: TextStyle(color: Colors.black),
-                // textAlign: TextAlign.left,
-              ),
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              actions: [
-                FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection("UserWeb")
-                        .doc(auth.currentUser.uid)
-                        .get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        userData = snapshot.data.data() as Map<String, dynamic>;
-                        _userData = userData;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "${userData['Firstname']}  ${userData['Lastname']}",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            actionMenu(userData["role"]),
-                          ],
-                        );
-                      } else {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("กำลังโหลด"),
-                          ],
-                        );
-                      }
-                    }),
-              ],
-              bottom: TabBar(
-                indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-                tabs: <Widget>[
-                  Tab(
-                    child: Text(
-                      "ระบบด้วยรวม",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.people_alt,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    // text: 'ผู้ป่วย',
-                    child: Text(
-                      "ผู้ป่วย",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.emoji_people,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "โพสต์",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.post_add,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "อสม.",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(
-                      Icons.emoji_people,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "แชทพูดคุย",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons'),
-                        color: Colors.black),
-                  ),
-                  Tab(
-                    child: Text(
-                      "ยืนยันผู้สมัครเข้าใช้งาน",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons'),
-                        color: Colors.black),
-                  ),
-                ],
-              ),
+      return
+          // DefaultTabController(
+          //   initialIndex: 0,
+          //   length: 6,
+          //   child:
+          Container(
+        child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+          appBar: AppBar(
+            leading: Image.asset("icon/logo.png"),
+            centerTitle: false,
+            title: Text(
+              "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
+              style: TextStyle(color: Colors.black),
+              // textAlign: TextAlign.left,
             ),
-            drawer: Drawer(child: ListView()),
-            body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("img/doctor-patient.png"),
-                  fit: BoxFit.cover,
-                ),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            actions: [
+              FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection("UserWeb")
+                      .doc(auth.currentUser.uid)
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      userData = snapshot.data.data() as Map<String, dynamic>;
+                      _userData = userData;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${userData['Firstname']}  ${userData['Lastname']}",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          actionMenu(userData["role"]),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("กำลังโหลด"),
+                        ],
+                      );
+                    }
+                  }),
+            ],
+            //   bottom: TabBar(
+            //     indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+            //     tabs: <Widget>[
+            //       Tab(
+            //         child: Text(
+            //           "ระบบด้วยรวม",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.people_alt,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         // text: 'ผู้ป่วย',
+            //         child: Text(
+            //           "ผู้ป่วย",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.emoji_people,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "โพสต์",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.post_add,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "อสม.",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(
+            //           Icons.emoji_people,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "แชทพูดคุย",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(IconData(0xe153, fontFamily: 'MaterialIcons'),
+            //             color: Colors.black),
+            //       ),
+            //       Tab(
+            //         child: Text(
+            //           "ยืนยันผู้สมัครเข้าใช้งาน",
+            //           style: TextStyle(color: Colors.black),
+            //         ),
+            //         icon: Icon(IconData(0xe159, fontFamily: 'MaterialIcons'),
+            //             color: Colors.black),
+            //       ),
+            //     ],
+            //   ),
+          ),
+          body: CollapsibleSidebar(
+            isCollapsed: true,
+            items: _items,
+            // avatarImg: _avatarImg,
+            // title: 'John Smith',
+            onTitleTap: () {
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+            },
+            body: _body(size, context, _headline),
+            backgroundColor: Colors.white,
+            selectedTextColor: Colors.limeAccent,
+            textStyle: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+            titleStyle: TextStyle(
+                fontSize: 20,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold),
+            toggleTitleStyle:
+                TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            sidebarBoxShadow: [
+              BoxShadow(
+                color: Colors.indigo,
+                blurRadius: 20,
+                spreadRadius: 0.01,
+                offset: Offset(3, 3),
               ),
-              child: TabBarView(
-                children: <Widget>[
-                  Center(
-                    child: AllStarus(),
-                  ),
-                  Center(
-                    child: BuildPatientSearch(role: true),
-                  ),
-                  Center(
-                    child: buildPostPage(context),
-                  ),
-                  Center(
-                    child: BuildVolunteerSearch(),
-                  ),
-                  Center(
-                    child: buildChat(context),
-                  ),
-                  Center(
-                    child: buildAcceptUsersPage(context),
-                  ),
-                ],
+              BoxShadow(
+                color: Colors.green,
+                blurRadius: 50,
+                spreadRadius: 0.01,
+                offset: Offset(3, 3),
               ),
-            ),
+            ],
           ),
         ),
       );
+      // );
     } else {
       Navigator.pushNamed(context, '/');
     }
+  }
+
+  Widget _body(Size size, BuildContext context, String selected) {
+    if (selected == "all") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: AllStarus()),
+      );
+    } else if (selected == "patient") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: BuildPatientSearch(role: true)),
+      );
+    } else if (selected == "post") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: buildPostPage(context)),
+      );
+    } else if (selected == "volenter") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: BuildVolunteerSearch()),
+      );
+    } else if (selected == "chat") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: buildChat(context)),
+      );
+    } else if (selected == "accept") {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey[50],
+        child: Center(child: buildAcceptUsersPage(context)),
+      );
+    }
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.blueGrey[50],
+      child: Center(child: AllStarus()),
+    );
   }
 
   Widget buildAcceptUsersPage(BuildContext context) {
