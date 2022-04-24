@@ -49,7 +49,7 @@ class _MedicaMainState extends State<MedicaMain> {
     return [
       CollapsibleItem(
         text: 'ผู้ป่วย',
-        icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
+        icon: Icons.people_alt,
         onPressed: () => setState(() => _headline = 'all'),
         isSelected: true,
       ),
@@ -103,7 +103,8 @@ class _MedicaMainState extends State<MedicaMain> {
         //   length: 3,
         Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           centerTitle: false,
           title: Text(
@@ -245,7 +246,7 @@ class _MedicaMainState extends State<MedicaMain> {
       return Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey[50],
+        // color: Colors.blueGrey[50],
         child: Center(child: buildPatientPage(context, false)),
       );
     } else if (selected == "patient") {
@@ -255,7 +256,7 @@ class _MedicaMainState extends State<MedicaMain> {
         // color: Colors.blueGrey[50],
         child: Center(child: buildPostPage(context)),
       );
-    } else if (selected == "post") {
+    } else if (selected == "volenter") {
       return Container(
         height: double.infinity,
         width: double.infinity,
@@ -267,7 +268,8 @@ class _MedicaMainState extends State<MedicaMain> {
       height: double.infinity,
       width: double.infinity,
       // color: Colors.blueGrey[50],
-      child: Center(child: buildAppointmentPage(context)),
+      child: Center(child: buildPatientPage(context, false)),
+      // child: Center(child: buildAppointmentPage(context)),
     );
   }
 
@@ -343,83 +345,91 @@ class _MedicaMainState extends State<MedicaMain> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,bottom: 20
                 ),
                 child: Text(
                   'นัดหมายเข้าพบ',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                 ),
               ),
             ),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("MobileUser")
-                    .where("Role", isEqualTo: "Patient")
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> snap =
-                            document.data() as Map<String, dynamic>;
-                        List appoint = List();
-                        if (snap["AppointmentFromMd"] != null) {
-                          appoint = snap["AppointmentFromMd"];
-                        } else {
-                          appoint.add(null);
-                          appoint.add(null);
-                        }
-                        return ListTile(
-                          title:
-                              Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
-                          subtitle: Text(checkAppointmentFromMd(appoint[0])),
-                          trailing: bulidButtonApployment(context, document),
-                          // Text(checkAppointmentFromMd(
-                          //     snap["AppointmentFromMd"])),
-                          // onTap: () async {
-                          //   final DateTime selected = await showDatePicker(
-                          //     context: context,
-                          //     initialDate: DateTime.now(),
-                          //     firstDate: DateTime.now(),
-                          //     lastDate: DateTime(2222),
-                          //   );
-                          //   if (selected != null && selected != selectedDate) {
-                          //     setState(() {
-                          //       selectedDate = selected;
-                          //       FirebaseFirestore.instance
-                          //           .collection("MobileUser")
-                          //           .doc(document.id)
-                          //           .update({
-                          //         "AppointmentFromMd": selectedDate
-                          //       }).whenComplete(() {
-                          //         showDialog(
-                          //           context: context,
-                          //           builder: (BuildContext context) =>
-                          //               alertMessageOnlyOk(context,
-                          //                   "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
-                          //         );
-                          //       });
-                          //     });
-                          //   }
-                          // },
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 60),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("MobileUser")
+                      .where("Role", isEqualTo: "Patient")
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> snap =
+                              document.data() as Map<String, dynamic>;
+                          List appoint = List();
+                          if (snap["AppointmentFromMd"] != null) {
+                            appoint = snap["AppointmentFromMd"];
+                          } else {
+                            appoint.add(null);
+                            appoint.add(null);
+                          }
+                          return ListTile(
+                            title:
+                                Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                            subtitle: Text(checkAppointmentFromMd(appoint[0])),
+                            trailing: bulidButtonApployment(context, document),
+                            // Text(checkAppointmentFromMd(
+                            //     snap["AppointmentFromMd"])),
+                            // onTap: () async {
+                            //   final DateTime selected = await showDatePicker(
+                            //     context: context,
+                            //     initialDate: DateTime.now(),
+                            //     firstDate: DateTime.now(),
+                            //     lastDate: DateTime(2222),
+                            //   );
+                            //   if (selected != null && selected != selectedDate) {
+                            //     setState(() {
+                            //       selectedDate = selected;
+                            //       FirebaseFirestore.instance
+                            //           .collection("MobileUser")
+                            //           .doc(document.id)
+                            //           .update({
+                            //         "AppointmentFromMd": selectedDate
+                            //       }).whenComplete(() {
+                            //         showDialog(
+                            //           context: context,
+                            //           builder: (BuildContext context) =>
+                            //               alertMessageOnlyOk(context,
+                            //                   "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
+                            //         );
+                            //       });
+                            //     });
+                            //   }
+                            // },
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      return Center(
+                        child: Text("กำลังโหลดข้อมูล"),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ],
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),    
     );
   }
 
@@ -854,12 +864,13 @@ class _MedicaMainState extends State<MedicaMain> {
                 ));
       },
       // color: Color.fromRGBO(255, 211, 251, 1),
-      textColor: Colors.black,
+      textColor: Colors.white,
+      hoverColor: Colors.grey.shade400,
       child: Text('นัดหมายผู้ป่วยมาที่ รพสต.'),
-      color: Colors.greenAccent[100],
+      color: Colors.blueAccent,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
     );
   }
 }

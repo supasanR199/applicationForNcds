@@ -80,7 +80,7 @@ class _adminMainState extends State<adminMain> {
   List<CollapsibleItem> get _generateItems {
     return [
       CollapsibleItem(
-        text: 'อนุมัติเข้าใช้งานของบุคคลากร รพสต.',
+        text: 'อนุมัติเข้าใช้งาน รพสต.',
         icon: IconData(0xe159, fontFamily: 'MaterialIcons'),
         onPressed: () => setState(() => _headline = 'all'),
         isSelected: true,
@@ -106,7 +106,8 @@ class _adminMainState extends State<adminMain> {
     //   length: 3,
     return Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           centerTitle: false,
           automaticallyImplyLeading: false,
@@ -255,7 +256,7 @@ class _adminMainState extends State<adminMain> {
         // color: Colors.blueGrey[50],
         child: Center(child: buildLogPage(context)),
       );
-    } else if (selected == "post") {
+    } else if (selected == "volenter") {
       return Container(
         height: double.infinity,
         width: double.infinity,
@@ -275,101 +276,109 @@ class _adminMainState extends State<adminMain> {
     return Container(
       child: Center(
         child: Card(
-          child: SizedBox(
-            height: 700,
-            width: 1000,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "อนุมัติเข้าใข้งาน",
-                          style: TextStyle(fontSize: 40),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Center(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 60),
+            child: SizedBox(
+              height: 700,
+              width: 1000,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
                           child: Text(
-                            "บุคคลากร รพสต.",
-                            style: TextStyle(fontSize: 20),
+                            "อนุมัติเข้าใข้งาน",
+                            style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "บุคคลากร รพสต.",
+                              style: TextStyle(fontSize: 20),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: _docRef.snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView(
-                            children: snapshot.data.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> snap =
-                                  document.data() as Map<String, dynamic>;
-                              return ListTile(
-                                title: Text("${snap["Firstname"]}"),
-                                subtitle: Text("${snap["Lastname"]}"),
-                                trailing: Switch(
-                                  value: snap["status"],
-                                  onChanged: (value) {
-                                    docId = (snapshot.data.docs
-                                        .map((e) => e.reference)
-                                        .toList());
-                                    // print(
-                                    //     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                    //         document.id +
-                                    //         ")");
-                                    // for find index in DocmentReference.
-                                    for (int i = 0; i < docId.length; i++) {
-                                      if (docId[i].toString() ==
-                                          "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                              document.id +
-                                              ")") {
-                                        index = i;
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: _docRef.snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView(
+                              children: snapshot.data.docs
+                                  .map((DocumentSnapshot document) {
+                                Map<String, dynamic> snap =
+                                    document.data() as Map<String, dynamic>;
+                                return ListTile(
+                                  title: Text("${snap["Firstname"]} ${snap["Lastname"]}"),
+                                  // subtitle: Text("${snap["Lastname"]}"),
+                                  trailing: Switch(
+                                    value: snap["status"],
+                                    onChanged: (value) {
+                                      docId = (snapshot.data.docs
+                                          .map((e) => e.reference)
+                                          .toList());
+                                      // print(
+                                      //     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                      //         document.id +
+                                      //         ")");
+                                      // for find index in DocmentReference.
+                                      for (int i = 0; i < docId.length; i++) {
+                                        if (docId[i].toString() ==
+                                            "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                                document.id +
+                                                ")") {
+                                          index = i;
+                                        }
                                       }
-                                    }
-                                    FirebaseFirestore.instance
-                                        .runTransaction((transaction) async {
-                                      DocumentSnapshot freshSnap =
-                                          await transaction.get(docId[index]);
-                                      await transaction.update(
-                                          freshSnap.reference,
-                                          {"status": value});
-                                    });
-                                  },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        } else {
-                          return Center(
-                            child: Text("กำลังโหลด"),
-                          );
-                        }
-                      }),
-                ),
-              ],
+                                      FirebaseFirestore.instance
+                                          .runTransaction((transaction) async {
+                                        DocumentSnapshot freshSnap =
+                                            await transaction.get(docId[index]);
+                                        await transaction.update(
+                                            freshSnap.reference,
+                                            {"status": value});
+                                      });
+                                    },
+                                    activeTrackColor: Colors.lightGreenAccent,
+                                    activeColor: Colors.green,
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          } else {
+                            return Center(
+                              child: Text("กำลังโหลด"),
+                            );
+                          }
+                        }),
+                  ),
+                ],
+              ),
             ),
           ),
           //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),            
         ),
       ),
     );
@@ -392,7 +401,7 @@ class _adminMainState extends State<adminMain> {
                       Expanded(
                         child: Text(
                           "การเข้าใช้งาน",
-                          style: TextStyle(fontSize: 40),
+                          style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -412,7 +421,10 @@ class _adminMainState extends State<adminMain> {
                             child: UserLog(),
                           );
                         } else {
-                          return LinearProgressIndicator();
+                          return Center(
+                            child: Text("กำลังโหลดข้อมูล.."),
+                          );
+                          // CircularProgressIndicator();
                         }
                       }),
                 ),
@@ -420,6 +432,11 @@ class _adminMainState extends State<adminMain> {
             ),
           ),
           //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),           
         ),
       ),
     );
