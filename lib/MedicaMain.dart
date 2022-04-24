@@ -2,6 +2,7 @@ import 'package:appilcation_for_ncds/AddPost.dart';
 import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/EvaluateSoftwareForMed.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
@@ -247,7 +248,7 @@ class _MedicaMainState extends State<MedicaMain> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildPatientPage(context, false)),
+        child: Center(child: BuildPatientSearch(role: false)),
       );
     } else if (selected == "patient") {
       return Container(
@@ -263,14 +264,14 @@ class _MedicaMainState extends State<MedicaMain> {
         // color: Colors.blueGrey[50],
         child: Center(child: buildAppointmentPage(context)),
       );
+    } else {
+      return Container(
+        height: double.infinity,
+        width: double.infinity,
+        // color: Colors.blueGrey[50],
+        child: Center(child: BuildPatientSearch(role: false)),
+      );
     }
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      // color: Colors.blueGrey[50],
-      child: Center(child: buildPatientPage(context, false)),
-      // child: Center(child: buildAppointmentPage(context)),
-    );
   }
 
   Widget actionMenu(String role) {
@@ -344,13 +345,11 @@ class _MedicaMainState extends State<MedicaMain> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,bottom: 20
-                ),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
                   'นัดหมายเข้าพบ',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -378,8 +377,8 @@ class _MedicaMainState extends State<MedicaMain> {
                             appoint.add(null);
                           }
                           return ListTile(
-                            title:
-                                Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
+                            title: Text(
+                                "${snap["Firstname"]}  ${snap["Lastname"]}"),
                             subtitle: Text(checkAppointmentFromMd(appoint[0])),
                             trailing: bulidButtonApployment(context, document),
                             // Text(checkAppointmentFromMd(
@@ -425,11 +424,11 @@ class _MedicaMainState extends State<MedicaMain> {
           ],
         ),
       ),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
-          ),
-        ),    
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(30),
+        ),
+      ),
     );
   }
 

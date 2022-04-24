@@ -127,7 +127,7 @@ class _MainPage extends State<MainPage> {
           //   initialIndex: 0,
           //   length: 6,
           //   child:
-          Container(        
+          Container(
         child: Scaffold(
           backgroundColor: Colors.blueGrey[50],
           appBar: AppBar(
@@ -244,7 +244,7 @@ class _MainPage extends State<MainPage> {
                 if (snapshot.hasData) {
                   userData = snapshot.data.data() as Map<String, dynamic>;
                   _userData = userData;
-                  var userName  = _userData["Firstname"]+_userData["Lastname"];
+                  var userName = _userData["Firstname"] + _userData["Lastname"];
                   return CollapsibleSidebar(
                     // isCollapsed: true,
                     selectedIconColor: Colors.white,
@@ -362,13 +362,11 @@ class _MainPage extends State<MainPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,bottom: 30
-                ),
+                padding: const EdgeInsets.only(top: 20, bottom: 30),
                 child: Text(
                   'ยืนยันผู้สมัครเข้าใช้งาน',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30 ,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -376,171 +374,199 @@ class _MainPage extends State<MainPage> {
               child: Container(
                 child: Row(
                   children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 60),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 0, bottom: 20),
-                      child: Text(
-                        "บุคลากรทาการแพทย์",
-                        style: TextStyle(fontSize: 20),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 60),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 0, bottom: 20),
+                              child: Text(
+                                "บุคลากรทาการแพทย์",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            Expanded(
+                              child: StreamBuilder<QuerySnapshot>(
+                                  stream: _docRef
+                                      .where('role',
+                                          isEqualTo: "medicalpersonnel")
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView(
+                                        children: snapshot.data.docs
+                                            .map((DocumentSnapshot document) {
+                                          Map<String, dynamic> snap = document
+                                              .data() as Map<String, dynamic>;
+                                          return ListTile(
+                                            title: Text(
+                                                "${snap["Firstname"]}  ${snap["Lastname"]}"),
+                                            subtitle: Text(
+                                                checkRoletoThai(snap["role"])),
+                                            trailing: Switch(
+                                              value: snap["status"],
+                                              onChanged: (value) {
+                                                docId = (snapshot.data.docs
+                                                    .map((e) => e.reference)
+                                                    .toList());
+                                                print(
+                                                    "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                                        document.id +
+                                                        ")");
+                                                // for find index in DocmentReference.
+                                                for (int i = 0;
+                                                    i < docId.length;
+                                                    i++) {
+                                                  if (docId[i].toString() ==
+                                                      "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                                          document.id +
+                                                          ")") {
+                                                    index = i;
+                                                  }
+                                                }
+                                                FirebaseFirestore.instance
+                                                    .runTransaction(
+                                                        (transaction) async {
+                                                  DocumentSnapshot freshSnap =
+                                                      await transaction
+                                                          .get(docId[index]);
+                                                  await transaction.update(
+                                                      freshSnap.reference,
+                                                      {"status": value});
+                                                });
+                                              },
+                                              activeTrackColor:
+                                                  Colors.lightGreenAccent,
+                                              activeColor: Colors.green,
+                                            ),
+                                          );
+                                        }).toList(),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: Text("กำลังโหลดข้อมูล"),
+                                      );
+                                    }
+                                  }),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: _docRef
-                              .where('role', isEqualTo: "medicalpersonnel")
-                              .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView(
-                                children:
-                                    snapshot.data.docs.map((DocumentSnapshot document) {
-                                  Map<String, dynamic> snap =
-                                      document.data() as Map<String, dynamic>;
-                                  return ListTile(
-                                    title: Text(
-                                        "${snap["Firstname"]}  ${snap["Lastname"]}"),
-                                    // subtitle: Text("${snap["Lastname"]}"),
-                                    trailing: Switch(
-                                      value: snap["status"],
-                                      onChanged: (value) {
-                                        docId = (snapshot.data.docs
-                                            .map((e) => e.reference)
-                                            .toList());
-                                        print(
-                                            "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                                document.id +
-                                                ")");
-                                        // for find index in DocmentReference.
-                                        for (int i = 0; i < docId.length; i++) {
-                                          if (docId[i].toString() ==
-                                              "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                                  document.id +
-                                                  ")") {
-                                            index = i;
-                                          }
-                                        }
-                                        FirebaseFirestore.instance
-                                            .runTransaction((transaction) async {
-                                          DocumentSnapshot freshSnap =
-                                              await transaction.get(docId[index]);
-                                          await transaction.update(
-                                              freshSnap.reference, {"status": value});
-                                        });
-                                      },
-                                      activeTrackColor: Colors.lightGreenAccent,
-                                      activeColor: Colors.green,
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            } else {
-                              return Center(
-                                child: Text("กำลังโหลดข้อมูล"),
-                              );
-                            }
-                          }),
-                    ),                
-                      ],
+                    Container(
+                      width: 2,
+                      color: Colors.grey.shade400,
                     ),
-                  ),
-                ),
-                Container(
-                    width: 2,
-                    color: Colors.grey.shade400,
-                  ),                
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 60),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 0, bottom: 20),
-                      child: Text(
-                        "อสม.และ ผู้ป่วย",
-                        style: TextStyle(fontSize: 20),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 60),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 0, bottom: 20),
+                              child: Text(
+                                "อสม.และ ผู้ป่วย",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            Expanded(
+                              child: StreamBuilder<QuerySnapshot>(
+                                  stream: _docRefMobile.snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView(
+                                        children: snapshot.data.docs
+                                            .map((DocumentSnapshot document) {
+                                          Map<String, dynamic> snap = document
+                                              .data() as Map<String, dynamic>;
+                                          return ListTile(
+                                            subtitle: Text(
+                                                checkRoletoThai(snap["Role"])),
+                                            // leading: Padding(
+                                            //   padding: const EdgeInsets.all(0),
+                                            //   child: proFileShow(
+                                            //       context,
+                                            //       document["Img"],
+                                            //       document["Gender"]),
+                                            // ),
+                                            title: Row(children: [
+                                              Text(
+                                                  "${snap["Firstname"]}  ${snap["Lastname"]}"),
+                                              if (snap["isBoss"] == true)
+                                                Text("(หัวหน้าอสม.)"),
+                                            ]),
+
+                                            // subtitle: Text("${snap["Lastname"]}"),
+                                            trailing: Switch(
+                                              value: snap["status"],
+                                              onChanged: (value) {
+                                                docId = (snapshot.data.docs
+                                                    .map((e) => e.reference)
+                                                    .toList());
+                                                print(
+                                                    "DocumentReference<Map<String, dynamic>>(MobileUser/" +
+                                                        document.id +
+                                                        ")");
+                                                // for find index in DocmentReference.
+                                                for (int i = 0;
+                                                    i < docId.length;
+                                                    i++) {
+                                                  if (docId[i].toString() ==
+                                                      "DocumentReference<Map<String, dynamic>>(MobileUser/" +
+                                                          document.id +
+                                                          ")") {
+                                                    index = i;
+                                                  }
+                                                }
+                                                FirebaseFirestore.instance
+                                                    .runTransaction(
+                                                        (transaction) async {
+                                                  DocumentSnapshot freshSnap =
+                                                      await transaction
+                                                          .get(docId[index]);
+                                                  await transaction.update(
+                                                      freshSnap.reference,
+                                                      {"status": value});
+                                                });
+                                              },
+                                              activeTrackColor:
+                                                  Colors.lightGreenAccent,
+                                              activeColor: Colors.green,
+                                            ),
+                                          );
+                                        }).toList(),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: Text("กำลังโหลดข้อมูล"),
+                                      );
+                                    }
+                                  }),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: _docRefMobile.snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView(
-                                children:
-                                    snapshot.data.docs.map((DocumentSnapshot document) {
-                                  Map<String, dynamic> snap =
-                                      document.data() as Map<String, dynamic>;
-                                  return ListTile(
-                                    title: Row(children: [
-                                      Text("${snap["Firstname"]}  ${snap["Lastname"]}"),
-                                      if (snap["isBoss"] == true) Text("(หัวหน้าอสม.)"),
-                                    ]),
-                                    // subtitle: Text("${snap["Lastname"]}"),
-                                    trailing: Switch(
-                                      value: snap["status"],
-                                      onChanged: (value) {
-                                        docId = (snapshot.data.docs
-                                            .map((e) => e.reference)
-                                            .toList());
-                                        print(
-                                            "DocumentReference<Map<String, dynamic>>(MobileUser/" +
-                                                document.id +
-                                                ")");
-                                        // for find index in DocmentReference.
-                                        for (int i = 0; i < docId.length; i++) {
-                                          if (docId[i].toString() ==
-                                              "DocumentReference<Map<String, dynamic>>(MobileUser/" +
-                                                  document.id +
-                                                  ")") {
-                                            index = i;
-                                          }
-                                        }
-                                        FirebaseFirestore.instance
-                                            .runTransaction((transaction) async {
-                                          DocumentSnapshot freshSnap =
-                                              await transaction.get(docId[index]);
-                                          await transaction.update(
-                                              freshSnap.reference, {"status": value});
-                                        });
-                                      },
-                                      activeTrackColor: Colors.lightGreenAccent,
-                                      activeColor: Colors.green,
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            } else {
-                              return Center(
-                                child: Text("กำลังโหลดข้อมูล"),
-                              );
-                            }
-                          }),
-                    ),                
-                      ],
-                    ),
-                  ),
-                ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height:40,)
+            SizedBox(
+              height: 40,
+            )
           ],
         ),
       ),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),      
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
     );
   }
 
@@ -554,13 +580,11 @@ class _MainPage extends State<MainPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,bottom: 20
-                ),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
                   'โพสต์แนะนำ',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -872,13 +896,11 @@ class _MainPage extends State<MainPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,bottom: 30
-                ),
+                padding: const EdgeInsets.only(top: 20, bottom: 30),
                 child: Text(
                   'รายชื่อแชทสนทนา',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -910,65 +932,65 @@ class _MainPage extends State<MainPage> {
 
                           var path;
                           if (snap["Img"] == null) {
-                            path =
-                                "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+                            path = "";
                           } else {
                             path = snap["Img"];
                           }
 
                           return Container(
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  shape: RoundedRectangleBorder(
+                              child: Column(
+                            children: [
+                              ListTile(
+                                shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10),
                                   ),
                                 ),
-                              leading: proFileShow(context, path ,"${snap["Gender"]}"),
-                              title: Text(
-                                  "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
-                              subtitle: checkChat(groupChatIds),
-                              trailing: checkChatTime(groupChatIds),
-                              hoverColor:  Colors.grey.shade200,
-                              onTap: () async {
-                                var currentHas = auth.currentUser.uid.hashCode;
-                                var peerHas = document.id.hashCode;
-                                var currentId = auth.currentUser.uid;
-                                var peerId = document.id;
-                                if (currentHas <= peerHas) {
-                                  groupChatId = '$currentId-$peerId';
-                                } else {
-                                  groupChatId = '$peerId-$currentId';
-                                }
+                                leading: proFileShow(
+                                    context, path, "${snap["Gender"]}"),
+                                title: Text(
+                                    "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
+                                subtitle: checkChat(groupChatIds),
+                                trailing: checkChatTime(groupChatIds),
+                                hoverColor: Colors.grey.shade200,
+                                onTap: () async {
+                                  var currentHas =
+                                      auth.currentUser.uid.hashCode;
+                                  var peerHas = document.id.hashCode;
+                                  var currentId = auth.currentUser.uid;
+                                  var peerId = document.id;
+                                  if (currentHas <= peerHas) {
+                                    groupChatId = '$currentId-$peerId';
+                                  } else {
+                                    groupChatId = '$peerId-$currentId';
+                                  }
 
-                                print(
-                                    "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
-                                await FirebaseFirestore.instance
-                                    .collection("Messages")
-                                    .doc(groupChatId);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChatRoom(
-                                      chatTo: snap,
-                                      groupChatId: groupChatId,
-                                      currentId: currentId,
-                                      peerHas: peerHas,
-                                      peerId: peerId,
-                                      currentHas: currentHas,
+                                  print(
+                                      "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
+                                  await FirebaseFirestore.instance
+                                      .collection("Messages")
+                                      .doc(groupChatId);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatRoom(
+                                        chatTo: snap,
+                                        groupChatId: groupChatId,
+                                        currentId: currentId,
+                                        peerHas: peerHas,
+                                        peerId: peerId,
+                                        currentHas: currentHas,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),  
-                            Divider(
-                                  thickness: 2,
-                                  color: Colors.grey.shade300,
-                                )                                                          
-                              ],
-                            )
-                          );
+                                  );
+                                },
+                              ),
+                              Divider(
+                                thickness: 2,
+                                color: Colors.grey.shade300,
+                              )
+                            ],
+                          ));
                         }).toList(),
                       ),
                     );
@@ -983,11 +1005,11 @@ class _MainPage extends State<MainPage> {
           ],
         ),
       ),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
-          ),
-        ),      
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(30),
+        ),
+      ),
     );
   }
 

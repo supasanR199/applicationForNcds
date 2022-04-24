@@ -24,10 +24,7 @@ class ChatBubble extends StatelessWidget {
     if (text == null) {
       text = "";
     }
-    peerName["Img"] == null
-        ? path =
-            "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png"
-        : path = peerName["Img"];
+    peerName["Img"] == null ? path = "" : path = peerName["Img"];
     if (isCurrentUser) {
       return Padding(
         // asymmetric padding

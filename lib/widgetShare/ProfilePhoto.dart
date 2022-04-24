@@ -23,22 +23,22 @@ Widget proFileShow(context, String path, String gender) {
             backgroundImage: Image.network(snap.data).image,
           );
         } else {
-              if (gender == "ชาย") {
-              return CircleAvatar(
-                radius: 48, // Image radius
-                backgroundImage: Image.asset("icon/man.png").image,
-              );            
-              } else if (gender == "หญิง") {
-              return CircleAvatar(
-                radius: 48, // Image radius
-                backgroundImage: Image.asset("icon/woman.png").image,
-              );            
-              }else{
-              return CircleAvatar(
-                radius: 48, // Image radius
-                backgroundImage: Image.asset("img/noimage.png").image,
-              );
-              }
+          if (gender == "ชาย") {
+            return CircleAvatar(
+              radius: 48, // Image radius
+              backgroundImage: Image.asset("icon/man.png").image,
+            );
+          } else if (gender == "หญิง") {
+            return CircleAvatar(
+              radius: 48, // Image radius
+              backgroundImage: Image.asset("icon/woman.png").image,
+            );
+          } else {
+            return CircleAvatar(
+              radius: 48, // Image radius
+              backgroundImage: Image.asset("img/noimage.png").image,
+            );
+          }
           // return new CircularProgressIndicator();
         }
       });
@@ -60,14 +60,14 @@ Widget proFilePostShow(context, String path) {
       builder: (context, snap) {
         if (snap.hasData) {
           return Container(
-               padding:const EdgeInsets.only(left: 15,right: 25),
-              child: Image.network(
+            padding: const EdgeInsets.only(left: 15, right: 25),
+            child: Image.network(
               snap.data,
               width: 150,
               height: 150,
               fit: BoxFit.cover,
             ),
-                                      );
+          );
           // Padding(
           //   padding: EdgeInsets.all(15),
           //   child: Image.network(
@@ -82,17 +82,18 @@ Widget proFilePostShow(context, String path) {
           // );
         } else {
           return Container(
-               padding:const EdgeInsets.only(left: 15,right: 25),
-              child: Image.asset(
+            padding: const EdgeInsets.only(left: 15, right: 25),
+            child: Image.asset(
               "img/noimage.png",
               width: 150,
               height: 150,
               fit: BoxFit.cover,
             ),
-                                      );
+          );
         }
       });
 }
+
 Widget chatProFileShow(context, String path) {
   // if (path == "lib/img/not-available.png") {
   //   return CircleAvatar(
