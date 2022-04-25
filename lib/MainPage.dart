@@ -21,6 +21,7 @@ import 'widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/Chat.dart';
 import 'package:appilcation_for_ncds/services/shared_preferences_service.dart';
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildAcceptUsersPage.dart';
 
 class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -342,7 +343,7 @@ class _MainPage extends State<MainPage> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildAcceptUsersPage(context)),
+        child: Center(child: BuildAcceptUsersPage()),
       );
     }
     return Container(
