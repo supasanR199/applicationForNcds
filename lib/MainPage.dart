@@ -6,6 +6,7 @@ import 'package:appilcation_for_ncds/function/checkRole.dart';
 import 'package:appilcation_for_ncds/widgetShare/AllStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPostPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildVolunteerSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/ChatSearchPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
@@ -322,7 +323,7 @@ class _MainPage extends State<MainPage> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildPostPage(context)),
+        child: Center(child: BuildPostPage(userData: _userData)),
       );
     } else if (selected == "volenter") {
       return Container(

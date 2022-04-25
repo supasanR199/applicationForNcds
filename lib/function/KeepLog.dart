@@ -11,3 +11,18 @@ List<QueryDocumentSnapshot> getFilter(
   // print(getReturn.toList());
   return getReturn;
 }
+
+List<QueryDocumentSnapshot> getFilterSerach(
+    List<QueryDocumentSnapshot> snap, String valueFlitter) {
+  List<QueryDocumentSnapshot> getReturn = List();
+  getReturn = snap
+      .where((user) => user.get("Firstname").contains(valueFlitter))
+      .toList();
+  // snap.forEach((element) {
+  //   if (element.get(flitter) == valueFlitter) {
+  //     getReturn.add(element);
+  //   }
+  // });
+  // print(getReturn.toList());
+  return getReturn;
+}

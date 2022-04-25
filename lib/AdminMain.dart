@@ -77,6 +77,10 @@ class _adminMainState extends State<adminMain> {
   final PrefService _prefService = PrefService();
   List<CollapsibleItem> _items;
   String _headline;
+  String searchText = '';
+  TextEditingController _searchController = TextEditingController();
+  List<DocumentSnapshot> documents = [];
+
   List<CollapsibleItem> get _generateItems {
     return [
       CollapsibleItem(
@@ -167,63 +171,63 @@ class _adminMainState extends State<adminMain> {
           // ),
         ),
         body: FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection("UserWeb")
-                  .doc(auth.currentUser.uid)
-                  .get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  userData = snapshot.data.data() as Map<String, dynamic>;
-                  _userData = userData;
-                  var userName  = _userData["Firstname"]+_userData["Lastname"];
-                  return CollapsibleSidebar(
-                    // isCollapsed: true,
-                    selectedIconColor: Colors.white,
-                    items: _items,
-                    isCollapsed: true,
-                    title: userName,
-                    showToggleButton: true,
-                    // title: 'MENU',
-                    // avatarImg:false,
-                    avatarImg: AssetImage('assets/icon/logo.png'),
-                    // title: 'John Smith',
-                    // onTitleTap: () {
-                    //   // ScaffoldMessenger.of(context).showSnackBar(
-                    //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
-                    // },
-                    toggleTitle: 'ปิดแถบเมนู',
-                    body: _body(size, context, _headline),
-                    backgroundColor: Colors.grey.shade900,
-                    selectedTextColor: Colors.white,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                    ),
-                    titleStyle: TextStyle(
-                        fontSize: 20,
-                        // fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
-                    toggleTitleStyle:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            future: FirebaseFirestore.instance
+                .collection("UserWeb")
+                .doc(auth.currentUser.uid)
+                .get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                userData = snapshot.data.data() as Map<String, dynamic>;
+                _userData = userData;
+                var userName = _userData["Firstname"] + _userData["Lastname"];
+                return CollapsibleSidebar(
+                  // isCollapsed: true,
+                  selectedIconColor: Colors.white,
+                  items: _items,
+                  isCollapsed: true,
+                  title: userName,
+                  showToggleButton: true,
+                  // title: 'MENU',
+                  // avatarImg:false,
+                  avatarImg: AssetImage('assets/icon/logo.png'),
+                  // title: 'John Smith',
+                  // onTitleTap: () {
+                  //   // ScaffoldMessenger.of(context).showSnackBar(
+                  //   //     SnackBar(content: Text('Yay! Flutter Collapsible Sidebar!')));
+                  // },
+                  toggleTitle: 'ปิดแถบเมนู',
+                  body: _body(size, context, _headline),
+                  backgroundColor: Colors.grey.shade900,
+                  selectedTextColor: Colors.white,
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                  titleStyle: TextStyle(
+                      fontSize: 20,
+                      // fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold),
+                  toggleTitleStyle:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 
-                    sidebarBoxShadow: [
-                      BoxShadow(
-                        color: Colors.black54,
-                        blurRadius: 20,
-                        spreadRadius: 0.01,
-                        offset: Offset(3, 3),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("กำลังโหลด"),
-                    ],
-                  );
-                }
-              }),
+                  sidebarBoxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 20,
+                      spreadRadius: 0.01,
+                      offset: Offset(3, 3),
+                    ),
+                  ],
+                );
+              } else {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("กำลังโหลด"),
+                  ],
+                );
+              }
+            }),
         // TabBarView(
         //   children: [
         //     Center(
@@ -291,11 +295,31 @@ class _adminMainState extends State<adminMain> {
                         Expanded(
                           child: Text(
                             "อนุมัติเข้าใข้งาน",
-                            style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                         )
                       ],
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        searchText = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'ค้นหา',
+                      enabledBorder: OutlineInputBorder(
+                        // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        // borderSide: const BorderSide(width: 3, color: Colors.red),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                   Padding(
@@ -320,48 +344,58 @@ class _adminMainState extends State<adminMain> {
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
-                            return ListView(
-                              children: snapshot.data.docs
-                                  .map((DocumentSnapshot document) {
-                                Map<String, dynamic> snap =
-                                    document.data() as Map<String, dynamic>;
-                                return ListTile(
-                                  title: Text("${snap["Firstname"]} ${snap["Lastname"]}"),
-                                  // subtitle: Text("${snap["Lastname"]}"),
-                                  trailing: Switch(
-                                    value: snap["status"],
-                                    onChanged: (value) {
-                                      docId = (snapshot.data.docs
-                                          .map((e) => e.reference)
-                                          .toList());
-                                      // print(
-                                      //     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                      //         document.id +
-                                      //         ")");
-                                      // for find index in DocmentReference.
-                                      for (int i = 0; i < docId.length; i++) {
-                                        if (docId[i].toString() ==
-                                            "DocumentReference<Map<String, dynamic>>(UserWeb/" +
-                                                document.id +
-                                                ")") {
-                                          index = i;
+                            documents = snapshot.data.docs;
+                            if (searchText.length > 0) {
+                              documents = documents.where((element) {
+                                return element
+                                    .get('Firstname')
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(searchText.toLowerCase());
+                              }).toList();
+                            }
+                            return ListView.builder(
+                                itemCount: documents.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(
+                                        "${documents[index]["Firstname"]} ${documents[index]["Lastname"]}"),
+                                    // subtitle: Text("${snap["Lastname"]}"),
+                                    trailing: Switch(
+                                      value: documents[index]["status"],
+                                      onChanged: (value) {
+                                        docId = (snapshot.data.docs
+                                            .map((e) => e.reference)
+                                            .toList());
+                                        // print(
+                                        //     "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                        //         document.id +
+                                        //         ")");
+                                        // for find index in DocmentReference.
+                                        for (int i = 0; i < docId.length; i++) {
+                                          if (docId[i].toString() ==
+                                              "DocumentReference<Map<String, dynamic>>(UserWeb/" +
+                                                  documents[index].id +
+                                                  ")") {
+                                            index = i;
+                                          }
                                         }
-                                      }
-                                      FirebaseFirestore.instance
-                                          .runTransaction((transaction) async {
-                                        DocumentSnapshot freshSnap =
-                                            await transaction.get(docId[index]);
-                                        await transaction.update(
-                                            freshSnap.reference,
-                                            {"status": value});
-                                      });
-                                    },
-                                    activeTrackColor: Colors.lightGreenAccent,
-                                    activeColor: Colors.green,
-                                  ),
-                                );
-                              }).toList(),
-                            );
+                                        FirebaseFirestore.instance
+                                            .runTransaction(
+                                                (transaction) async {
+                                          DocumentSnapshot freshSnap =
+                                              await transaction
+                                                  .get(docId[index]);
+                                          await transaction.update(
+                                              freshSnap.reference,
+                                              {"status": value});
+                                        });
+                                      },
+                                      activeTrackColor: Colors.lightGreenAccent,
+                                      activeColor: Colors.green,
+                                    ),
+                                  );
+                                });
                           } else {
                             return Center(
                               child: Text("กำลังโหลด"),
@@ -375,10 +409,10 @@ class _adminMainState extends State<adminMain> {
           ),
           //  margin: EdgeInsets.only(top: 100,bottom: 400,),
           shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
           ),
-        ),            
         ),
       ),
     );
@@ -401,7 +435,8 @@ class _adminMainState extends State<adminMain> {
                       Expanded(
                         child: Text(
                           "การเข้าใช้งาน",
-                          style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -433,10 +468,10 @@ class _adminMainState extends State<adminMain> {
           ),
           //  margin: EdgeInsets.only(top: 100,bottom: 400,),
           shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
           ),
-        ),           
         ),
       ),
     );

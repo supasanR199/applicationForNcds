@@ -18,6 +18,9 @@ class _UserLogState extends State<UserLog> {
   List<String> selectRole = List();
   var _value;
   String _valueEmail;
+  List<QueryDocumentSnapshot> usersFiltered = List();
+  TextEditingController controller = TextEditingController();
+  String _searchResult = '';
   @override
   void initState() {
     getUserLog().then((value) {
@@ -35,6 +38,7 @@ class _UserLogState extends State<UserLog> {
           selectName = selectName.toSet().toList();
           selectEmail = selectEmail.toSet().toList();
           selectRole = selectRole.toSet().toList();
+          usersFiltered = getLog;
         });
       });
     });
@@ -49,30 +53,53 @@ class _UserLogState extends State<UserLog> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: TextFormField(
+                controller: controller,
+                onChanged: (value) {
+                  setState(() {
+                    _searchResult = value;
+                    usersFiltered = getFilterSerach(getLogDe, _searchResult);
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'ค้นหา',
+                  enabledBorder: OutlineInputBorder(
+                    // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    // borderSide: const BorderSide(width: 3, color: Colors.red),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: _value,
-                    decoration: InputDecoration(
-                      labelText: 'ชื่อ',
-                      icon: Icon(Icons.people),
-                    ),
-                    items: selectName.map((String values) {
-                      // print(values);
-                      return DropdownMenuItem<String>(
-                        value: values,
-                        child: Text(values),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        getLog = getFilter(getLogDe, newValue, "Firstname");
-                      });
-                    },
-                  ),
-                ),
+                // Expanded(
+                //   child: DropdownButtonFormField<String>(
+                //     value: _value,
+                //     decoration: InputDecoration(
+                //       labelText: 'ชื่อ',
+                //       icon: Icon(Icons.people),
+                //     ),
+                //     items: selectName.map((String values) {
+                //       // print(values);
+                //       return DropdownMenuItem<String>(
+                //         value: values,
+                //         child: Text(values),
+                //       );
+                //     }).toList(),
+                //     onChanged: (newValue) {
+                //       setState(() {
+                //         getLog = getFilter(getLogDe, newValue, "Firstname");
+                //       });
+                //     },
+                //   ),
+                // ),
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     value: _valueEmail,
@@ -154,7 +181,7 @@ class _UserLogState extends State<UserLog> {
                   //   ),
                   // ),
                 ],
-                rows: _buildList(context, getLog),
+                rows: _buildList(context, usersFiltered),
               ),
             ),
           ],

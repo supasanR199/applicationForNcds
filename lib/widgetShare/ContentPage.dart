@@ -14,11 +14,12 @@ Widget contentPage(BuildContext context) {
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> snap = document.data() as Map<String, dynamic>;
             var path;
-            if (snap["imgPath"] == null) {
-              path = "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
-            } else {
-              path = snap["imgPath"];
-            }
+            // if (snap["imgPath"] == null) {
+            //   path =
+            //       "gs://applicationforncds.appspot.com/MobileUserImg/Patient/not-available.png";
+            // } else {
+            path = snap["imgPath"];
+            // }
             return GestureDetector(
               onTap: () => null,
               child: Container(
@@ -42,10 +43,14 @@ Widget contentPage(BuildContext context) {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: 20,),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         // Padding(
                                         //   padding:
@@ -57,14 +62,14 @@ Widget contentPage(BuildContext context) {
                                         // ),
                                         Text("${snap["topic"]}",
                                             style: TextStyle(fontSize: 20)),
-                                        
+
                                         Align(
                                           alignment: Alignment.centerRight,
                                           child: Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8.0, right: 8.0),
-                                            child: delectPost(context, document.id,
-                                                snap["imgPath"]),
+                                            child: delectPost(context,
+                                                document.id, snap["imgPath"]),
                                           ),
                                         ),
                                       ],
@@ -81,7 +86,9 @@ Widget contentPage(BuildContext context) {
                                     //         ),
                                     //       ),
                                     Text(
-                                      "${snap["content"]}",overflow: TextOverflow.fade,maxLines: 6,
+                                      "${snap["content"]}",
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 6,
                                     ),
                                     //     ],
                                     //   ),
@@ -193,24 +200,26 @@ Widget contentPage(BuildContext context) {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10,)
+                              SizedBox(
+                                width: 10,
+                              )
                             ],
                           ),
                         ),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.black87),
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black87),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
                       ),
                     ),
-                              // Divider(
-                              //   thickness: 2,
-                              //   color: Colors.grey.shade300,
-                              // )
+                    // Divider(
+                    //   thickness: 2,
+                    //   color: Colors.grey.shade300,
+                    // )
                   ],
-                ),                
+                ),
               ),
             );
           }).toList(),
