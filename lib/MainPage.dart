@@ -7,6 +7,7 @@ import 'package:appilcation_for_ncds/widgetShare/AllStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildVolunteerSearch.dart';
+import 'package:appilcation_for_ncds/widgetShare/ChatSearchPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:flutter/material.dart';
@@ -334,7 +335,7 @@ class _MainPage extends State<MainPage> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildChat(context)),
+        child: Center(child: ChatSearchPage()),
       );
     } else if (selected == "accept") {
       return Container(
@@ -882,132 +883,6 @@ class _MainPage extends State<MainPage> {
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildChat(BuildContext context) {
-    return Card(
-      child: SizedBox(
-        height: 700,
-        width: 800,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 30),
-                child: Text(
-                  'รายชื่อแชทสนทนา',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("MobileUser")
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return SizedBox(
-                      height: 500,
-                      width: 600,
-                      child: ListView(
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          Map<String, dynamic> snap =
-                              document.data() as Map<String, dynamic>;
-                          var currentHas = auth.currentUser.uid.hashCode;
-                          var peerHas = document.id.hashCode;
-                          var currentId = auth.currentUser.uid;
-                          var peerId = document.id;
-                          if (currentHas <= peerHas) {
-                            groupChatIds = '$currentId-$peerId';
-                          } else {
-                            groupChatIds = '$peerId-$currentId';
-                          }
-
-                          var path;
-                          if (snap["Img"] == null) {
-                            path = "";
-                          } else {
-                            path = snap["Img"];
-                          }
-
-                          return Container(
-                              child: Column(
-                            children: [
-                              ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                                leading: proFileShow(
-                                    context, path, "${snap["Gender"]}"),
-                                title: Text(
-                                    "${snap["Firstname"]}  ${snap["Lastname"]} (${checkRoletoThai(snap["Role"])})"),
-                                subtitle: checkChat(groupChatIds),
-                                trailing: checkChatTime(groupChatIds),
-                                hoverColor: Colors.grey.shade200,
-                                onTap: () async {
-                                  var currentHas =
-                                      auth.currentUser.uid.hashCode;
-                                  var peerHas = document.id.hashCode;
-                                  var currentId = auth.currentUser.uid;
-                                  var peerId = document.id;
-                                  if (currentHas <= peerHas) {
-                                    groupChatId = '$currentId-$peerId';
-                                  } else {
-                                    groupChatId = '$peerId-$currentId';
-                                  }
-
-                                  print(
-                                      "show gruop chat ${groupChatId} currentHas ${currentHas}  peerHas ${peerHas}");
-                                  await FirebaseFirestore.instance
-                                      .collection("Messages")
-                                      .doc(groupChatId);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChatRoom(
-                                        chatTo: snap,
-                                        groupChatId: groupChatId,
-                                        currentId: currentId,
-                                        peerHas: peerHas,
-                                        peerId: peerId,
-                                        currentHas: currentHas,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              Divider(
-                                thickness: 2,
-                                color: Colors.grey.shade300,
-                              )
-                            ],
-                          ));
-                        }).toList(),
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("กำลังโหลดข้อมูล"),
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(30),
         ),
       ),
     );
