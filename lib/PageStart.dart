@@ -87,13 +87,13 @@ class _StartPageState extends State<StartPage> {
           ),
           backgroundColor: Colors.white,
         ),
-        body: Container(  
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("img/doctor.jpg"),
-            fit: BoxFit.cover,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("img/doctor.jpg"),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),              
           child: Center(
             child: Card(
               child: SizedBox(
@@ -103,32 +103,58 @@ class _StartPageState extends State<StartPage> {
                   key: _loginForm,
                   child: Column(
                     children: [
-                      SizedBox(height: 30,),
-                      Text("เข้าสู่ระบบ",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold),),
-                      SizedBox(height: 20,),      
-                      Image.asset("icon/login.png",scale: 3,),                
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        "เข้าสู่ระบบ",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Image.asset(
+                        "icon/login.png",
+                        scale: 3,
+                      ),
                       buildUserNameField(context),
                       buildPasswordField(context),
-                      SizedBox(height: 20,), 
-                      TextButton(
-                                  onPressed: (){
-                                      // Navigator.push(context,
-                                      // MaterialPageRoute(builder: (context) => forgetpassword()));
-                                  }, 
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                  Text("ลืมรหัสผ่าน",style: TextStyle(fontSize: 18,color: Colors.black87,)),
-                                  Text(" ต้องการเปลี่ยน",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black,))                        
-                                  ],
-                                ),
-                                style: TextButton.styleFrom(
-                                        padding: const EdgeInsets.all(16.0),
-                                        primary: Colors.white,
-                                        textStyle: const TextStyle(fontSize: 20),
-                                      ),
-                                ),
-                      SizedBox(height: 15,),                      
+                      SizedBox(
+                        height: 20,
+                      ),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     // Navigator.push(context,
+                      //     // MaterialPageRoute(builder: (context) => forgetpassword()));
+                      //   },
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Text("ลืมรหัสผ่าน",
+                      //           style: TextStyle(
+                      //             fontSize: 18,
+                      //             color: Colors.black87,
+                      //           )),
+                      //       Text(" ต้องการเปลี่ยน",
+                      //           style: TextStyle(
+                      //             fontWeight: FontWeight.w600,
+                      //             fontSize: 18,
+                      //             color: Colors.black,
+                      //           ))
+                      //     ],
+                      //   ),
+                      //   style: TextButton.styleFrom(
+                      //     padding: const EdgeInsets.all(16.0),
+                      //     primary: Colors.white,
+                      //     textStyle: const TextStyle(fontSize: 20),
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Row(
                         children: [
                           Padding(
@@ -157,12 +183,12 @@ class _StartPageState extends State<StartPage> {
                 ),
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
-          ),
-        ),
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
             ),
           ),
         ),
@@ -198,11 +224,7 @@ class _StartPageState extends State<StartPage> {
 
   Padding buildPasswordField(context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 10
-      ),
+      padding: EdgeInsets.only(left: 50, right: 50, top: 10),
       child: TextFormField(
         obscureText: true,
         enableSuggestions: false,
@@ -217,7 +239,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-   buildButtonLogin(context) {
+  buildButtonLogin(context) {
     return Container(
       width: 160,
       child: RaisedButton(
@@ -273,7 +295,11 @@ class _StartPageState extends State<StartPage> {
           }
         },
         color: Colors.greenAccent.shade700,
-        child: Text('เข้าสู่ระบบ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        child: Text(
+          'เข้าสู่ระบบ',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         padding: EdgeInsets.all(20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -284,14 +310,18 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-   buildButtonRegister(context) {
+  buildButtonRegister(context) {
     return Container(
       width: 160,
       child: RaisedButton(
         // color: Colors.accents,
         hoverColor: Colors.grey.shade300,
         onPressed: () => Navigator.pushNamed(context, '/register'),
-        child: Text('สมัครสมาชิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        child: Text(
+          'สมัครสมาชิก',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         color: Colors.blueAccent.shade100,
         padding: EdgeInsets.all(20),
         shape: RoundedRectangleBorder(
