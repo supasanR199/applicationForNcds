@@ -1,6 +1,7 @@
 import 'package:appilcation_for_ncds/function/getRecordPatient.dart';
 import 'package:appilcation_for_ncds/models/AlertModels.dart';
 import 'package:appilcation_for_ncds/models/AlertMoodModels.dart';
+import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:appilcation_for_ncds/models/dairymodel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,53 @@ Widget alertMessageOnlyOk(context, String e) {
         child: const Text('ยืนยัน'),
       ),
     ],
+  );
+}
+
+Widget showDateRangWalkCount(
+    context, DateTime minDate, DateTime maxDate, List<KeepChoieAndSocre> snap
+    // List<DairyModel> snap
+    ) {
+  DateRangePickerController _datePickerController = DateRangePickerController();
+  List<DateTime> dateBetween = List();
+  DateTime startDate;
+  DateTime endDate;
+  if (minDate == maxDate) {
+    maxDate = DateTime.now();
+  }
+  return AlertDialog(
+    title: const Text('เลือกช่วงวัน'),
+    content: SizedBox(
+      width: 300,
+      height: 300,
+      child: SfDateRangePicker(
+          monthViewSettings:
+              DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+          selectionMode: DateRangePickerSelectionMode.range,
+          maxDate: maxDate,
+          minDate: minDate,
+          showActionButtons: true,
+          onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+            final dynamic value = args.value;
+            startDate = args.value.startDate;
+            endDate = args.value.endDate;
+          },
+          onSubmit: (Object val) {
+            if (endDate == null) {
+              dateBetween = getDaysInBetween(startDate, startDate);
+            } else {
+              dateBetween = getDaysInBetween(startDate, endDate);
+            } 
+            print(getStepListSelectDate(snap, dateBetween));
+            Navigator.pop(context, getStepListSelectDate(snap, dateBetween));
+
+            _datePickerController.selectedRange = null;
+          },
+          onCancel: () {
+            _datePickerController.selectedRange = null;
+            Navigator.pop(context);
+          }),
+    ),
   );
 }
 

@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:appilcation_for_ncds/function/GetDataChart.dart';
 import 'package:appilcation_for_ncds/function/getRecordPatient.dart';
 import 'package:appilcation_for_ncds/models/KeepRecord.dart';
+import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class WalkCount extends StatefulWidget {
   DocumentReference patientId;
@@ -24,6 +26,7 @@ class _WalkCountState extends State<WalkCount> {
   DateTime selectedDate = DateTime.now();
   TextEditingController crateAtDate = TextEditingController();
   DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
+  var chartLiner;
 
   var _value;
   void initState() {
@@ -51,6 +54,7 @@ class _WalkCountState extends State<WalkCount> {
       });
     });
     crateAtDate.text = myDateFormat.format(DateTime.now());
+    chartLiner = getAll;
     super.initState();
   }
 
@@ -89,6 +93,58 @@ class _WalkCountState extends State<WalkCount> {
                       ),
                     ),
                     Padding(
+                      padding: EdgeInsets.only(
+                        left: 50,
+                        right: 50,
+                        top: 70,
+                      ),
+                      child: TextFormField(
+                        readOnly: true,
+                        controller: crateAtDate,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'กรุณาระบุวันที่บันทึก';
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'วันที่บันทึก',
+                            icon: Icon(Icons.people),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.cancel),
+                              onPressed: () {
+                                setState(() {
+                                  // listitem = listforDf;
+                                  crateAtDate.text = "";
+                                });
+                              },
+                            )),
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                showDateRangWalkCount(
+                                    context,
+                                    getMinDateStep(selectDay),
+                                    DateTime.now(),
+                                    getAll),
+                          ).then((value) {
+                            if (value != null) {
+                              setState(() {
+                                //     listitem = value;
+                                // crateAtDate.text = listitem.first.date +
+                                //     " - " +
+                                //     listforDate.last.date;
+                                chartLiner = value;
+                                print("show chart liner ${chartLiner.toList()}");
+                              });
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: SizedBox(
                         width: 500,
@@ -98,7 +154,7 @@ class _WalkCountState extends State<WalkCount> {
                           series: <ChartSeries>[
                             // Renders line chart
                             LineSeries<KeepChoieAndSocre, String>(
-                                dataSource: getAll,
+                                dataSource: chartLiner,
                                 xValueMapper: (KeepChoieAndSocre data, _) =>
                                     data.choice,
                                 yValueMapper: (KeepChoieAndSocre data, _) =>
@@ -138,86 +194,86 @@ class _WalkCountState extends State<WalkCount> {
                     //     },
                     //   ),
                     // ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 50,
-                        right: 50,
-                        top: 70,
-                      ),
-                      child: TextFormField(
-                          readOnly: true,
-                          controller: crateAtDate,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'กรุณาระบุวันที่บันทึก';
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                              labelText: 'วันที่บันทึก',
-                              icon: Icon(Icons.people),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.cancel),
-                                onPressed: () {
-                                  setState(() {
-                                    // listitem.clear();
-                                    // print(listforDf);
-                                    // listitem.clear();
-                                    chartData = getStepFromDate(getAll,
-                                        myDateFormat.format(DateTime.now()));
-                                    showStepCount =
-                                        chartData.first.score.toString();
-                                    crateAtDate.text =
-                                        myDateFormat.format(DateTime.now());
-                                  });
-                                },
-                              )),
-                          onTap: () async {
-                            final DateTime selected = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: getMinDateStep(selectDay),
-                              lastDate: DateTime.now(),
-                            );
-                            if (selected != null && selected != selectedDate) {
-                              setState(() {
-                                selectedDate = selected;
-                                crateAtDate.text =
-                                    myDateFormat.format(selected);
-                                chartData.clear();
-                                chartData = getStepFromDate(
-                                    getAll, myDateFormat.format(selectedDate));
-                                showStepCount =
-                                    chartData.first.score.toString();
-                              });
-                            }
-                          }),
-                    ),
-                    SfCircularChart(annotations: <CircularChartAnnotation>[
-                      CircularChartAnnotation(
-                        widget: Container(
-                          child: Text(
-                            '$showStepCount  ก้าว',
-                            style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 0.5),
-                                fontSize: 25),
-                          ),
-                        ),
-                      ),
-                    ], series: <CircularSeries>[
-                      RadialBarSeries<KeepChoieAndSocre, String>(
-                          dataSource: chartData,
-                          xValueMapper: (KeepChoieAndSocre data, _) =>
-                              data.choice,
-                          yValueMapper: (KeepChoieAndSocre data, _) =>
-                              data.score,
-                          // dataLabelSettings: DataLabelSettings(isVisible: true),
-                          cornerStyle: CornerStyle.bothCurve,
-                          maximumValue: 5000,
-                          innerRadius: '80%',
-                          strokeWidth: 5.0),
-                    ])
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     left: 50,
+                    //     right: 50,
+                    //     top: 70,
+                    //   ),
+                    //   child: TextFormField(
+                    //       readOnly: true,
+                    //       controller: crateAtDate,
+                    //       validator: (value) {
+                    //         if (value.isEmpty) {
+                    //           return 'กรุณาระบุวันที่บันทึก';
+                    //         } else {
+                    //           return null;
+                    //         }
+                    //       },
+                    //       decoration: InputDecoration(
+                    //           labelText: 'วันที่บันทึก',
+                    //           icon: Icon(Icons.people),
+                    //           suffixIcon: IconButton(
+                    //             icon: Icon(Icons.cancel),
+                    //             onPressed: () {
+                    //               setState(() {
+                    //                 // listitem.clear();
+                    //                 // print(listforDf);
+                    //                 // listitem.clear();
+                    //                 chartData = getStepFromDate(getAll,
+                    //                     myDateFormat.format(DateTime.now()));
+                    //                 showStepCount =
+                    //                     chartData.first.score.toString();
+                    //                 crateAtDate.text =
+                    //                     myDateFormat.format(DateTime.now());
+                    //               });
+                    //             },
+                    //           )),
+                    //       onTap: () async {
+                    //         final DateTime selected = await showDatePicker(
+                    //           context: context,
+                    //           initialDate: DateTime.now(),
+                    //           firstDate: getMinDateStep(selectDay),
+                    //           lastDate: DateTime.now(),
+                    //         );
+                    //         if (selected != null && selected != selectedDate) {
+                    //           setState(() {
+                    //             selectedDate = selected;
+                    //             crateAtDate.text =
+                    //                 myDateFormat.format(selected);
+                    //             chartData.clear();
+                    //             chartData = getStepFromDate(
+                    //                 getAll, myDateFormat.format(selectedDate));
+                    //             showStepCount =
+                    //                 chartData.first.score.toString();
+                    //           });
+                    //         }
+                    //       }),
+                    // ),
+                    // SfCircularChart(annotations: <CircularChartAnnotation>[
+                    //   CircularChartAnnotation(
+                    //     widget: Container(
+                    //       child: Text(
+                    //         '$showStepCount  ก้าว',
+                    //         style: TextStyle(
+                    //             color: Color.fromRGBO(0, 0, 0, 0.5),
+                    //             fontSize: 25),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ], series: <CircularSeries>[
+                    //   RadialBarSeries<KeepChoieAndSocre, String>(
+                    //       dataSource: chartData,
+                    //       xValueMapper: (KeepChoieAndSocre data, _) =>
+                    //           data.choice,
+                    //       yValueMapper: (KeepChoieAndSocre data, _) =>
+                    //           data.score,
+                    //       // dataLabelSettings: DataLabelSettings(isVisible: true),
+                    //       cornerStyle: CornerStyle.bothCurve,
+                    //       maximumValue: 5000,
+                    //       innerRadius: '80%',
+                    //       strokeWidth: 5.0),
+                    // ])
                   ],
                 ),
               ),

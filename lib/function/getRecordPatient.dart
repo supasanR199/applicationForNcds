@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/models/KeepRecord.dart';
@@ -6,6 +7,31 @@ import 'package:appilcation_for_ncds/models/dairymodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+
+List<KeepChoieAndSocre> getStepListSelectDate(
+    List<KeepChoieAndSocre> snap, List<DateTime> dateList) {
+  DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
+  List<String> dateStr = List();
+  List<KeepChoieAndSocre> returnList = List();
+  dateList.forEach((element) {
+    dateStr.add(myDateFormat.format(element));
+  });
+  // print(snap.toList());
+  // print(snap.length);
+  snap.forEach((eSnap) {
+    print("show choice ${eSnap.choice}");
+    dateStr.forEach((eDate) {
+      // print("select date rang $eDate");
+      if(eSnap.choice == eDate){
+        print(1);
+        returnList.add(eSnap);
+      }
+    });
+  });
+  // print("show counter list $returnList");
+  return returnList;
+}
 
 List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
   List returnList = List();
