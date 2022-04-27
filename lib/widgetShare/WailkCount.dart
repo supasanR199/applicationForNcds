@@ -68,217 +68,222 @@ class _WalkCountState extends State<WalkCount> {
           .get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
-          return Card(
-            child: SizedBox(
-              height: 700,
-              width: 1000,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
+          if (getAll.isEmpty) {
+            return Center(child: Text("ยังไม่มีข้อมูล"));
+          } else {
+            return Card(
+              child: SizedBox(
+                height: 700,
+                width: 1000,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'จำนวนก้าวเดิน',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                        ),
+                      ),
+                      Center(
                         child: Text(
-                          'จำนวนก้าวเดิน',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 40),
+                          "จำนวนก้าวเดินล่าสุดเมื่อวันที่ :  ${snapshot.data.docs.last.get("Date")}",
+                          style: TextStyle(fontSize: 14, color: Colors.black38),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        "จำนวนก้าวเดินล่าสุดเมื่อวันที่ :  ${snapshot.data.docs.last.get("Date")}",
-                        style: TextStyle(fontSize: 14, color: Colors.black38),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 50,
-                        right: 50,
-                        top: 70,
-                      ),
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: crateAtDate,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'กรุณาระบุวันที่บันทึก';
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            labelText: 'วันที่บันทึก',
-                            icon: Icon(Icons.people),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {
-                                setState(() {
-                                  // listitem = listforDf;
-                                  crateAtDate.text = "";
-                                });
-                              },
-                            )),
-                        onTap: () async {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                showDateRangWalkCount(
-                                    context,
-                                    getMinDateStep(selectDay),
-                                    DateTime.now(),
-                                    getAll),
-                          ).then((value) {
-                            if (value != null) {
-                              setState(() {
-                                //     listitem = value;
-                                // crateAtDate.text = listitem.first.date +
-                                //     " - " +
-                                //     listforDate.last.date;
-                                chartLiner = value;
-                                print("show chart liner ${chartLiner.toList()}");
-                              });
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 50,
+                          right: 50,
+                          top: 70,
+                        ),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: crateAtDate,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'กรุณาระบุวันที่บันทึก';
+                            } else {
+                              return null;
                             }
-                          });
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: SizedBox(
-                        width: 500,
-                        height: 200,
-                        child: SfCartesianChart(
-                          primaryXAxis: CategoryAxis(),
-                          series: <ChartSeries>[
-                            // Renders line chart
-                            LineSeries<KeepChoieAndSocre, String>(
-                                dataSource: chartLiner,
-                                xValueMapper: (KeepChoieAndSocre data, _) =>
-                                    data.choice,
-                                yValueMapper: (KeepChoieAndSocre data, _) =>
-                                    data.score)
-                          ],
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'วันที่บันทึก',
+                              icon: Icon(Icons.people),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.cancel),
+                                onPressed: () {
+                                  setState(() {
+                                    // listitem = listforDf;
+                                    crateAtDate.text = "";
+                                  });
+                                },
+                              )),
+                          onTap: () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  showDateRangWalkCount(
+                                      context,
+                                      getMinDateStep(selectDay),
+                                      DateTime.now(),
+                                      getAll),
+                            ).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  //     listitem = value;
+                                  // crateAtDate.text = listitem.first.date +
+                                  //     " - " +
+                                  //     listforDate.last.date;
+                                  chartLiner = value;
+                                  print(
+                                      "show chart liner ${chartLiner.toList()}");
+                                });
+                              }
+                            });
+                          },
                         ),
                       ),
-                    ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     left: 50,
-                    //     right: 50,
-                    //     top: 70,
-                    //   ),
-                    //   child: DropdownButtonFormField<String>(
-                    //     value: _value,
-                    //     decoration: InputDecoration(
-                    //       labelText: 'วันที่บันทึก',
-                    //       icon: Icon(Icons.people),
-                    //     ),
-                    //     items: selectDay.map((String values) {
-                    //       // print(values);
-                    //       return DropdownMenuItem<String>(
-                    //         value: values,
-                    //         child: Text(values),
-                    //       );
-                    //     }).toList(),
-                    //     onChanged: (newValue) {
-                    //       // print(newValue);
-                    //       setState(() {
-                    //         // debugger();
-                    //         _value = newValue;
-                    //         chartData.clear();
-                    //         chartData = getStepFromDate(getAll, _value);
-                    //         showStepCount = chartData.first.score.toString();
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     left: 50,
-                    //     right: 50,
-                    //     top: 70,
-                    //   ),
-                    //   child: TextFormField(
-                    //       readOnly: true,
-                    //       controller: crateAtDate,
-                    //       validator: (value) {
-                    //         if (value.isEmpty) {
-                    //           return 'กรุณาระบุวันที่บันทึก';
-                    //         } else {
-                    //           return null;
-                    //         }
-                    //       },
-                    //       decoration: InputDecoration(
-                    //           labelText: 'วันที่บันทึก',
-                    //           icon: Icon(Icons.people),
-                    //           suffixIcon: IconButton(
-                    //             icon: Icon(Icons.cancel),
-                    //             onPressed: () {
-                    //               setState(() {
-                    //                 // listitem.clear();
-                    //                 // print(listforDf);
-                    //                 // listitem.clear();
-                    //                 chartData = getStepFromDate(getAll,
-                    //                     myDateFormat.format(DateTime.now()));
-                    //                 showStepCount =
-                    //                     chartData.first.score.toString();
-                    //                 crateAtDate.text =
-                    //                     myDateFormat.format(DateTime.now());
-                    //               });
-                    //             },
-                    //           )),
-                    //       onTap: () async {
-                    //         final DateTime selected = await showDatePicker(
-                    //           context: context,
-                    //           initialDate: DateTime.now(),
-                    //           firstDate: getMinDateStep(selectDay),
-                    //           lastDate: DateTime.now(),
-                    //         );
-                    //         if (selected != null && selected != selectedDate) {
-                    //           setState(() {
-                    //             selectedDate = selected;
-                    //             crateAtDate.text =
-                    //                 myDateFormat.format(selected);
-                    //             chartData.clear();
-                    //             chartData = getStepFromDate(
-                    //                 getAll, myDateFormat.format(selectedDate));
-                    //             showStepCount =
-                    //                 chartData.first.score.toString();
-                    //           });
-                    //         }
-                    //       }),
-                    // ),
-                    // SfCircularChart(annotations: <CircularChartAnnotation>[
-                    //   CircularChartAnnotation(
-                    //     widget: Container(
-                    //       child: Text(
-                    //         '$showStepCount  ก้าว',
-                    //         style: TextStyle(
-                    //             color: Color.fromRGBO(0, 0, 0, 0.5),
-                    //             fontSize: 25),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ], series: <CircularSeries>[
-                    //   RadialBarSeries<KeepChoieAndSocre, String>(
-                    //       dataSource: chartData,
-                    //       xValueMapper: (KeepChoieAndSocre data, _) =>
-                    //           data.choice,
-                    //       yValueMapper: (KeepChoieAndSocre data, _) =>
-                    //           data.score,
-                    //       // dataLabelSettings: DataLabelSettings(isVisible: true),
-                    //       cornerStyle: CornerStyle.bothCurve,
-                    //       maximumValue: 5000,
-                    //       innerRadius: '80%',
-                    //       strokeWidth: 5.0),
-                    // ])
-                  ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          width: 500,
+                          height: 200,
+                          child: SfCartesianChart(
+                            primaryXAxis: CategoryAxis(),
+                            series: <ChartSeries>[
+                              // Renders line chart
+                              LineSeries<KeepChoieAndSocre, String>(
+                                  dataSource: chartLiner,
+                                  xValueMapper: (KeepChoieAndSocre data, _) =>
+                                      data.choice,
+                                  yValueMapper: (KeepChoieAndSocre data, _) =>
+                                      data.score)
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: 50,
+                      //     right: 50,
+                      //     top: 70,
+                      //   ),
+                      //   child: DropdownButtonFormField<String>(
+                      //     value: _value,
+                      //     decoration: InputDecoration(
+                      //       labelText: 'วันที่บันทึก',
+                      //       icon: Icon(Icons.people),
+                      //     ),
+                      //     items: selectDay.map((String values) {
+                      //       // print(values);
+                      //       return DropdownMenuItem<String>(
+                      //         value: values,
+                      //         child: Text(values),
+                      //       );
+                      //     }).toList(),
+                      //     onChanged: (newValue) {
+                      //       // print(newValue);
+                      //       setState(() {
+                      //         // debugger();
+                      //         _value = newValue;
+                      //         chartData.clear();
+                      //         chartData = getStepFromDate(getAll, _value);
+                      //         showStepCount = chartData.first.score.toString();
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: 50,
+                      //     right: 50,
+                      //     top: 70,
+                      //   ),
+                      //   child: TextFormField(
+                      //       readOnly: true,
+                      //       controller: crateAtDate,
+                      //       validator: (value) {
+                      //         if (value.isEmpty) {
+                      //           return 'กรุณาระบุวันที่บันทึก';
+                      //         } else {
+                      //           return null;
+                      //         }
+                      //       },
+                      //       decoration: InputDecoration(
+                      //           labelText: 'วันที่บันทึก',
+                      //           icon: Icon(Icons.people),
+                      //           suffixIcon: IconButton(
+                      //             icon: Icon(Icons.cancel),
+                      //             onPressed: () {
+                      //               setState(() {
+                      //                 // listitem.clear();
+                      //                 // print(listforDf);
+                      //                 // listitem.clear();
+                      //                 chartData = getStepFromDate(getAll,
+                      //                     myDateFormat.format(DateTime.now()));
+                      //                 showStepCount =
+                      //                     chartData.first.score.toString();
+                      //                 crateAtDate.text =
+                      //                     myDateFormat.format(DateTime.now());
+                      //               });
+                      //             },
+                      //           )),
+                      //       onTap: () async {
+                      //         final DateTime selected = await showDatePicker(
+                      //           context: context,
+                      //           initialDate: DateTime.now(),
+                      //           firstDate: getMinDateStep(selectDay),
+                      //           lastDate: DateTime.now(),
+                      //         );
+                      //         if (selected != null && selected != selectedDate) {
+                      //           setState(() {
+                      //             selectedDate = selected;
+                      //             crateAtDate.text =
+                      //                 myDateFormat.format(selected);
+                      //             chartData.clear();
+                      //             chartData = getStepFromDate(
+                      //                 getAll, myDateFormat.format(selectedDate));
+                      //             showStepCount =
+                      //                 chartData.first.score.toString();
+                      //           });
+                      //         }
+                      //       }),
+                      // ),
+                      // SfCircularChart(annotations: <CircularChartAnnotation>[
+                      //   CircularChartAnnotation(
+                      //     widget: Container(
+                      //       child: Text(
+                      //         '$showStepCount  ก้าว',
+                      //         style: TextStyle(
+                      //             color: Color.fromRGBO(0, 0, 0, 0.5),
+                      //             fontSize: 25),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ], series: <CircularSeries>[
+                      //   RadialBarSeries<KeepChoieAndSocre, String>(
+                      //       dataSource: chartData,
+                      //       xValueMapper: (KeepChoieAndSocre data, _) =>
+                      //           data.choice,
+                      //       yValueMapper: (KeepChoieAndSocre data, _) =>
+                      //           data.score,
+                      //       // dataLabelSettings: DataLabelSettings(isVisible: true),
+                      //       cornerStyle: CornerStyle.bothCurve,
+                      //       maximumValue: 5000,
+                      //       innerRadius: '80%',
+                      //       strokeWidth: 5.0),
+                      // ])
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          }
         } else {
           return Text("กำลังโหลด");
         }
