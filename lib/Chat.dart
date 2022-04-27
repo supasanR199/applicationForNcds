@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/widgetShare/ChatBubble.dart';
+
+import 'noti.dart';
 
 class ChatRoom extends StatefulWidget {
   var chatTo;
@@ -25,6 +28,41 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  var fromename;
+  var token;
+  final auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    //documentId is passed from previous widget
+    FirebaseFirestore.instance
+        .collection('UserWeb')
+        .doc(auth.currentUser.uid)
+        .get()
+        .then((value) {
+      var check = value.data();
+      //'value' is the instance of 'DocumentSnapshot'
+      //'value.data()' contains all the data inside a document in the form of 'dictionary'
+      setState(() {
+        //name, image, quantity are the fields of document
+        fromename = "${check['Firstname']} ${check['Lastname']}";
+      });
+    });
+
+    FirebaseFirestore.instance
+        .collection('MobileUser')
+        .doc(widget.peerId)
+        .get()
+        .then((value) {
+      var data = value.data();
+      setState(() {
+        token = data["Token"];
+        // image = data?["Img"];
+        // checkrole = data?["Role"];
+        // gen = data?["Gender"];
+      });
+    });
+    super.initState();
+  }
   @override
   final _formChat = GlobalKey<FormState>();
   String chatContent;
@@ -33,6 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           backgroundColor: Colors.white,
           title: Text(
@@ -161,10 +200,15 @@ class _ChatRoomState extends State<ChatRoom> {
                                   },
                                 );
                               });
+                          if (token != null) {
+                          sendPushMessage("$token", "$chatContent",
+                          "คุณ $fromename ส่งข้อความถึงคุณ");
+                            }
                               _formChat.currentState.reset();
                             }
                           },
                           // tooltip: 'Create',
+                          
                           child: Icon(Icons.send,color: Colors.blueAccent,),
                         ),
                       ),

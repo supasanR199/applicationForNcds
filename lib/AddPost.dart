@@ -41,6 +41,7 @@ class _AddPost extends State<AddPost> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -63,10 +64,15 @@ class _AddPost extends State<AddPost> {
                   ],
                 ),
               ),
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
             ),
           ),
         ),
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
       ),
     );
   }
@@ -383,8 +389,9 @@ class _AddPost extends State<AddPost> {
                 // final file = File(path);
                 // print(path);
               },
+              hoverColor: Colors.grey.shade300,
               color: Colors.white,
-              child: Text('ฮัพโหลดรูปภาพ'),
+              child: Text('ฮัพโหลดรูปภาพ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
               padding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -449,12 +456,13 @@ class _AddPost extends State<AddPost> {
                       }
                     }
                   },
-                  color: Colors.green[100],
-                  child: Text('บันทึก'),
+                  hoverColor: Colors.grey.shade300,
+                  color: Colors.green,
+                  child: Text('บันทึก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
                   padding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(4),
+                      Radius.circular(20),
                     ),
                   ),
                 ),
@@ -469,12 +477,13 @@ class _AddPost extends State<AddPost> {
                       Navigator.pushNamed(context, '/medicaMain');
                     }
                   },
-                  color: Colors.red[100],
-                  child: Text('ยกเลิก'),
+                  hoverColor: Colors.grey.shade300,
+                  color: Colors.red,
+                  child: Text('ยกเลิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16)),
                   padding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(4),
+                      Radius.circular(20),
                     ),
                   ),
                 ),

@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 
 import 'PatientMain.dart';
 import 'models/AuthDataModels.dart';
+import 'noti.dart';
 import 'services/shared_preferences_service.dart';
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
@@ -55,14 +56,14 @@ class _MedicaMainState extends State<MedicaMain> {
         isSelected: true,
       ),
       CollapsibleItem(
-        text: 'โพสต์',
-        icon: Icons.assignment_ind,
-        onPressed: () => setState(() => _headline = 'patient'),
+        text: 'นัดหมายเข้าพบ',
+        icon: Icons.calendar_today_outlined,
+        onPressed: () => setState(() => _headline = 'volenter'),
       ),
       CollapsibleItem(
-        text: 'นัดหมายเข้าพบ',
-        icon: Icons.stacked_bar_chart_sharp,
-        onPressed: () => setState(() => _headline = 'volenter'),
+        text: 'โพสต์',
+        icon: Icons.post_add,
+        onPressed: () => setState(() => _headline = 'patient'),
       ),
     ];
   }
@@ -107,6 +108,7 @@ class _MedicaMainState extends State<MedicaMain> {
         // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          leading: Image.asset("icon/logo.png"),
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -808,6 +810,7 @@ class _MedicaMainState extends State<MedicaMain> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
+                                hoverColor: Colors.grey.shade300,
                                 onPressed: () {
                                   showDialog(
                                           context: context,
@@ -825,34 +828,39 @@ class _MedicaMainState extends State<MedicaMain> {
                                           .update({
                                         "AppointmentFromMd": appointmentFromMd
                                       });
+                                      // if (token != null) {
+                                      //     sendPushMessage("$token", "ในวันที่ $chatContent",
+                                      //     "หมอได้นัดพบคุณที่ รพ.สต.");
+                                      //       }
                                       Navigator.pop(context);
                                     } else {
                                       Navigator.pop(context);
                                     }
                                   });
                                 },
-                                textColor: Colors.black,
-                                child: Text('ยืนยัน'),
-                                color: Colors.greenAccent[100],
+                                textColor: Colors.white,
+                                child: Text('ยืนยัน',style: TextStyle(fontWeight: FontWeight.bold)),
+                                color: Colors.green,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(4))),
+                                        BorderRadius.all(Radius.circular(20))),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
+                                hoverColor: Colors.grey.shade300,
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                textColor: Colors.black,
-                                child: Text('ยกเลิก'),
-                                color: Colors.redAccent[100],
+                                textColor: Colors.white,
+                                child: Text('ยกเลิก',style: TextStyle(fontWeight: FontWeight.bold)),
+                                color: Colors.red,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(4))),
+                                        BorderRadius.all(Radius.circular(20))),
                               ),
                             ),
                           ],
@@ -860,6 +868,9 @@ class _MedicaMainState extends State<MedicaMain> {
                       ],
                     ),
                   ),
+                  shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(20))),
                 ));
       },
       // color: Color.fromRGBO(255, 211, 251, 1),

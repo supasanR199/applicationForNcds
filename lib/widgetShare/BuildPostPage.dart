@@ -42,7 +42,7 @@ class _BuildPostPageState extends State<BuildPostPage> {
   String searchText = '';
   TextEditingController _searchController = TextEditingController();
   Widget build(BuildContext context) {
-    return Card(
+    return Card(     
       color: Colors.grey.shade50,
       child: SizedBox(
         height: 800,

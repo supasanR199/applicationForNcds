@@ -44,6 +44,76 @@ Widget proFileShow(context, String path, String gender) {
       });
 }
 
+Widget proFilePatient(context, String path, String gender) {
+  // if (path == "lib/img/not-available.png") {
+  //   return CircleAvatar(
+  //     radius: 48,
+  //     backgroundImage: Image.asset(path).image,
+  //   );
+  // }
+  print(path);
+  print(gender);
+  return FutureBuilder<String>(
+      future: FirebaseStorage.instance.ref(path).getDownloadURL(),
+      builder: (context, snap) {
+        // if (snap.connectionState == ConnectionState.done) {
+        //   return new CircularProgressIndicator();
+        // }
+        if (snap.hasData) {
+          return SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipOval(
+                child: Image(
+                image: Image.network(snap.data).image,
+                fit: BoxFit.fitWidth,
+                )
+              ),
+            );
+          // CircleAvatar(
+          //   radius: 48, // Image radius
+          //   backgroundImage: Image.network(snap.data).image,
+          // );
+        } else {
+          if (gender == "ชาย") {
+            return  SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipOval(
+                child: Image(
+                image: AssetImage("assets/Img/man.png"),
+                fit: BoxFit.fitWidth,
+                )
+              ),
+            );
+          } else if (gender == "หญิง") {
+            return SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipOval(
+                child: Image(
+                image: AssetImage("assets/Img/woman.png"),
+                fit: BoxFit.fitWidth,
+                )
+              ),
+            );
+          } else {
+            return SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipOval(
+                child: Image(
+                image: AssetImage("assets/Img/noimage.png"),
+                fit: BoxFit.fitWidth,
+                )
+              ),
+            );
+          }
+          // return new CircularProgressIndicator();
+        }
+      });
+}
+
 Widget proFilePostShow(context, String path) {
   // if (path == "lib/img/not-available.png") {
   //   return Padding(

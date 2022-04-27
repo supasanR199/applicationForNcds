@@ -113,6 +113,7 @@ class _adminMainState extends State<adminMain> {
         // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          leading: Image.asset("icon/logo.png"),
           centerTitle: false,
           automaticallyImplyLeading: false,
           title: Text(

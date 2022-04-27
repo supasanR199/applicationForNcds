@@ -33,6 +33,7 @@ class _LabResults extends State<LabResults> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -40,81 +41,86 @@ class _LabResults extends State<LabResults> {
           ),
           backgroundColor: Colors.white,
         ),
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         body: Container(
           child: Center(
             child: Card(
-              child: SizedBox(
-                height: 700,
-                width: 1000,
-                child: Form(
-                  key: _labResultsFrom,
-                  child: ListView(
-                    children: <Widget>[
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'การตรวจร่างกาย',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      buildWeightField(context),
-                      buildHeightField(context),
-                      buildBmiField(context),
-                      buildWaistlineField(context),
-                      buildpulseField(context),
-                      buildBreatheField(context),
-                      buildBloodPressureField(context),
-                      buildDTXField(context),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'ผลตรวจจากห้องปฎิบัติการ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      buildFbsFpgField(context),
-                      buildHb1cField(context),
-                      buildBunField(context),
-                      buildCrField(context),
-                      buildLdlField(context),
-                      buildHdlField(context),
-                      buildCholField(context),
-                      buildTgField(context),
-                      buildMicroalbuminField(context),
-                      buildUricacidField(context),
-                      buildProteininurineField(context),
-                      buildEyetestField(context),
-                      buildDateField(context),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            child: buildButtonRegister(context),
-                            padding: EdgeInsets.only(
-                              left: 50,
-                              right: 20,
-                              top: 70,
-                              bottom: 50,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 60),
+                child: SizedBox(
+                  height: 700,
+                  width: 1000,
+                  child: Form(
+                    key: _labResultsFrom,
+                    child: ListView(
+                      children: <Widget>[
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 40
+                            ),
+                            child: Text(
+                              'การตรวจร่างกาย',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
                             ),
                           ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      ),
-                    ],
+                        ),
+                        buildWeightField(context),
+                        buildHeightField(context),
+                        buildBmiField(context),
+                        buildWaistlineField(context),
+                        buildpulseField(context),
+                        buildBreatheField(context),
+                        buildBloodPressureField(context),
+                        buildDTXField(context),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 40
+                            ),
+                            child: Text(
+                              'ผลตรวจจากห้องปฎิบัติการ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
+                            ),
+                          ),
+                        ),
+                        buildFbsFpgField(context),
+                        buildHb1cField(context),
+                        buildBunField(context),
+                        buildCrField(context),
+                        buildLdlField(context),
+                        buildHdlField(context),
+                        buildCholField(context),
+                        buildTgField(context),
+                        buildMicroalbuminField(context),
+                        buildUricacidField(context),
+                        buildProteininurineField(context),
+                        buildEyetestField(context),
+                        buildDateField(context),
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              child: buildButtonRegister(context),
+                              padding: EdgeInsets.only(
+                                left: 50,
+                                right: 20,
+                                top: 70,
+                                bottom: 50,
+                              ),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               //  margin: EdgeInsets.only(top: 100,bottom: 400,),
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
             ),
           ),
         ),
@@ -150,7 +156,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'น้ำหนักผู้ป่วย(KG.)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -185,7 +191,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ส่วนสูงผู้ป่วย(CM.)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -216,7 +222,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'รอบเอว ของผู้ป่วย(CM.)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -240,7 +246,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ค่าBMI ของผู้ป่วย',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -263,7 +269,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ตรวจชีพจรณ์(ครั่ง/ต่อนาที)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -286,7 +292,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ตรวจการหายใจ(ครั่ง/ต่อนาที)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -309,7 +315,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'ความดันโลหิต(mmHg/ต่อนาที)',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -332,7 +338,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'DTX',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -354,7 +360,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'FBS/FPG',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -376,7 +382,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Hb1c',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -398,7 +404,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'BUN',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -420,7 +426,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Cr',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -442,7 +448,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'LDL',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -464,7 +470,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'HDL',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -486,7 +492,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Chol',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -508,7 +514,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Tg',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -530,7 +536,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Micro-albumin',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -552,7 +558,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Uric-acid',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -574,7 +580,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Protein-in-urine',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -593,7 +599,7 @@ class _LabResults extends State<LabResults> {
         },
         decoration: InputDecoration(
           labelText: 'Eye-test',
-          icon: Icon(Icons.people),
+          // icon: Icon(Icons.people),
         ),
       ),
     );
@@ -639,7 +645,7 @@ class _LabResults extends State<LabResults> {
           },
           decoration: InputDecoration(
             labelText: 'วันที่บันทึก',
-            icon: Icon(Icons.people),
+            // icon: Icon(Icons.people),
           ),
           onTap: () async {
             final DateTime selected = await showDatePicker(
@@ -664,7 +670,10 @@ class _LabResults extends State<LabResults> {
   Widget buildButtonRegister(context) {
     return RaisedButton(
       // color: Colors.accents,
-      child: Text('บันทึก'),
+      hoverColor: Colors.grey,
+      child: Text('บันทึก'
+      ,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),
+      ),
       onPressed: () {
         if (_labResultsFrom.currentState.validate()) {
           try {
@@ -784,7 +793,7 @@ class _LabResults extends State<LabResults> {
       color: Colors.green,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 }

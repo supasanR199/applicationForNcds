@@ -41,9 +41,10 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           centerTitle: false,
+          foregroundColor: Colors.blueAccent,
           backgroundColor: Colors.white,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -53,6 +54,8 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
         body: Container(
           child: Center(
             child: Card(
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
               child: SizedBox(
                 height: 700,
                 width: 1000,
@@ -60,162 +63,165 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                   padding: const EdgeInsets.all(15),
                   child: Form(
                     key: _addRemindForm,
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                            ),
-                            child: Text(
-                              'เตือนความจำผู้ป่วยรับประทานยา',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 40),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            _remindeDrugModels.nameDrug = value;
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "โปรดระบุชื่อยา";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'ชื่อยา',
-                          ),
-                        ),
-                        SmartSelect<String>.multiple(
-                          title: "ช่วงเวลารับประทานยา",
-                          // modalConfig: ,
-                          choiceItems: _time,
-                          value: _valueTime,
-                          modalValidation: (value) {
-                            if (value.isEmpty) {
-                              return "เลือกเวลาในการรับประทานยา";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChange: (value) {
-                            setState(() {
-                              // print(value.value);
-                              _valueTime = value.value;
-                              _remindeDrugModels.time = _valueTime;
-                            });
-                          },
-                        ),
-                        // ListTile(
-                        //   title: Text('ก่อนอาหาร'),
-                        //   leading: Radio(
-                        //     value: "before_meals",
-                        //     activeColor: Colors.amber,
-                        //     toggleable: true,
-                        //     onChanged: (value) {
-                        //       setState(() {
-                        //         print(value);
-                        //         timeToEat = value;
-                        //       });
-                        //     },
-                        //     groupValue: timeToEat,
-                        //   ),
-                        // ),
-                        // ListTile(
-                        //   title: Text('หลังอาหาร'),
-                        //   leading: Radio(
-                        //     value: "after_meals",
-                        //     activeColor: Colors.amber,
-                        //     toggleable: true,
-                        //     onChanged: (value) {
-                        //       setState(() {
-                        //         print(value);
-                        //         timeToEat = value;
-                        //       });
-                        //     },
-                        //     groupValue: timeToEat,
-                        //   ),
-                        // ),
-                        RadioButtonFormField(
-                          toggleable: true,
-                          padding: EdgeInsets.all(8),
-                          context: context,
-                          value: 'value',
-                          display: 'display',
-                          data: data,
-                          validator: (value) {
-                            if (value == "") {
-                              return "โปรดเลือกการกินยา";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              // print(value);
-                              _remindeDrugModels.timeToEat = value;
-                              // myValue = value.toString();
-                            });
-                          },
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            _remindeDrugModels.note = value;
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'หมายเหตุ',
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: TextFormField(
-                              readOnly: true,
-                              controller: exdDate,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'กรุณาระบุวันหมดอายุของยา';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'วันหมดอายุของยา',
-                                icon: Icon(Icons.people),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 60),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
                               ),
-                              onTap: () async {
-                                final DateTime selected = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2222),
-                                );
-                                if (selected != null &&
-                                    selected != selectedDate) {
-                                  setState(() {
-                                    selectedDate = selected;
-                                    exdDate.text =
-                                        myDateFormat.format(selected);
-                                    // print(selected);
-                                    _remindeDrugModels.exdDate = selectedDate;
-                                  });
-                                }
-                              }),
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              buildButtonAddReminded(context),
-                              Padding(
-                                  padding: EdgeInsets.only(right: 8, left: 8)),
-                              buildButtonCancle(context)
-                            ],
+                              child: Text(
+                                'ย่าที่จ่ายให้ผู้ป่วย',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          TextFormField(
+                            onChanged: (value) {
+                              _remindeDrugModels.nameDrug = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "โปรดระบุชื่อยา";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'ชื่อยา',
+                            ),
+                          ),
+                          SmartSelect<String>.multiple(
+                            title: "ช่วงเวลารับประทานยา",
+                            // modalConfig: ,
+                            choiceItems: _time,
+                            value: _valueTime,
+                            modalValidation: (value) {
+                              if (value.isEmpty) {
+                                return "เลือกเวลาในการรับประทานยา";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChange: (value) {
+                              setState(() {
+                                // print(value.value);
+                                _valueTime = value.value;
+                                _remindeDrugModels.time = _valueTime;
+                              });
+                            },
+                          ),
+                          // ListTile(
+                          //   title: Text('ก่อนอาหาร'),
+                          //   leading: Radio(
+                          //     value: "before_meals",
+                          //     activeColor: Colors.amber,
+                          //     toggleable: true,
+                          //     onChanged: (value) {
+                          //       setState(() {
+                          //         print(value);
+                          //         timeToEat = value;
+                          //       });
+                          //     },
+                          //     groupValue: timeToEat,
+                          //   ),
+                          // ),
+                          // ListTile(
+                          //   title: Text('หลังอาหาร'),
+                          //   leading: Radio(
+                          //     value: "after_meals",
+                          //     activeColor: Colors.amber,
+                          //     toggleable: true,
+                          //     onChanged: (value) {
+                          //       setState(() {
+                          //         print(value);
+                          //         timeToEat = value;
+                          //       });
+                          //     },
+                          //     groupValue: timeToEat,
+                          //   ),
+                          // ),
+                          RadioButtonFormField(
+                            toggleable: true,
+                            padding: EdgeInsets.all(8),
+                            context: context,
+                            value: 'value',
+                            display: 'display',
+                            data: data,
+                            validator: (value) {
+                              if (value == "") {
+                                return "โปรดเลือกการกินยา";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                // print(value);
+                                _remindeDrugModels.timeToEat = value;
+                                // myValue = value.toString();
+                              });
+                            },
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              _remindeDrugModels.note = value;
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'หมายเหตุ',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: TextFormField(
+                                readOnly: true,
+                                controller: exdDate,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'กรุณาระบุวันหมดอายุของยา';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'วันหมดอายุของยา',
+                                  icon: Icon(Icons.people),
+                                ),
+                                onTap: () async {
+                                  final DateTime selected = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2222),
+                                  );
+                                  if (selected != null &&
+                                      selected != selectedDate) {
+                                    setState(() {
+                                      selectedDate = selected;
+                                      exdDate.text =
+                                          myDateFormat.format(selected);
+                                      // print(selected);
+                                      _remindeDrugModels.exdDate = selectedDate;
+                                    });
+                                  }
+                                }),
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                buildButtonAddReminded(context),
+                                Padding(
+                                    padding: EdgeInsets.only(right: 8, left: 8)),
+                                buildButtonCancle(context)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -230,7 +236,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
   Widget buildButtonAddReminded(context) {
     return RaisedButton(
       // color: Colors.accents,
-      child: Text('บันทึก'),
+      child: Text('บันทึก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)),
       onPressed: () async {
         try {
           if (_addRemindForm.currentState.validate()) {
@@ -259,24 +265,26 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                   alertMessage(context, e.toString()));
         }
       },
+      hoverColor: Colors.grey,
       color: Colors.green,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 
   Widget buildButtonCancle(context) {
     return RaisedButton(
       // color: Colors.accents,
-      child: Text('ยกเลิก'),
+      child: Text('ยกเลิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)),
       onPressed: () {
         Navigator.pop(context);
       },
+      hoverColor: Colors.grey,
       padding: EdgeInsets.all(20),
       color: Colors.redAccent,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 }

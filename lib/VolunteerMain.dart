@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
+import 'package:intl/intl.dart';
 // import 'package:smart_select/smart_select.dart';
 
 class VolunteerMain extends StatefulWidget {
@@ -23,8 +24,9 @@ class _VolunteerMainState extends State<VolunteerMain> {
       length: 1,
       child: Container(
         child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+          backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
+            foregroundColor: Colors.blueAccent,
             centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -91,11 +93,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
                 children: [
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 30,bottom: 20),
                       child: Text(
-                        'ข้อมูลอาสาสมัคร',
+                        'ข้อมูล อสม.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 40),
+                        style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -115,37 +117,95 @@ class _VolunteerMainState extends State<VolunteerMain> {
                       //     style: TextStyle(fontSize: 20),
                       //   ),
                       // ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text("ชื่อ : " + widget.volunteerData["Firstname"]),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "นามสกุล : " + widget.volunteerData["Lastname"]),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "ที่อยู่ : " + widget.volunteerData["Address"]),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "วันหมดอายุใบอนุญาตอาสาสมัคร : " +
-                              convertDateTimeDisplay(
-                                widget.volunteerData["CardEXP"]
-                                    .toDate()
-                                    .toString(),
-                              ),
-                        ),
-                      ),
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'ชื่อ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Firstname"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'นามสกุล :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Lastname"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'เพศ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Gender"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),              
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'โทรศัพท์ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Phonenumber"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),              
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'E-mail :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Gender"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),              
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'เลขบัตรประจำตะว อสม. :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["VolunteerID"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),              
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'ได้รับการแต่งตั้งปี :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${DateFormat("yyyy-MM-dd").format(widget.volunteerData["CardEXP"].toDate())}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),
+                            SizedBox(height: 5,),                                                                                                                                                                                         
+                            RichText(
+                              text: TextSpan(
+                                    style: TextStyle(color: Colors.black),
+                                    children: <TextSpan>[
+                                                  TextSpan(text: 'ที่อยู่ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                                                  TextSpan(text: ' ${widget.volunteerData["Address"]}',style: TextStyle(fontSize: 18,)),
+                                                ],
+                                            ),
+                                          ),                                                                                                              
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child:
+                      //       Text("ชื่อ : " + widget.volunteerData["Firstname"]),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(
+                      //       "นามสกุล : " + widget.volunteerData["Lastname"]),
+                      // ),
                     ],
                   ),
                 ],
@@ -175,62 +235,33 @@ class _VolunteerMainState extends State<VolunteerMain> {
           ),
         ),
       ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),),    
     );
   }
 
   Widget buildButtonRegisterBoss(context) {
-    return RaisedButton(
-      color: Colors.green[100],
-      child: Text("กำหนดให้เป็นหัวหน้าอาสาสมัคร"),
-      padding: EdgeInsets.all(20),
-      onPressed: () {
-        try {
-          showDialog(
-                  context: context,
-                  builder: (BuildContext context) => alertMessage(context,
-                      "คุณต้องการกำหนดให้คุณ  ${widget.volunteerData["Firstname"]} เป็นหัวหน้าอสม. ใช้หรือไม่?"))
-              .then((value) async {
-            if (value == "CONFIRM") {
-              await FirebaseFirestore.instance
-                  .collection("MobileUser")
-                  .doc(widget.volunteerDataId.id)
-                  .update({"isBoss": true}).whenComplete(() {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        alertMessage(context, "บันทึกสำเร็จ"));
-              });
-            }
-          });
-        } on FirebaseException catch (e) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) =>
-                  alertMessage(context, e.toString()));
-        }
-      },
-    );
-  }
-
-  Widget buildButtonCancelBoss(context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
+    return Container(
+      width: 250,
       child: RaisedButton(
-        color: Colors.red[100],
-        child: Text("ยกเลิกเป็นหัวหน้าอาสาสมัคร"),
+        hoverColor: Colors.grey.shade300,
+        color: Colors.green,
+        child: Text("กำหนดให้เป็นหัวหน้า อสม.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
         padding: EdgeInsets.all(20),
         onPressed: () {
           try {
             showDialog(
                     context: context,
                     builder: (BuildContext context) => alertMessage(context,
-                        "คุณต้องการยกเลิก  ${widget.volunteerData["Firstname"]} จากการเป็นเป็นหัวหน้าอสม. ใช้หรือไม่?"))
+                        "คุณต้องการกำหนดให้คุณ  ${widget.volunteerData["Firstname"]} เป็นหัวหน้าอสม. ใช้หรือไม่?"))
                 .then((value) async {
               if (value == "CONFIRM") {
                 await FirebaseFirestore.instance
                     .collection("MobileUser")
                     .doc(widget.volunteerDataId.id)
-                    .update({"isBoss": false}).whenComplete(() {
+                    .update({"isBoss": true}).whenComplete(() {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
@@ -245,26 +276,83 @@ class _VolunteerMainState extends State<VolunteerMain> {
                     alertMessage(context, e.toString()));
           }
         },
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),),      
+      ),
+    );
+  }
+
+  Widget buildButtonCancelBoss(context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Container(
+        width: 250,
+        child: RaisedButton(
+          hoverColor: Colors.grey.shade300,
+          color: Colors.red,
+          child: Text("ยกเลิกเป็นหัวหน้า อสม.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+          padding: EdgeInsets.all(20),
+          onPressed: () {
+            try {
+              showDialog(
+                      context: context,
+                      builder: (BuildContext context) => alertMessage(context,
+                          "คุณต้องการยกเลิก  ${widget.volunteerData["Firstname"]} จากการเป็นเป็นหัวหน้าอสม. ใช้หรือไม่?"))
+                  .then((value) async {
+                if (value == "CONFIRM") {
+                  await FirebaseFirestore.instance
+                      .collection("MobileUser")
+                      .doc(widget.volunteerDataId.id)
+                      .update({"isBoss": false}).whenComplete(() {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            alertMessage(context, "บันทึกสำเร็จ"));
+                  });
+                }
+              });
+            } on FirebaseException catch (e) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      alertMessage(context, e.toString()));
+            }
+          },
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),),
+        ),
       ),
     );
   }
 
   Widget buildButtonAddPatientForBoss(context) {
-    return RaisedButton(
-      color: Colors.green[100],
-      child: Text("เพิ่มผู้ป่วยในการดูแลให้หัวหน้าอสม."),
-      padding: EdgeInsets.all(20),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddPatienFoorVolunteer(
-              volunteerData: widget.volunteerData,
-              volunteerDataId: widget.volunteerDataId,
+    return Container(
+      width: 250,
+      child: RaisedButton(
+        hoverColor: Colors.grey.shade300,
+        color: Colors.blueAccent,
+        child: Text("เพิ่มผู้ป่วยในการดูแล",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+        padding: EdgeInsets.all(20),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPatienFoorVolunteer(
+                volunteerData: widget.volunteerData,
+                volunteerDataId: widget.volunteerDataId,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),),      
+      ),
     );
   }
 
