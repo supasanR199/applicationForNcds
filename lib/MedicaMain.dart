@@ -437,19 +437,19 @@ class _MedicaMainState extends State<MedicaMain> {
   Widget buildPostPage(BuildContext context) {
     return Card(
       child: SizedBox(
-        height: 700,
+        height: 800,
         width: 1000,
         child: Column(
           children: <Widget>[
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,bottom: 20
                 ),
                 child: Text(
                   'โพสต์แนะนำ',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -460,6 +460,11 @@ class _MedicaMainState extends State<MedicaMain> {
               child: bulidButtonAddPost(context),
             ),
           ],
+        ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
         ),
       ),
     );
@@ -672,6 +677,7 @@ class _MedicaMainState extends State<MedicaMain> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MaterialButton(
+        hoverColor: Colors.grey.shade200,
         onPressed: () {
           Navigator.push(
             context,
@@ -682,10 +688,11 @@ class _MedicaMainState extends State<MedicaMain> {
             ),
           );
         },
-        color: Color.fromRGBO(255, 211, 251, 1),
+        color: Colors.white,
         textColor: Colors.white,
         child: Icon(
           Icons.add,
+          color: Colors.blueAccent,
           size: 24,
         ),
         padding: EdgeInsets.all(16),
