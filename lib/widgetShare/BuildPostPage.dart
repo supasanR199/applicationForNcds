@@ -1,7 +1,9 @@
 import 'package:appilcation_for_ncds/AddPost.dart';
+import 'package:appilcation_for_ncds/widgetShare/EditPost.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +43,8 @@ class _BuildPostPageState extends State<BuildPostPage> {
   List<DocumentSnapshot> documents = [];
   String searchText = '';
   TextEditingController _searchController = TextEditingController();
+  var auth = FirebaseAuth.instance;
+
   Widget build(BuildContext context) {
     return Card(
       color: Colors.grey.shade50,
@@ -204,8 +208,8 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                                     Padding(
                                                       padding: EdgeInsets.only(
                                                           right: 8.0),
-                                                      child:
-                                                          ButtonEdit(context),
+                                                      child: ButtonEdit(context,
+                                                          documents[index].id),
                                                     ),
                                                     ButtonDelect(
                                                         context,
@@ -326,7 +330,7 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                       ]),
                                     ),
                                   ),
-                                )
+                                ),
                               ]),
                             ),
                           );
@@ -351,7 +355,10 @@ class _BuildPostPageState extends State<BuildPostPage> {
 
   Widget delectPost(BuildContext context, String id, String imgPath) {
     return IconButton(
-        icon: const Icon(Icons.delete),
+        icon: Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
         tooltip: 'ลบโพตส์',
         onPressed: () async {
           showDialog(
@@ -372,11 +379,17 @@ class _BuildPostPageState extends State<BuildPostPage> {
         });
   }
 
-  Widget ButtonEdit(context) {
+  Widget ButtonEdit(context, String uid) {
     return RaisedButton(
-      onPressed: () => null,
+      onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) => EditPost(
+                postUid: uid,
+                whoEdit: auth.currentUser.uid,
+              )),
       child: Row(children: [
-        Icon(IconData(0xe89b, fontFamily: 'MaterialIcons')),
+        Icon(IconData(0xe89b, fontFamily: 'MaterialIcons'),
+            color: Colors.white),
         Text(
           "แก้ไขบทความ",
           style: TextStyle(
@@ -412,7 +425,10 @@ class _BuildPostPageState extends State<BuildPostPage> {
       },
       child: Row(
         children: [
-          Icon(Icons.delete),
+          Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
           Text(
             "ลบบทความ",
             style: TextStyle(
