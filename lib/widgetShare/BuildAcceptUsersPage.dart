@@ -202,6 +202,17 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
                                       documents0 = snapshot.data.docs;
+                                      documents0.forEach((e) {});
+                                      if (searchText0.length > 0) {
+                                        documents0 = documents0.where((element) {
+                                          return element
+                                              .get('Firstname')
+                                              .toString()
+                                              .toLowerCase()
+                                              .contains(
+                                                  searchText0.toLowerCase());
+                                        }).toList();
+                                      }
                                       return ListView.builder(
                                           itemCount: documents0.length,
                                           itemBuilder: (context, index) {

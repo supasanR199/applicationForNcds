@@ -42,7 +42,7 @@ class _BuildPostPageState extends State<BuildPostPage> {
   String searchText = '';
   TextEditingController _searchController = TextEditingController();
   Widget build(BuildContext context) {
-    return Card(     
+    return Card(
       color: Colors.grey.shade50,
       child: SizedBox(
         height: 800,
@@ -150,20 +150,33 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                                       style: TextStyle(
                                                           fontSize: 20)),
 
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0,
-                                                          right: 8.0),
-                                                      child: delectPost(
-                                                          context,
-                                                          documents[index].id,
-                                                          documents[index]
-                                                              ["imgPath"]),
-                                                    ),
-                                                  ),
+                                                  // Align(
+                                                  //   alignment:
+                                                  //       Alignment.centerRight,
+                                                  //   child: Padding(
+                                                  //     padding: EdgeInsets.only(
+                                                  //         left: 8.0,
+                                                  //         right: 8.0),
+                                                  //     child: delectPost(
+                                                  //         context,
+                                                  //         documents[index].id,
+                                                  //         documents[index]
+                                                  //             ["imgPath"]),
+                                                  //   ),
+                                                  // ),
+                                                  // Align(
+                                                  //   alignment:
+                                                  //       Alignment.topRight,
+                                                  //   child: Padding(
+                                                  //     padding: EdgeInsets.only(
+                                                  //         left: 8.0,
+                                                  //         right: 8.0),
+                                                  //     child: Icon(IconData(
+                                                  //         0xe89b,
+                                                  //         fontFamily:
+                                                  //             'MaterialIcons')),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                               // Expanded(
@@ -180,8 +193,26 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                               Text(
                                                 "${documents[index]["content"]}",
                                                 overflow: TextOverflow.fade,
-                                                maxLines: 6,
+                                                maxLines: 4,
                                               ),
+                                              Expanded(
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: 8.0),
+                                                      child:
+                                                          ButtonEdit(context),
+                                                    ),
+                                                    ButtonDelect(
+                                                        context,
+                                                        documents[index].id,
+                                                        documents[index]
+                                                            ["imgPath"]),
+                                                  ])),
                                               //     ],
                                               //   ),
                                               // ),
@@ -339,6 +370,62 @@ class _BuildPostPageState extends State<BuildPostPage> {
             }
           });
         });
+  }
+
+  Widget ButtonEdit(context) {
+    return RaisedButton(
+      onPressed: () => null,
+      child: Row(children: [
+        Icon(IconData(0xe89b, fontFamily: 'MaterialIcons')),
+        Text(
+          "แก้ไขบทความ",
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+      ]),
+      color: Colors.blueAccent,
+      hoverColor: Colors.grey,
+      padding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+    );
+  }
+
+  Widget ButtonDelect(context, String id, String imgPath) {
+    return RaisedButton(
+      onPressed: () async {
+        showDialog(
+                context: context,
+                builder: (BuildContext content) =>
+                    alertMessage(content, "คุณแน่ใจที่จะลบโพสต์หรือไม่"))
+            .then((value) async {
+          if (value == "CONFIRM") {
+            await FirebaseFirestore.instance
+                .collection("RecommendPost")
+                .doc(id)
+                .delete();
+            await FirebaseStorage.instance.ref(imgPath).delete();
+          } else if (value == 'CANCEL') {
+            // Navigator.pop(context);
+          }
+        });
+      },
+      child: Row(
+        children: [
+          Icon(Icons.delete),
+          Text(
+            "ลบบทความ",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+        ],
+      ),
+      color: Colors.red,
+      hoverColor: Colors.grey,
+      padding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+    );
   }
 
   Widget bulidButtonAddPost(BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/EvaluateSoftwareForMed.dart';
+import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,6 +48,10 @@ class _MedicaMainState extends State<MedicaMain> {
   Map<String, dynamic> userData;
   List<CollapsibleItem> _items;
   String _headline;
+  List<DocumentSnapshot> documents = [];
+  String searchText = '';
+  TextEditingController _searchController = TextEditingController();
+
   List<CollapsibleItem> get _generateItems {
     return [
       CollapsibleItem(
@@ -72,7 +77,25 @@ class _MedicaMainState extends State<MedicaMain> {
     // print(_userLogId);
     super.initState();
     _items = _generateItems;
+    setImgToNull();
     asyncSingUp();
+  }
+
+  setImgToNull() async {
+    await FirebaseFirestore.instance
+        .collection("MobileUser")
+        .where("Role", isEqualTo: "Patient")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) async {
+        if (element.data()["AppointmentFromMd"] == null) {
+          await FirebaseFirestore.instance
+              .collection("MobileUser")
+              .doc(element.id)
+              .update({"AppointmentFromMd": ""});
+        }
+      });
+    });
   }
 
   void asyncSingUp() async {
@@ -355,6 +378,31 @@ class _MedicaMainState extends State<MedicaMain> {
                 ),
               ),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 60),
+              child: TextFormField(
+                controller: _searchController,
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'ค้นหาผู้ป่วย',
+                  enabledBorder: OutlineInputBorder(
+                    // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    // borderSide: const BorderSide(width: 3, color: Colors.red),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 60),
@@ -366,54 +414,38 @@ class _MedicaMainState extends State<MedicaMain> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
-                      return ListView(
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          Map<String, dynamic> snap =
-                              document.data() as Map<String, dynamic>;
-                          List appoint = List();
-                          if (snap["AppointmentFromMd"] != null) {
-                            appoint = snap["AppointmentFromMd"];
-                          } else {
-                            appoint.add(null);
-                            appoint.add(null);
-                          }
-                          return ListTile(
-                            title: Text(
-                                "${snap["Firstname"]}  ${snap["Lastname"]}"),
-                            subtitle: Text(checkAppointmentFromMd(appoint[0])),
-                            trailing: bulidButtonApployment(context, document),
-                            // Text(checkAppointmentFromMd(
-                            //     snap["AppointmentFromMd"])),
-                            // onTap: () async {
-                            //   final DateTime selected = await showDatePicker(
-                            //     context: context,
-                            //     initialDate: DateTime.now(),
-                            //     firstDate: DateTime.now(),
-                            //     lastDate: DateTime(2222),
-                            //   );
-                            //   if (selected != null && selected != selectedDate) {
-                            //     setState(() {
-                            //       selectedDate = selected;
-                            //       FirebaseFirestore.instance
-                            //           .collection("MobileUser")
-                            //           .doc(document.id)
-                            //           .update({
-                            //         "AppointmentFromMd": selectedDate
-                            //       }).whenComplete(() {
-                            //         showDialog(
-                            //           context: context,
-                            //           builder: (BuildContext context) =>
-                            //               alertMessageOnlyOk(context,
-                            //                   "นัดหมายวันเข้าพบเรียบร้อยแล้ว"),
-                            //         );
-                            //       });
-                            //     });
-                            //   }
-                            // },
-                          );
-                        }).toList(),
-                      );
+                      documents = snapshot.data.docs;
+                      documents.forEach((e) {});
+                      if (searchText.length > 0) {
+                        documents = documents.where((element) {
+                          return element
+                              .get('Firstname')
+                              .toString()
+                              .toLowerCase()
+                              .contains(searchText.toLowerCase());
+                        }).toList();
+                      }
+                      return ListView.builder(
+                          itemCount: documents.length,
+                          itemBuilder: (context, index) {
+                            List appoint = List();
+                            if (documents[index]["AppointmentFromMd"].isEmpty) {
+                              // appoint.add(null);
+                            } else {
+                              appoint = documents[index]["AppointmentFromMd"];
+                            }
+                            return ListTile(
+                              title: Text(
+                                  "${documents[index]["Firstname"]}  ${documents[index]["Lastname"]}"),
+                              subtitle: Text(checkAppointmentFromMd(appoint)),
+                              trailing: bulidButtonApployment(
+                                  context, documents[index]),
+                              leading: proFileShow(
+                                  context,
+                                  documents[index]["Img"],
+                                  documents[index]["Gender"]),
+                            );
+                          });
                     } else {
                       return Center(
                         child: Text("กำลังโหลดข้อมูล"),
@@ -465,16 +497,28 @@ class _MedicaMainState extends State<MedicaMain> {
     );
   }
 
-  String checkAppointmentFromMd(String appoint) {
+  String checkAppointmentFromMd(List appoint) {
     // var date = new DateTime.fromMicrosecondsSinceEpoch(appoint.toDate());
-    if (appoint == null) {
-      return "ยังไม่การนัดหมายวันเข้าพบ";
-    }
+    // if (appoint.isEmpty) {
+    //   return "ยังไม่การนัดหมายวันเข้าพบ";
+    // }
     // DateTime now = appoint.toDate();
     // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-
-    if (appoint != null) {
-      return appoint;
+    if (appoint.isNotEmpty) {
+      DateTime dateformStr = DateTime.parse(appoint[0] + " " + appoint[1]);
+      if (dateformStr.isAfter(DateTime.now())) {
+        return "นัดวันนี้ เวลา ${appoint[1]}";
+      } else if (dateformStr.isBefore(DateTime.now())) {
+        return "เลยวันนัด";
+      }
+      // if (dateformStr.compareTo(DateTime.now()) == 0) {
+      //   return "นัดวันนี้ เวลา ${appoint[1]}";
+      // } else if (dateformStr.compareTo(DateTime.now()) == 0) {
+      //   return "เลยวันนัด";
+      // }
+      // else {
+      //   return appoint[0] + " " + appoint[1];
+      // }
     } else {
       return "ยังไม่การนัดหมายวันเข้าพบ";
     }
@@ -839,7 +883,9 @@ class _MedicaMainState extends State<MedicaMain> {
                                   });
                                 },
                                 textColor: Colors.white,
-                                child: Text('ยืนยัน',style: TextStyle(fontWeight: FontWeight.bold)),
+                                child: Text('ยืนยัน',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 color: Colors.green,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
@@ -855,7 +901,9 @@ class _MedicaMainState extends State<MedicaMain> {
                                   Navigator.pop(context);
                                 },
                                 textColor: Colors.white,
-                                child: Text('ยกเลิก',style: TextStyle(fontWeight: FontWeight.bold)),
+                                child: Text('ยกเลิก',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 color: Colors.red,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
@@ -869,8 +917,7 @@ class _MedicaMainState extends State<MedicaMain> {
                     ),
                   ),
                   shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(20))),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                 ));
       },
       // color: Color.fromRGBO(255, 211, 251, 1),
