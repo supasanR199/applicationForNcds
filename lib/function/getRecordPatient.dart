@@ -48,7 +48,6 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
 
   snap.forEach((elements) {
     choice.forEach((element) {
-      // debugger();
       KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
           element, int.parse(elements.getByName(element)).toDouble());
       // print("show befor add ${_keepsweet.choice} ${_keepsweet.score}");
@@ -56,6 +55,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
       keepData.add(_keepsweet);
     });
   });
+  debugger();
 
   choice.forEach((element) {
     sumIters = keepData.where((e) => e.choice.contains(element));
@@ -77,7 +77,6 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
 
     keepDataReturn.add(keepsumall);
   });
-  print("sum iter all element ${getNewIters.length} ${sumIters.toList()}}");
 
   returnList.add(
     keepDataReturn,

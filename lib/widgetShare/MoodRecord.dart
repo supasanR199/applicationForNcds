@@ -220,9 +220,9 @@ class _MoodRecordState extends State<MoodRecord> {
                             child: SizedBox(
                               width: 500,
                               child: ShowChartBar(
-                                scoreMax: getSumAllChoiceFood(
+                                scoreMax: getSumAllChoice(
                                     listitem, moodChoiceList)[1],
-                                dataSource: getSumAllChoiceFood(
+                                dataSource: getSumAllChoice(
                                     listitem, moodChoiceList)[0],
                               ),
                             ),
