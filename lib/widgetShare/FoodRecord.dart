@@ -205,42 +205,42 @@ class _FoodRecordState extends State<FoodRecord> {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  left: 50,
-                                  right: 50,
-                                  top: 70,
-                                ),
-                                child: DropdownButtonFormField<String>(
-                                  value: _value,
-                                  decoration: InputDecoration(
-                                    labelText: 'วันที่บันทึก',
-                                    icon: Icon(Icons.people),
-                                  ),
-                                  items: selectDate.map((String values) {
-                                    // print(values);
-                                    return DropdownMenuItem<String>(
-                                      value: values,
-                                      child: Text(values),
-                                    );
-                                  }).toList(),
-                                  onChanged: (newValue) {
-                                    // print(newValue);
-                                    setState(() {
-                                      _value = newValue;
-                                      var dateFromString =
-                                          DateTime.parse(_value);
-                                      List<DateTime> selectDateTimrList =
-                                          List();
-                                      selectDateTimrList.add(dateFromString);
-                                      listitem = getValueFromDateRang(
-                                          listforDate, selectDateTimrList);
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
+                            // Expanded(
+                            //   child: Padding(
+                            //     padding: EdgeInsets.only(
+                            //       left: 50,
+                            //       right: 50,
+                            //       top: 70,
+                            //     ),
+                            //     child: DropdownButtonFormField<String>(
+                            //       value: _value,
+                            //       decoration: InputDecoration(
+                            //         labelText: 'วันที่บันทึก',
+                            //         icon: Icon(Icons.people),
+                            //       ),
+                            //       items: selectDate.map((String values) {
+                            //         // print(values);
+                            //         return DropdownMenuItem<String>(
+                            //           value: values,
+                            //           child: Text(values),
+                            //         );
+                            //       }).toList(),
+                            //       onChanged: (newValue) {
+                            //         // print(newValue);
+                            //         setState(() {
+                            //           _value = newValue;
+                            //           var dateFromString =
+                            //               DateTime.parse(_value);
+                            //           List<DateTime> selectDateTimrList =
+                            //               List();
+                            //           selectDateTimrList.add(dateFromString);
+                            //           listitem = getValueFromDateRang(
+                            //               listforDate, selectDateTimrList);
+                            //         });
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Center(
