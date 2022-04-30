@@ -129,29 +129,23 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
 //   return returnList;
 // }
 
-List getSumAllChoiceFood(List<DairyModel> snap, List<String> choice) {
+List getSumAllChoiceMood(List<DairyModel> snap, List<String> choice) {
   List returnList = List();
   List<KeepChoieAndSocre> keepData = List();
   List<KeepChoieAndSocre> keepDataReturn = List<KeepChoieAndSocre>();
   List<double> scoreList = List();
+  Iterable<KeepChoieAndSocre> sumIters;
+  List<Iterable<KeepChoieAndSocre>> getNewIters = List();
+  List<double> keepScoreAll = List();
   snap.forEach(
     (elements) {
       choice.forEach(
         (element) {
-          // if(elements.getByName(element) != "null"){
-          //   print(1);
-          // }
-          // else{
-          //   print(0);
-          // }
-          // debugger();
           if (elements.getByName(element) != "null") {
-            // print((elements.getByName(element)));
             KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
                 element, int.parse(elements.getByName(element)).toDouble());
             keepData.add(_keepsweet);
           } else {
-            // print((elements.getByName(element)));
             KeepChoieAndSocre _keepsweets = KeepChoieAndSocre(element, 0);
             keepData.add(_keepsweets);
           }
@@ -160,24 +154,31 @@ List getSumAllChoiceFood(List<DairyModel> snap, List<String> choice) {
     },
   );
   choice.forEach((element) {
-    Iterable<KeepChoieAndSocre> sumIter =
-        keepData.where((e) => e.choice.contains(element));
-    sumIter.forEach((eSum) {
-      scoreList.add(eSum.score);
-    });
+    sumIters = keepData.where((e) => e.choice.contains(element));
+    getNewIters.add(sumIters);
+  });
+  getNewIters.forEach((element) {
+    String keepStrChoice;
+    List<double> scoreLists = List();
+    element.forEach(
+      (e) {
+        scoreLists.add(e.score);
+        keepStrChoice = e.choice;
+        // print(e.choice);
+      },
+    );
+    keepScoreAll.add(scoreLists.sum);
     KeepChoieAndSocre keepsumall =
-        KeepChoieAndSocre(element, scoreList.average);
+        KeepChoieAndSocre(keepStrChoice, scoreLists.sum);
+
     keepDataReturn.add(keepsumall);
   });
   returnList.add(
     keepDataReturn,
   );
   returnList.add(
-      scoreList.reduce((curr, next) => curr > next ? curr : next).toDouble());
-  // print("show snap ${returnList[0]}${returnList[1]}");
-  keepDataReturn.forEach((e) {
-    print("show sum all sweet food. ${e.choice}: ${e.score}");
-  });
+      keepScoreAll.reduce((curr, next) => curr > next ? curr : next).toDouble());
+
   return returnList;
 }
 
