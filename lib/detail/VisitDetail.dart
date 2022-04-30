@@ -90,7 +90,7 @@ class VisitDetail extends StatelessWidget {
                                                 children: [
                                                   ListTile(
                                                     leading: Text('อุณหภูมิ ณวันที่ลงพื้นที่ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                                    trailing: Text("${visit["Visittemperature"]} องศา",style: TextStyle(fontSize: 17,)),
+                                                    trailing: Text("${visit["Visittemperature"]} °C",style: TextStyle(fontSize: 17,)),
                                                   ),
                                                   // Divider(thickness: 2, color: Colors.grey.shade300,)
                                                 ],
