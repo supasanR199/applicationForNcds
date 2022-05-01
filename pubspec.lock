@@ -246,6 +246,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  date_time:
+    dependency: "direct main"
+    description:
+      name: date_time
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   day_picker:
     dependency: "direct main"
     description:
@@ -595,6 +602,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1+1"
   radio_button_form_field:
     dependency: "direct main"
     description:

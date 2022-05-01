@@ -17,6 +17,9 @@ import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/AddReminderDrug.dart';
 import 'package:appilcation_for_ncds/detail/VisitDetail.dart';
 
+import 'mobilecode/rangedate.dart';
+import 'mobilecode/today.dart';
+
 class PatientMain extends StatefulWidget {
   @override
   Map<String, dynamic> patienData;
@@ -96,12 +99,13 @@ class _PatientMainState extends State<PatientMain> {
                 ),
               ),
               Center(
-                child: FoodRecord(
-                  patienId: widget.patienDataId,
-                ),
+                child: GraphData(patienId: widget.patienDataId,)
+                // FoodRecord(
+                //   patienId: widget.patienDataId,
+                // ),
               ),
               Center(
-                child: MoodRecord(
+                child: EmotionData(
                   patienId: widget.patienDataId,
                 ),
               ),

@@ -26,7 +26,7 @@ class VisitDetail extends StatelessWidget {
               height: 800,
               width: 1000,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 120),
+                padding: EdgeInsets.symmetric(horizontal: 80),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

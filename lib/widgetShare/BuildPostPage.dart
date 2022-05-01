@@ -203,7 +203,7 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                                   child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .center,
+                                                              .start,
                                                       children: [
                                                     Padding(
                                                       padding: EdgeInsets.only(
@@ -380,67 +380,79 @@ class _BuildPostPageState extends State<BuildPostPage> {
   }
 
   Widget ButtonEdit(context, String uid) {
-    return RaisedButton(
-      onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context) => EditPost(
-                postUid: uid,
-                whoEdit: auth.currentUser.uid,
-              )),
-      child: Row(children: [
-        Icon(IconData(0xe89b, fontFamily: 'MaterialIcons'),
-            color: Colors.white),
-        Text(
-          "แก้ไขบทความ",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+    return Container(
+      height: 45,
+      width: 140,
+      child: Center(
+        child: RaisedButton(
+          onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => EditPost(
+                    postUid: uid,
+                    whoEdit: auth.currentUser.uid,
+                  )),
+          child: Row(children: [
+            Icon(IconData(0xe89b, fontFamily: 'MaterialIcons'),
+                color: Colors.white),
+            Text(
+              "แก้ไขบทความ",
+              style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ]),
+          color: Colors.blueAccent,
+          hoverColor: Colors.grey,
+          padding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
         ),
-      ]),
-      color: Colors.blueAccent,
-      hoverColor: Colors.grey,
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+      ),
     );
   }
 
   Widget ButtonDelect(context, String id, String imgPath) {
-    return RaisedButton(
-      onPressed: () async {
-        showDialog(
-                context: context,
-                builder: (BuildContext content) =>
-                    alertMessage(content, "คุณแน่ใจที่จะลบโพสต์หรือไม่"))
-            .then((value) async {
-          if (value == "CONFIRM") {
-            await FirebaseFirestore.instance
-                .collection("RecommendPost")
-                .doc(id)
-                .delete();
-            await FirebaseStorage.instance.ref(imgPath).delete();
-          } else if (value == 'CANCEL') {
-            // Navigator.pop(context);
-          }
-        });
-      },
-      child: Row(
-        children: [
-          Icon(
-            Icons.delete,
-            color: Colors.white,
+    return Container(
+      height: 45,
+      width: 140,
+      child: Center(
+        child: RaisedButton(
+          onPressed: () async {
+            showDialog(
+                    context: context,
+                    builder: (BuildContext content) =>
+                        alertMessage(content, "คุณแน่ใจที่จะลบโพสต์หรือไม่"))
+                .then((value) async {
+              if (value == "CONFIRM") {
+                await FirebaseFirestore.instance
+                    .collection("RecommendPost")
+                    .doc(id)
+                    .delete();
+                await FirebaseStorage.instance.ref(imgPath).delete();
+              } else if (value == 'CANCEL') {
+                // Navigator.pop(context);
+              }
+            });
+          },
+          child: Row(
+            children: [
+              Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              Text(
+                "ลบบทความ",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ],
           ),
-          Text(
-            "ลบบทความ",
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-        ],
+          color: Colors.red,
+          hoverColor: Colors.grey,
+          padding: EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+        ),
       ),
-      color: Colors.red,
-      hoverColor: Colors.grey,
-      padding: EdgeInsets.all(20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 

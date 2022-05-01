@@ -28,7 +28,7 @@ class LabResultsDetail extends StatelessWidget {
               width: 1000,
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 120),
+                  padding: EdgeInsets.symmetric(horizontal: 80),
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
