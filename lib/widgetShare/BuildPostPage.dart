@@ -203,7 +203,7 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                                   child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .start,
+                                                              .end,
                                                       children: [
                                                     Padding(
                                                       padding: EdgeInsets.only(
@@ -211,11 +211,13 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                                       child: ButtonEdit(context,
                                                           documents[index].id),
                                                     ),
+                                                    SizedBox(width: 10,),
                                                     ButtonDelect(
                                                         context,
                                                         documents[index].id,
                                                         documents[index]
                                                             ["imgPath"]),
+                                                            SizedBox(width: 20,)
                                                   ])),
                                               //     ],
                                               //   ),
@@ -329,6 +331,8 @@ class _BuildPostPageState extends State<BuildPostPage> {
                                         ),
                                       ]),
                                     ),
+                                    shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(20))),
                                   ),
                                 ),
                               ]),

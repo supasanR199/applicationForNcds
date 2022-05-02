@@ -64,14 +64,19 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                       SizedBox(
                         height: 40,
                       ),
-                      //  Image.asset("icon/icon-hospital.png",scale: 4,),
-                      Text(
-                        'รายชื่อผู้ป่วย',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      Center(child: Image.asset("icon/consent.png",scale: 4,)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'รายชื่อผู้ป่วย',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         height: 5,
@@ -81,7 +86,7 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       Row(
                         children: [

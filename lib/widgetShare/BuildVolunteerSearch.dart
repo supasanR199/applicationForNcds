@@ -37,14 +37,31 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                       SizedBox(
                         height: 40,
                       ),
+                      Center(
+                        child: SizedBox(
+                          width: 180,
+                          height: 180,
+                          child: 
+                            ClipOval(
+                              child: Image(
+                              image: AssetImage("img/volunteerLogo.png"),
+                              fit: BoxFit.fitWidth,
+                                    )
+                              ),),
+                      ),
                       //  Image.asset("icon/icon-hospital.png",scale: 4,),
-                      Text(
-                        'รายชื่อ อสม.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'รายชื่อ อสม.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         height: 5,
