@@ -93,3 +93,7 @@ String convertDay(DateTime date) {
   // final String formatted = "222";
   return d24;
 }
+
+String dateThai(var date){
+  final List<String>  mounth = ["มกราคม" , "กุมภาพันธ์" , "มีนาคม" , "เมษายน" , "พฤษภาคม" , "มิถุนายน" , "กรกฎาคม" , "สิงหาคม" , "กันยายน" , "ตุลาคม" , "พฤศจิกายน" , "ธันวาคม"];
+}

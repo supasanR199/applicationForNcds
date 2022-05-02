@@ -143,7 +143,8 @@ class _PatientMainState extends State<PatientMain> {
                     style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),         
+              ),
+              proFileShowDataPhoto(context,widget.patienData["Img"],widget.patienData["Gender"]),         
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,

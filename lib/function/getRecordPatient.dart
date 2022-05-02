@@ -55,7 +55,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
       keepData.add(_keepsweet);
     });
   });
-  debugger();
+  
 
   choice.forEach((element) {
     sumIters = keepData.where((e) => e.choice.contains(element));

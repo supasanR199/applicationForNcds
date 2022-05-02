@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
@@ -93,16 +94,19 @@ class _VolunteerMainState extends State<VolunteerMain> {
                 children: [
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 30,bottom: 20),
+                      padding: const EdgeInsets.only(top: 30, bottom: 20),
                       child: Text(
                         'ข้อมูล อสม.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                 ],
               ),
+              proFileShowDataPhoto(
+                  context, widget.volunteerData["Img"], widget.volunteerData["Gender"]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,85 +121,156 @@ class _VolunteerMainState extends State<VolunteerMain> {
                       //     style: TextStyle(fontSize: 20),
                       //   ),
                       // ),
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'ชื่อ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Firstname"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'นามสกุล :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Lastname"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'เพศ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Gender"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'โทรศัพท์ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Phonenumber"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'E-mail :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Gender"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'เลขบัตรประจำตะว อสม. :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["VolunteerID"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'ได้รับการแต่งตั้งปี :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${DateFormat("yyyy-MM-dd").format(widget.volunteerData["CardEXP"].toDate())}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),                                                                                                                                                                                         
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'ที่อยู่ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.volunteerData["Address"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),                                                                                                              
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'ชื่อ :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Firstname"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'นามสกุล :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Lastname"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'เพศ :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Gender"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'โทรศัพท์ :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Phonenumber"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'E-mail :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Gender"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'เลขบัตรประจำตะว อสม. :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["VolunteerID"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'ได้รับการแต่งตั้งปี :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text:
+                                    ' ${DateFormat("yyyy-MM-dd").format(widget.volunteerData["CardEXP"].toDate())}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'ที่อยู่ :',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            TextSpan(
+                                text: ' ${widget.volunteerData["Address"]}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ],
+                        ),
+                      ),
                       // Padding(
                       //   padding: const EdgeInsets.all(8.0),
                       //   child:
@@ -235,10 +310,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
           ),
         ),
       ),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),),    
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
     );
   }
 
@@ -248,7 +324,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
       child: RaisedButton(
         hoverColor: Colors.grey.shade300,
         color: Colors.green,
-        child: Text("กำหนดให้เป็นหัวหน้า อสม.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+        child: Text("กำหนดให้เป็นหัวหน้า อสม.",
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
         padding: EdgeInsets.all(20),
         onPressed: () {
           try {
@@ -276,10 +356,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
                     alertMessage(context, e.toString()));
           }
         },
-          shape: RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
-          ),),      
+          ),
+        ),
       ),
     );
   }
@@ -292,7 +373,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
         child: RaisedButton(
           hoverColor: Colors.grey.shade300,
           color: Colors.red,
-          child: Text("ยกเลิกเป็นหัวหน้า อสม.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+          child: Text("ยกเลิกเป็นหัวหน้า อสม.",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
           padding: EdgeInsets.all(20),
           onPressed: () {
             try {
@@ -321,9 +406,10 @@ class _VolunteerMainState extends State<VolunteerMain> {
             }
           },
           shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
         ),
       ),
     );
@@ -335,7 +421,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
       child: RaisedButton(
         hoverColor: Colors.grey.shade300,
         color: Colors.blueAccent,
-        child: Text("เพิ่มผู้ป่วยในการดูแล",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
+        child: Text("เพิ่มผู้ป่วยในการดูแล",
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
         padding: EdgeInsets.all(20),
         onPressed: () {
           Navigator.push(
@@ -348,10 +438,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
             ),
           );
         },
-          shape: RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
-          ),),      
+          ),
+        ),
       ),
     );
   }
