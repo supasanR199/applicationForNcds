@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 bool alert;
 
@@ -53,7 +57,6 @@ Widget statusAlert(String id) {
                 }
                 alert = snapshotFood.data.docs.last.get("alert") ||
                     snapshotMood.data.docs.last.get("alert");
-                int mood;
                 return IconButton(
                   onPressed: () => {
                     showDialog(
@@ -230,7 +233,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
                     fontSize: 18,
                   ),
                 ),
-                Text("(ในวัน $dayMood)",
+                Text(checkDateMood(dayMood),
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -296,6 +299,15 @@ isAlert(bool isalert) {
     return Colors.red;
   } else {
     return Colors.green;
+  }
+}
+
+checkDateMood(String dayMood) {
+  String dayNow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  if (dayNow == dayMood) {
+    return DateThai(dayNow);
+  } else if (dayMood == null) {
+    return DateThai(dayNow);
   }
 }
 

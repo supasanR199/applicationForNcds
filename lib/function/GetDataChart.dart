@@ -164,6 +164,115 @@ List<MutiChartData> getAllAlertDataInSys(
   return _returnList;
 }
 
+List<KeepChoieAndSocre> getAllAlertDataInSysFood(
+    List<AlertModels> listAllPatien, DateTime dateSelect, String foodCategory) {
+  String initMouth = convertMouth(dateSelect);
+  //
+  List getScore = List();
+  List getAlert = List();
+  //
+  List<KeepChoieAndSocre> _returnList = List();
+  //
+  List<int> fatalertnomal = List();
+  List<int> fatalertmediam = List();
+  List<int> fatalertalert = List();
+  List<int> fatalertdangerus = List();
+  //
+  List<int> saltalertnomal = List();
+  List<int> saltalertmediam = List();
+  List<int> saltalertalert = List();
+  List<int> saltalertangerus = List();
+  //
+  List<int> sweetalertnomal = List();
+  List<int> sweetalertmediam = List();
+  List<int> sweetalertalert = List();
+  List<int> sweetalertdangerus = List();
+
+  listAllPatien.forEach((element) {
+    if (element.date == initMouth) {
+      if (element.fatalert != 0) {
+        if (element.fatalert == 5) {
+          fatalertnomal.add(1);
+        } else if (element.fatalert >= 6 && element.fatalert <= 9) {
+          fatalertmediam.add(1);
+        } else if (element.fatalert >= 10 && element.fatalert <= 13) {
+          fatalertalert.add(1);
+        } else if (element.fatalert >= 14) {
+          fatalertdangerus.add(1);
+        }
+      }
+      //
+      if (element.saltalert != 0) {
+        if (element.saltalert == 5) {
+          saltalertnomal.add(1);
+        } else if (element.saltalert >= 6 && element.saltalert <= 9) {
+          saltalertmediam.add(1);
+        } else if (element.saltalert >= 10 && element.saltalert <= 13) {
+          saltalertalert.add(1);
+        } else if (element.saltalert >= 14) {
+          saltalertangerus.add(1);
+        }
+      }
+      //
+      if (element.sweetalert != 0) {
+        if (element.sweetalert == 5) {
+          sweetalertnomal.add(1);
+        } else if (element.sweetalert >= 6 && element.sweetalert <= 9) {
+          sweetalertmediam.add(1);
+        } else if (element.sweetalert >= 10 && element.sweetalert <= 13) {
+          sweetalertalert.add(1);
+        } else if (element.sweetalert >= 14) {
+          sweetalertdangerus.add(1);
+        }
+      }
+      //
+    }
+  });
+  if (foodCategory == "sweet") {
+    KeepChoieAndSocre keepsweetnomal =
+        KeepChoieAndSocre("ปกติ", sweetalertnomal.sum.toDouble());
+    KeepChoieAndSocre keepsweetmediam =
+        KeepChoieAndSocre("ปานกลาง", sweetalertmediam.sum.toDouble());
+    KeepChoieAndSocre keepsweetalert =
+        KeepChoieAndSocre("มีความเสี่ยง", sweetalertalert.sum.toDouble());
+    KeepChoieAndSocre keepsweetdangerus =
+        KeepChoieAndSocre("อันตราย", sweetalertdangerus.sum.toDouble());
+    _returnList.add(keepsweetnomal);
+    _returnList.add(keepsweetmediam);
+    _returnList.add(keepsweetalert);
+    _returnList.add(keepsweetdangerus);
+    return _returnList;
+  } else if (foodCategory == "selt") {
+    KeepChoieAndSocre keepseltnomal =
+        KeepChoieAndSocre("ปกติ", saltalertnomal.sum.toDouble());
+    KeepChoieAndSocre keepseltmediam =
+        KeepChoieAndSocre("ปานกลาง", saltalertmediam.sum.toDouble());
+    KeepChoieAndSocre keepseltalert =
+        KeepChoieAndSocre("มีความเสี่ยง", saltalertalert.sum.toDouble());
+    KeepChoieAndSocre keepseltdangerus =
+        KeepChoieAndSocre("อันตราย", saltalertangerus.sum.toDouble());
+    _returnList.add(keepseltnomal);
+    _returnList.add(keepseltmediam);
+    _returnList.add(keepseltalert);
+    _returnList.add(keepseltdangerus);
+    return _returnList;
+  } else if (foodCategory == "fat") {
+    KeepChoieAndSocre keepfatnomal =
+        KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble());
+    KeepChoieAndSocre keepfatmediam =
+        KeepChoieAndSocre("ปานกลาง", fatalertmediam.sum.toDouble());
+    KeepChoieAndSocre keepfatalert =
+        KeepChoieAndSocre("มีความเสี่ยง", fatalertalert.sum.toDouble());
+    KeepChoieAndSocre keepfatdangerus =
+        KeepChoieAndSocre("อันตราย", fatalertdangerus.sum.toDouble());
+    _returnList.add(keepfatnomal);
+    _returnList.add(keepfatmediam);
+    _returnList.add(keepfatalert);
+    _returnList.add(keepfatdangerus);
+    return _returnList;
+  }
+}
+
 List<KeepChoieAndSocre> getAllAlertDataInSysMood(
     List<AlertMoodModels> listAllPatien, List<DateTime> dateSelect) {
   List<String> dateToSring = List();
@@ -306,4 +415,3 @@ DateTime getMinDateStep(List<String> snap) {
 
   return DateTime.parse(snap.min);
 }
-

@@ -25,8 +25,11 @@ class _AllSrarusState extends State<AllStarus> {
   List<AlertModels> listDataForDate = List();
   List<AlertMoodModels> listDataMood = List();
   List<AlertMoodModels> listDataForDateMood = List();
-
   List<MutiChartData> keepChartData = List();
+  List<KeepChoieAndSocre> listKeepFoodSweet = List();
+  List<KeepChoieAndSocre> listKeepFoodSelt = List();
+  List<KeepChoieAndSocre> listKeepFoodFat = List();
+
   List<KeepChoieAndSocre> keepChartDataMood = List();
   List<DateTime> initListDate = [DateTime.now()];
   DateTime selectedDate;
@@ -66,6 +69,12 @@ class _AllSrarusState extends State<AllStarus> {
             // print("this is shit${listData.length}");
             // listforDate.add(model);
             keepChartData = getAllAlertDataInSys(listData, DateTime.now());
+            listKeepFoodSweet =
+                getAllAlertDataInSysFood(listData, DateTime.now(), "sweet");
+            listKeepFoodSelt =
+                getAllAlertDataInSysFood(listData, DateTime.now(), "selt");
+            listKeepFoodFat =
+                getAllAlertDataInSysFood(listData, DateTime.now(), "fat");
           });
         }
       });
@@ -139,7 +148,12 @@ class _AllSrarusState extends State<AllStarus> {
                                 selectedDate = date;
                                 keepChartData = getAllAlertDataInSys(
                                     listData, selectedDate);
-
+                                listKeepFoodSweet = getAllAlertDataInSysFood(
+                                    listData, selectedDate, "sweet");
+                                listKeepFoodSelt = getAllAlertDataInSysFood(
+                                    listData, selectedDate, "selt");
+                                listKeepFoodFat = getAllAlertDataInSysFood(
+                                    listData, selectedDate, "fat");
                                 // var b = convertMouth(selectedDate) + "-01";
                                 // // convertMouth(selectedDate);
                                 // print(b);
@@ -151,28 +165,103 @@ class _AllSrarusState extends State<AllStarus> {
                         },
                         child: Icon(Icons.calendar_today),
                       ),
+                      // SfCartesianChart(
+                      //   primaryXAxis: CategoryAxis(),
+                      //   series: <CartesianSeries>[
+                      //     ColumnSeries<MutiChartData, String>(
+                      //         dataSource: keepChartData,
+                      //         xValueMapper: (MutiChartData data, _) => data.x,
+                      //         yValueMapper: (MutiChartData data, _) => data.y),
+                      //     ColumnSeries<MutiChartData, String>(
+                      //         dataSource: keepChartData,
+                      //         xValueMapper: (MutiChartData data, _) => data.x,
+                      //         yValueMapper: (MutiChartData data, _) => data.y1),
+                      //     ColumnSeries<MutiChartData, String>(
+                      //         dataSource: keepChartData,
+                      //         xValueMapper: (MutiChartData data, _) => data.x,
+                      //         yValueMapper: (MutiChartData data, _) => data.y2),
+                      //     ColumnSeries<MutiChartData, String>(
+                      //         dataSource: keepChartData,
+                      //         xValueMapper: (MutiChartData data, _) => data.x,
+                      //         yValueMapper: (MutiChartData data, _) => data.y3)
+                      //   ],
+                      // ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'หวาน',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
                       SfCartesianChart(
                         primaryXAxis: CategoryAxis(),
-                        series: <CartesianSeries>[
-                          ColumnSeries<MutiChartData, String>(
-                              dataSource: keepChartData,
-                              xValueMapper: (MutiChartData data, _) => data.x,
-                              yValueMapper: (MutiChartData data, _) => data.y),
-                          ColumnSeries<MutiChartData, String>(
-                              dataSource: keepChartData,
-                              xValueMapper: (MutiChartData data, _) => data.x,
-                              yValueMapper: (MutiChartData data, _) => data.y1),
-                          ColumnSeries<MutiChartData, String>(
-                              dataSource: keepChartData,
-                              xValueMapper: (MutiChartData data, _) => data.x,
-                              yValueMapper: (MutiChartData data, _) => data.y2),
-                          ColumnSeries<MutiChartData, String>(
-                              dataSource: keepChartData,
-                              xValueMapper: (MutiChartData data, _) => data.x,
-                              yValueMapper: (MutiChartData data, _) => data.y3)
+                        primaryYAxis: NumericAxis(),
+                        // tooltipBehavior: _tooltip,
+                        series: <ChartSeries<dynamic, String>>[
+                          ColumnSeries<dynamic, String>(
+                              dataSource: listKeepFoodSweet,
+                              xValueMapper: (dynamic data, _) => data.choice,
+                              yValueMapper: (dynamic data, _) => data.score,
+                              name: 'คะแนนการประเมิน',
+                              color: Color.fromRGBO(8, 142, 255, 1))
                         ],
                       ),
-                       Center(
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'มัน',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        primaryYAxis: NumericAxis(),
+                        // tooltipBehavior: _tooltip,
+                        series: <ChartSeries<dynamic, String>>[
+                          ColumnSeries<dynamic, String>(
+                              dataSource: listKeepFoodFat,
+                              xValueMapper: (dynamic data, _) => data.choice,
+                              yValueMapper: (dynamic data, _) => data.score,
+                              name: 'คะแนนการประเมิน',
+                              color: Color.fromRGBO(8, 142, 255, 1))
+                        ],
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            'เค็ม',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                      SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        primaryYAxis: NumericAxis(),
+                        // tooltipBehavior: _tooltip,
+                        series: <ChartSeries<dynamic, String>>[
+                          ColumnSeries<dynamic, String>(
+                              dataSource: listKeepFoodSelt,
+                              xValueMapper: (dynamic data, _) => data.choice,
+                              yValueMapper: (dynamic data, _) => data.score,
+                              name: 'คะแนนการประเมิน',
+                              color: Color.fromRGBO(8, 142, 255, 1))
+                        ],
+                      ),
+                      Center(
                         child: Padding(
                           padding: const EdgeInsets.only(
                             top: 10,
