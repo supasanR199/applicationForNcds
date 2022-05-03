@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -33,8 +34,7 @@ String calCreateDay(String _date) {
   String pattern = "dd-MM-yyyy";
   DateTime date = DateFormat(pattern).parse(_date);
   DateTime today = DateTime.now();
- 
- 
+
   var daydiff = today.day - date.day;
   var day = daydiff.toString().replaceAll("-", "");
   return day;
@@ -69,31 +69,56 @@ int calTimeInUse(DateTime loginTime, DateTime logoutTime) {
   //     DateTime.fromMillisecondsSinceEpoch(logoutTime.millisecondsSinceEpoch);
   // var _loginTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_loginTimeData);
   // var _logoutTime = DateFormat('MM/dd/yyyy, hh:mm a').format(_logoutTimeData);
- 
+
   return (logoutTime.difference(loginTime).inHours / 24).round();
 }
 
 String chatTime(int date) {
   var d24 = DateFormat('dd/MM/yyyy, HH:mm')
       .format(DateTime.fromMillisecondsSinceEpoch(date));
+  // DateThai();
   return d24;
 }
- 
+
 String convertMouth(DateTime date) {
   // var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
-  var d12 =DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
+  var d12 =
+      DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
   var d24 = DateFormat('yyyy-M').format(date); // 31/12/2000, 22:00
   // final String formatted = "222";
   return d24;
 }
+
 String convertDay(DateTime date) {
   // var dt = DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch);
-  var d12 =DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
+  var d12 =
+      DateFormat('MM/dd/yyyy, hh:mm a').format(date); // 12/31/2000, 10:00 PM
   var d24 = DateFormat('yyyy-MM-dd').format(date); // 31/12/2000, 22:00
   // final String formatted = "222";
   return d24;
 }
 
-String dateThai(var date){
-  final List<String>  mounth = ["มกราคม" , "กุมภาพันธ์" , "มีนาคม" , "เมษายน" , "พฤษภาคม" , "มิถุนายน" , "กรกฎาคม" , "สิงหาคม" , "กันยายน" , "ตุลาคม" , "พฤศจิกายน" , "ธันวาคม"];
+String dateThai(var date) {
+  final List<String> mounth = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม"
+  ];
+}
+
+String chatTimeAndDateThai(int date) {
+  String time =
+      DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(date));
+  var d24 = new DateTime.fromMillisecondsSinceEpoch(date);
+  // DateThai();
+  return DateThai(d24.toString()) + ' ' + time;
 }

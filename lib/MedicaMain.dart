@@ -3,6 +3,7 @@ import 'package:appilcation_for_ncds/EvaluateSoftwarePage.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/BuildPatientSearch.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildPostPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/ContentPage.dart';
 import 'package:appilcation_for_ncds/widgetShare/EvaluateSoftwareForMed.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
@@ -280,7 +281,7 @@ class _MedicaMainState extends State<MedicaMain> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildPostPage(context)),
+        child: Center(child: BuildPostPage(userData: _userData)),
       );
     } else if (selected == "volenter") {
       return Container(

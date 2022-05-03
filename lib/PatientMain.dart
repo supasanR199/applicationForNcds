@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:appilcation_for_ncds/widgetShare/FoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/MoodRecord.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
@@ -187,7 +188,7 @@ class _PatientMainState extends State<PatientMain> {
                                     style: TextStyle(color: Colors.black),
                                     children: <TextSpan>[
                                                   TextSpan(text: 'วันเกิด :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${convertDateTimeDisplay(widget
+                                                  TextSpan(text: ' ${DateThai(widget
                                                                       .patienData["Birthday"]
                                                                         .toDate()
                                                                           .toString())}',style: TextStyle(fontSize: 18,)),
@@ -403,7 +404,7 @@ class _PatientMainState extends State<PatientMain> {
                             children: [
                               ListTile(
                                 hoverColor: Colors.grey.shade200,
-                                title: Text("วันที่ทำกสรบันทึก : ${document.id}"),
+                                title: Text("วันที่ทำการบันทึก : ${DateThai(document.id)}"),
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -487,7 +488,7 @@ class _PatientMainState extends State<PatientMain> {
                                       children: [
                                         Text("วันที่ยาหมดอายุ:" +
                                             " " +
-                                            convertDateTimeDisplay(snap["DateEXP"]
+                                            DateThai(snap["DateEXP"]
                                                 .toDate()
                                                 .toString()) +
                                             " ",style: TextStyle(fontSize: 16)),
@@ -576,7 +577,7 @@ class _PatientMainState extends State<PatientMain> {
                               ListTile(
                                 hoverColor: Colors.grey.shade200,
                                 trailing: showWhoIs(context, snap["Visitor"]),
-                                title: Text("วันที่ทำกสรบันทึก : ${document.id}"),
+                                title: Text("วันที่ทำการบันทึก : ${DateThai(document.id)}"),
                                 onTap: () {
                                   Navigator.push(
                                     context,

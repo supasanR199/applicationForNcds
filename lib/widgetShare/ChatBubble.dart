@@ -63,7 +63,7 @@ class ChatBubble extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  chatTime(time),
+                  chatTimeAndDateThai(time),
                   style: Theme.of(context).textTheme.overline,
                 ),
               ),
@@ -123,7 +123,7 @@ class ChatBubble extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        chatTime(time),
+                        chatTimeAndDateThai(time),
                         style: Theme.of(context).textTheme.overline,
                       ),
                     ),

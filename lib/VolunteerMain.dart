@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -105,8 +106,8 @@ class _VolunteerMainState extends State<VolunteerMain> {
                   ),
                 ],
               ),
-              proFileShowDataPhoto(
-                  context, widget.volunteerData["Img"], widget.volunteerData["Gender"]),
+              proFileShowDataPhoto(context, widget.volunteerData["Img"],
+                  widget.volunteerData["Gender"]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -245,7 +246,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
                                     fontWeight: FontWeight.bold, fontSize: 18)),
                             TextSpan(
                                 text:
-                                    ' ${DateFormat("yyyy-MM-dd").format(widget.volunteerData["CardEXP"].toDate())}',
+                                    ' ${DateThai(widget.volunteerData["CardEXP"].toDate().toString())}',
                                 style: TextStyle(
                                   fontSize: 18,
                                 )),

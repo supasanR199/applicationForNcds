@@ -39,7 +39,7 @@ Widget checkChatTime(String groupChatId) {
             return Text("");
           }
           return Text(
-            chatTime(int.parse(snapshot.data.docs.first.get("timestamp"))),
+            chatTimeAndDateThai(int.parse(snapshot.data.docs.first.get("timestamp"))),
             style: TextStyle(fontSize: 14, color: Colors.black38),
           );
         }
