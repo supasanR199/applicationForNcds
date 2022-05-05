@@ -233,7 +233,8 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
                     fontSize: 18,
                   ),
                 ),
-                Text(checkDateMood(dayMood),
+                Text("",
+                  // checkDateMood(dayMood),
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -304,6 +305,7 @@ isAlert(bool isalert) {
 
 checkDateMood(String dayMood) {
   String dayNow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  // print(DateThai(dayMood));
   if (dayNow == dayMood) {
     return DateThai(dayNow);
   } else if (dayMood == null) {
