@@ -55,8 +55,13 @@ Widget statusAlert(String id) {
                     ),
                   );
                 }
-                alert = snapshotFood.data.docs.last.get("alert") ||
-                    snapshotMood.data.docs.last.get("alert");
+                String dayNow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+                bool moodAlert =
+                    snapshotMood.data.docs.last.get("Date") == dayNow
+                        ? snapshotMood.data.docs.last.get("alert")
+                        : false;
+                alert = snapshotFood.data.docs.last.get("alert") || moodAlert;
                 return IconButton(
                   onPressed: () => {
                     showDialog(
@@ -106,6 +111,16 @@ Widget statusAlert(String id) {
 
 Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
     String dayFood, String dayMood) {
+  print("--------------------------------------------------------");
+
+  print("show data ${fatalert}");
+  print("show data ${saltalert}");
+  print("show data ${sweetalert}");
+  print("show data ${moodalert}");
+  print("show data ${dayFood}");
+  print("show data ${dayMood}");
+
+  // debugger();
   // print(getDate(dayFood));
   return AlertDialog(
     // title: Text("สถานะ"),
@@ -233,8 +248,9 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
                     fontSize: 18,
                   ),
                 ),
-                Text("",
-                  // checkDateMood(dayMood),
+                Text(
+                    // "",
+                    checkDateMood(dayMood),
                     style: TextStyle(fontSize: 14, color: Colors.black38)),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -242,7 +258,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
                     children: [
                       Icon(
                         Icons.circle,
-                        color: moodstatus(moodalert)[1],
+                        color: moodstatus(moodalert, dayMood)[1],
                         size: 15,
                       ),
                       Padding(
@@ -264,7 +280,7 @@ Widget showStaus(int fatalert, int saltalert, int sweetalert, int moodalert,
                     Padding(
                       padding: EdgeInsets.only(left: 25),
                       child: Text(
-                        moodstatus(moodalert)[0],
+                        moodstatus(moodalert, dayMood)[0],
                         style: TextStyle(fontSize: 14, color: Colors.black38),
                       ),
                     ),
@@ -310,23 +326,29 @@ checkDateMood(String dayMood) {
     return DateThai(dayNow);
   } else if (dayMood == null) {
     return DateThai(dayNow);
+  } else {
+    return DateThai(dayNow);
   }
 }
 
-moodstatus(int val) {
-  if (val != null) {
-    if (val <= 4) {
-      return ["เครียดน้อย", Colors.green];
-    } else if (val >= 5 && val <= 7) {
-      return ["เครียดปานกลาง", Colors.yellow.shade700];
-    } else if (val >= 8 && val <= 9) {
-      return ["เครียดมาก", Colors.orange];
-    } else if (val >= 10) {
-      return ["เครียดมากที่สุด", Colors.red];
+moodstatus(int val, String date) {
+  String dayNow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  if (dayNow == date) {
+    if (val != null) {
+      if (val <= 4) {
+        return ["เครียดน้อย", Colors.green];
+      } else if (val >= 5 && val <= 7) {
+        return ["เครียดปานกลาง", Colors.yellow.shade700];
+      } else if (val >= 8 && val <= 9) {
+        return ["เครียดมาก", Colors.orange];
+      } else if (val >= 10) {
+        return ["เครียดมากที่สุด", Colors.red];
+      }
+    } else {
+      return ["ไม่มีข้อมูล", Colors.grey];
     }
-  } else {
-    return ["ไม่มีข้อมูล", Colors.grey];
   }
+  return ["ไม่มีข้อมูล", Colors.grey];
 }
 
 getDate(String mount) {

@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,15 +29,19 @@ class _EditPostState extends State<EditPost> {
       // setState() {
       topic.text = value.get("topic");
       content.text = value.get("content");
+      pathPic = value.get("imgPath");
       // }
     });
   }
 
+  String pathPic;
+  // TextEditingController pathPic = TextEditingController();
   TextEditingController topic = TextEditingController();
   TextEditingController content = TextEditingController();
   final _formEditPost = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
+    print("show${pathPic}");
     return AlertDialog(
       title: Text(
         "แก้ไขบทความ",
@@ -50,78 +55,81 @@ class _EditPostState extends State<EditPost> {
       content: SizedBox(
         width: 700,
         height: 500,
-        child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Form(
-                key: _formEditPost,
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      // Text("หัวข้อ:"),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: topic,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "กรุณาตั้งหัวข้อ";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (value) {
-                            topic.text = value;
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'หัวเรื่อง',
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: content,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "กรุณาเพิ่มบทความ";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (value) {
-                            content.text = value;
-                          },
-                          keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.newline,
-                          maxLines: 10,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'บทความ',
-                          ),
-                        ),
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: buttonCorrect(context),
+        child: SingleChildScrollView(
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Form(
+                  key: _formEditPost,
+                  child: Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        // Text("หัวข้อ:"),
+                        Center(child: proFilePostShow(context, pathPic)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: topic,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาตั้งหัวข้อ";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              topic.text = value;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'หัวเรื่อง',
                             ),
-                            buttonCancel(),
-                          ]),
-                    ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: content,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาเพิ่มบทความ";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              content.text = value;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: 10,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'บทความ',
+                            ),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: buttonCorrect(context),
+                              ),
+                              buttonCancel(),
+                            ]),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Expanded(
-              //   child: Column(children: <Widget>[]),
-              // ),
-            ],
+                // Expanded(
+                //   child: Column(children: <Widget>[]),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
