@@ -322,13 +322,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysMood(
     // }
   });
   KeepChoieAndSocre nomal =
-      KeepChoieAndSocre("nomal", moodalertnomal.sum.toDouble());
+      KeepChoieAndSocre("ปกติ", moodalertnomal.sum.toDouble());
   KeepChoieAndSocre mediam =
-      KeepChoieAndSocre("mediam", moodalertmediam.sum.toDouble());
+      KeepChoieAndSocre("ปานกลาง", moodalertmediam.sum.toDouble());
   KeepChoieAndSocre alert =
-      KeepChoieAndSocre("alert", moodalertalert.sum.toDouble());
+      KeepChoieAndSocre("มาก", moodalertalert.sum.toDouble());
   KeepChoieAndSocre dangerus =
-      KeepChoieAndSocre("dangerus", moodalertnomal.sum.toDouble());
+      KeepChoieAndSocre("มากที่สุด", moodalertnomal.sum.toDouble());
 
   // MutiChartData keepfat = MutiChartData(
   //     "มัน",

@@ -56,8 +56,9 @@ class _EvaulatePageState extends State<EvaulatePage> {
     List<EvaluateTopicModels> _evaTopicMain = List();
     return Container(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(255, 211, 251, 1),
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -74,17 +75,17 @@ class _EvaulatePageState extends State<EvaulatePage> {
                 key: _addForm,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(top: 20,bottom: 20),
                             child: Text(
                               'ประเมินการใช้งาน',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 40),
+                              style: TextStyle(fontSize: 30),
                             ),
                           ),
                         ),
@@ -351,44 +352,58 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         //     ),
                         //   ),
                         // ),
-
-                        RaisedButton(
-                          child: Text('บันทึก'),
-                          onPressed: () {
-                            if (_addForm.currentState.validate()) {
-                              _addForm.currentState.save();
-                              FirebaseFirestore.instance
-                                  .collection("Evaluate")
-                                  .add({
-                                "createAt": DateTime.now(),
-                                "role": widget.role
-                              }).then((value) {
-                                _evaList.forEach((element) {
+                        SizedBox(height: 20,),
+                        Center(
+                          child: Container(
+                            width: 100,
+                            height: 40,
+                            child: RaisedButton(
+                              child: Text('บันทึก',style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+                              hoverColor: Colors.grey.shade200,
+                              color: Colors.green,
+                              onPressed: () {
+                                if (_addForm.currentState.validate()) {
+                                  _addForm.currentState.save();
                                   FirebaseFirestore.instance
                                       .collection("Evaluate")
-                                      .doc(value.id)
-                                      .collection("topic")
                                       .add({
-                                    "topic": element.topic,
-                                    "score": element.score
+                                    "createAt": DateTime.now(),
+                                    "role": widget.role
+                                  }).then((value) {
+                                    _evaList.forEach((element) {
+                                      FirebaseFirestore.instance
+                                          .collection("Evaluate")
+                                          .doc(value.id)
+                                          .collection("topic")
+                                          .add({
+                                        "topic": element.topic,
+                                        "score": element.score
+                                      });
+                                    });
                                   });
-                                });
-                              });
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      alertMessageOnlyOk(context,
-                                          "ท่านยังทำประเมินไม่ครบทุกข้อ"));
-                            }
-                          },
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          alertMessageOnlyOk(context,
+                                              "ท่านยังทำประเมินไม่ครบทุกข้อ"));
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                            ),
+                          ),
                         ),
+                        SizedBox(height: 20,),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           ),
         ),
       ),
