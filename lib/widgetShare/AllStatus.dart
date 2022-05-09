@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'package:appilcation_for_ncds/function/GetDataChart.dart';
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:appilcation_for_ncds/models/AlertModels.dart';
 import 'package:appilcation_for_ncds/models/AlertMoodModels.dart';
 import 'package:appilcation_for_ncds/models/KeepRecord.dart';
@@ -32,7 +35,8 @@ class _AllSrarusState extends State<AllStarus> {
 
   List<KeepChoieAndSocre> keepChartDataMood = List();
   List<DateTime> initListDate = [DateTime.now()];
-  DateTime selectedDate;
+  DateTime selectedDate = DateTime.now();
+  DateTime selectDateMood = DateTime.now();
 
   void initState() {
     // print(_userLogId);
@@ -126,7 +130,8 @@ class _AllSrarusState extends State<AllStarus> {
                             child: Text(
                               'ผลสรุปจากการทำแบบประเมินอาหาร',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -136,7 +141,14 @@ class _AllSrarusState extends State<AllStarus> {
                         //     style: TextStyle(fontSize: 14, color: Colors.black38),
                         //   ),
                         // ),
-                        FloatingActionButton(
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(DateMouthAndYearThai(
+                              selectedDate.toString().isEmpty
+                                  ? DateTime.now().toString()
+                                  : selectedDate.toString())),
+                        ),
+                        FloatingActionButton.small(
                           backgroundColor: Colors.blueAccent,
                           hoverColor: Colors.grey.shade200,
                           onPressed: () {
@@ -169,6 +181,7 @@ class _AllSrarusState extends State<AllStarus> {
                           },
                           child: Icon(Icons.calendar_today),
                         ),
+
                         // SfCartesianChart(
                         //   primaryXAxis: CategoryAxis(),
                         //   series: <CartesianSeries>[
@@ -194,216 +207,434 @@ class _AllSrarusState extends State<AllStarus> {
                           children: [
                             Center(
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,bottom: 10
-                                ),
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
                                   'ผลการบริโภคหวาน',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
                             SfCartesianChart(
                               primaryXAxis: CategoryAxis(),
                               primaryYAxis: NumericAxis(
-                              decimalPlaces: 0,
-                              title: AxisTitle(text: 'จำนวนคน')
-                              ),
+                                  decimalPlaces: 0,
+                                  title: AxisTitle(text: 'จำนวนคน')),
                               // tooltipBehavior: _tooltip,
                               tooltipBehavior: TooltipBehavior(enable: true),
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
                                     dataSource: listKeepFoodSweet,
-                                    xValueMapper: (dynamic data, _) => data.choice,
-                                    yValueMapper: (dynamic data, _) => data.score,
-                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    xValueMapper: (dynamic data, _) =>
+                                        data.choice,
+                                    yValueMapper: (dynamic data, _) =>
+                                        data.score,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
                                     name: 'คะแนนการประเมิน',
-                                    color: Color.fromRGBO(8, 142, 255, 1))
+                                    color: Color.fromARGB(255, 242, 150, 244))
                               ],
                             ),
-                              Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              const SizedBox(height: 10,),
-                              Center(child: const Text("สรุป ผลการบริโภคหวาน",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
-                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Center(
+                                    child: const Text(
+                                  "สรุป ผลการบริโภคหวาน",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ผลการประเมิน',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                              Divider(thickness: 2, color: Colors.grey), 
-                              ListTile(
-                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              // Divider(thickness: 2, color: Colors.grey.shade300,)
-                              
+                                  ),
+                                  trailing: Text("คน",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                Divider(thickness: 2, color: Colors.grey),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ1  อยู่ระดับปรกติ :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSweet.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSweet[0].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ2  อยู่ระดับปานกลาง :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSweet.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSweet[1].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ3  มีความเสี่ยงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSweet.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSweet[2].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ4  มีความเสี่ยงสูงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSweet.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSweet[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                // Divider(thickness: 2, color: Colors.grey.shade300,)
                               ],
-                            ),                             
+                            ),
                           ],
                         ),
                         Padding(
-                          child: Divider(thickness: 4, color: Colors.black87,), 
-                          padding:const EdgeInsets.only(
-                                  top: 20,bottom: 20
-                                ),
+                          child: Divider(
+                            thickness: 4,
+                            color: Colors.black87,
                           ),
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        ),
                         Column(
                           children: [
                             Center(
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,bottom: 10
-                                ),
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
                                   'ผลการบริโภคมัน',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
                             SfCartesianChart(
                               primaryXAxis: CategoryAxis(),
                               primaryYAxis: NumericAxis(
-                              decimalPlaces: 0,
-                              title: AxisTitle(text: 'จำนวนคน')                          
-                              ),
+                                  decimalPlaces: 0,
+                                  title: AxisTitle(text: 'จำนวนคน')),
                               tooltipBehavior: TooltipBehavior(enable: true),
                               // tooltipBehavior: _tooltip,
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
                                     dataSource: listKeepFoodFat,
-                                    xValueMapper: (dynamic data, _) => data.choice,
-                                    yValueMapper: (dynamic data, _) => data.score,
-                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    xValueMapper: (dynamic data, _) =>
+                                        data.choice,
+                                    yValueMapper: (dynamic data, _) =>
+                                        data.score,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
                                     name: 'คะแนนการประเมิน',
-                                    color: Color.fromRGBO(8, 142, 255, 1))
+                                    color: Color.fromARGB(255, 255, 229, 150))
                               ],
                             ),
-                              Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              const SizedBox(height: 10,),
-                              Center(child: const Text("สรุป ผลการบริโภคมัน",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
-                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Center(
+                                    child: const Text(
+                                  "สรุป ผลการบริโภคมัน",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ผลการประเมิน',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                              Divider(thickness: 2, color: Colors.grey), 
-                              ListTile(
-                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                                  ),
+                                  trailing: Text("คน",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                Divider(thickness: 2, color: Colors.grey),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ1  อยู่ระดับปรกติ :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodFat.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodFat[0].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ2  อยู่ระดับปานกลาง :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodFat.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodFat[1].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ3  มีความเสี่ยงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodFat.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodFat[2].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ4  มีความเสี่ยงสูงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodFat.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodFat[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                // Divider(thickness: 2, color: Colors.grey.shade300,)
                               ],
-                            ),                            
+                            ),
                           ],
                         ),
                         Padding(
-                          child: Divider(thickness: 4, color: Colors.black87,), 
-                          padding:const EdgeInsets.only(
-                                  top: 20,bottom: 20
-                                ),
+                          child: Divider(
+                            thickness: 4,
+                            color: Colors.black87,
                           ),
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        ),
                         Column(
                           children: [
                             Center(
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,bottom: 10
-                                ),
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
                                   'ผลการบริโภคเค็ม',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
                             SfCartesianChart(
                               primaryXAxis: CategoryAxis(),
                               primaryYAxis: NumericAxis(
-                              decimalPlaces: 0,
-                              title: AxisTitle(text: 'จำนวนคน')                          
-                              ),
+                                  decimalPlaces: 0,
+                                  title: AxisTitle(text: 'จำนวนคน')),
                               tooltipBehavior: TooltipBehavior(enable: true),
                               // tooltipBehavior: _tooltip,
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
                                     dataSource: listKeepFoodSelt,
-                                    xValueMapper: (dynamic data, _) => data.choice,
-                                    yValueMapper: (dynamic data, _) => data.score,
-                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    xValueMapper: (dynamic data, _) =>
+                                        data.choice,
+                                    yValueMapper: (dynamic data, _) =>
+                                        data.score,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
                                     name: 'คะแนนการประเมิน',
-                                    color: Color.fromRGBO(8, 142, 255, 1))
+                                    color: Color.fromARGB(255, 133, 105, 59))
                               ],
                             ),
-                              Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              const SizedBox(height: 10,),
-                              Center(child: const Text("สรุป ผลการบริโภคเค็ม",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
-                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Center(
+                                    child: const Text(
+                                  "สรุป ผลการบริโภคเค็ม",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ผลการประเมิน',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                              Divider(thickness: 2, color: Colors.grey,), 
-                              ListTile(
-                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              ListTile(
-                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
-                              ),
-                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                                  ),
+                                  trailing: Text("คน",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                  color: Colors.grey,
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ1  อยู่ระดับปรกติ :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSelt.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSelt[0].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ2  อยู่ระดับปานกลาง :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSelt.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSelt[1].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ3  มีความเสี่ยงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSelt.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSelt[2].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                ListTile(
+                                  leading: Text(
+                                    'ข้อ4  มีความเสี่ยงสูงต่อโรค :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSelt.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSelt[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                // Divider(thickness: 2, color: Colors.grey.shade300,)
                               ],
-                            ),                            
+                            ),
                           ],
                         ),
                         Padding(
-                          child: Divider(thickness: 4, color: Colors.black87,), 
-                          padding:const EdgeInsets.only(
-                                  top: 20,bottom: 20
-                                ),
+                          child: Divider(
+                            thickness: 4,
+                            color: Colors.black87,
                           ),
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        ),
                         Column(
                           children: [
                             Center(
@@ -414,27 +645,39 @@ class _AllSrarusState extends State<AllStarus> {
                                 child: Text(
                                   'ผลสรุปจากการทำแบบประเมินอารมณ์',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
-                            FloatingActionButton(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(DateThai(
+                                  selectDateMood.toString().isEmpty
+                                      ? DateTime.now().toString()
+                                      : selectDateMood.toString())),
+                            ),
+                            FloatingActionButton.small(
                               backgroundColor: Colors.blueAccent,
                               hoverColor: Colors.grey.shade200,
                               onPressed: () {
                                 showDialog(
                                   context: context,
-                                  builder: (BuildContext context) => showDateRangMood(
-                                      context,
-                                      getMinDateMood(listDataForDateMood),
-                                      getMaxDateMood(listDataForDateMood),
-                                      listDataForDateMood),
+                                  builder: (BuildContext context) =>
+                                      showDateRangMood(
+                                          context,
+                                          getMinDateMood(listDataForDateMood),
+                                          getMaxDateMood(listDataForDateMood),
+                                          listDataForDateMood),
                                 ).then((value) {
+                                  // selectDateMood = value;
                                   print(value);
                                   if (value != null) {
                                     setState(() {
-                                      keepChartDataMood = getAllAlertDataInSysMood(
-                                          listDataMood, value);
+                                      keepChartDataMood =
+                                          getAllAlertDataInSysMood(
+                                              listDataMood, value);
                                     });
                                   }
                                 });
@@ -444,65 +687,136 @@ class _AllSrarusState extends State<AllStarus> {
                             SfCartesianChart(
                               primaryXAxis: CategoryAxis(),
                               primaryYAxis: NumericAxis(
-                              decimalPlaces: 0,
-                              title: AxisTitle(text: 'จำนวนคน')                                     
-                              ),
+                                  decimalPlaces: 0,
+                                  title: AxisTitle(text: 'จำนวนคน')),
                               tooltipBehavior: TooltipBehavior(enable: true),
                               // tooltipBehavior: _tooltip,
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
                                     dataSource: keepChartDataMood,
-                                    xValueMapper: (dynamic data, _) => data.choice,
-                                    yValueMapper: (dynamic data, _) => data.score,
-                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    xValueMapper: (dynamic data, _) =>
+                                        data.choice,
+                                    yValueMapper: (dynamic data, _) =>
+                                        data.score,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
                                     name: 'คะแนนการประเมิน',
-                                    color: Color.fromRGBO(8, 142, 255, 1))
+                                    color: Color.fromARGB(255, 237, 141, 111))
                               ],
                             ),
                           ],
                         ),
-                              Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              const SizedBox(height: 10,),
-                              Center(child: const Text("สรุป ผลแบบประเมินอารมณ์",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
-                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
-                                    ),
-                              Divider(thickness: 2, color: Colors.grey), 
-                              ListTile(
-                                leading: Text('ข้อ1  ไม่มีความเครียด :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Center(
+                                child: const Text(
+                              "สรุป ผลแบบประเมินอารมณ์",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            )),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            ListTile(
+                              leading: Text(
+                                'ผลการประเมิน',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              ListTile(
-                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
+                              trailing: Text("คน",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                            Divider(thickness: 2, color: Colors.grey),
+                            ListTile(
+                              leading: Text(
+                                'ข้อ1  ไม่มีความเครียด :',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              ListTile(
-                                leading: Text('ข้อ3  อยู่ระดับสูง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
+                              trailing: Text(
+                                  keepChartDataMood.isEmpty
+                                      ? ""
+                                      : "${keepChartDataMood[0].score}",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  )),
+                            ),
+                            ListTile(
+                              leading: Text(
+                                'ข้อ2  อยู่ระดับปานกลาง :',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              ListTile(
-                                leading: Text('ข้อ4  อยู่ระดับสูงที่สุด :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
-                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
+                              trailing: Text(
+                                  keepChartDataMood.isEmpty
+                                      ? ""
+                                      : "${keepChartDataMood[1].score}",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  )),
+                            ),
+                            ListTile(
+                              leading: Text(
+                                'ข้อ3  อยู่ระดับสูง :',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              // Divider(thickness: 2, color: Colors.grey.shade300,)
-                              ],
-                            ), 
-                            SizedBox(height: 20,)                                                 
+                              trailing: Text(
+                                  keepChartDataMood.isEmpty
+                                      ? ""
+                                      : "${keepChartDataMood[2].score}",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  )),
+                            ),
+                            ListTile(
+                              leading: Text(
+                                'ข้อ4  อยู่ระดับสูงที่สุด :',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Text(
+                                  keepChartDataMood.isEmpty
+                                      ? ""
+                                      : "${keepChartDataMood[3].score}",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  )),
+                            ),
+                            // Divider(thickness: 2, color: Colors.grey.shade300,)
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        )
                       ],
                     ),
                   ),
                 ),
               ),
               shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
             );
           } else {
-            return Text("data");
+            return Text("กำลังโหลด");
           }
         });
   }
