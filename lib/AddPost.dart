@@ -64,11 +64,11 @@ class _AddPost extends State<AddPost> {
                   ],
                 ),
               ),
-        shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
             ),
           ),
         ),
@@ -124,6 +124,7 @@ class _AddPost extends State<AddPost> {
               ],
               validator: (value) {
                 if (value.isEmpty) {
+                  _postContentModels.recommentForAge = 0;
                   return "กรุณาระบุอายุ";
                 } else {
                   return null;
@@ -184,6 +185,7 @@ class _AddPost extends State<AddPost> {
                 ],
                 validator: (value) {
                   if (value.isEmpty) {
+                    _postContentModels.recommentForBMI = 0;
                     return "กรุณาระบุค่า BMI";
                   } else {
                     return null;
@@ -262,6 +264,7 @@ class _AddPost extends State<AddPost> {
               ],
               validator: (value) {
                 if (value.isEmpty) {
+                  _postContentModels.recommentForBMR = 0;
                   return "กรุณาระบุค่า BMR";
                 } else {
                   return null;
@@ -285,6 +288,7 @@ class _AddPost extends State<AddPost> {
               ],
               validator: (value) {
                 if (value.isEmpty) {
+                  _postContentModels.recommentForTDEE = 0;
                   return "กรุณาระบุค่า TDEE";
                 } else {
                   return null;
@@ -391,7 +395,8 @@ class _AddPost extends State<AddPost> {
               },
               hoverColor: Colors.grey.shade300,
               color: Colors.white,
-              child: Text('ฮัพโหลดรูปภาพ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
+              child: Text('ฮัพโหลดรูปภาพ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               padding: EdgeInsets.all(20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -458,7 +463,13 @@ class _AddPost extends State<AddPost> {
                   },
                   hoverColor: Colors.grey.shade300,
                   color: Colors.green,
-                  child: Text('บันทึก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+                  child: Text(
+                    'บันทึก',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
                   padding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
@@ -479,7 +490,11 @@ class _AddPost extends State<AddPost> {
                   },
                   hoverColor: Colors.grey.shade300,
                   color: Colors.red,
-                  child: Text('ยกเลิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16)),
+                  child: Text('ยกเลิก',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16)),
                   padding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(

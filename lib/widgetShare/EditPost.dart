@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:appilcation_for_ncds/widgetShare/ProfilePhoto.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:smart_select/smart_select.dart';
 
 class EditPost extends StatefulWidget {
   var postUid;
@@ -29,19 +33,40 @@ class _EditPostState extends State<EditPost> {
       // setState() {
       topic.text = value.get("topic");
       content.text = value.get("content");
-      pathPic = value.get("imgPath");
+      recommentForAge.text = value.get("recommentForAge").toString();
+      recommentForBmi.text = value.get("recommentForBMI").toString();
+      recommentForTdee.text = value.get("recommentForTDEE").toString();
+      recommentForBmr.text = value.get("recommentForBMR").toString();
+
       // }
     });
   }
 
-  String pathPic;
+  String _allBMI = "";
+  String fileName = "";
+  Uint8List fileBytes;
+  List _valueNCDs = List();
+  List<S2Choice> frameworks = [
+    S2Choice(value: "diabetes", title: 'โรคเบาหวาน'),
+    S2Choice(value: "pressure", title: 'โรคความดันโลหิต'),
+    S2Choice(value: "fat", title: 'โรคอ้วน'),
+  ];
   // TextEditingController pathPic = TextEditingController();
   TextEditingController topic = TextEditingController();
   TextEditingController content = TextEditingController();
+  TextEditingController recommentForAge = TextEditingController();
+  TextEditingController recommentForBmi = TextEditingController();
+  TextEditingController recommentForTdee = TextEditingController();
+  TextEditingController recommentForBmr = TextEditingController();
+  int age;
+  int bmi;
+  int tdee;
+  List recommentForDieases = List();
+  int bmr;
+
   final _formEditPost = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
-    print("show${pathPic}");
     return AlertDialog(
       title: Text(
         "แก้ไขบทความ",
@@ -68,7 +93,25 @@ class _EditPostState extends State<EditPost> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         // Text("หัวข้อ:"),
-                        Center(child: proFilePostShow(context, pathPic)),
+                        FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection("RecommendPost")
+                                .doc(widget.postUid)
+                                .get(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                return Center(
+                                  child: proFilePostShow(
+                                    context,
+                                    snapshot.data.get("imgPath"),
+                                  ),
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
+                        // Center(child: proFilePostShow(context, pathPic)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
@@ -112,6 +155,169 @@ class _EditPostState extends State<EditPost> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: recommentForAge,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาระบุอายุ";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              age = int.parse(value);
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'บทความเหมาะกับผู้ที่มีอายุมากกว่า',
+                            ),
+                          ),
+                        ),
+
+                        Visibility(
+                          visible: rangHide(),
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: recommentForBmi,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "กรุณาระบุค่า BMI";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {
+                                bmi = int.parse(value);
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'บทความเหมาะกับผู้ที่มีBMI มากกว่า',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: recommentForBmr,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาระบุค่า BMR";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              bmr = int.parse(value);
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText:
+                                  'บทความเหมาะกับผู้ที่มีค่า BMR มากกว่า',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ListTile(
+                            title: const Text('เหมาะสำหรับผู้ป่วยทุกรูปร่าง'),
+                            leading: Radio(
+                              value: "all",
+                              activeColor: Colors.amber,
+                              toggleable: true,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (_allBMI == "all") {
+                                    _allBMI = "";
+                                  } else if (_allBMI != "all") {
+                                    _allBMI = "all";
+                                    // _postContentModels.recommentForBMI = 0;
+                                  }
+                                  // print(_allBMI);
+                                  _allBMI = value;
+                                });
+                              },
+                              groupValue: _allBMI,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: recommentForTdee,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาระบุค่า TDEE";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              tdee = int.parse(value);
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText:
+                                  'บทความเหมาะกับผู้ที่มีค่า TDEE มากกว่า',
+                            ),
+                          ),
+                        ),
+                        FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection("RecommendPost")
+                                .doc(widget.postUid)
+                                .get(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                _valueNCDs =
+                                    snapshot.data.get("recommentForDieases");
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SmartSelect.multiple(
+                                    title: 'บทความเหมาะกับเป็นโรค?',
+                                    value: _valueNCDs,
+                                    choiceItems: frameworks,
+                                    onChange: (state) => setState(() {
+                                      // print(state.value);
+                                      _valueNCDs = state.value;
+                                      // _postContentModels.recommentForDieases =
+                                      //     state.value;
+                                    }),
+                                    modalType: S2ModalType.popupDialog,
+                                    modalValidation: (value) {
+                                      if (value.isEmpty) {
+                                        return "เลือกโรคที่เหมาะสมกับบทความ";
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                  ),
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
+
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -154,6 +360,11 @@ class _EditPostState extends State<EditPost> {
                   "topic": topic.text,
                   "content": content.text,
                   "editBy": widget.whoEdit,
+                  "recommentForDieases": _valueNCDs,
+                  "recommentForAge": age,
+                  "recommentForBMI": bmi,
+                  "recommentForBMR": bmr,
+                  "recommentForTDEE": tdee,
                 }).whenComplete(() {
                   showDialog(
                           context: context,
@@ -207,5 +418,13 @@ class _EditPostState extends State<EditPost> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
     );
+  }
+
+  bool rangHide() {
+    if (_allBMI == "all") {
+      return false;
+    } else if (_allBMI != "all") {
+      return true;
+    }
   }
 }

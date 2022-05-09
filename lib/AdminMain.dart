@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:appilcation_for_ncds/widgetShare/BuildBarChart.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowChart.dart';
 import 'package:appilcation_for_ncds/widgetShare/UserLogAdmin.dart';
@@ -55,6 +56,20 @@ class _adminMainState extends State<adminMain> {
 
     super.initState();
     _items = _generateItems;
+    getEvaluate();
+  }
+
+  void getEvaluate() async {
+    await FirebaseFirestore.instance
+        .collection("Evaluate")
+        .doc("Patient")
+        .collection("topic")
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        print(element.data());
+      });
+    });
   }
 
   var _docRef = FirebaseFirestore.instance
@@ -80,6 +95,13 @@ class _adminMainState extends State<adminMain> {
   String searchText = '';
   TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> documents = [];
+  Map<String, String> topic = {
+    "Choice1": "แอปพลิเคชันทำงานได้อย่างถูกต้อง",
+    "Choice2": "แอปพลิเคชันทำงานได้ง่าย",
+    "Choice3": "แอปพลิเคชันมีคำอธิบายที่เหมาะสม",
+    "Choice4": "แอปพลิเคชันมีความเหมาะสมในการใช้งาน",
+    "Choice5": "ความพึงพอใจต่อระบบภาพรวม"
+  };
 
   List<CollapsibleItem> get _generateItems {
     return [
@@ -266,7 +288,7 @@ class _adminMainState extends State<adminMain> {
         height: double.infinity,
         width: double.infinity,
         // color: Colors.blueGrey[50],
-        child: Center(child: buildBarChart(context)),
+        child: Center(child: BuildBarChart()),
       );
     }
     return Container(
@@ -667,11 +689,6 @@ class _adminMainState extends State<adminMain> {
       print(keepDataTest);
     });
     return _keepElemnt;
-  }
-
-  Future<List> getEvaluate() async {
-    var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
-    return getEva.docs;
   }
 
   countScore(List<ChartData> listData) {
