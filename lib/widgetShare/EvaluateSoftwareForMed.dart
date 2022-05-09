@@ -44,7 +44,9 @@ class _EvaulateSoftwareForMd extends State<EvaulateSoftwareForMd> {
     List<EvaluateTopicModels> _evaTopicMain = List();
     return Container(
       child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -60,157 +62,175 @@ class _EvaulateSoftwareForMd extends State<EvaulateSoftwareForMd> {
               child: Form(
                 key: _addForm,
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            'ประเมินการใช้งาน',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 40),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20,bottom: 20),
+                            child: Text(
+                              'ประเมินการใช้งาน',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 30),
+                            ),
                           ),
                         ),
-                      ),
-                      EvaluateChoice(
-                        subject:
-                            "1.ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย",
-                      ),
-                      RadioButtonFormField(
-                        // toggleable: true,
-                        padding: EdgeInsets.all(8),
-                        context: context,
-                        value: 'value',
-                        display: 'display',
-                        data: data,
-                        onSaved: (newValue) {
-                          // print(newValue);
-                          evaTopic_0.score = newValue;
-                          evaTopic_0.topic =
-                              "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย";
-                          _evaList.add(evaTopic_0);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "โปรดให้คะแนนการประเมิน";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      EvaluateChoice(
-                        subject:
-                            "2.ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น",
-                      ),
-                      RadioButtonFormField(
-                        // toggleable: true,
-                        padding: EdgeInsets.all(8),
-                        context: context,
-                        value: 'value',
-                        display: 'display',
-                        data: data,
-                        onSaved: (newValue) {
-                          // print(newValue);
-                          evaTopic_1.score = newValue;
-                          evaTopic_1.topic =
-                              "ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น";
-                          _evaList.add(evaTopic_1);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "โปรดให้คะแนนการประเมิน";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      EvaluateChoice(
-                        subject: "3.หน้าจอออกแบบสวยงาม ดึงดูดการใช้งานได้ดี",
-                      ),
-                      RadioButtonFormField(
-                        // toggleable: true,
-                        padding: EdgeInsets.all(8),
-                        context: context,
-                        value: 'value',
-                        display: 'display',
-                        data: data,
-                        onSaved: (newValue) {
-                          evaTopic_2.score = newValue;
-                          evaTopic_2.topic =
-                              "หน้าจอออกแบบสวยงาม ดึงดูดการใช้งานได้ดี";
-                          _evaList.add(evaTopic_2);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "โปรดให้คะแนนการประเมิน";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      EvaluateChoice(
-                        subject:
-                            "4.ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา",
-                      ),
-                      RadioButtonFormField(
-                        // toggleable: true,
-                        padding: EdgeInsets.all(8),
-                        context: context,
-                        value: 'value',
-                        display: 'display',
-                        data: data,
-                        onSaved: (newValue) {
-                          // print(newValue);
-                          evaTopic_3.score = newValue;
-                          evaTopic_3.topic =
-                              "ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา";
-                          _evaList.add(evaTopic_3);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "โปรดให้คะแนนการประเมิน";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      RaisedButton(
-                        child: Text('บันทึก'),
-                        onPressed: () {
-                          if (_addForm.currentState.validate()) {
-                            _addForm.currentState.save();
-                            FirebaseFirestore.instance
-                                .collection("Evaluate")
-                                .add({
-                              "createAt": DateTime.now(),
-                              "role": widget.role
-                            }).then((value) {
-                              _evaList.forEach((element) {
-                                FirebaseFirestore.instance
-                                    .collection("Evaluate")
-                                    .doc(value.id)
-                                    .collection("topic")
-                                    .add({
-                                  "topic": element.topic,
-                                  "score": element.score
-                                });
-                              });
-                            });
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    alertMessageOnlyOk(context,
-                                        "ท่านยังทำประเมินไม่ครบทุกข้อ"));
-                          }
-                        },
-                      ),
-                    ],
+                        EvaluateChoice(
+                          subject:
+                              "1.ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย",
+                        ),
+                        RadioButtonFormField(
+                          // toggleable: true,
+                          padding: EdgeInsets.all(8),
+                          context: context,
+                          value: 'value',
+                          display: 'display',
+                          data: data,
+                          onSaved: (newValue) {
+                            // print(newValue);
+                            evaTopic_0.score = newValue;
+                            evaTopic_0.topic =
+                                "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย";
+                            _evaList.add(evaTopic_0);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return "โปรดให้คะแนนการประเมิน";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        EvaluateChoice(
+                          subject:
+                              "2.ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น",
+                        ),
+                        RadioButtonFormField(
+                          // toggleable: true,
+                          padding: EdgeInsets.all(8),
+                          context: context,
+                          value: 'value',
+                          display: 'display',
+                          data: data,
+                          onSaved: (newValue) {
+                            // print(newValue);
+                            evaTopic_1.score = newValue;
+                            evaTopic_1.topic =
+                                "ฟังก์ชันการทำงานของแอปพลิเคชันช่วยในการประเมินอาการของผู้ป่วยได้ง่ายขึ้น";
+                            _evaList.add(evaTopic_1);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return "โปรดให้คะแนนการประเมิน";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        EvaluateChoice(
+                          subject: "3.หน้าจอออกแบบสวยงาม ดึงดูดการใช้งานได้ดี",
+                        ),
+                        RadioButtonFormField(
+                          // toggleable: true,
+                          padding: EdgeInsets.all(8),
+                          context: context,
+                          value: 'value',
+                          display: 'display',
+                          data: data,
+                          onSaved: (newValue) {
+                            evaTopic_2.score = newValue;
+                            evaTopic_2.topic =
+                                "หน้าจอออกแบบสวยงาม ดึงดูดการใช้งานได้ดี";
+                            _evaList.add(evaTopic_2);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return "โปรดให้คะแนนการประเมิน";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        EvaluateChoice(
+                          subject:
+                              "4.ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา",
+                        ),
+                        RadioButtonFormField(
+                          // toggleable: true,
+                          padding: EdgeInsets.all(8),
+                          context: context,
+                          value: 'value',
+                          display: 'display',
+                          data: data,
+                          onSaved: (newValue) {
+                            // print(newValue);
+                            evaTopic_3.score = newValue;
+                            evaTopic_3.topic =
+                                "ข้อมูลที่ได้รับจากการบันทึกของผู้ป่วยมีประโยชน์ต่อการรักษา";
+                            _evaList.add(evaTopic_3);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return "โปรดให้คะแนนการประเมิน";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 20,),
+                        Center(
+                          child: Container(
+                            width: 100,
+                            height: 40,
+                            child: RaisedButton(
+                              color: Colors.green,
+                              child: Text('บันทึก',style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+                              hoverColor: Colors.grey.shade200,
+                              onPressed: () {
+                                if (_addForm.currentState.validate()) {
+                                  _addForm.currentState.save();
+                                  FirebaseFirestore.instance
+                                      .collection("Evaluate")
+                                      .add({
+                                    "createAt": DateTime.now(),
+                                    "role": widget.role
+                                  }).then((value) {
+                                    _evaList.forEach((element) {
+                                      FirebaseFirestore.instance
+                                          .collection("Evaluate")
+                                          .doc(value.id)
+                                          .collection("topic")
+                                          .add({
+                                        "topic": element.topic,
+                                        "score": element.score
+                                      });
+                                    });
+                                  });
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          alertMessageOnlyOk(context,
+                                              "ท่านยังทำประเมินไม่ครบทุกข้อ"));
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           ),
         ),
       ),

@@ -111,206 +111,395 @@ class _AllSrarusState extends State<AllStarus> {
           if (snapshot.hasData) {
             return Card(
               child: SizedBox(
-                width: 700,
+                width: 900,
                 height: 1000,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'ผลสรุปจากการทำแบบประเมินอาหาร',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      // Center(
-                      //   child: Text(
-                      //     "ล่าสุดเมื่อเดือนที่ :  ${listDataForDate.last.date}",
-                      //     style: TextStyle(fontSize: 14, color: Colors.black38),
-                      //   ),
-                      // ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          showMonthPicker(
-                            context: context,
-                            firstDate: getMinDate(listDataForDate),
-                            lastDate: getMaxDate(listDataForDate),
-                            initialDate: selectedDate ?? DateTime.now(),
-                            locale: Locale("en"),
-                          ).then((date) {
-                            if (date != null) {
-                              setState(() {
-                                selectedDate = date;
-                                keepChartData = getAllAlertDataInSys(
-                                    listData, selectedDate);
-                                listKeepFoodSweet = getAllAlertDataInSysFood(
-                                    listData, selectedDate, "sweet");
-                                listKeepFoodSelt = getAllAlertDataInSysFood(
-                                    listData, selectedDate, "selt");
-                                listKeepFoodFat = getAllAlertDataInSysFood(
-                                    listData, selectedDate, "fat");
-                                // var b = convertMouth(selectedDate) + "-01";
-                                // // convertMouth(selectedDate);
-                                // print(b);
-                                // var a = DateTime.parse(b);
-                                // print(a);
-                              });
-                            }
-                          });
-                        },
-                        child: Icon(Icons.calendar_today),
-                      ),
-                      // SfCartesianChart(
-                      //   primaryXAxis: CategoryAxis(),
-                      //   series: <CartesianSeries>[
-                      //     ColumnSeries<MutiChartData, String>(
-                      //         dataSource: keepChartData,
-                      //         xValueMapper: (MutiChartData data, _) => data.x,
-                      //         yValueMapper: (MutiChartData data, _) => data.y),
-                      //     ColumnSeries<MutiChartData, String>(
-                      //         dataSource: keepChartData,
-                      //         xValueMapper: (MutiChartData data, _) => data.x,
-                      //         yValueMapper: (MutiChartData data, _) => data.y1),
-                      //     ColumnSeries<MutiChartData, String>(
-                      //         dataSource: keepChartData,
-                      //         xValueMapper: (MutiChartData data, _) => data.x,
-                      //         yValueMapper: (MutiChartData data, _) => data.y2),
-                      //     ColumnSeries<MutiChartData, String>(
-                      //         dataSource: keepChartData,
-                      //         xValueMapper: (MutiChartData data, _) => data.x,
-                      //         yValueMapper: (MutiChartData data, _) => data.y3)
-                      //   ],
-                      // ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'หวาน',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                            ),
+                            child: Text(
+                              'ผลสรุปจากการทำแบบประเมินอาหาร',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                      SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        // tooltipBehavior: _tooltip,
-                        series: <ChartSeries<dynamic, String>>[
-                          ColumnSeries<dynamic, String>(
-                              dataSource: listKeepFoodSweet,
-                              xValueMapper: (dynamic data, _) => data.choice,
-                              yValueMapper: (dynamic data, _) => data.score,
-                              name: 'คะแนนการประเมิน',
-                              color: Color.fromRGBO(8, 142, 255, 1))
-                        ],
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'มัน',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
+                        // Center(
+                        //   child: Text(
+                        //     "ล่าสุดเมื่อเดือนที่ :  ${listDataForDate.last.date}",
+                        //     style: TextStyle(fontSize: 14, color: Colors.black38),
+                        //   ),
+                        // ),
+                        FloatingActionButton(
+                          backgroundColor: Colors.blueAccent,
+                          hoverColor: Colors.grey.shade200,
+                          onPressed: () {
+                            showMonthPicker(
+                              context: context,
+                              firstDate: getMinDate(listDataForDate),
+                              lastDate: getMaxDate(listDataForDate),
+                              initialDate: selectedDate ?? DateTime.now(),
+                              locale: Locale("en"),
+                            ).then((date) {
+                              if (date != null) {
+                                setState(() {
+                                  selectedDate = date;
+                                  keepChartData = getAllAlertDataInSys(
+                                      listData, selectedDate);
+                                  listKeepFoodSweet = getAllAlertDataInSysFood(
+                                      listData, selectedDate, "sweet");
+                                  listKeepFoodSelt = getAllAlertDataInSysFood(
+                                      listData, selectedDate, "selt");
+                                  listKeepFoodFat = getAllAlertDataInSysFood(
+                                      listData, selectedDate, "fat");
+                                  // var b = convertMouth(selectedDate) + "-01";
+                                  // // convertMouth(selectedDate);
+                                  // print(b);
+                                  // var a = DateTime.parse(b);
+                                  // print(a);
+                                });
+                              }
+                            });
+                          },
+                          child: Icon(Icons.calendar_today),
                         ),
-                      ),
-                      SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        // tooltipBehavior: _tooltip,
-                        series: <ChartSeries<dynamic, String>>[
-                          ColumnSeries<dynamic, String>(
-                              dataSource: listKeepFoodFat,
-                              xValueMapper: (dynamic data, _) => data.choice,
-                              yValueMapper: (dynamic data, _) => data.score,
-                              name: 'คะแนนการประเมิน',
-                              color: Color.fromRGBO(8, 142, 255, 1))
-                        ],
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            'เค็ม',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
+                        // SfCartesianChart(
+                        //   primaryXAxis: CategoryAxis(),
+                        //   series: <CartesianSeries>[
+                        //     ColumnSeries<MutiChartData, String>(
+                        //         dataSource: keepChartData,
+                        //         xValueMapper: (MutiChartData data, _) => data.x,
+                        //         yValueMapper: (MutiChartData data, _) => data.y),
+                        //     ColumnSeries<MutiChartData, String>(
+                        //         dataSource: keepChartData,
+                        //         xValueMapper: (MutiChartData data, _) => data.x,
+                        //         yValueMapper: (MutiChartData data, _) => data.y1),
+                        //     ColumnSeries<MutiChartData, String>(
+                        //         dataSource: keepChartData,
+                        //         xValueMapper: (MutiChartData data, _) => data.x,
+                        //         yValueMapper: (MutiChartData data, _) => data.y2),
+                        //     ColumnSeries<MutiChartData, String>(
+                        //         dataSource: keepChartData,
+                        //         xValueMapper: (MutiChartData data, _) => data.x,
+                        //         yValueMapper: (MutiChartData data, _) => data.y3)
+                        //   ],
+                        // ),
+                        Column(
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,bottom: 10
+                                ),
+                                child: Text(
+                                  'ผลการบริโภคหวาน',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              primaryYAxis: NumericAxis(
+                              decimalPlaces: 0,
+                              title: AxisTitle(text: 'จำนวนคน')
+                              ),
+                              // tooltipBehavior: _tooltip,
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              series: <ChartSeries<dynamic, String>>[
+                                ColumnSeries<dynamic, String>(
+                                    dataSource: listKeepFoodSweet,
+                                    xValueMapper: (dynamic data, _) => data.choice,
+                                    yValueMapper: (dynamic data, _) => data.score,
+                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    name: 'คะแนนการประเมิน',
+                                    color: Color.fromRGBO(8, 142, 255, 1))
+                              ],
+                            ),
+                              Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              const SizedBox(height: 10,),
+                              Center(child: const Text("สรุป ผลการบริโภคหวาน",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                              const SizedBox(height: 15,),
+                              ListTile(
+                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    ),
+                              Divider(thickness: 2, color: Colors.grey), 
+                              ListTile(
+                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                              
+                              ],
+                            ),                             
+                          ],
                         ),
-                      ),
-                      SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        // tooltipBehavior: _tooltip,
-                        series: <ChartSeries<dynamic, String>>[
-                          ColumnSeries<dynamic, String>(
-                              dataSource: listKeepFoodSelt,
-                              xValueMapper: (dynamic data, _) => data.choice,
-                              yValueMapper: (dynamic data, _) => data.score,
-                              name: 'คะแนนการประเมิน',
-                              color: Color.fromRGBO(8, 142, 255, 1))
-                        ],
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
+                        Padding(
+                          child: Divider(thickness: 4, color: Colors.black87,), 
+                          padding:const EdgeInsets.only(
+                                  top: 20,bottom: 20
+                                ),
                           ),
-                          child: Text(
-                            'ผลสรุปจากการทำแบบประเมินอารมณ์',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
+                        Column(
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,bottom: 10
+                                ),
+                                child: Text(
+                                  'ผลการบริโภคมัน',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              primaryYAxis: NumericAxis(
+                              decimalPlaces: 0,
+                              title: AxisTitle(text: 'จำนวนคน')                          
+                              ),
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              // tooltipBehavior: _tooltip,
+                              series: <ChartSeries<dynamic, String>>[
+                                ColumnSeries<dynamic, String>(
+                                    dataSource: listKeepFoodFat,
+                                    xValueMapper: (dynamic data, _) => data.choice,
+                                    yValueMapper: (dynamic data, _) => data.score,
+                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    name: 'คะแนนการประเมิน',
+                                    color: Color.fromRGBO(8, 142, 255, 1))
+                              ],
+                            ),
+                              Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              const SizedBox(height: 10,),
+                              Center(child: const Text("สรุป ผลการบริโภคมัน",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                              const SizedBox(height: 15,),
+                              ListTile(
+                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    ),
+                              Divider(thickness: 2, color: Colors.grey), 
+                              ListTile(
+                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                              ],
+                            ),                            
+                          ],
                         ),
-                      ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => showDateRangMood(
-                                context,
-                                getMinDateMood(listDataForDateMood),
-                                getMaxDateMood(listDataForDateMood),
-                                listDataForDateMood),
-                          ).then((value) {
-                            print(value);
-                            if (value != null) {
-                              setState(() {
-                                keepChartDataMood = getAllAlertDataInSysMood(
-                                    listDataMood, value);
-                              });
-                            }
-                          });
-                        },
-                        child: Icon(Icons.calendar_today),
-                      ),
-                      SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(),
-                        // tooltipBehavior: _tooltip,
-                        series: <ChartSeries<dynamic, String>>[
-                          ColumnSeries<dynamic, String>(
-                              dataSource: keepChartDataMood,
-                              xValueMapper: (dynamic data, _) => data.choice,
-                              yValueMapper: (dynamic data, _) => data.score,
-                              name: 'คะแนนการประเมิน',
-                              color: Color.fromRGBO(8, 142, 255, 1))
-                        ],
-                      )
-                    ],
+                        Padding(
+                          child: Divider(thickness: 4, color: Colors.black87,), 
+                          padding:const EdgeInsets.only(
+                                  top: 20,bottom: 20
+                                ),
+                          ),
+                        Column(
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,bottom: 10
+                                ),
+                                child: Text(
+                                  'ผลการบริโภคเค็ม',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              primaryYAxis: NumericAxis(
+                              decimalPlaces: 0,
+                              title: AxisTitle(text: 'จำนวนคน')                          
+                              ),
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              // tooltipBehavior: _tooltip,
+                              series: <ChartSeries<dynamic, String>>[
+                                ColumnSeries<dynamic, String>(
+                                    dataSource: listKeepFoodSelt,
+                                    xValueMapper: (dynamic data, _) => data.choice,
+                                    yValueMapper: (dynamic data, _) => data.score,
+                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    name: 'คะแนนการประเมิน',
+                                    color: Color.fromRGBO(8, 142, 255, 1))
+                              ],
+                            ),
+                              Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              const SizedBox(height: 10,),
+                              Center(child: const Text("สรุป ผลการบริโภคเค็ม",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                              const SizedBox(height: 15,),
+                              ListTile(
+                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    ),
+                              Divider(thickness: 2, color: Colors.grey,), 
+                              ListTile(
+                                leading: Text('ข้อ1  อยู่ระดับปรกติ :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ3  มีความเสี่ยงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ4  มีความเสี่ยงสูงต่อโรค :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                              ],
+                            ),                            
+                          ],
+                        ),
+                        Padding(
+                          child: Divider(thickness: 4, color: Colors.black87,), 
+                          padding:const EdgeInsets.only(
+                                  top: 20,bottom: 20
+                                ),
+                          ),
+                        Column(
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                ),
+                                child: Text(
+                                  'ผลสรุปจากการทำแบบประเมินอารมณ์',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            FloatingActionButton(
+                              backgroundColor: Colors.blueAccent,
+                              hoverColor: Colors.grey.shade200,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => showDateRangMood(
+                                      context,
+                                      getMinDateMood(listDataForDateMood),
+                                      getMaxDateMood(listDataForDateMood),
+                                      listDataForDateMood),
+                                ).then((value) {
+                                  print(value);
+                                  if (value != null) {
+                                    setState(() {
+                                      keepChartDataMood = getAllAlertDataInSysMood(
+                                          listDataMood, value);
+                                    });
+                                  }
+                                });
+                              },
+                              child: Icon(Icons.calendar_today),
+                            ),
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              primaryYAxis: NumericAxis(
+                              decimalPlaces: 0,
+                              title: AxisTitle(text: 'จำนวนคน')                                     
+                              ),
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              // tooltipBehavior: _tooltip,
+                              series: <ChartSeries<dynamic, String>>[
+                                ColumnSeries<dynamic, String>(
+                                    dataSource: keepChartDataMood,
+                                    xValueMapper: (dynamic data, _) => data.choice,
+                                    yValueMapper: (dynamic data, _) => data.score,
+                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    name: 'คะแนนการประเมิน',
+                                    color: Color.fromRGBO(8, 142, 255, 1))
+                              ],
+                            ),
+                          ],
+                        ),
+                              Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              const SizedBox(height: 10,),
+                              Center(child: const Text("สรุป ผลแบบประเมินอารมณ์",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                              const SizedBox(height: 15,),
+                              ListTile(
+                                leading: Text('ผลการประเมิน',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                                trailing: Text("คน",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    ),
+                              Divider(thickness: 2, color: Colors.grey), 
+                              ListTile(
+                                leading: Text('ข้อ1  ไม่มีความเครียด :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice1}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ2  อยู่ระดับปานกลาง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice2}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ3  อยู่ระดับสูง :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice3}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              ListTile(
+                                leading: Text('ข้อ4  อยู่ระดับสูงที่สุด :',style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,),),
+                                // trailing: Text("${data.fatchoice4}",style: TextStyle(fontSize: 17,)),
+                              ),
+                              // Divider(thickness: 2, color: Colors.grey.shade300,)
+                              ],
+                            ), 
+                            SizedBox(height: 20,)                                                 
+                      ],
+                    ),
                   ),
                 ),
               ),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
             );
           } else {
             return Text("data");
