@@ -73,6 +73,9 @@ class _BuildBarChartState extends State<BuildBarChart> {
     });
     return _returnList;
   }
+  // Future<List<dynamic>> getComent()async{
+  //   await FirebaseFirestore.instance.collection("Evaluate").doc("comment")
+  // }
 
   List keepList = List();
   final List<String> evaIdList = [
@@ -125,6 +128,22 @@ class _BuildBarChartState extends State<BuildBarChart> {
                       ],
                     ),
                   ),
+                    Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "ประเมินการใช้งานของผู้ป่วย",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
                     series: <ChartSeries<ChartData, String>>[
@@ -134,6 +153,22 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y)
                     ],
+                  ),
+                    Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "ข้อเสนอแนะของผู้ป่วย",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

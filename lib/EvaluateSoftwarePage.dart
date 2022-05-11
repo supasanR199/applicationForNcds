@@ -25,6 +25,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
   EvaluateTopicModels evaTopic_6 = EvaluateTopicModels();
   EvaluateTopicModels evaTopic_7 = EvaluateTopicModels();
   EvaluateTopicModels evaTopic_8 = EvaluateTopicModels();
+  EvaluateTopicModels evaComment = EvaluateTopicModels();
 
   List topic = [
     "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย",
@@ -81,11 +82,12 @@ class _EvaulatePageState extends State<EvaulatePage> {
                       children: <Widget>[
                         Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 20,bottom: 20),
+                            padding: const EdgeInsets.only(top: 20, bottom: 20),
                             child: Text(
                               'ประเมินการใช้งาน',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30),
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -210,6 +212,39 @@ class _EvaulatePageState extends State<EvaulatePage> {
                               return null;
                             }
                           },
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              "ข้อเสนอแนะเพิ่มเติม",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                          Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            // controller: content,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "กรุณาเพิ่มบทความ";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              // content.text = value;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: 10,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              // labelText: 'บทความ',
+                            ),
+                          ),
                         ),
                         // EvaluateChoice(
                         //   subject:
@@ -352,14 +387,21 @@ class _EvaulatePageState extends State<EvaulatePage> {
                         //     ),
                         //   ),
                         // ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Center(
                           child: Container(
                             width: 100,
                             height: 40,
                             child: RaisedButton(
-                              child: Text('บันทึก',style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+                              child: Text(
+                                'บันทึก',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
                               hoverColor: Colors.grey.shade200,
                               color: Colors.green,
                               onPressed: () {
@@ -378,7 +420,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                                           .collection("topic")
                                           .add({
                                         "topic": element.topic,
-                                        "score": element.score
+                                        "score": element.score,
                                       });
                                     });
                                   });
@@ -391,19 +433,22 @@ class _EvaulatePageState extends State<EvaulatePage> {
                                 }
                               },
                               shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-              shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
           ),
         ),
       ),

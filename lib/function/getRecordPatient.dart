@@ -7,6 +7,7 @@ import 'package:appilcation_for_ncds/models/dairymodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 List<KeepChoieAndSocre> getStepListSelectDate(
@@ -48,14 +49,13 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
 
   snap.forEach((elements) {
     choice.forEach((element) {
-      KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
-          element, int.parse(elements.getByName(element)).toDouble());
+      KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(element,
+          int.parse(elements.getByName(element)).toDouble(), Colors.blue);
       // print("show befor add ${_keepsweet.choice} ${_keepsweet.score}");
 
       keepData.add(_keepsweet);
     });
   });
-  
 
   choice.forEach((element) {
     sumIters = keepData.where((e) => e.choice.contains(element));
@@ -73,7 +73,7 @@ List getSumAllChoice(List<DairyModel> snap, List<String> choice) {
     );
     keepScoreAll.add(scoreLists.sum);
     KeepChoieAndSocre keepsumall =
-        KeepChoieAndSocre(keepStrChoice, scoreLists.sum);
+        KeepChoieAndSocre(keepStrChoice, scoreLists.sum, Colors.blue);
 
     keepDataReturn.add(keepsumall);
   });
@@ -141,11 +141,12 @@ List getSumAllChoiceMood(List<DairyModel> snap, List<String> choice) {
       choice.forEach(
         (element) {
           if (elements.getByName(element) != "null") {
-            KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(
-                element, int.parse(elements.getByName(element)).toDouble());
+            KeepChoieAndSocre _keepsweet = KeepChoieAndSocre(element,
+                int.parse(elements.getByName(element)).toDouble(), Colors.blue);
             keepData.add(_keepsweet);
           } else {
-            KeepChoieAndSocre _keepsweets = KeepChoieAndSocre(element, 0);
+            KeepChoieAndSocre _keepsweets =
+                KeepChoieAndSocre(element, 0, Colors.blue);
             keepData.add(_keepsweets);
           }
         },
@@ -168,15 +169,16 @@ List getSumAllChoiceMood(List<DairyModel> snap, List<String> choice) {
     );
     keepScoreAll.add(scoreLists.sum);
     KeepChoieAndSocre keepsumall =
-        KeepChoieAndSocre(keepStrChoice, scoreLists.sum);
+        KeepChoieAndSocre(keepStrChoice, scoreLists.sum, Colors.blue);
 
     keepDataReturn.add(keepsumall);
   });
   returnList.add(
     keepDataReturn,
   );
-  returnList.add(
-      keepScoreAll.reduce((curr, next) => curr > next ? curr : next).toDouble());
+  returnList.add(keepScoreAll
+      .reduce((curr, next) => curr > next ? curr : next)
+      .toDouble());
 
   return returnList;
 }
@@ -298,7 +300,7 @@ List<KeepChoieAndSocre> getStepFromDate(
   });
   // print(getItemFormDate.toList());
   if (getItemFormDate.isEmpty) {
-    KeepChoieAndSocre zero = KeepChoieAndSocre(select, 0);
+    KeepChoieAndSocre zero = KeepChoieAndSocre(select, 0, Colors.blue);
     _listReturn.add(zero);
   } else {
     getItemFormDate.forEach((element) {
@@ -307,4 +309,20 @@ List<KeepChoieAndSocre> getStepFromDate(
   }
 
   return _listReturn;
+}
+
+QueryDocumentSnapshot getMoodAlert(
+    DateTime date, AsyncSnapshot<QuerySnapshot> snapshotMood) {
+  var d12 = DateFormat('yyyy-MM-dd').format(date);
+  QueryDocumentSnapshot _retureElement;
+  snapshotMood.data.docs.forEach((element) {
+    if (d12 == element.id) {
+      // print(true);
+      _retureElement = element;
+      // print(_retureElement);
+      // _retureList.add(element);
+    }
+  });
+
+  return _retureElement;
 }

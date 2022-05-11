@@ -230,13 +230,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
   });
   if (foodCategory == "sweet") {
     KeepChoieAndSocre keepsweetnomal =
-        KeepChoieAndSocre("ปกติ", sweetalertnomal.sum.toDouble());
+        KeepChoieAndSocre("ปกติ", sweetalertnomal.sum.toDouble(),Colors.green);
     KeepChoieAndSocre keepsweetmediam =
-        KeepChoieAndSocre("ปานกลาง", sweetalertmediam.sum.toDouble());
+        KeepChoieAndSocre("ปานกลาง", sweetalertmediam.sum.toDouble(),Colors.yellow);
     KeepChoieAndSocre keepsweetalert =
-        KeepChoieAndSocre("มีความเสี่ยง", sweetalertalert.sum.toDouble());
+        KeepChoieAndSocre("มีความเสี่ยง", sweetalertalert.sum.toDouble(),Colors.orange);
     KeepChoieAndSocre keepsweetdangerus =
-        KeepChoieAndSocre("อันตราย", sweetalertdangerus.sum.toDouble());
+        KeepChoieAndSocre("อันตราย", sweetalertdangerus.sum.toDouble(),Colors.red);
     _returnList.add(keepsweetnomal);
     _returnList.add(keepsweetmediam);
     _returnList.add(keepsweetalert);
@@ -244,13 +244,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
     return _returnList;
   } else if (foodCategory == "selt") {
     KeepChoieAndSocre keepseltnomal =
-        KeepChoieAndSocre("ปกติ", saltalertnomal.sum.toDouble());
+        KeepChoieAndSocre("ปกติ", saltalertnomal.sum.toDouble(),Colors.green);
     KeepChoieAndSocre keepseltmediam =
-        KeepChoieAndSocre("ปานกลาง", saltalertmediam.sum.toDouble());
+        KeepChoieAndSocre("ปานกลาง", saltalertmediam.sum.toDouble(),Colors.yellow);
     KeepChoieAndSocre keepseltalert =
-        KeepChoieAndSocre("มีความเสี่ยง", saltalertalert.sum.toDouble());
+        KeepChoieAndSocre("มีความเสี่ยง", saltalertalert.sum.toDouble(),Colors.orange,);
     KeepChoieAndSocre keepseltdangerus =
-        KeepChoieAndSocre("อันตราย", saltalertangerus.sum.toDouble());
+        KeepChoieAndSocre("อันตราย", saltalertangerus.sum.toDouble(),Colors.red);
     _returnList.add(keepseltnomal);
     _returnList.add(keepseltmediam);
     _returnList.add(keepseltalert);
@@ -258,13 +258,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
     return _returnList;
   } else if (foodCategory == "fat") {
     KeepChoieAndSocre keepfatnomal =
-        KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble());
+        KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble(),Colors.green);
     KeepChoieAndSocre keepfatmediam =
-        KeepChoieAndSocre("ปานกลาง", fatalertmediam.sum.toDouble());
+        KeepChoieAndSocre("ปานกลาง", fatalertmediam.sum.toDouble(),Colors.green);
     KeepChoieAndSocre keepfatalert =
-        KeepChoieAndSocre("มีความเสี่ยง", fatalertalert.sum.toDouble());
+        KeepChoieAndSocre("มีความเสี่ยง", fatalertalert.sum.toDouble(),Colors.green);
     KeepChoieAndSocre keepfatdangerus =
-        KeepChoieAndSocre("อันตราย", fatalertdangerus.sum.toDouble());
+        KeepChoieAndSocre("อันตราย", fatalertdangerus.sum.toDouble(),Colors.green);
     _returnList.add(keepfatnomal);
     _returnList.add(keepfatmediam);
     _returnList.add(keepfatalert);
@@ -322,13 +322,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysMood(
     // }
   });
   KeepChoieAndSocre nomal =
-      KeepChoieAndSocre("ปกติ", moodalertnomal.sum.toDouble());
+      KeepChoieAndSocre("ปกติ", moodalertnomal.sum.toDouble(),Colors.green);
   KeepChoieAndSocre mediam =
-      KeepChoieAndSocre("ปานกลาง", moodalertmediam.sum.toDouble());
+      KeepChoieAndSocre("ปานกลาง", moodalertmediam.sum.toDouble(),Colors.green);
   KeepChoieAndSocre alert =
-      KeepChoieAndSocre("มาก", moodalertalert.sum.toDouble());
+      KeepChoieAndSocre("มาก", moodalertalert.sum.toDouble(),Colors.green);
   KeepChoieAndSocre dangerus =
-      KeepChoieAndSocre("มากที่สุด", moodalertnomal.sum.toDouble());
+      KeepChoieAndSocre("มากที่สุด", moodalertnomal.sum.toDouble(),Colors.green);
 
   // MutiChartData keepfat = MutiChartData(
   //     "มัน",

@@ -78,7 +78,8 @@ Widget buildPatientPage(BuildContext context, bool role) {
                               borderRadius: BorderRadius.circular(20)),
                           leading: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: proFileShow(context, path,"${snap["Gender"]}"),
+                            child:
+                                proFileShow(context, path, "${snap["Gender"]}"),
                           ),
                           title: Row(
                             children: [
@@ -105,7 +106,7 @@ Widget buildPatientPage(BuildContext context, bool role) {
                               ),
                               Column(
                                 children: [
-                                  statusAlert(document.id),
+                                  StatusAlert(id: document.id),
                                 ],
                               ),
                             ],

@@ -3,6 +3,7 @@ import 'package:appilcation_for_ncds/models/AlertModels.dart';
 import 'package:appilcation_for_ncds/models/AlertMoodModels.dart';
 import 'package:appilcation_for_ncds/models/KeepRecord.dart';
 import 'package:appilcation_for_ncds/models/dairymodel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -71,7 +72,7 @@ Widget showDateRangWalkCount(
               dateBetween = getDaysInBetween(startDate, startDate);
             } else {
               dateBetween = getDaysInBetween(startDate, endDate);
-            } 
+            }
             print(getStepListSelectDate(snap, dateBetween));
             Navigator.pop(context, getStepListSelectDate(snap, dateBetween));
 
@@ -170,6 +171,54 @@ Widget showDateRangMood(
           },
           onCancel: () {
             _datePickerController.selectedRange = null;
+            Navigator.pop(context);
+          }),
+    ),
+  );
+}
+
+Widget selectIsMoodHaveData(context, List<DateTime> initDateHaveData,
+    AsyncSnapshot<QuerySnapshot<Object>> snapshotMood) {
+  DateRangePickerController _datePickerController = DateRangePickerController();
+  List<DateTime> dateBetween = List();
+  var snapMood ;
+
+  // if (minDate == maxDate) {
+  //   maxDate = DateTime.now();
+  // }
+  print(initDateHaveData.toList());
+  return AlertDialog(
+    title: const Text('เลือกช่วงวัน'),
+    content: SizedBox(
+      width: 300,
+      height: 300,
+      child: SfDateRangePicker(
+          confirmText: "ตกลง",
+          cancelText: "ยกเลิก",
+          // initialSelectedDates: initDateHaveData,
+          selectionMode: DateRangePickerSelectionMode.single,
+          // maxDate: initDateHaveData.last,
+          // minDate: initDateHaveData.first,
+          monthViewSettings:
+              DateRangePickerMonthViewSettings(specialDates: initDateHaveData),
+          monthCellStyle: DateRangePickerMonthCellStyle(
+            specialDatesDecoration: BoxDecoration(
+                color: Colors.green,
+                border: Border.all(color: const Color(0xFF2B732F), width: 1),
+                shape: BoxShape.circle),
+          ),
+          showActionButtons: true,
+          onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+            // final dynamic value = args.value;
+          },
+          onSubmit: (Object val) {
+            if (val != null) {
+              snapMood = getMoodAlert(val, snapshotMood);
+              // print(snapMood);
+              Navigator.pop(context, snapMood);
+            }
+          },
+          onCancel: () {
             Navigator.pop(context);
           }),
     ),

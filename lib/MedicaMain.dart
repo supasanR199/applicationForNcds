@@ -318,7 +318,7 @@ class _MedicaMainState extends State<MedicaMain> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EvaulateSoftwareForMd(
+                        builder: (context) => EvaulatePage(
                           role: userData["role"],
                         ),
                       ),

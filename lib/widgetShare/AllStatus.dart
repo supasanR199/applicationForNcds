@@ -106,6 +106,23 @@ class _AllSrarusState extends State<AllStarus> {
   }
 
   Widget build(BuildContext context) {
+    final List<Color> color = <Color>[];
+    // color.add(Colors.deepOrange[50]);
+    // color.add(Colors.deepOrange[200]);
+    // color.add(Colors.deepOrange);
+    color.add(Colors.green);
+    color.add(Colors.yellow);
+    color.add(Colors.orange);
+    color.add(Colors.red);
+
+    final List<double> stops = <double>[];
+    stops.add(0.0);
+    stops.add(0.5);
+    stops.add(1.0);
+    stops.add(1.5);
+
+    final LinearGradient gradientColors =
+        LinearGradient(colors: color, stops: stops);
     return FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
             .collection("MobileUser")
@@ -227,15 +244,17 @@ class _AllSrarusState extends State<AllStarus> {
                               tooltipBehavior: TooltipBehavior(enable: true),
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
-                                    dataSource: listKeepFoodSweet,
-                                    xValueMapper: (dynamic data, _) =>
-                                        data.choice,
-                                    yValueMapper: (dynamic data, _) =>
-                                        data.score,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true),
-                                    name: 'คะแนนการประเมิน',
-                                    color: Color.fromARGB(255, 242, 150, 244))
+                                  dataSource: listKeepFoodSweet,
+                                  xValueMapper: (dynamic data, _) =>
+                                      data.choice,
+                                  yValueMapper: (dynamic data, _) => data.score,
+                                  pointColorMapper: (dynamic data, _) =>
+                                      data.color,
+                                  dataLabelSettings:
+                                      DataLabelSettings(isVisible: true),
+                                  name: 'คะแนนการประเมิน',
+                                  // color: Color.fromARGB(255, 242, 150, 244))
+                                ),
                               ],
                             ),
                             Column(
@@ -377,6 +396,8 @@ class _AllSrarusState extends State<AllStarus> {
                                         data.score,
                                     dataLabelSettings:
                                         DataLabelSettings(isVisible: true),
+                                    pointColorMapper: (dynamic data, _) =>
+                                        data.color,
                                     name: 'คะแนนการประเมิน',
                                     color: Color.fromARGB(255, 255, 229, 150))
                               ],
@@ -513,15 +534,17 @@ class _AllSrarusState extends State<AllStarus> {
                               // tooltipBehavior: _tooltip,
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
-                                    dataSource: listKeepFoodSelt,
-                                    xValueMapper: (dynamic data, _) =>
-                                        data.choice,
-                                    yValueMapper: (dynamic data, _) =>
-                                        data.score,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true),
-                                    name: 'คะแนนการประเมิน',
-                                    color: Color.fromARGB(255, 133, 105, 59))
+                                  dataSource: listKeepFoodSelt,
+                                  xValueMapper: (dynamic data, _) =>
+                                      data.choice,
+                                  yValueMapper: (dynamic data, _) => data.score,
+                                  dataLabelSettings:
+                                      DataLabelSettings(isVisible: true),
+                                  pointColorMapper: (dynamic data, _) =>
+                                      data.color,
+                                  name: 'คะแนนการประเมิน',
+                                  // color: Color.fromARGB(255, 133, 105, 59),
+                                )
                               ],
                             ),
                             Column(
@@ -693,15 +716,17 @@ class _AllSrarusState extends State<AllStarus> {
                               // tooltipBehavior: _tooltip,
                               series: <ChartSeries<dynamic, String>>[
                                 ColumnSeries<dynamic, String>(
-                                    dataSource: keepChartDataMood,
-                                    xValueMapper: (dynamic data, _) =>
-                                        data.choice,
-                                    yValueMapper: (dynamic data, _) =>
-                                        data.score,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true),
-                                    name: 'คะแนนการประเมิน',
-                                    color: Color.fromARGB(255, 237, 141, 111))
+                                  dataSource: keepChartDataMood,
+                                  xValueMapper: (dynamic data, _) =>
+                                      data.choice,
+                                  yValueMapper: (dynamic data, _) => data.score,
+                                  dataLabelSettings:
+                                      DataLabelSettings(isVisible: true),
+                                  pointColorMapper: (dynamic data, _) =>
+                                      data.color,
+                                  name: 'คะแนนการประเมิน',
+                                  // color: Color.fromARGB(255, 237, 141, 111),
+                                )
                               ],
                             ),
                           ],

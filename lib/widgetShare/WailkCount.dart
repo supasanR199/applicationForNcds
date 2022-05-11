@@ -39,7 +39,7 @@ class _WalkCountState extends State<WalkCount> {
         .then((value) {
       value.docs.forEach((element) {
         KeepChoieAndSocre getEle =
-            KeepChoieAndSocre(element.get("Date"), element.get("Step"));
+            KeepChoieAndSocre(element.get("Date"), element.get("Step"),Colors.blue);
         setState(() {
           getAll.add(getEle);
         });
