@@ -203,8 +203,8 @@ Widget selectIsMoodHaveData(context, List<DateTime> initDateHaveData,
               DateRangePickerMonthViewSettings(specialDates: initDateHaveData),
           monthCellStyle: DateRangePickerMonthCellStyle(
             specialDatesDecoration: BoxDecoration(
-                color: Colors.green,
-                border: Border.all(color: const Color(0xFF2B732F), width: 1),
+                // color: Colors.green,
+                border: Border.all(color: Colors.green, width: 2),
                 shape: BoxShape.circle),
           ),
           showActionButtons: true,

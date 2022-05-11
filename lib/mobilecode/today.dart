@@ -73,7 +73,17 @@ class _EmotionDataState extends State<EmotionData> {
         }
         // print("## ${data.EndDate}");
         // print("## ${sumfat}");
+        for (var i = 0; i < dairyModel.length; i++) {
+          // DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.userdata))
+          DateTime countDate = DateTime.parse("${dairyModel[i].date}");
+          if (dairyModel[i].Totalmood != "null") {
+          setState(() {
+            data.haveData.add(countDate);
+          });            
+          }
 
+          // print(DateTime.parse("${dairyModel[i].date}"));
+          }
       });
     // });
   } 
@@ -211,7 +221,14 @@ class _EmotionDataState extends State<EmotionData> {
                                                                                                           view: DateRangePickerView.month,
                                                                                                           minDate: DateTime.parse(document.id),
                                                                                                           maxDate: DateTime.now(),
-                                                                                                          monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+                                                                                                          monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday,
+                                                                                                          specialDates:data.haveData),
+                                                                                                          monthCellStyle: DateRangePickerMonthCellStyle(
+                                                                                                                              specialDatesDecoration: BoxDecoration(
+                                                                                                                            // color: Colors.blueAccent,
+                                                                                                                              border: Border.all(color: Colors.blueAccent, width: 2),
+                                                                                                                              shape: BoxShape.circle),
+                                                                                                                        ),
                                                                                                           selectionMode: DateRangePickerSelectionMode.range,
                                                                                                           onSelectionChanged: _onSelectionChanged,
                                                                                                           showActionButtons: true,
@@ -431,8 +448,8 @@ class _EmotionDataState extends State<EmotionData> {
                                                           yValueMapper: (EmotionSleepData val, _) => val.val,
                                                           dataLabelMapper: (EmotionSleepData data, _) => data.label,
                                                           dataLabelSettings: DataLabelSettings(isVisible: true),
-                                                          pointColorMapper: (EmotionSleepData data, _) => data.color
-                                                          // enableTooltip: true
+                                                          pointColorMapper: (EmotionSleepData data, _) => data.color,
+                                                          enableTooltip: false
                                                           )
                                                     ],
                                                     primaryXAxis: CategoryAxis(),
@@ -525,8 +542,8 @@ class _EmotionDataState extends State<EmotionData> {
                                                           yValueMapper: (EmotionMeditateData val, _) => val.val,
                                                           dataLabelMapper: (EmotionMeditateData data, _) => data.label,
                                                           dataLabelSettings: DataLabelSettings(isVisible: true),
-                                                          pointColorMapper: (EmotionMeditateData data, _) => data.color
-                                                          // enableTooltip: true
+                                                          pointColorMapper: (EmotionMeditateData data, _) => data.color,
+                                                          enableTooltip: false
                                                           )
                                                     ],
                                                     primaryXAxis: CategoryAxis(),
@@ -619,8 +636,8 @@ class _EmotionDataState extends State<EmotionData> {
                                                           yValueMapper: (EmotionIrritableData val, _) => val.val,
                                                           dataLabelMapper: (EmotionIrritableData data, _) => data.label,
                                                           dataLabelSettings: DataLabelSettings(isVisible: true),
-                                                          pointColorMapper: (EmotionIrritableData data, _) => data.color
-                                                          // enableTooltip: true
+                                                          pointColorMapper: (EmotionIrritableData data, _) => data.color,
+                                                          enableTooltip: false
                                                           )
                                                     ],
                                                     primaryXAxis: CategoryAxis(),
@@ -712,8 +729,8 @@ class _EmotionDataState extends State<EmotionData> {
                                                           yValueMapper: (EmotionBoringData val, _) => val.val,
                                                           dataLabelMapper: (EmotionBoringData data, _) => data.label,
                                                           dataLabelSettings: DataLabelSettings(isVisible: true),
-                                                          pointColorMapper: (EmotionBoringData data, _) => data.color
-                                                          // enableTooltip: true
+                                                          pointColorMapper: (EmotionBoringData data, _) => data.color,
+                                                          enableTooltip: false
                                                           )
                                                     ],
                                                     primaryXAxis: CategoryAxis(),
@@ -805,8 +822,8 @@ class _EmotionDataState extends State<EmotionData> {
                                                           yValueMapper: (EmotionAloneData val, _) => val.val,
                                                           dataLabelMapper: (EmotionAloneData data, _) => data.label,
                                                           dataLabelSettings: DataLabelSettings(isVisible: true),
-                                                          pointColorMapper: (EmotionAloneData data, _) => data.color
-                                                          // enableTooltip: true
+                                                          pointColorMapper: (EmotionAloneData data, _) => data.color,
+                                                          enableTooltip: false
                                                           )
                                                     ],
                                                     primaryXAxis: CategoryAxis(),

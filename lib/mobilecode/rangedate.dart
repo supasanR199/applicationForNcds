@@ -20,7 +20,6 @@ class GraphData extends StatefulWidget {
 }
 
 class _GraphDataState extends State<GraphData> {
-
   // DateTime date;
   final formkey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
@@ -72,7 +71,35 @@ class _GraphDataState extends State<GraphData> {
             dairyModel.add(model);
           });
         }
-        // print("## ${data.EndDate}");
+        for (var i = 0; i < dairyModel.length; i++) {
+          // DateFormat('yyyy-MM-dd').format(DateTime.parse(widget.userdata))
+          DateTime countDate = DateTime.parse("${dairyModel[i].date}");
+          if (
+            dairyModel[i].fatchoice1 != "0" ||
+            dairyModel[i].fatchoice2 != "0" ||
+            dairyModel[i].fatchoice3 != "0" ||
+            dairyModel[i].fatchoice4 != "0" ||
+            dairyModel[i].fatchoice5 != "0" ||
+
+            dairyModel[i].saltchoice1 != "0" ||
+            dairyModel[i].saltchoice2 != "0" ||
+            dairyModel[i].saltchoice3 != "0" ||
+            dairyModel[i].saltchoice4 != "0" ||
+            dairyModel[i].saltchoice5 != "0" ||
+
+            dairyModel[i].sweetchoice1 != "0" ||
+            dairyModel[i].sweetchoice2 != "0" ||
+            dairyModel[i].sweetchoice3 != "0" ||
+            dairyModel[i].sweetchoice4 != "0" ||
+            dairyModel[i].sweetchoice5 != "0" 
+            ) {
+          setState(() {
+            data.haveData.add(countDate);
+          });            
+          }
+
+          // print(DateTime.parse("${dairyModel[i].date}"));
+          }
         // print("## ${sumfat}");
 
       });
@@ -200,7 +227,7 @@ class _GraphDataState extends State<GraphData> {
                                                                                                   ),
                                                                                             );
                                                                                           }
-                                                                                        print(snapshot.data);
+                                                                                        // print(snapshot.data);
                                                                                         return  SingleChildScrollView(
                                                                                                   child: Container(
                                                                                                     child: Column(children: <Widget>[
@@ -240,7 +267,16 @@ class _GraphDataState extends State<GraphData> {
                                                                                                                                                                 view: DateRangePickerView.month,
                                                                                                                                                                 minDate: DateTime.parse(document.id),
                                                                                                                                                                 maxDate: DateTime.now(),
-                                                                                                                                                                monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+                                                                                                                                                                monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday,
+                                                                                                                                                                specialDates:
+                                                                                                                                                                data.haveData
+                                                                                                                                                                  ),
+                                                                                                                                                                monthCellStyle: DateRangePickerMonthCellStyle(
+                                                                                                                                                                  specialDatesDecoration: BoxDecoration(
+                                                                                                                                                                      // color: Colors.blueAccent,
+                                                                                                                                                                      border: Border.all(color: Colors.blueAccent, width: 2),
+                                                                                                                                                                      shape: BoxShape.circle),
+                                                                                                                                                                ),
                                                                                                                                                                 selectionMode: DateRangePickerSelectionMode.range,
                                                                                                                                                                 onSelectionChanged: _onSelectionChanged,
                                                                                                                                                                 showActionButtons: true,
@@ -441,8 +477,8 @@ class _GraphDataState extends State<GraphData> {
                                     yValueMapper: (SweetData val, _) => val.val,
                                     dataLabelMapper: (SweetData data, _) => data.label,
                                     dataLabelSettings: DataLabelSettings(isVisible: true),
-                                    pointColorMapper: (SweetData data, _) => data.color
-                                    // enableTooltip: true
+                                    pointColorMapper: (SweetData data, _) => data.color,
+                                    enableTooltip: false
                                     )
                               ],
                               primaryXAxis: CategoryAxis(),
@@ -548,8 +584,8 @@ class _GraphDataState extends State<GraphData> {
                                   yValueMapper: (FatData val, _) => val.val,
                                   dataLabelMapper: (FatData data, _) => data.label,
                                   dataLabelSettings: DataLabelSettings(isVisible: true),
-                                   pointColorMapper: (FatData data, _) => data.color
-                                  // enableTooltip: true
+                                  pointColorMapper: (FatData data, _) => data.color,
+                                  enableTooltip: false
                                   )
                             ],
                             primaryXAxis: CategoryAxis(),
@@ -657,8 +693,8 @@ class _GraphDataState extends State<GraphData> {
                                     yValueMapper: (SaltData val, _) => val.val,
                                     dataLabelMapper: (SaltData data, _) => data.label,
                                     dataLabelSettings: DataLabelSettings(isVisible: true),
-                                    pointColorMapper: (SaltData data, _) => data.color
-                                    // enableTooltip: true
+                                    pointColorMapper: (SaltData data, _) => data.color,
+                                    enableTooltip: false
                                     )
                               ],
                               primaryXAxis: CategoryAxis(),

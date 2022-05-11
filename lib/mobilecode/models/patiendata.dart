@@ -1,4 +1,5 @@
 class PatienData{
+List<DateTime> haveData= [];
 String StartDate;
 String EndDate ;
 num Difference = 0;
