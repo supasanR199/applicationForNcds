@@ -28,6 +28,7 @@ class _Register extends State<Register> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: Colors.blueAccent,
           centerTitle: false,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
