@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:html';
 
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
@@ -37,6 +38,7 @@ class _AllSrarusState extends State<AllStarus> {
   List<DateTime> initListDate = [DateTime.now()];
   DateTime selectedDate = DateTime.now();
   DateTime selectDateMood = DateTime.now();
+  List<DateTime> listDateMood = [DateTime.now()];
 
   void initState() {
     // print(_userLogId);
@@ -70,8 +72,6 @@ class _AllSrarusState extends State<AllStarus> {
           setState(() {
             listData.add(model);
             listDataForDate.add(model);
-            // print("this is shit${listData.length}");
-            // listforDate.add(model);
             keepChartData = getAllAlertDataInSys(listData, DateTime.now());
             listKeepFoodSweet =
                 getAllAlertDataInSysFood(listData, DateTime.now(), "sweet");
@@ -83,6 +83,7 @@ class _AllSrarusState extends State<AllStarus> {
         }
       });
     });
+    // print("all people:${listData.length}");
     listid.forEach((e) async {
       await FirebaseFirestore.instance
           .collection("MobileUser")
@@ -353,6 +354,23 @@ class _AllSrarusState extends State<AllStarus> {
                                         fontSize: 17,
                                       )),
                                 ),
+                                Divider(thickness: 2, color: Colors.grey),
+                                ListTile(
+                                  leading: Text(
+                                    'รวมทั้งหมด :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSweet.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSweet[0].score + listKeepFoodSweet[1].score + listKeepFoodSweet[2].score + listKeepFoodSweet[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
                                 // Divider(thickness: 2, color: Colors.grey.shade300,)
                               ],
                             ),
@@ -499,6 +517,23 @@ class _AllSrarusState extends State<AllStarus> {
                                       )),
                                 ),
                                 // Divider(thickness: 2, color: Colors.grey.shade300,)
+                                Divider(thickness: 2, color: Colors.grey),
+                                ListTile(
+                                  leading: Text(
+                                    'รวมทั้งหมด :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodFat.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodFat[0].score + listKeepFoodFat[1].score + listKeepFoodFat[2].score + listKeepFoodFat[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
                               ],
                             ),
                           ],
@@ -647,6 +682,23 @@ class _AllSrarusState extends State<AllStarus> {
                                       )),
                                 ),
                                 // Divider(thickness: 2, color: Colors.grey.shade300,)
+                                Divider(thickness: 2, color: Colors.grey),
+                                ListTile(
+                                  leading: Text(
+                                    'รวมทั้งหมด :',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                      listKeepFoodSelt.isEmpty
+                                          ? ""
+                                          : "${listKeepFoodSelt[0].score + listKeepFoodSelt[1].score + listKeepFoodSelt[2].score + listKeepFoodSelt[3].score}",
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                      )),
+                                ),
                               ],
                             ),
                           ],
@@ -676,10 +728,7 @@ class _AllSrarusState extends State<AllStarus> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(DateThai(
-                                  selectDateMood.toString().isEmpty
-                                      ? DateTime.now().toString()
-                                      : selectDateMood.toString())),
+                              child: Text(DateThaiByList(listDateMood)),
                             ),
                             FloatingActionButton.small(
                               backgroundColor: Colors.blueAccent,
@@ -694,10 +743,13 @@ class _AllSrarusState extends State<AllStarus> {
                                           getMaxDateMood(listDataForDateMood),
                                           listDataForDateMood),
                                 ).then((value) {
-                                  // selectDateMood = value;
-                                  print(value);
+                                  // print(value);
                                   if (value != null) {
                                     setState(() {
+                                      // selectDateMood = value;
+                                      listDateMood = value;
+                                      print(
+                                          "show list datetime ${listDateMood.toList()}");
                                       keepChartDataMood =
                                           getAllAlertDataInSysMood(
                                               listDataMood, value);
@@ -827,6 +879,23 @@ class _AllSrarusState extends State<AllStarus> {
                                   )),
                             ),
                             // Divider(thickness: 2, color: Colors.grey.shade300,)
+                            Divider(thickness: 2, color: Colors.grey),
+                            ListTile(
+                              leading: Text(
+                                'รวมทั้งหมด :',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Text(
+                                  keepChartDataMood.isEmpty
+                                      ? ""
+                                      : "${keepChartDataMood[0].score + keepChartDataMood[1].score + keepChartDataMood[2].score + keepChartDataMood[3].score}",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  )),
+                            ),
                           ],
                         ),
                         SizedBox(

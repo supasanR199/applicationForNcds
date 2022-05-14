@@ -24,50 +24,50 @@ List topic = [
 ];
 List<Iterable<ChartData>> keepIter = List();
 List<ChartData> keepChartDataList = List();
-Future<List<ChartData>> getAllSumDataChart() async {
-  List keepDataChart = List();
-  var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
-  getEva.docs.forEach((element) {
-    keepDataChart.add(getDocTopic(element.id));
-  });
-  return keepChartDataList;
-}
+// Future<List<ChartData>> getAllSumDataChart() async {
+//   List keepDataChart = List();
+//   var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
+//   getEva.docs.forEach((element) {
+//     keepDataChart.add(getDocTopic(element.id));
+//   });
+//   return keepChartDataList;
+// }
 
-Future<List> getDocTopic(String uid) async {
-  var getDoc = await FirebaseFirestore.instance
-      .collection("Evaluate")
-      .doc(uid)
-      .collection("topic")
-      .get();
-  List<double> numTest = List();
-  List _docs = List();
-  List _keepElemnt = List();
-  getDoc.docs.forEach((element) {
-    ChartData keepData = ChartData(element.get("topic"), element.get("score"));
-    keepDataTest.add(keepData);
-  });
-  topic.forEach((element) {
-    var topic = element;
-    List<double> numList = List();
-    Iterable<ChartData> keepTopic =
-        keepDataTest.where((element) => element.x.contains(topic));
-    keepTopic.forEach((element) {
-      numList.add(element.y);
-    });
-    ChartData keepChart = ChartData(topic, numList.sum);
-    keepChartDataList.add(keepChart);
-  });
-  // Iterable<ChartData> test = keepDataTest.where((element) => element.x
-  //     .contains("ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย"));
-  // print("see this $test");
-  // test.forEach((element) {
-  //   print(element.y);
-  //   numTest.add(element.y);
-  // });
-  // print(numTest.sum);
+// Future<List> getDocTopic(String uid) async {
+//   var getDoc = await FirebaseFirestore.instance
+//       .collection("Evaluate")
+//       .doc(uid)
+//       .collection("topic")
+//       .get();
+//   List<double> numTest = List();
+//   List _docs = List();
+//   List _keepElemnt = List();
+//   getDoc.docs.forEach((element) {
+//     ChartData keepData = ChartData(element.get("topic"), element.get("score"));
+//     keepDataTest.add(keepData);
+//   });
+//   topic.forEach((element) {
+//     var topic = element;
+//     List<double> numList = List();
+//     Iterable<ChartData> keepTopic =
+//         keepDataTest.where((element) => element.x.contains(topic));
+//     keepTopic.forEach((element) {
+//       numList.add(element.y);
+//     });
+//     ChartData keepChart = ChartData(topic, numList.sum);
+//     keepChartDataList.add(keepChart);
+//   });
+//   // Iterable<ChartData> test = keepDataTest.where((element) => element.x
+//   //     .contains("ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย"));
+//   // print("see this $test");
+//   // test.forEach((element) {
+//   //   print(element.y);
+//   //   numTest.add(element.y);
+//   // });
+//   // print(numTest.sum);
 
-  return keepChartDataList;
-}
+//   return keepChartDataList;
+// }
 
 Future<List> getEvaluate() async {
   var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
@@ -230,13 +230,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
   });
   if (foodCategory == "sweet") {
     KeepChoieAndSocre keepsweetnomal =
-        KeepChoieAndSocre("ปกติ", sweetalertnomal.sum.toDouble(),Colors.green);
-    KeepChoieAndSocre keepsweetmediam =
-        KeepChoieAndSocre("ปานกลาง", sweetalertmediam.sum.toDouble(),Colors.yellow);
-    KeepChoieAndSocre keepsweetalert =
-        KeepChoieAndSocre("มีความเสี่ยง", sweetalertalert.sum.toDouble(),Colors.orange);
-    KeepChoieAndSocre keepsweetdangerus =
-        KeepChoieAndSocre("อันตราย", sweetalertdangerus.sum.toDouble(),Colors.red);
+        KeepChoieAndSocre("ปกติ", sweetalertnomal.sum.toDouble(), Colors.green);
+    KeepChoieAndSocre keepsweetmediam = KeepChoieAndSocre(
+        "ปานกลาง", sweetalertmediam.sum.toDouble(), Colors.yellow);
+    KeepChoieAndSocre keepsweetalert = KeepChoieAndSocre(
+        "มีความเสี่ยง", sweetalertalert.sum.toDouble(), Colors.orange);
+    KeepChoieAndSocre keepsweetdangerus = KeepChoieAndSocre(
+        "อันตราย", sweetalertdangerus.sum.toDouble(), Colors.red);
     _returnList.add(keepsweetnomal);
     _returnList.add(keepsweetmediam);
     _returnList.add(keepsweetalert);
@@ -244,13 +244,16 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
     return _returnList;
   } else if (foodCategory == "selt") {
     KeepChoieAndSocre keepseltnomal =
-        KeepChoieAndSocre("ปกติ", saltalertnomal.sum.toDouble(),Colors.green);
-    KeepChoieAndSocre keepseltmediam =
-        KeepChoieAndSocre("ปานกลาง", saltalertmediam.sum.toDouble(),Colors.yellow);
-    KeepChoieAndSocre keepseltalert =
-        KeepChoieAndSocre("มีความเสี่ยง", saltalertalert.sum.toDouble(),Colors.orange,);
-    KeepChoieAndSocre keepseltdangerus =
-        KeepChoieAndSocre("อันตราย", saltalertangerus.sum.toDouble(),Colors.red);
+        KeepChoieAndSocre("ปกติ", saltalertnomal.sum.toDouble(), Colors.green);
+    KeepChoieAndSocre keepseltmediam = KeepChoieAndSocre(
+        "ปานกลาง", saltalertmediam.sum.toDouble(), Colors.yellow);
+    KeepChoieAndSocre keepseltalert = KeepChoieAndSocre(
+      "มีความเสี่ยง",
+      saltalertalert.sum.toDouble(),
+      Colors.orange,
+    );
+    KeepChoieAndSocre keepseltdangerus = KeepChoieAndSocre(
+        "อันตราย", saltalertangerus.sum.toDouble(), Colors.red);
     _returnList.add(keepseltnomal);
     _returnList.add(keepseltmediam);
     _returnList.add(keepseltalert);
@@ -258,13 +261,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
     return _returnList;
   } else if (foodCategory == "fat") {
     KeepChoieAndSocre keepfatnomal =
-        KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble(),Colors.green);
-    KeepChoieAndSocre keepfatmediam =
-        KeepChoieAndSocre("ปานกลาง", fatalertmediam.sum.toDouble(),Colors.green);
-    KeepChoieAndSocre keepfatalert =
-        KeepChoieAndSocre("มีความเสี่ยง", fatalertalert.sum.toDouble(),Colors.green);
-    KeepChoieAndSocre keepfatdangerus =
-        KeepChoieAndSocre("อันตราย", fatalertdangerus.sum.toDouble(),Colors.green);
+        KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble(), Colors.green);
+    KeepChoieAndSocre keepfatmediam = KeepChoieAndSocre(
+        "ปานกลาง", fatalertmediam.sum.toDouble(), Colors.green);
+    KeepChoieAndSocre keepfatalert = KeepChoieAndSocre(
+        "มีความเสี่ยง", fatalertalert.sum.toDouble(), Colors.green);
+    KeepChoieAndSocre keepfatdangerus = KeepChoieAndSocre(
+        "อันตราย", fatalertdangerus.sum.toDouble(), Colors.green);
     _returnList.add(keepfatnomal);
     _returnList.add(keepfatmediam);
     _returnList.add(keepfatalert);
@@ -296,13 +299,13 @@ List<KeepChoieAndSocre> getAllAlertDataInSysMood(
   listAllPatien.forEach((element) {
     dateToSring.forEach((e) {
       if (e == element.date) {
-        if (element.moodtoday == 5) {
+        if (element.moodtoday <= 4) {
           moodalertnomal.add(1);
-        } else if (element.moodtoday >= 6 && element.moodtoday <= 9) {
+        } else if (element.moodtoday >= 5 && element.moodtoday <= 7) {
           moodalertmediam.add(1);
-        } else if (element.moodtoday >= 10 && element.moodtoday <= 13) {
+        } else if (element.moodtoday >= 8 && element.moodtoday <= 9) {
           moodalertalert.add(1);
-        } else if (element.moodtoday >= 14) {
+        } else if (element.moodtoday >= 10 && element.moodtoday <= 15) {
           moodalertdangerus.add(1);
         }
       }
@@ -321,14 +324,19 @@ List<KeepChoieAndSocre> getAllAlertDataInSysMood(
     //   }
     // }
   });
+  print(moodalertnomal.toList());
+  print(moodalertmediam.toList());
+  print(moodalertalert.toList());
+  print(moodalertdangerus.toList());
+
   KeepChoieAndSocre nomal =
-      KeepChoieAndSocre("ปกติ", moodalertnomal.sum.toDouble(),Colors.green);
-  KeepChoieAndSocre mediam =
-      KeepChoieAndSocre("ปานกลาง", moodalertmediam.sum.toDouble(),Colors.green);
+      KeepChoieAndSocre("ปกติ", moodalertnomal.sum.toDouble(), Colors.green);
+  KeepChoieAndSocre mediam = KeepChoieAndSocre(
+      "ปานกลาง", moodalertmediam.sum.toDouble(), Colors.yellow);
   KeepChoieAndSocre alert =
-      KeepChoieAndSocre("มาก", moodalertalert.sum.toDouble(),Colors.green);
-  KeepChoieAndSocre dangerus =
-      KeepChoieAndSocre("มากที่สุด", moodalertnomal.sum.toDouble(),Colors.green);
+      KeepChoieAndSocre("มาก", moodalertalert.sum.toDouble(), Colors.orange);
+  KeepChoieAndSocre dangerus = KeepChoieAndSocre(
+      "มากที่สุด", moodalertdangerus.sum.toDouble(), Colors.red);
 
   // MutiChartData keepfat = MutiChartData(
   //     "มัน",
@@ -352,8 +360,6 @@ List<KeepChoieAndSocre> getAllAlertDataInSysMood(
   _returnList.add(mediam);
   _returnList.add(alert);
   _returnList.add(dangerus);
-
-  // _returnList.forEach((e) {});
 
   return _returnList;
 }
