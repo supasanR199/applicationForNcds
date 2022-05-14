@@ -103,8 +103,8 @@ Widget buildMaterialApp() {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      primarySwatch: Colors.pink,
-      hoverColor: Colors.pink[50],
+      primarySwatch: Colors.grey,
+      hoverColor: Colors.grey[200],
       iconTheme: IconThemeData(color: Colors.black),
     ),
     initialRoute: '/',

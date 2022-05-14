@@ -139,8 +139,8 @@ class _StatusAlertState extends State<StatusAlert> {
     // print("show data ${moodalert}");
     // print("show data ${dayFood}");
     // print("show data ${dayMood}");
-    String dateMood ;
-    int moodStatus ;
+    String dateMood;
+    int moodStatus;
     TextEditingController dateSelect = TextEditingController();
 
     // debugger();
@@ -166,6 +166,46 @@ class _StatusAlertState extends State<StatusAlert> {
                     ),
                     Text("(ในเดือน $dayFood)",
                         style: TextStyle(fontSize: 14, color: Colors.black38)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 40,
+                        child: TextFormField(
+                          controller: dateSelect,
+                          readOnly: true,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    selectIsMoodHaveData(context, initMoodDate,
+                                        snapshotMood)).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  dateMood = value.get("Date");
+                                  moodStatus = value.get("moodtoday");
+                                  dateSelect.text = checkDateMood(dateMood);
+
+                                  print(dateMood);
+                                  print(moodStatus);
+                                });
+                              }
+                            });
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.calendar_month_outlined),
+                            labelText: '',
+                            enabledBorder: OutlineInputBorder(
+                              // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // borderSide: const BorderSide(width: 3, color: Colors.red),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -294,8 +334,7 @@ class _StatusAlertState extends State<StatusAlert> {
                                 setState(() {
                                   dateMood = value.get("Date");
                                   moodStatus = value.get("moodtoday");
-                                  dateSelect.text =
-                                      checkDateMood(dateMood);
+                                  dateSelect.text = checkDateMood(dateMood);
 
                                   print(dateMood);
                                   print(moodStatus);

@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appilcation_for_ncds/function/DisplayTime.dart';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:appilcation_for_ncds/models/ChartData.dart';
@@ -32,28 +33,6 @@ class _adminMainState extends State<adminMain> {
     "Volunteer"
   ];
   void initState() {
-    // getDataChart();
-    // getAllSumDataChart().then((value) {
-    //   setState(() {
-    //     keepAllSSumSocre = value;
-    //     print(value);
-    //   });
-    // });
-    // FirebaseFirestore.instance.collection("Evaluate").get().then((value) {
-    //   print("show new evaluate${value.docs}");
-    //   value.docs.forEach((element) {
-    //     print("show element${element.id}");
-    //   });
-    // });
-    // evaIdList.forEach((element) {
-    //   FirebaseFirestore.instance
-    //       .collection("Evaluate")
-    //       .doc(element).col
-    //       .get()
-    //       .then((value) {
-    //       });
-    // });
-
     super.initState();
     _items = _generateItems;
     getEvaluate();
@@ -72,6 +51,7 @@ class _adminMainState extends State<adminMain> {
     });
   }
 
+ 
   var _docRef = FirebaseFirestore.instance
       .collection('UserWeb')
       .where("role", isEqualTo: "hospital");
@@ -653,43 +633,24 @@ class _adminMainState extends State<adminMain> {
     // print(calList);
   }
 
-  getAverateChart() async {
-    var getEva = await FirebaseFirestore.instance.collection("Evaluate").get();
-    print(getEva.docs);
-    getEva.docs.forEach((element) {
-      keepDataChart.add(getDocTopic(element.id));
-    });
-    // keepDataChart.forEach((element) {
-    //   element.then((value) {
-    //     value.forEach((element) {
-    //       print(element);
-    //     });
-    //   });
-    // });
-    // print(keepDataChart);
-    // keepDataChart.forEach((element) {
-    //   print(element);
-    // });
-  }
+  // Future<List> getDocTopic(String uid) async {
+  //   var getDoc = await FirebaseFirestore.instance
+  //       .collection("Evaluate")
+  //       .doc(uid)
+  //       .collection("topic")
+  //       .get();
+  //   List _docs = List();
+  //   List _keepElemnt = List();
 
-  Future<List> getDocTopic(String uid) async {
-    var getDoc = await FirebaseFirestore.instance
-        .collection("Evaluate")
-        .doc(uid)
-        .collection("topic")
-        .get();
-    List _docs = List();
-    List _keepElemnt = List();
-
-    getDoc.docs.forEach((element) {
-      ChartData keepData =
-          ChartData(element.get("topic"), element.get("score"));
-      _keepElemnt.add(keepData);
-      // keepDataTest.addEntries({element.get("topic"), element.get("score")});
-      print(keepDataTest);
-    });
-    return _keepElemnt;
-  }
+  //   getDoc.docs.forEach((element) {
+  //     ChartData keepData =
+  //         ChartData(element.get("topic"), element.get("score"));
+  //     _keepElemnt.add(keepData);
+  //     // keepDataTest.addEntries({element.get("topic"), element.get("score")});
+  //     print(keepDataTest);
+  //   });
+  //   return _keepElemnt;
+  // }
 
   countScore(List<ChartData> listData) {
     List list4 = List();
@@ -750,22 +711,22 @@ class _adminMainState extends State<adminMain> {
         ),
         // child: Text(userData["name"]),
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.add_chart_outlined),
-                  title: Text('ประเมินการใช้งาน'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EvaulatePage(
-                          role: role,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // PopupMenuItem(
+              //   child: ListTile(
+              //     leading: Icon(Icons.add_chart_outlined),
+              //     title: Text('ประเมินการใช้งาน'),
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => EvaulatePage(
+              //             role: role,
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
               PopupMenuItem(
                 child: ListTile(
                     leading: Icon(Icons.exit_to_app),
