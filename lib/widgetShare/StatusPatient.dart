@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
+import 'package:appilcation_for_ncds/widgetShare/BuildShowStatus.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -55,19 +55,40 @@ class _StatusAlertState extends State<StatusAlert> {
                   if (snapshotMood.data.docs.isEmpty) {
                     alert = snapshotFood.data.docs.last.get("alert");
                     return IconButton(
-                      onPressed: () => {
-                        showDialog(
+                      onPressed: () async {
+                        await showDialog(
                             context: context,
-                            builder: (BuildContext conttext) => showStaus(
-                                snapshotFood.data.docs.last.get("fatalert"),
-                                snapshotFood.data.docs.last.get("saltalert"),
-                                snapshotFood.data.docs.last.get("sweetalert"),
-                                null,
-                                snapshotFood.data.docs.last.id,
-                                null,
-                                context,
-                                keepMoodHaveData,
-                                snapshotMood))
+                            builder: (context) => StatefulBuilder(
+                                  builder: (context, setState) =>
+                                      BuildShowStatus(
+                                          fatalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "fatalert"),
+                                          saltalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "saltalert"),
+                                          sweetalert:
+                                              snapshotFood
+                                                  .data.docs.last
+                                                  .get("sweetalert"),
+                                          moodalert: null,
+                                          dayFood:
+                                              snapshotFood.data.docs.last.id,
+                                          dayMood: null,
+                                          initMoodDate: keepMoodHaveData,
+                                          snapshotMood: snapshotMood,
+                                          snapshotFood: snapshotFood),
+                                  // showStaus(
+                                  //     snapshotFood.data.docs.last.get("fatalert"),
+                                  //     snapshotFood.data.docs.last.get("saltalert"),
+                                  //     snapshotFood.data.docs.last.get("sweetalert"),
+                                  //     null,
+                                  //     snapshotFood.data.docs.last.id,
+                                  //     null,
+                                  //     context,
+                                  //     keepMoodHaveData,
+                                  //     snapshotMood)
+                                ));
                       },
                       icon: Icon(
                         IconData(0xe04a, fontFamily: 'MaterialIcons'),
@@ -88,20 +109,44 @@ class _StatusAlertState extends State<StatusAlert> {
                         snapshotFood.data.docs.last.get("alert") || moodAlert;
                     // print(alert);
                     return IconButton(
-                      onPressed: () => {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => showStaus(
-                              snapshotFood.data.docs.last.get("fatalert"),
-                              snapshotFood.data.docs.last.get("saltalert"),
-                              snapshotFood.data.docs.last.get("sweetalert"),
-                              snapshotMood.data.docs.last.get("moodtoday"),
-                              snapshotFood.data.docs.last.id,
-                              snapshotMood.data.docs.last.id,
-                              context,
-                              keepMoodHaveData,
-                              snapshotMood),
-                        ),
+                      onPressed: () async {
+                        await showDialog(
+                            context: context,
+                            builder: (context) => StatefulBuilder(
+                                  builder: (context, setState) =>
+                                      BuildShowStatus(
+                                          fatalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "fatalert"),
+                                          saltalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "saltalert"),
+                                          sweetalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "sweetalert"),
+                                          moodalert: snapshotMood
+                                              .data.docs.last
+                                              .get("moodtoday"),
+                                          dayFood:
+                                              snapshotFood.data.docs.last.id,
+                                          dayMood:
+                                              snapshotMood.data.docs.last.id,
+                                          initMoodDate: keepMoodHaveData,
+                                          snapshotMood: snapshotMood,
+                                          snapshotFood: snapshotFood),
+                                )
+
+                            // showStaus(
+                            //     snapshotFood.data.docs.last.get("fatalert"),
+                            //     snapshotFood.data.docs.last.get("saltalert"),
+                            //     snapshotFood.data.docs.last.get("sweetalert"),
+                            //     snapshotMood.data.docs.last.get("moodtoday"),
+                            //     snapshotFood.data.docs.last.id,
+                            //     snapshotMood.data.docs.last.id,
+                            //     context,
+                            //     keepMoodHaveData,
+                            //     snapshotMood),
+                            );
                       },
                       icon: Icon(
                         IconData(0xe04a, fontFamily: 'MaterialIcons'),
@@ -180,14 +225,14 @@ class _StatusAlertState extends State<StatusAlert> {
                                     selectIsMoodHaveData(context, initMoodDate,
                                         snapshotMood)).then((value) {
                               if (value != null) {
-                                setState(() {
-                                  dateMood = value.get("Date");
-                                  moodStatus = value.get("moodtoday");
-                                  dateSelect.text = checkDateMood(dateMood);
+                                // setState(() {
+                                dateMood = value.get("Date");
+                                moodStatus = value.get("moodtoday");
+                                dateSelect.text = checkDateMood(dateMood);
 
-                                  print(dateMood);
-                                  print(moodStatus);
-                                });
+                                print(dateMood);
+                                print(moodStatus);
+                                // });
                               }
                             });
                           },

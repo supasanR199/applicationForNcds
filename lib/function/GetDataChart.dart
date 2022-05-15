@@ -421,3 +421,45 @@ DateTime getMinDateStep(List<String> snap) {
 
   return DateTime.parse(snap.min);
 }
+
+DateTime getMinDateFood(List<String> snap) {
+  String a = snap.min;
+  var b = a.substring(0, 5) + "0" + a.substring(5) + "-01";
+  print(b);
+  // print(getDate.min+"-1");
+  // getDate.sort();
+  return DateTime.parse(b);
+}
+
+DateTime getMaxDateFood(List<String> snap) {
+  List<String> getDate = List();
+
+  String a = snap.max;
+  var b = a.substring(0, 5) + "0" + a.substring(5) + "-01";
+  print(b);
+  // print(getDate.max+"-1");
+  // getDate.sort();
+  return DateTime.parse(b);
+}
+
+QueryDocumentSnapshot<Object> getDataFormDateFood(
+    DateTime selectDate, AsyncSnapshot<QuerySnapshot<Object>> snapshotFood) {
+  String initMouth = convertMouth(selectDate);
+  QueryDocumentSnapshot<Object> _return;
+  snapshotFood.data.docs.forEach((e) {
+    // print("${e.id}${initMouth}");
+    if (e.id == initMouth) {
+      // print(1);
+      _return = e;
+    } else {
+      // return null;
+    }
+  });
+  return _return;
+}
+
+DateTime getMothFormFirebase(String date) {
+  String a = date;
+  var b = a.substring(0, 5) + "0" + a.substring(5) + "-01";
+  return DateTime.parse(b);
+}
