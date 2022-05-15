@@ -61,18 +61,23 @@ class _StatusAlertState extends State<StatusAlert> {
                             builder: (context) => StatefulBuilder(
                                   builder: (context, setState) =>
                                       BuildShowStatus(
-                                    fatalert: snapshotFood.data.docs.last
-                                        .get("fatalert"),
-                                    saltalert: snapshotFood.data.docs.last
-                                        .get("saltalert"),
-                                    sweetalert: snapshotFood.data.docs.last
-                                        .get("sweetalert"),
-                                    moodalert: null,
-                                    dayFood: snapshotFood.data.docs.last.id,
-                                    dayMood: null,
-                                    initMoodDate: keepMoodHaveData,
-                                    snapshotMood: snapshotMood,
-                                  ),
+                                          fatalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "fatalert"),
+                                          saltalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "saltalert"),
+                                          sweetalert:
+                                              snapshotFood
+                                                  .data.docs.last
+                                                  .get("sweetalert"),
+                                          moodalert: null,
+                                          dayFood:
+                                              snapshotFood.data.docs.last.id,
+                                          dayMood: null,
+                                          initMoodDate: keepMoodHaveData,
+                                          snapshotMood: snapshotMood,
+                                          snapshotFood: snapshotFood),
                                   // showStaus(
                                   //     snapshotFood.data.docs.last.get("fatalert"),
                                   //     snapshotFood.data.docs.last.get("saltalert"),
@@ -110,19 +115,25 @@ class _StatusAlertState extends State<StatusAlert> {
                             builder: (context) => StatefulBuilder(
                                   builder: (context, setState) =>
                                       BuildShowStatus(
-                                    fatalert: snapshotFood.data.docs.last
-                                        .get("fatalert"),
-                                    saltalert: snapshotFood.data.docs.last
-                                        .get("saltalert"),
-                                    sweetalert: snapshotFood.data.docs.last
-                                        .get("sweetalert"),
-                                    moodalert: snapshotMood.data.docs.last
-                                        .get("moodtoday"),
-                                    dayFood: snapshotFood.data.docs.last.id,
-                                    dayMood: snapshotMood.data.docs.last.id,
-                                    initMoodDate: keepMoodHaveData,
-                                    snapshotMood: snapshotMood,
-                                  ),
+                                          fatalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "fatalert"),
+                                          saltalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "saltalert"),
+                                          sweetalert:
+                                              snapshotFood.data.docs.last.get(
+                                                  "sweetalert"),
+                                          moodalert: snapshotMood
+                                              .data.docs.last
+                                              .get("moodtoday"),
+                                          dayFood:
+                                              snapshotFood.data.docs.last.id,
+                                          dayMood:
+                                              snapshotMood.data.docs.last.id,
+                                          initMoodDate: keepMoodHaveData,
+                                          snapshotMood: snapshotMood,
+                                          snapshotFood: snapshotFood),
                                 )
 
                             // showStaus(

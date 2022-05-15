@@ -1,9 +1,13 @@
+import 'package:appilcation_for_ncds/models/AlertModels.dart';
 import 'package:appilcation_for_ncds/widgetShare/ShowAlet.dart';
 import 'package:date_time/date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
+import '../function/DisplayTime.dart';
+import '../function/GetDataChart.dart';
 import '../mobilecode/function/datethai.dart';
 
 class BuildShowStatus extends StatefulWidget {
@@ -15,17 +19,20 @@ class BuildShowStatus extends StatefulWidget {
   String dayMood;
   List<DateTime> initMoodDate;
   AsyncSnapshot<QuerySnapshot<Object>> snapshotMood;
-  BuildShowStatus({
-    Key key,
-    @required this.fatalert,
-    @required this.saltalert,
-    @required this.sweetalert,
-    @required moodalert,
-    @required dayFood,
-    @required this.dayMood,
-    @required this.initMoodDate,
-    @required this.snapshotMood,
-  }) : super(key: key);
+  AsyncSnapshot<QuerySnapshot<Object>> snapshotFood;
+
+  BuildShowStatus(
+      {Key key,
+      @required this.fatalert,
+      @required this.saltalert,
+      @required this.sweetalert,
+      @required moodalert,
+      @required dayFood,
+      @required this.dayMood,
+      @required this.initMoodDate,
+      @required this.snapshotMood,
+      @required this.snapshotFood})
+      : super(key: key);
 
   @override
   State<BuildShowStatus> createState() => _BuildShowStatusState();
@@ -33,10 +40,29 @@ class BuildShowStatus extends StatefulWidget {
 
 class _BuildShowStatusState extends State<BuildShowStatus> {
   @override
+  initState() {
+    super.initState();
+    widget.snapshotFood.data.docs.forEach((e) {
+      getMouth.add(e.get("Date"));
+    });
+    getFatalert = widget.fatalert;
+    getSaltalert = widget.saltalert;
+    getSweetalert = widget.sweetalert;
+    dateFood = getMothFormFirebase(getMouth.last).toString();
+    // print(getMouth.toList());
+  }
+
+  String selectDateFood;
+  List<String> getMouth = List();
   String dateMood = DateTime.now().toString();
   int moodStatus;
+  int getFatalert;
+  int getSaltalert;
+  int getSweetalert;
+  String dateFood;
   TextEditingController dateSelect = TextEditingController();
   TextEditingController dateSelectFood = TextEditingController();
+  QueryDocumentSnapshot<Object> selectDataFood;
 
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -58,7 +84,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                         fontSize: 18,
                       ),
                     ),
-                    Text("(ในเดือน ${widget.dayFood})",
+                    Text("(ในเดือน ${DateMouthAndYearThai(dateFood)})",
                         style: TextStyle(fontSize: 14, color: Colors.black38)),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -68,6 +94,39 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                           controller: dateSelectFood,
                           readOnly: true,
                           onTap: () {
+                            showMonthPicker(
+                              context: context,
+                              firstDate: getMinDateFood(getMouth),
+                              lastDate: getMaxDateFood(getMouth),
+                              initialDate: DateTime.now(),
+                              // selectDateFood.isEmpty
+                              //     ? DateTime.now()
+                              //     : selectDateFood,
+                              locale: Locale("en"),
+                            ).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  selectDataFood = getDataFormDateFood(
+                                      value, widget.snapshotFood);
+                                  getFatalert = selectDataFood.get("fatalert");
+                                  getSaltalert =
+                                      selectDataFood.get("saltalert");
+                                  getSweetalert =
+                                      selectDataFood.get("sweetalert");
+                                  dateSelectFood.text =
+                                      DateMouthAndYearThai(value.toString());
+                                });
+                              } else {
+                                setState(() {
+                                  getFatalert = widget.fatalert;
+                                  getSaltalert = widget.saltalert;
+                                  getSweetalert = widget.sweetalert;
+                                  dateFood = getMothFormFirebase(getMouth.last)
+                                      .toString();
+                                  dateSelectFood.text = "";
+                                });
+                              }
+                            });
                             // showDialog(
                             //     context: context,
                             //     builder: (BuildContext context) =>
@@ -79,10 +138,13 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                             //     setState(() {
                             //       dateMood = value.get("Date");
                             //       moodStatus = value.get("moodtoday");
-                            //       dateSelect.text = checkDateMood(dateMood);
-
-                            //       print(dateMood);
-                            //       print(moodStatus);
+                            //       dateSelectFood.text = checkDateMood(dateFood);
+                            //     });
+                            //   } else {
+                            //     setState(() {
+                            //       getFatalert = widget.fatalert;
+                            //       getSaltalert = widget.saltalert;
+                            //       getSweetalert = widget.sweetalert;
                             //     });
                             //   }
                             // });
@@ -109,7 +171,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                 children: [
                   Icon(
                     Icons.circle,
-                    color: statuseat(widget.sweetalert)[1],
+                    color: statuseat(getSweetalert)[1],
                     size: 15,
                   ),
                   Padding(
@@ -130,7 +192,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                   Padding(
                     padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      statuseat(widget.sweetalert)[0],
+                      statuseat(getSweetalert)[0],
                       style: TextStyle(fontSize: 14, color: Colors.black38),
                     ),
                   ),
@@ -140,7 +202,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                 children: [
                   Icon(
                     Icons.circle,
-                    color: statuseat(widget.fatalert)[1],
+                    color: statuseat(getFatalert)[1],
                     size: 15,
                   ),
                   Padding(
@@ -161,7 +223,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                   Padding(
                     padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      statuseat(widget.fatalert)[0],
+                      statuseat(getFatalert)[0],
                       style: TextStyle(fontSize: 14, color: Colors.black38),
                     ),
                   ),
@@ -171,7 +233,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                 children: [
                   Icon(
                     Icons.circle,
-                    color: statuseat(widget.saltalert)[1],
+                    color: statuseat(getSaltalert)[1],
                     size: 15,
                   ),
                   Padding(
@@ -192,7 +254,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                   Padding(
                     padding: EdgeInsets.only(left: 25),
                     child: Text(
-                      statuseat(widget.saltalert)[0],
+                      statuseat(getSaltalert)[0],
                       style: TextStyle(fontSize: 14, color: Colors.black38),
                     ),
                   ),
@@ -241,10 +303,11 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                               } else {
                                 setState(() {
                                   dateMood = widget.dayMood;
-                                  print(widget.moodalert);
+
                                   moodStatus = widget.moodalert;
                                   dateSelect.text =
                                       DateThai(DateTime.now().toString());
+                                  dateSelect.text = "";
                                 });
                               }
                             });
