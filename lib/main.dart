@@ -102,11 +102,11 @@ class MyApp extends StatelessWidget {
 Widget buildMaterialApp() {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      primarySwatch: Colors.grey,
-      hoverColor: Colors.grey[200],
-      iconTheme: IconThemeData(color: Colors.black),
-    ),
+    // theme: ThemeData(
+    //   primarySwatch: Colors.grey,
+    //   hoverColor: Colors.grey[200],
+    //   iconTheme: IconThemeData(color: Colors.black),
+    // ),
     initialRoute: '/',
     routes: {
       '/': (context) => StartPage(),

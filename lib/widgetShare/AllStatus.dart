@@ -161,14 +161,16 @@ class _AllSrarusState extends State<AllStarus> {
                         // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(DateMouthAndYearThai(
-                              selectedDate.toString().isEmpty
-                                  ? DateTime.now().toString()
-                                  : selectedDate.toString())),
+                          child: Text("เลือกเดือนจากปฎิทิน",
+                                   style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),),
                         ),
-                        FloatingActionButton.small(
-                          backgroundColor: Colors.blueAccent,
-                          hoverColor: Colors.grey.shade200,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: FloatingActionButton.small(
+                          backgroundColor: Colors.white,
+                          // hoverColor: Colors.grey.shade200,
                           onPressed: () {
                             showMonthPicker(
                               context: context,
@@ -197,8 +199,10 @@ class _AllSrarusState extends State<AllStarus> {
                               }
                             });
                           },
-                          child: Icon(Icons.calendar_today),
+                          child: Icon(Icons.calendar_today,color: Colors.black),
                         ),
+                        ),
+
 
                         // SfCartesianChart(
                         //   primaryXAxis: CategoryAxis(),
@@ -228,7 +232,10 @@ class _AllSrarusState extends State<AllStarus> {
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
-                                  'ผลการบริโภคหวาน',
+                                  'ผลการบริโภคหวาน เดือน ${DateMouthAndYearThai(
+                              selectedDate.toString().isEmpty
+                                  ? DateTime.now().toString()
+                                  : selectedDate.toString())}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 25,
@@ -390,7 +397,10 @@ class _AllSrarusState extends State<AllStarus> {
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
-                                  'ผลการบริโภคมัน',
+                                  'ผลการบริโภคมัน เดือน ${DateMouthAndYearThai(
+                              selectedDate.toString().isEmpty
+                                  ? DateTime.now().toString()
+                                  : selectedDate.toString())}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 25,
@@ -552,7 +562,10 @@ class _AllSrarusState extends State<AllStarus> {
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 10),
                                 child: Text(
-                                  'ผลการบริโภคเค็ม',
+                                  'ผลการบริโภคเค็ม เดือน ${DateMouthAndYearThai(
+                              selectedDate.toString().isEmpty
+                                  ? DateTime.now().toString()
+                                  : selectedDate.toString())}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 25,
@@ -726,13 +739,18 @@ class _AllSrarusState extends State<AllStarus> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(DateThaiByList(listDateMood)),
-                            ),
-                            FloatingActionButton.small(
-                              backgroundColor: Colors.blueAccent,
-                              hoverColor: Colors.grey.shade200,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("เลือกวันจากปฎิทิน",
+                                   style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),),
+                        ),
+                            Container(
+                              width: 50,
+                              height: 50,
+                              child:  FloatingActionButton.small(
+                              backgroundColor: Colors.white,
+                              // hoverColor: Colors.grey.shade200,
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -757,8 +775,23 @@ class _AllSrarusState extends State<AllStarus> {
                                   }
                                 });
                               },
-                              child: Icon(Icons.calendar_today),
+                              child: Icon(Icons.calendar_today,color: Colors.black87,),
                             ),
+                            ),
+
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                child: Text(
+                                  'ผลประเมินอารมณ์ วันที่ ${DateThaiByList(listDateMood)}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),                      
                             SfCartesianChart(
                               primaryXAxis: CategoryAxis(),
                               primaryYAxis: NumericAxis(

@@ -66,9 +66,15 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
 
   Widget build(BuildContext context) {
     return AlertDialog(
+            shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       // title: Text("สถานะ"),
       content: SizedBox(
-        height: 300,
+        width: 300,
+        height: 380,
         child: SingleChildScrollView(
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +156,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                             // });
                           },
                           decoration: InputDecoration(
-                            suffixIcon: Icon(Icons.calendar_month_outlined),
+                            suffixIcon: Icon(Icons.calendar_today_outlined),
                             labelText: '',
                             enabledBorder: OutlineInputBorder(
                               // borderSide: const BorderSide(width: 3, color: Colors.blue),
@@ -314,7 +320,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
                           },
                           onChanged: (value) => {setState(() {})},
                           decoration: InputDecoration(
-                            suffixIcon: Icon(Icons.calendar_month_outlined),
+                            suffixIcon: Icon(Icons.calendar_today_outlined),
                             labelText: '',
                             enabledBorder: OutlineInputBorder(
                               // borderSide: const BorderSide(width: 3, color: Colors.blue),

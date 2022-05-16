@@ -73,7 +73,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                                 top: 10,
                               ),
                               child: Text(
-                                'ย่าที่จ่ายให้ผู้ป่วย',
+                                'รายละเอียดของยา',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                               ),
