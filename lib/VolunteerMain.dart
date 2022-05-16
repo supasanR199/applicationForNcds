@@ -35,23 +35,23 @@ class _VolunteerMainState extends State<VolunteerMain> {
               style: TextStyle(color: Colors.black),
             ),
             backgroundColor: Colors.white,
-            bottom: TabBar(
-              indicatorColor: Color.fromRGBO(255, 211, 251, 1),
-              tabs: <Widget>[
-                Tab(
-                  text: 'ข้อมูลอาสาสมัคร',
-                ),
-                // Tab(
-                //   text: 'ออกกำลังกาย',
-                // ),
-                // Tab(
-                //   text: 'อาหาร',
-                // ),
-                // Tab(
-                //   text: 'อารมณ์',
-                // ),
-              ],
-            ),
+            // bottom: TabBar(
+            //   indicatorColor: Color.fromRGBO(255, 211, 251, 1),
+            //   tabs: <Widget>[
+            //     Tab(
+            //       text: 'ข้อมูลอาสาสมัคร',
+            //     ),
+            //     // Tab(
+            //     //   text: 'ออกกำลังกาย',
+            //     // ),
+            //     // Tab(
+            //     //   text: 'อาหาร',
+            //     // ),
+            //     // Tab(
+            //     //   text: 'อารมณ์',
+            //     // ),
+            //   ],
+            // ),
           ),
           body: TabBarView(
             children: <Widget>[
@@ -72,6 +72,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
         ),
       ),
     );
+    // );
   }
 
   Widget buildVolunteerDataPage(context) {
