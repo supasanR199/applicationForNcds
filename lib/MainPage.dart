@@ -161,7 +161,7 @@ class _MainPage extends State<MainPage> {
                             "${userData['Firstname']}  ${userData['Lastname']}",
                             style: TextStyle(color: Colors.black),
                           ),
-                          actionMenu(userData["role"]),
+                          actionMenu(userData["role"],auth.currentUser.uid),
                         ],
                       );
                     } else {
@@ -890,7 +890,7 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  Widget actionMenu(String role) {
+  Widget actionMenu(String role,String id) {
     return PopupMenuButton(
         icon: Icon(
           Icons.more_vert,
@@ -907,6 +907,7 @@ class _MainPage extends State<MainPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => EvaulatePage(
+                          id: id,
                           role: role,
                         ),
                       ),

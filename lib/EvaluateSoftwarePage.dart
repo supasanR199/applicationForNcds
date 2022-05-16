@@ -7,7 +7,9 @@ import 'package:radio_button_form_field/radio_button_form_field.dart';
 
 class EvaulatePage extends StatefulWidget {
   String role;
-  EvaulatePage({Key key, @required this.role}) : super(key: key);
+  String id;
+  EvaulatePage({Key key, @required this.role, @required this.id})
+      : super(key: key);
 
   @override
   _EvaulatePageState createState() => _EvaulatePageState();
@@ -26,6 +28,8 @@ class _EvaulatePageState extends State<EvaulatePage> {
   EvaluateTopicModels evaTopic_7 = EvaluateTopicModels();
   EvaluateTopicModels evaTopic_8 = EvaluateTopicModels();
   EvaluateTopicModels evaComment = EvaluateTopicModels();
+  TextEditingController evaCommentCon = TextEditingController();
+  String evaCommentStr;
 
   List topic = [
     "ฟังก์ชันการทำงานมีความเหมาะสมกับกับการติดตามผู้ป่วย",
@@ -52,6 +56,16 @@ class _EvaulatePageState extends State<EvaulatePage> {
     {'value': 2, 'display': 'น้อย'},
     {'value': 1, 'display': 'น้อยมาก'},
   ];
+  void initState() {
+    super.initState();
+    if (widget.role == "hospital") {
+      roleH = "Hospital";
+    } else if (widget.role == "medicalpersonnel") {
+      roleH = "Medicalpersonnel";
+    }
+  }
+
+  String roleH;
   @override
   Widget build(BuildContext context) {
     List<EvaluateTopicModels> _evaTopicMain = List();
@@ -223,19 +237,12 @@ class _EvaulatePageState extends State<EvaulatePage> {
                             ),
                           ),
                         ),
-                          Padding(
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
-                            // controller: content,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "กรุณาเพิ่มบทความ";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              // content.text = value;
+                            controller: evaCommentCon,
+                            onSaved: (newValue) {
+                              evaCommentStr = newValue;
                             },
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
@@ -407,23 +414,57 @@ class _EvaulatePageState extends State<EvaulatePage> {
                               onPressed: () {
                                 if (_addForm.currentState.validate()) {
                                   _addForm.currentState.save();
+                                  if (evaCommentStr.isNotEmpty) {
+                                    FirebaseFirestore.instance
+                                        .collection("Evaluate")
+                                        .doc(roleH)
+                                        .collection("comment")
+                                        .doc(widget.id)
+                                        .set({
+                                      "comment": evaCommentStr,
+                                      "date": DateTime.now(),
+                                    });
+                                  }
+
                                   FirebaseFirestore.instance
                                       .collection("Evaluate")
-                                      .add({
-                                    "createAt": DateTime.now(),
-                                    "role": widget.role
-                                  }).then((value) {
-                                    _evaList.forEach((element) {
-                                      FirebaseFirestore.instance
-                                          .collection("Evaluate")
-                                          .doc(value.id)
-                                          .collection("topic")
-                                          .add({
-                                        "topic": element.topic,
-                                        "score": element.score,
-                                      });
-                                    });
+                                      .doc(roleH)
+                                      .collection("topic")
+                                      .doc(widget.id)
+                                      .set({
+                                    "Choice1": _evaList[0].score,
+                                    "Choice2": _evaList[1].score,
+                                    "Choice3": _evaList[2].score,
+                                    "Choice4": _evaList[3].score,
+                                    "Choice5": _evaList[4].score,
+                                    "date": DateTime.now(),
+                                  }).whenComplete(() {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            alertMessageOnlyOk(
+                                                context, "ประเมินสำเร็จ"));
                                   });
+                                  Navigator.pop(context);
+
+                                  // FirebaseFirestore.instance
+                                  //     .collection("Evaluate")
+                                  //     .add({
+                                  //   "createAt": DateTime.now(),
+                                  //   "role": widget.role
+                                  // }).then((value) {
+                                  //   _evaList.forEach((element) {
+                                  //     FirebaseFirestore.instance
+                                  //         .collection("Evaluate")
+                                  //         .doc(value.id)
+                                  //         .collection("topic")
+                                  //         .add({
+                                  //       "topic": element.topic,
+                                  //       "score": element.score,
+                                  //     });
+                                  //   });
+                                  // });
+                                  print(_evaTopicMain.toList());
                                 } else {
                                   showDialog(
                                       context: context,

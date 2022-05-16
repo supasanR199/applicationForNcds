@@ -157,7 +157,7 @@ class _MedicaMainState extends State<MedicaMain> {
                           Text(
                               "${userData['Firstname']}  ${userData['Lastname']}",
                               style: TextStyle(color: Colors.black)),
-                          actionMenu(userData["role"]),
+                          actionMenu(userData["role"], auth.currentUser.uid),
                         ],
                       );
                     } else {
@@ -302,7 +302,7 @@ class _MedicaMainState extends State<MedicaMain> {
     }
   }
 
-  Widget actionMenu(String role) {
+  Widget actionMenu(String role, String id) {
     return PopupMenuButton(
         icon: Icon(Icons.more_vert, color: Colors.black),
         // child: Text(userData["name"]),
@@ -320,6 +320,7 @@ class _MedicaMainState extends State<MedicaMain> {
                       MaterialPageRoute(
                         builder: (context) => EvaulatePage(
                           role: userData["role"],
+                          id: id,
                         ),
                       ),
                     );
