@@ -44,7 +44,7 @@ class _BuildVolunteerSearchState extends State<BuildVolunteerSearch> {
                           child: 
                             ClipOval(
                               child: Image(
-                              image: AssetImage("img/volunteerLogo.png"),
+                              image: AssetImage("assets/img/volunteerLogo.png"),
                               fit: BoxFit.fitWidth,
                                     )
                               ),),

@@ -132,7 +132,7 @@ class _MedicaMainState extends State<MedicaMain> {
           // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
-            leading: Image.asset("icon/logo.png"),
+            leading: Image.asset("assets/icon/logo.png"),
             centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",

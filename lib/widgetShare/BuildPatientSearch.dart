@@ -69,7 +69,7 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                     ),
                     Center(
                         child: Image.asset(
-                      "icon/consent.png",
+                      "assets/icon/consent.png",
                       scale: 4,
                     )),
                     SizedBox(
@@ -130,7 +130,7 @@ class _BuildPatientSearchState extends State<BuildPatientSearch> {
                       Colors.grey,
                       BlendMode.modulate,
                     ),
-                    image: AssetImage("img/patientpage.jpg"),
+                    image: AssetImage("assets/img/patientpage.jpg"),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
