@@ -263,11 +263,11 @@ List<KeepChoieAndSocre> getAllAlertDataInSysFood(
     KeepChoieAndSocre keepfatnomal =
         KeepChoieAndSocre("ปกติ", fatalertnomal.sum.toDouble(), Colors.green);
     KeepChoieAndSocre keepfatmediam = KeepChoieAndSocre(
-        "ปานกลาง", fatalertmediam.sum.toDouble(), Colors.green);
+        "ปานกลาง", fatalertmediam.sum.toDouble(), Colors.yellow);
     KeepChoieAndSocre keepfatalert = KeepChoieAndSocre(
-        "มีความเสี่ยง", fatalertalert.sum.toDouble(), Colors.green);
+        "มีความเสี่ยง", fatalertalert.sum.toDouble(), Colors.orange);
     KeepChoieAndSocre keepfatdangerus = KeepChoieAndSocre(
-        "อันตราย", fatalertdangerus.sum.toDouble(), Colors.green);
+        "อันตราย", fatalertdangerus.sum.toDouble(), Colors.red);
     _returnList.add(keepfatnomal);
     _returnList.add(keepfatmediam);
     _returnList.add(keepfatalert);
