@@ -129,6 +129,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     text: snap["content"],
                                     isCurrentUser: isCurrentUser,
                                     time: int.parse(snap["timestamp"]),
+                                    genderChart: widget.chatTo["Gender"],
                                     // peername: widget.chatTo['Firstname'],
                                   );
                                 }).toList(),

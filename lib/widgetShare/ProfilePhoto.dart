@@ -43,6 +43,45 @@ Widget proFileShow(context, String path, String gender) {
         }
       });
 }
+Widget proFileShowChart(context, String path, String gender) {
+  // if (path == "lib/img/not-available.png") {
+  //   return CircleAvatar(
+  //     radius: 48,
+  //     backgroundImage: Image.asset(path).image,
+  //   );
+  // }
+  return FutureBuilder<String>(
+      future: FirebaseStorage.instance.ref(path).getDownloadURL(),
+      builder: (context, snap) {
+        // if (snap.connectionState == ConnectionState.done) {
+        //   return new CircularProgressIndicator();
+        // }
+        if (snap.hasData) {
+          return CircleAvatar(
+            radius: 30, // Image radius
+            backgroundImage: Image.network(snap.data).image,
+          );
+        } else {
+          if (gender == "ชาย") {
+            return CircleAvatar(
+              radius: 30, // Image radius
+              backgroundImage: Image.asset("assets/icon/man.png").image,
+            );
+          } else if (gender == "หญิง") {
+            return CircleAvatar(
+              radius: 30, // Image radius
+              backgroundImage: Image.asset("assets/icon/woman.png").image,
+            );
+          } else {
+            return CircleAvatar(
+              radius: 30, // Image radius
+              backgroundImage: Image.asset("assets/img/noimage.png").image,
+            );
+          }
+          // return new CircularProgressIndicator();
+        }
+      });
+}
 
 Widget proFileShowDataPhoto(context, String path, String gender) {
   // if (path == "lib/img/not-available.png") {

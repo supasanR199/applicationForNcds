@@ -163,7 +163,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
       counter = 0;
       topic.forEach((key, value) {
         ChartData keepchart =
-            ChartData(key, keepAllscore[counter], colors[counter]);
+            ChartData(topicThai[key], keepAllscore[counter], colors[counter]);
         _returnList.add(keepchart);
         counter++;
       });
@@ -180,7 +180,13 @@ class _BuildBarChartState extends State<BuildBarChart> {
     "Choice4": "แอปพลิเคชันมีความเหมาะสมในการใช้งาน",
     "Choice5": "ความพึงพอใจต่อระบบภาพรวม"
   };
-
+  final Map<String, String> topicThai = {
+    "Choice1": "ข้อ1",
+    "Choice2": "ข้อ2",
+    "Choice3": "ข้อ3",
+    "Choice4": "ข้อ4",
+    "Choice5": "ข้อ5"
+  };
   double scoreCount;
   List<ChartData> keepAllSSumSocre = List();
   double scoreMax;
@@ -627,7 +633,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           itemCount: getCommentVol.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
-                               leading: Text("${index + 1}."),
+                              leading: Text("${index + 1}."),
                               title: Text("${getCommentVol[index]}"),
                             );
                           },
