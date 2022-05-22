@@ -134,7 +134,7 @@ class _MainPage extends State<MainPage> {
         child: Scaffold(
           backgroundColor: Colors.blueGrey[50],
           appBar: AppBar(
-            leading: Image.asset("icon/logo.png"),
+            leading: Image.asset("assets/icon/logo.png"),
             centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",

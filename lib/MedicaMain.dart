@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'PatientMain.dart';
+import 'mobilecode/function/datethai.dart';
 import 'models/AuthDataModels.dart';
 import 'noti.dart';
 import 'services/shared_preferences_service.dart';
@@ -132,7 +133,7 @@ class _MedicaMainState extends State<MedicaMain> {
           // backgroundColor: Color.fromRGBO(255, 211, 251, 1),
           backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
-            leading: Image.asset("icon/logo.png"),
+            leading: Image.asset("assets/icon/logo.png"),
             centerTitle: false,
             title: Text(
               "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -869,7 +870,7 @@ class _MedicaMainState extends State<MedicaMain> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               alertMessage(context,
-                                                  "คุณแน่ใจจะนัดคุณ ${document.get("Firstname")}  ${document.get("Lastname")}  ไปที่ รพสต. ในวันที่ ${dateText.text}  เวลา  ${timeText.text}"))
+                                                  "คุณแน่ใจจะนัดคุณ ${document.get("Firstname")}  ${document.get("Lastname")}  ไปที่ รพ.สต. ในวันที่ ${dateText.text}  เวลา  ${timeText.text}"))
                                       .then((value) {
                                     if (value == "CONFIRM") {
                                       List appointmentFromMd = List();
@@ -881,10 +882,10 @@ class _MedicaMainState extends State<MedicaMain> {
                                           .update({
                                         "AppointmentFromMd": appointmentFromMd
                                       });
-                                      // if (token != null) {
-                                      //     sendPushMessage("$token", "ในวันที่ $chatContent",
-                                      //     "หมอได้นัดพบคุณที่ รพ.สต.");
-                                      //       }
+                                      if (document.get("Token") != null) {
+                                          sendPushMessage(document.get("Token"), "ในวันที่ ${DateThai("${DateFormat('yyyy-MM-dd').format(DateTime.now())}")}",
+                                          "หมอได้นัดพบคุณที่ รพ.สต.");
+                                            }
                                       Navigator.pop(context);
                                     } else {
                                       Navigator.pop(context);
@@ -932,7 +933,7 @@ class _MedicaMainState extends State<MedicaMain> {
       // color: Color.fromRGBO(255, 211, 251, 1),
       textColor: Colors.white,
       hoverColor: Colors.grey.shade400,
-      child: Text('นัดหมายผู้ป่วยมาที่ รพสต.'),
+      child: Text('นัดหมายผู้ป่วยมาที่ รพ.สต.'),
       color: Colors.blueAccent,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(

@@ -4,16 +4,17 @@ import 'package:appilcation_for_ncds/function/DisplayTime.dart';
 import 'ProfilePhoto.dart';
 
 class ChatBubble extends StatelessWidget {
-  ChatBubble(
-      {Key key,
-      @required this.text,
-      @required this.isCurrentUser,
-      @required this.time,
-      @required this.peerName
-      // @required this.peername
-      })
-      : super(key: key);
+  ChatBubble({
+    Key key,
+    @required this.text,
+    @required this.isCurrentUser,
+    @required this.time,
+    @required this.peerName,
+    @required this.genderChart,
+    // @required this.peername
+  }) : super(key: key);
   String text;
+  String genderChart;
   final bool isCurrentUser;
   final int time;
   var peerName;
@@ -90,7 +91,7 @@ class ChatBubble extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  chatProFileShow(context, path),
+                  proFileShowChart(context, path, genderChart),
                 ],
               ),
               Padding(

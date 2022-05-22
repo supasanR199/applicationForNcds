@@ -61,14 +61,14 @@ class _Register extends State<Register> {
                            mainAxisAlignment: MainAxisAlignment.start,
                            children: [
                              SizedBox(height: 40,),
-                             Image.asset("icon/icon-hospital.png",scale: 4,),
+                             Image.asset("assets/icon/icon-hospital.png",scale: 4,),
                              SizedBox(height: 20,),
                              Text("โรงพยาบาลส่งเสริมสุขภาพตำบล",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),),
                            ],
                          ),
                                 decoration: BoxDecoration(
                                 image: DecorationImage(
-                                image: AssetImage("img/register.jpg"),
+                                image: AssetImage("assets/img/register.jpg"),
                                 fit: BoxFit.cover,
                                 
                               ),

@@ -80,7 +80,9 @@ class _StartPageState extends State<StartPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          leading: Image.asset("icon/logo.png"),
+          leading: Image(
+            image: AssetImage("assets/icon/logo.png"),
+          ),
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
             style: TextStyle(color: Colors.black),
@@ -90,7 +92,7 @@ class _StartPageState extends State<StartPage> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("img/doctor.jpg"),
+              image: AssetImage("assets/img/doctor.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -116,9 +118,14 @@ class _StartPageState extends State<StartPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      Image.asset(
-                        "icon/login.png",
-                        scale: 3,
+                      // Image.asset(
+                      //   "icon/login.png",
+                      //   scale: 3,
+                      // ),
+                      Image(
+                        image: AssetImage("assets/icon/login.png"),
+                        height: 200,
+                        width: 200,
                       ),
                       buildUserNameField(context),
                       buildPasswordField(context),
