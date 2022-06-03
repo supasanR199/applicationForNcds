@@ -100,11 +100,13 @@ class _PatientMainState extends State<PatientMain> {
                 ),
               ),
               Center(
-                child: GraphData(patienId: widget.patienDataId,)
-                // FoodRecord(
-                //   patienId: widget.patienDataId,
-                // ),
-              ),
+                  child: GraphData(
+                patienId: widget.patienDataId,
+              )
+                  // FoodRecord(
+                  //   patienId: widget.patienDataId,
+                  // ),
+                  ),
               Center(
                 child: EmotionData(
                   patienId: widget.patienDataId,
@@ -137,15 +139,16 @@ class _PatientMainState extends State<PatientMain> {
             children: <Widget>[
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10,bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
                     'ข้อมูลผู้ป่วย',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              proFileShowDataPhoto(context,widget.patienData["Img"],widget.patienData["Gender"]),         
+              proFileShowDataPhoto(context, widget.patienData["Img"],
+                  widget.patienData["Gender"]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,81 +157,139 @@ class _PatientMainState extends State<PatientMain> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(height: 20,), 
+                        SizedBox(
+                          height: 20,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 25),
                           child: Text(
                             "ข้อมูลส่วนตัว",
-                            style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(height: 10,), 
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'ชื่อ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Firstname"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'นามสกุล :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Lastname"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),               
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'วันเกิด :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${DateThai(widget
-                                                                      .patienData["Birthday"]
-                                                                        .toDate()
-                                                                          .toString())}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'อายุ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${calAge(convertDateTimeDisplay(widget
-                                                                    .patienData["Birthday"]
-                                                                      .toDate()
-                                                                        .toString()) +
-                                                                          "ปี")}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'โทรศัพท์ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Phonenumber"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'เพศ :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Gender"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),                                                                                                                                                                                                                                  
+                        SizedBox(
+                          height: 10,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'ชื่อ :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Firstname"]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'นามสกุล :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Lastname"]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'วันเกิด :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text:
+                                      ' ${DateThai(widget.patienData["Birthday"].toDate().toString())}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'อายุ :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text:
+                                      ' ${calAge(convertDateTimeDisplay(widget.patienData["Birthday"].toDate().toString()) + "ปี")}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'โทรศัพท์ :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Phonenumber"]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'เพศ :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Gender"]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
                         // Text("ชื่อ : " + widget.patienData["Firstname"],style: TextStyle(fontSize: 18)),
                         // Text("นามสกุล : " + widget.patienData["Lastname"],style: TextStyle(fontSize: 18)),
                         // Text(
@@ -252,82 +313,148 @@ class _PatientMainState extends State<PatientMain> {
                       ],
                     ),
                   ),
-                    Container(
-                      width: 2,
-                      color: Colors.grey.shade400,
-                    ),                  
+                  Container(
+                    width: 2,
+                    color: Colors.grey.shade400,
+                  ),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(height: 20,), 
+                        SizedBox(
+                          height: 20,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 25),
                           child: Text(
                             "ข้อมูลสุขภาพ",
-                            style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(height: 10,), 
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'น้ำหนัก :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Weight"]} กก.',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'ส่วนสูง :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Height"]} ซม.',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),               
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'รอบอก :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Waistline"]} นิ้ว',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'กรุ๊ปเลือด :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${widget.patienData["Bloodgroup"]}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'แพ้ยา :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${checkDrugAllergy(widget.patienData["DrugAllergy"])}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),
-                            SizedBox(height: 5,),              
-                            RichText(
-                              text: TextSpan(
-                                    style: TextStyle(color: Colors.black),
-                                    children: <TextSpan>[
-                                                  TextSpan(text: 'โรค :', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-                                                  TextSpan(text: ' ${listNcds(widget.patienData["NCDs"])}',style: TextStyle(fontSize: 18,)),
-                                                ],
-                                            ),
-                                          ),                                                                                                                                                                                                                                         
+                        SizedBox(
+                          height: 10,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'น้ำหนัก :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Weight"]} กก.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'ส่วนสูง :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Height"]} ซม.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'รอบอก :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text:
+                                      ' ${widget.patienData["Waistline"]} นิ้ว',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'กรุ๊ปเลือด :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text: ' ${widget.patienData["Bloodgroup"]}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'แพ้ยา :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text:
+                                      ' ${checkDrugAllergy(widget.patienData["DrugAllergy"])}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'โรค :',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18)),
+                              TextSpan(
+                                  text:
+                                      ' ${listNcds(widget.patienData["NCDs"])}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          ),
+                        ),
                         // Text("ส่วนสูง : " + widget.patienData["Height"],style: TextStyle(fontSize: 18)),
                         // Text("น้ำหนัก : " + widget.patienData["Weight"],style: TextStyle(fontSize: 18)),
                         // Text("รอบอก : " + widget.patienData["Waistline"],style: TextStyle(fontSize: 18)),
@@ -352,7 +479,7 @@ class _PatientMainState extends State<PatientMain> {
           ),
         ),
       ),
-        shape: RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(20),
         ),
@@ -363,7 +490,10 @@ class _PatientMainState extends State<PatientMain> {
   Widget buildHistoryLabResultsPage(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20),),),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       child: SizedBox(
         height: 700,
         width: 1000,
@@ -371,9 +501,7 @@ class _PatientMainState extends State<PatientMain> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 30, bottom: 20
-                ),
+                padding: const EdgeInsets.only(top: 30, bottom: 20),
                 child: Text(
                   'ผลตรวจจากห้องปฏิบัติการ',
                   textAlign: TextAlign.center,
@@ -404,7 +532,8 @@ class _PatientMainState extends State<PatientMain> {
                             children: [
                               ListTile(
                                 hoverColor: Colors.grey.shade200,
-                                title: Text("วันที่ทำการบันทึก : ${DateThai(document.id)}"),
+                                title: Text(
+                                    "วันที่ทำการบันทึก : ${DateThai(document.id)}"),
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -416,10 +545,10 @@ class _PatientMainState extends State<PatientMain> {
                                   );
                                 },
                               ),
-                                              Divider(
-                                                thickness: 2,
-                                                color: Colors.grey.shade300,
-                                              )                              
+                              Divider(
+                                thickness: 2,
+                                color: Colors.grey.shade300,
+                              )
                             ],
                           ),
                         );
@@ -444,7 +573,7 @@ class _PatientMainState extends State<PatientMain> {
   Widget buildReminderDrug(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: SizedBox(
         height: 700,
         width: 1000,
@@ -454,13 +583,11 @@ class _PatientMainState extends State<PatientMain> {
             children: <Widget>[
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,bottom: 20
-                  ),
+                  padding: const EdgeInsets.only(top: 30, bottom: 20),
                   child: Text(
                     'ยาของผู้ป่วย',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -475,44 +602,66 @@ class _PatientMainState extends State<PatientMain> {
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         return ListView(
-                          children:
-                              snapshot.data.docs.map((DocumentSnapshot document) {
+                          children: snapshot.data.docs
+                              .map((DocumentSnapshot document) {
                             Map<String, dynamic> snap =
                                 document.data() as Map<String, dynamic>;
                             return ListTile(
-                              title: Text("${snap["name"]}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                              title: Text(
+                                "${snap["name"]}",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
                               subtitle: Expanded(
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
-                                        Text("วันที่ยาหมดอายุ:" +
-                                            " " +
-                                            DateThai(snap["DateEXP"]
-                                                .toDate()
-                                                .toString()) +
-                                            " ",style: TextStyle(fontSize: 16)),
-                                        Text("กิน:" +
-                                            " " +
-                                            listTimePerDay(snap["After/Befor"]) +
-                                            " ",style: TextStyle(fontSize: 16)),
-                                        Text("เวลากิน:" +
-                                            " " +
-                                            listTime(snap["TimeToEat"]) +
-                                            " ",style: TextStyle(fontSize: 16)),
+                                        Text(
+                                            snap["DateEXP"] == null
+                                                ? "ไม่ระบุ"
+                                                : "วันที่ยาหมดอายุ:" +
+                                                    " " +
+                                                    DateThai(snap["DateEXP"]
+                                                        .toDate()
+                                                        .toString()) +
+                                                    " ",
+                                            style: TextStyle(fontSize: 16)),
+                                        Text(
+                                            snap["After/Befor"] == null
+                                                ? "ไม่ระบุ"
+                                                : "กิน:" +
+                                                    " " +
+                                                    listTimePerDay(
+                                                        snap["After/Befor"]) +
+                                                    " ",
+                                            style: TextStyle(fontSize: 16)),
+                                        Text(
+                                            snap["TimeToEat"] == null
+                                                ? "ไม่ระบุ"
+                                                : "เวลากิน:" +
+                                                    " " +
+                                                    listTime(
+                                                        snap["TimeToEat"]) +
+                                                    " ",
+                                            style: TextStyle(fontSize: 16)),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Text("บันทึกเพิ่มเติม:" +
-                                            " " +
-                                            checkNote(snap["Note"]),style: TextStyle(fontSize: 16)),
+                                        Text(
+                                            (snap["Note"] == null
+                                                ? "ไม่ระบุ"
+                                                : "บันทึกเพิ่มเติม:" +
+                                                    " " +
+                                                    checkNote(snap["Note"])),
+                                            style: TextStyle(fontSize: 16)),
                                       ],
                                     ),
                                     Divider(
-                                        thickness: 2,
-                                        color: Colors.grey.shade300,
-                                      )
+                                      thickness: 2,
+                                      color: Colors.grey.shade300,
+                                    )
                                   ],
                                 ),
                               ),
@@ -539,7 +688,10 @@ class _PatientMainState extends State<PatientMain> {
   Widget buildVisitReport(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20),),),    
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
       child: SizedBox(
         height: 700,
         width: 1000,
@@ -547,7 +699,7 @@ class _PatientMainState extends State<PatientMain> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 30,bottom: 20),
+                padding: const EdgeInsets.only(top: 30, bottom: 20),
                 child: Text(
                   'บันทึกการลงพื้นที่ของอาสาสมัคร',
                   textAlign: TextAlign.center,
@@ -577,7 +729,8 @@ class _PatientMainState extends State<PatientMain> {
                               ListTile(
                                 hoverColor: Colors.grey.shade200,
                                 trailing: showWhoIs(context, snap["Visitor"]),
-                                title: Text("วันที่ทำการบันทึก : ${DateThai(document.id)}"),
+                                title: Text(
+                                    "วันที่ทำการบันทึก : ${DateThai(document.id)}"),
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -589,10 +742,10 @@ class _PatientMainState extends State<PatientMain> {
                                   );
                                 },
                               ),
-                                                Divider(
-                                                  thickness: 2,
-                                                  color: Colors.grey.shade300,
-                                                )                            
+                              Divider(
+                                thickness: 2,
+                                color: Colors.grey.shade300,
+                              )
                             ],
                           ),
                         );
@@ -637,8 +790,9 @@ class _PatientMainState extends State<PatientMain> {
         },
         child: Text(
           "บันทึกผลตรวจจากห้องปฏิบัติการ",
-          style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),
-          ),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         color: Colors.blueAccent,
         hoverColor: Colors.grey,
         padding: EdgeInsets.all(20),
@@ -749,7 +903,11 @@ class _PatientMainState extends State<PatientMain> {
           }
         });
       },
-      child: Text('ลบ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.white),),
+      child: Text(
+        'ลบ',
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+      ),
       color: Colors.redAccent,
       padding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
