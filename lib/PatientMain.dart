@@ -612,58 +612,56 @@ class _PatientMainState extends State<PatientMain> {
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Expanded(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                            snap["DateEXP"] == null
-                                                ? "ไม่ระบุ"
-                                                : "วันที่ยาหมดอายุ:" +
-                                                    " " +
-                                                    DateThai(snap["DateEXP"]
-                                                        .toDate()
-                                                        .toString()) +
-                                                    " ",
-                                            style: TextStyle(fontSize: 16)),
-                                        Text(
-                                            snap["After/Befor"] == null
-                                                ? "ไม่ระบุ"
-                                                : "กิน:" +
-                                                    " " +
-                                                    listTimePerDay(
-                                                        snap["After/Befor"]) +
-                                                    " ",
-                                            style: TextStyle(fontSize: 16)),
-                                        Text(
-                                            snap["TimeToEat"] == null
-                                                ? "ไม่ระบุ"
-                                                : "เวลากิน:" +
-                                                    " " +
-                                                    listTime(
-                                                        snap["TimeToEat"]) +
-                                                    " ",
-                                            style: TextStyle(fontSize: 16)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                            (snap["Note"] == null
-                                                ? "ไม่ระบุ"
-                                                : "บันทึกเพิ่มเติม:" +
-                                                    " " +
-                                                    checkNote(snap["Note"])),
-                                            style: TextStyle(fontSize: 16)),
-                                      ],
-                                    ),
-                                    Divider(
-                                      thickness: 2,
-                                      color: Colors.grey.shade300,
-                                    )
-                                  ],
-                                ),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                          snap["DateEXP"] == null
+                                              ? "ไม่ระบุ"
+                                              : "วันที่ยาหมดอายุ:" +
+                                                  " " +
+                                                  DateThai(snap["DateEXP"]
+                                                      .toDate()
+                                                      .toString()) +
+                                                  " ",
+                                          style: TextStyle(fontSize: 16)),
+                                      Text(
+                                          snap["After/Befor"] == null
+                                              ? "ไม่ระบุ"
+                                              : "กิน:" +
+                                                  " " +
+                                                  listTimePerDay(
+                                                      snap["After/Befor"]) +
+                                                  " ",
+                                          style: TextStyle(fontSize: 16)),
+                                      Text(
+                                          snap["TimeToEat"] == null
+                                              ? "ไม่ระบุ"
+                                              : "เวลากิน:" +
+                                                  " " +
+                                                  listTime(
+                                                      snap["TimeToEat"]) +
+                                                  " ",
+                                          style: TextStyle(fontSize: 16)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                          (snap["Note"] == null
+                                              ? "ไม่ระบุ"
+                                              : "บันทึกเพิ่มเติม:" +
+                                                  " " +
+                                                  checkNote(snap["Note"])),
+                                          style: TextStyle(fontSize: 16)),
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                    color: Colors.grey.shade300,
+                                  )
+                                ],
                               ),
                               trailing: buildButtonDelectRemainder(
                                   context, document.id, snap["name"]),
