@@ -26,8 +26,8 @@ class BuildShowStatus extends StatefulWidget {
       @required this.fatalert,
       @required this.saltalert,
       @required this.sweetalert,
-      @required moodalert,
-      @required dayFood,
+      @required this.moodalert,
+      @required this.dayFood,
       @required this.dayMood,
       @required this.initMoodDate,
       @required this.snapshotMood,
@@ -49,12 +49,21 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
     getSaltalert = widget.saltalert;
     getSweetalert = widget.sweetalert;
     dateFood = getMothFormFirebase(getMouth.last).toString();
+    // moodStatus = widget.moodalert;
     // print(getMouth.toList());
+    print("{$dateMood == ${widget.dayMood}}");
+    dateMood = myDateFormat.format(DateTime.now());
+    if (dateMood == widget.dayMood) {
+      moodStatus = widget.moodalert;
+    } else {
+      moodStatus = null;
+    }
   }
 
   String selectDateFood;
   List<String> getMouth = List();
-  String dateMood = DateTime.now().toString();
+  DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
+  String dateMood;
   int moodStatus;
   int getFatalert;
   int getSaltalert;
@@ -66,7 +75,7 @@ class _BuildShowStatusState extends State<BuildShowStatus> {
 
   Widget build(BuildContext context) {
     return AlertDialog(
-            shape: RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(20),
         ),
