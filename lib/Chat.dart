@@ -201,11 +201,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                   },
                                 );
                               });
+                              _formChat.currentState.reset();
                           if (token != null) {
                           sendPushMessage("$token", "$chatContent",
                           "คุณ $fromename ส่งข้อความถึงคุณ");
                             }
-                              _formChat.currentState.reset();
                             }
                           },
                           // tooltip: 'Create',

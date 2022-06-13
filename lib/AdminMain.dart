@@ -333,7 +333,7 @@ class _adminMainState extends State<adminMain> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              "บุคคลากร รพสต.",
+                              "บุคคลากร รพ.สต.",
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
