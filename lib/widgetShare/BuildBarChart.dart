@@ -418,32 +418,26 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        // top: 190,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        child: SizedBox(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            // height: MediaQuery.of(context).size.height- 190,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: getCommentPa.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  leading: Text("${index + 1}."),
-                                  title: Text("${getCommentPa[index]}"),
-                                );
-                              },
-                              physics: AlwaysScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                            ),
+                      SizedBox(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height- 190,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: getCommentPa.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: Text("${index + 1}."),
+                                title: Text("${getCommentPa[index]}"),
+                              );
+                            },
+                            physics: AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
                           ),
                         ),
                       ),
@@ -637,32 +631,26 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        // top: 190,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        child: SizedBox(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            // height: MediaQuery.of(context).size.height- 190,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: getCommentVol.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                   leading: Text("${index + 1}."),
-                                  title: Text("${getCommentVol[index]}"),
-                                );
-                              },
-                              physics: AlwaysScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                            ),
+                      SizedBox(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height- 190,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: getCommentVol.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                 leading: Text("${index + 1}."),
+                                title: Text("${getCommentVol[index]}"),
+                              );
+                            },
+                            physics: AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
                           ),
                         ),
                       ),
@@ -853,32 +841,26 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        // top: 190,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        child: SizedBox(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            // height: MediaQuery.of(context).size.height- 190,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: getCommentHos.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  leading: Text("${index + 1}."),
-                                  title: Text("${getCommentHos[index]}"),
-                                );
-                              },
-                              physics: AlwaysScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                            ),
+                      SizedBox(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height- 190,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: getCommentHos.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: Text("${index + 1}."),
+                                title: Text("${getCommentHos[index]}"),
+                              );
+                            },
+                            physics: AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
                           ),
                         ),
                       ),
@@ -1068,32 +1050,26 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        // top: 190,
-                        bottom: 0,
-                        right: 0,
-                        left: 0,
-                        child: SizedBox(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            // height: MediaQuery.of(context).size.height- 190,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: getCommentMd.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  leading: Text("${index + 1}."),
-                                  title: Text("${getCommentMd[index]}"),
-                                );
-                              },
-                              physics: AlwaysScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                            ),
+                      SizedBox(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height- 190,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: getCommentMd.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: Text("${index + 1}."),
+                                title: Text("${getCommentMd[index]}"),
+                              );
+                            },
+                            physics: AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
                           ),
                         ),
                       ),
