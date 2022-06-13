@@ -652,7 +652,7 @@ class _EmotionDataState extends State<EmotionData> {
                                 EmotionSleepData(
                                     'น้อยหรือ\nไม่รู้สึกเลย',
                                     data.mood1[0],
-                                    Colors.blue.shade400,
+                                    Colors.blue.shade200,
                                     "${data.mood1[0]} วัน"),
                                 EmotionSleepData(
                                     'ปานกลาง',
@@ -662,12 +662,12 @@ class _EmotionDataState extends State<EmotionData> {
                                 EmotionSleepData(
                                     'มาก',
                                     data.mood1[2],
-                                    Colors.blue.shade400,
+                                    Colors.blue.shade600,
                                     "${data.mood1[2]} วัน"),
                                 EmotionSleepData(
                                     'มากที่สุด',
                                     data.mood1[3],
-                                    Colors.blue.shade400,
+                                    Colors.blue.shade800,
                                     "${data.mood1[3]} วัน"),
                               ],
                               xValueMapper: (EmotionSleepData val, _) =>
@@ -837,22 +837,22 @@ class _EmotionDataState extends State<EmotionData> {
                                 EmotionMeditateData(
                                     'น้อยหรือ\nไม่รู้สึกเลย',
                                     data.mood2[0],
-                                    Colors.yellow.shade500,
+                                    Colors.yellow.shade200,
                                     "${data.mood2[0]} วัน"),
                                 EmotionMeditateData(
                                     'ปานกลาง',
                                     data.mood2[1],
-                                    Colors.yellow.shade500,
+                                    Colors.yellow.shade400,
                                     "${data.mood2[1]} วัน"),
                                 EmotionMeditateData(
                                     'มาก',
                                     data.mood2[2],
-                                    Colors.yellow.shade500,
+                                    Colors.yellow.shade600,
                                     "${data.mood2[2]} วัน"),
                                 EmotionMeditateData(
                                     'มากที่สุด',
                                     data.mood2[3],
-                                    Colors.yellow.shade500,
+                                    Colors.yellow.shade800,
                                     "${data.mood2[3]} วัน"),
                               ],
                               xValueMapper: (EmotionMeditateData val, _) =>
@@ -1022,7 +1022,7 @@ class _EmotionDataState extends State<EmotionData> {
                                 EmotionIrritableData(
                                     'น้อยหรือ\nไม่รู้สึกเลย',
                                     data.mood3[0],
-                                    Colors.red.shade400,
+                                    Colors.red.shade200,
                                     "${data.mood3[0]} วัน"),
                                 EmotionIrritableData(
                                     'ปานกลาง',
@@ -1032,12 +1032,12 @@ class _EmotionDataState extends State<EmotionData> {
                                 EmotionIrritableData(
                                     'มาก',
                                     data.mood3[2],
-                                    Colors.red.shade400,
+                                    Colors.red.shade600,
                                     "${data.mood3[2]} วัน"),
                                 EmotionIrritableData(
                                     'มากที่สุด',
                                     data.mood3[3],
-                                    Colors.red.shade400,
+                                    Colors.red.shade800,
                                     "${data.mood3[3]} วัน"),
                               ],
                               xValueMapper: (EmotionIrritableData val, _) =>

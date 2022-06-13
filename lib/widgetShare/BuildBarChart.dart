@@ -393,7 +393,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                               trailing: Text(
                                   keepCountPeplo.isEmpty
                                       ? ""
-                                      : "${keepCountPeplo[2]} คน",
+                                      : "${keepCountPeplo[2]} ครั้ง",
                                   style: TextStyle(
                                     fontSize: 17,
                                   )),
@@ -606,7 +606,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                               trailing: Text(
                                   keepCountPeplo.isEmpty
                                       ? ""
-                                      : "${keepCountPeplo[3]} คน",
+                                      : "${keepCountPeplo[3]} ครั้ง",
                                   style: TextStyle(
                                     fontSize: 17,
                                   )),
@@ -815,7 +815,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                               trailing: Text(
                                   keepCountPeplo.isEmpty
                                       ? ""
-                                      : "${keepCountPeplo[0]} คน",
+                                      : "${keepCountPeplo[0]} ครั้ง",
                                   style: TextStyle(
                                     fontSize: 17,
                                   )),
@@ -1025,7 +1025,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                               trailing: Text(
                                   keepCountPeplo.isEmpty
                                       ? ""
-                                      : "${keepCountPeplo[1]} คน",
+                                      : "${keepCountPeplo[1]} ครั้ง",
                                   style: TextStyle(
                                     fontSize: 17,
                                   )),
