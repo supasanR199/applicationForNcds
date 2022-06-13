@@ -52,13 +52,13 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 20),
-                              child: Text(
-                                "บุคลากรทาการแพทย์",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 0, bottom: 20),
+                            //   child: Text(
+                            //     "บุคลากรทาการแพทย์",
+                            //     style: TextStyle(fontSize: 20),
+                            //   ),
+                            // ),
                             TextFormField(
                               controller: _searchController,
                               onChanged: (value) {
@@ -155,27 +155,7 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                                     }
                                   }),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 2,
-                      color: Colors.grey.shade400,
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 60),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 20),
-                              child: Text(
-                                "อสม.และ ผู้ป่วย",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
+                            Padding(padding: EdgeInsets.all(20)),
                             TextFormField(
                               controller: _searchController0,
                               onChanged: (value) {
@@ -204,7 +184,8 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                                       documents0 = snapshot.data.docs;
                                       documents0.forEach((e) {});
                                       if (searchText0.length > 0) {
-                                        documents0 = documents0.where((element) {
+                                        documents0 =
+                                            documents0.where((element) {
                                           return element
                                               .get('Firstname')
                                               .toString()
@@ -278,6 +259,125 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                         ),
                       ),
                     ),
+                    // Container(
+                    //   width: 2,
+                    //   color: Colors.grey.shade400,
+                    // ),
+                    // Expanded(
+                    //   child: Container(
+                    //     padding: EdgeInsets.symmetric(horizontal: 60),
+                    //     child: Column(
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       children: [
+                    //         // Padding(
+                    //         //   padding: EdgeInsets.only(top: 0, bottom: 20),
+                    //         //   child: Text(
+                    //         //     "อสม.และ ผู้ป่วย",
+                    //         //     style: TextStyle(fontSize: 20),
+                    //         //   ),
+                    //         // ),
+                    //         TextFormField(
+                    //           controller: _searchController0,
+                    //           onChanged: (value) {
+                    //             setState(() {
+                    //               searchText0 = value;
+                    //             });
+                    //           },
+                    //           decoration: InputDecoration(
+                    //             labelText: 'ค้นหา',
+                    //             enabledBorder: OutlineInputBorder(
+                    //               // borderSide: const BorderSide(width: 3, color: Colors.blue),
+                    //               borderRadius: BorderRadius.circular(10),
+                    //             ),
+                    //             focusedBorder: OutlineInputBorder(
+                    //               // borderSide: const BorderSide(width: 3, color: Colors.red),
+                    //               borderRadius: BorderRadius.circular(10),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         Expanded(
+                    //           child: StreamBuilder<QuerySnapshot>(
+                    //               stream: _docRefMobile.snapshots(),
+                    //               builder: (BuildContext context,
+                    //                   AsyncSnapshot<QuerySnapshot> snapshot) {
+                    //                 if (snapshot.hasData) {
+                    //                   documents0 = snapshot.data.docs;
+                    //                   documents0.forEach((e) {});
+                    //                   if (searchText0.length > 0) {
+                    //                     documents0 = documents0.where((element) {
+                    //                       return element
+                    //                           .get('Firstname')
+                    //                           .toString()
+                    //                           .toLowerCase()
+                    //                           .contains(
+                    //                               searchText0.toLowerCase());
+                    //                     }).toList();
+                    //                   }
+                    //                   return ListView.builder(
+                    //                       itemCount: documents0.length,
+                    //                       itemBuilder: (context, index) {
+                    //                         return ListTile(
+                    //                           title: Row(children: [
+                    //                             Text(
+                    //                                 "${documents0[index]["Firstname"]}  ${documents0[index]["Lastname"]}"),
+                    //                             // if (documents0[index]
+                    //                             //         ["isBoss"] ==
+                    //                             //     true)
+                    //                             //   Text("(หัวหน้าอสม.)"),
+                    //                           ]),
+                    //                           subtitle: Text(checkRoletoThai(
+                    //                               documents0[index]["Role"])),
+                    //                           trailing: Switch(
+                    //                             value: documents0[index]
+                    //                                 ["status"],
+                    //                             onChanged: (value) {
+                    //                               docId = (snapshot.data.docs
+                    //                                   .map((e) => e.reference)
+                    //                                   .toList());
+                    //                               print(
+                    //                                   "DocumentReference<Map<String, dynamic>>(MobileUser/" +
+                    //                                       documents0[index].id +
+                    //                                       ")");
+                    //                               // for find index in DocmentReference.
+                    //                               for (int i = 0;
+                    //                                   i < docId.length;
+                    //                                   i++) {
+                    //                                 if (docId[i].toString() ==
+                    //                                     "DocumentReference<Map<String, dynamic>>(MobileUser/" +
+                    //                                         documents[index]
+                    //                                             .id +
+                    //                                         ")") {
+                    //                                   index = i;
+                    //                                 }
+                    //                               }
+                    //                               FirebaseFirestore.instance
+                    //                                   .runTransaction(
+                    //                                       (transaction) async {
+                    //                                 DocumentSnapshot freshSnap =
+                    //                                     await transaction
+                    //                                         .get(docId[index]);
+                    //                                 await transaction.update(
+                    //                                     freshSnap.reference,
+                    //                                     {"status": value});
+                    //                               });
+                    //                             },
+                    //                             activeTrackColor:
+                    //                                 Colors.lightGreenAccent,
+                    //                             activeColor: Colors.green,
+                    //                           ),
+                    //                         );
+                    //                       });
+                    //                 } else {
+                    //                   return Center(
+                    //                     child: Text("กำลังโหลดข้อมูล"),
+                    //                   );
+                    //                 }
+                    //               }),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

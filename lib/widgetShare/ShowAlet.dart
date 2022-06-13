@@ -148,14 +148,15 @@ Widget showDateRangMood(
       child: SfDateRangePicker(
           monthViewSettings:
               DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
-          selectionMode: DateRangePickerSelectionMode.range,
+          selectionMode: DateRangePickerSelectionMode.single,
           maxDate: maxDate,
           minDate: minDate,
           showActionButtons: true,
           onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
             final dynamic value = args.value;
-            startDate = args.value.startDate;
-            endDate = args.value.endDate;
+            startDate = args.value;
+            // endDate = args.value.endDate;
+            // print(args.value);
           },
           onSubmit: (Object val) {
             if (endDate == null) {
@@ -181,7 +182,7 @@ Widget selectIsMoodHaveData(context, List<DateTime> initDateHaveData,
     AsyncSnapshot<QuerySnapshot<Object>> snapshotMood) {
   DateRangePickerController _datePickerController = DateRangePickerController();
   List<DateTime> dateBetween = List();
-  var snapMood ;
+  var snapMood;
 
   // if (minDate == maxDate) {
   //   maxDate = DateTime.now();

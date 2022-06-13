@@ -298,7 +298,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           Divider(thickness: 2, color: Colors.grey),
                           ListTile(
                             leading: Text(
-                              'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                              'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -314,7 +314,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                              'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -330,7 +330,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                              'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -346,7 +346,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                              'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -362,7 +362,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                              'ข้อ5  ความพึงพอใจในการใช้งานระบบโดยรวม :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -505,7 +505,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           Divider(thickness: 2, color: Colors.grey),
                           ListTile(
                             leading: Text(
-                              'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                              'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -521,7 +521,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                              'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -537,7 +537,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                              'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -553,7 +553,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                              'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -569,7 +569,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                              'ข้อ5  ความพึงพอใจในการใช้งานระบบโดยรวม :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -711,7 +711,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           Divider(thickness: 2, color: Colors.grey),
                           ListTile(
                             leading: Text(
-                              'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                              'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -727,7 +727,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                              'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -743,7 +743,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                              'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -759,7 +759,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                              'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -775,7 +775,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                              'ข้อ5  ความพึงพอใจในการใช้งานระบบโดยรวม :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -917,7 +917,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           Divider(thickness: 2, color: Colors.grey),
                           ListTile(
                             leading: Text(
-                              'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                              'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -933,7 +933,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                              'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -949,7 +949,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                              'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -965,7 +965,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                              'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -981,7 +981,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                           ListTile(
                             leading: Text(
-                              'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                              'ข้อ5  ความพึงพอใจในการใช้งานระบบโดยรวม :',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,

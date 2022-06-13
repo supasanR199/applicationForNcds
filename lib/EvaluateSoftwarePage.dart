@@ -43,11 +43,11 @@ class _EvaulatePageState extends State<EvaulatePage> {
     "แอปพลิเคชันช่วยลดขั้นตอนการทำงานได้เป็นอย่างดี"
   ];
   List topicVersion2 = [
-    "แอพลิเคชันแสดงผลได้อย่างถูกต้อง",
-    "แอปพลิเคชันใช้งานได้ง่าย",
-    "แอปพลิเคชันมีคำอธิบายที่เหมาะสม",
-    "แอปพลิเคชันมีความเหมาะสมต่อการใช้งาน",
-    "ความพึงพอใจต่อระบบในภาพรวม"
+    "แสดงข้อมูลได้ถูกต้องครบถ้วน",
+    "ระบบใช้งานง่ายไม่ซับซ้อน",
+    "ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย",
+    "ความเสถียรในการใช้งานระบบ",
+    "ความพึงพอใจในการใช้งานระบบโดยรวม"
   ];
   final List<Map> data = [
     {'value': 5, 'display': 'มากที่สุด'},
@@ -106,7 +106,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                           ),
                         ),
                         EvaluateChoice(
-                          subject: "1.แอพลิเคชันแสดงผลได้อย่างถูกต้อง",
+                          subject: "1.แสดงข้อมูลได้ถูกต้องครบถ้วน",
                         ),
                         RadioButtonFormField(
                           // toggleable: true,
@@ -131,7 +131,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                           },
                         ),
                         EvaluateChoice(
-                          subject: "2.แอปพลิเคชันใช้งานได้ง่าย",
+                          subject: "2.ระบบใช้งานง่ายไม่ซับซ้อน",
                         ),
                         RadioButtonFormField(
                           // toggleable: true,
@@ -156,7 +156,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                           },
                         ),
                         EvaluateChoice(
-                          subject: "3.แอปพลิเคชันมีคำอธิบายที่เหมาะสม",
+                          subject: "3.ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย",
                         ),
                         RadioButtonFormField(
                           // toggleable: true,
@@ -180,7 +180,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                           },
                         ),
                         EvaluateChoice(
-                          subject: "4.แอปพลิเคชันมีความเหมาะสมต่อการใช้งาน",
+                          subject: "4.ความเสถียรในการใช้งานระบบ",
                         ),
                         RadioButtonFormField(
                           // toggleable: true,
@@ -204,7 +204,7 @@ class _EvaulatePageState extends State<EvaulatePage> {
                             }
                           },
                         ),
-                        EvaluateChoice(subject: "5.ความพึงพอใจต่อระบบในภาพรวม"),
+                        EvaluateChoice(subject: "5.ความพึงพอใจในการใช้งานระบบโดยรวม"),
                         RadioButtonFormField(
                           // toggleable: true,
                           padding: EdgeInsets.all(8),
