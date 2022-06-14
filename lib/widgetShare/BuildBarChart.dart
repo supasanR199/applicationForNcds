@@ -384,7 +384,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'มีผู้ประเมินทั้งหมด :',
+                                'มีการประเมินทั้งหมด :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -597,7 +597,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'มีผู้ประเมินทั้งหมด :',
+                                'มีการประเมินทั้งหมด :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -806,7 +806,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'มีผู้ประเมินทั้งหมด :',
+                                'มีการประเมินทั้งหมด :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -1016,7 +1016,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'มีผู้ประเมินทั้งหมด :',
+                                'มีการประเมินทั้งหมด :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,

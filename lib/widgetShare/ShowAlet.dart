@@ -47,6 +47,10 @@ Widget showDateRangWalkCount(
   List<DateTime> dateBetween = List();
   DateTime startDate;
   DateTime endDate;
+  List<DateTime> specialDates = List();
+  snap.forEach((e) {
+    specialDates.add(DateTime.parse(e.choice));
+  });
   if (minDate == maxDate) {
     maxDate = DateTime.now();
   }
@@ -56,8 +60,14 @@ Widget showDateRangWalkCount(
       width: 300,
       height: 300,
       child: SfDateRangePicker(
-          monthViewSettings:
-              DateRangePickerMonthViewSettings(firstDayOfWeek: DateTime.sunday),
+          monthViewSettings: DateRangePickerMonthViewSettings(
+              firstDayOfWeek: DateTime.sunday, specialDates: specialDates),
+          monthCellStyle: DateRangePickerMonthCellStyle(
+            specialDatesDecoration: BoxDecoration(
+                // color: Colors.blueAccent,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+                shape: BoxShape.circle),
+          ),
           selectionMode: DateRangePickerSelectionMode.range,
           maxDate: maxDate,
           minDate: minDate,
@@ -66,6 +76,62 @@ Widget showDateRangWalkCount(
             final dynamic value = args.value;
             startDate = args.value.startDate;
             endDate = args.value.endDate;
+          },
+          onSubmit: (Object val) {
+            if (endDate == null) {
+              dateBetween = getDaysInBetween(startDate, startDate);
+            } else {
+              dateBetween = getDaysInBetween(startDate, endDate);
+            }
+            print(getStepListSelectDate(snap, dateBetween));
+            Navigator.pop(context, getStepListSelectDate(snap, dateBetween));
+
+            _datePickerController.selectedRange = null;
+          },
+          onCancel: () {
+            _datePickerController.selectedRange = null;
+            Navigator.pop(context);
+          }),
+    ),
+  );
+}
+Widget showDateSingleWalkCount(
+    context, DateTime minDate, DateTime maxDate, List<KeepChoieAndSocre> snap
+    // List<DairyModel> snap
+    ) {
+  DateRangePickerController _datePickerController = DateRangePickerController();
+  List<DateTime> dateBetween = List();
+  DateTime startDate;
+  DateTime endDate;
+  List<DateTime> specialDates = List();
+  snap.forEach((e) {
+    specialDates.add(DateTime.parse(e.choice));
+  });
+  if (minDate == maxDate) {
+    maxDate = DateTime.now();
+  }
+  return AlertDialog(
+    title: const Text('เลือกช่วงวัน'),
+    content: SizedBox(
+      width: 300,
+      height: 300,
+      child: SfDateRangePicker(
+          monthViewSettings: DateRangePickerMonthViewSettings(
+              firstDayOfWeek: DateTime.sunday, specialDates: specialDates),
+          monthCellStyle: DateRangePickerMonthCellStyle(
+            specialDatesDecoration: BoxDecoration(
+                // color: Colors.blueAccent,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+                shape: BoxShape.circle),
+          ),
+          selectionMode: DateRangePickerSelectionMode.single,
+          maxDate: maxDate,
+          minDate: minDate,
+          showActionButtons: true,
+          onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+            final dynamic value = args.value;
+            startDate = args.value;
+            endDate = args.value;
           },
           onSubmit: (Object val) {
             if (endDate == null) {

@@ -37,7 +37,11 @@ class _EditPostState extends State<EditPost> {
       recommentForBmi.text = value.get("recommentForBMI").toString();
       recommentForTdee.text = value.get("recommentForTDEE").toString();
       recommentForBmr.text = value.get("recommentForBMR").toString();
-
+      _valueNCDs = value.get("recommentForDieases");
+      age = value.get("recommentForAge");
+      bmi = value.get("recommentForBMI");
+      tdee = value.get("recommentForTDEE");
+      bmr = value.get("recommentForBMR");
       // }
     });
   }

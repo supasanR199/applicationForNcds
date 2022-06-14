@@ -731,7 +731,7 @@ class _EmotionDataState extends State<EmotionData> {
                                   ),
                                   ListTile(
                                     leading: Text(
-                                      'น้อย :',
+                                      'น้อยหรือไม่รู้สึกเลย :',
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -916,7 +916,7 @@ class _EmotionDataState extends State<EmotionData> {
                                   ),
                                   ListTile(
                                     leading: Text(
-                                      'น้อย :',
+                                      'น้อยหรือไม่รู้สึกเลย :',
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -1101,7 +1101,7 @@ class _EmotionDataState extends State<EmotionData> {
                                   ),
                                   ListTile(
                                     leading: Text(
-                                      'น้อย :',
+                                      'น้อยหรือไม่รู้สึก :',
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -1205,7 +1205,7 @@ class _EmotionDataState extends State<EmotionData> {
                           ColumnSeries<EmotionBoringData, String>(
                               dataSource: [
                                 EmotionBoringData(
-                                    'น้อยหรือ\nไม่รู้สึกเลย',
+                                    'น้อยหรือไม่รู้สึกเลย',
                                     data.mood4[0],
                                     Colors.grey.shade200,
                                     "${data.mood4[0]} วัน"),
@@ -1286,7 +1286,7 @@ class _EmotionDataState extends State<EmotionData> {
                                   ),
                                   ListTile(
                                     leading: Text(
-                                      'น้อย :',
+                                      'น้อยหรือไม่รู้สึก :',
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
@@ -1471,7 +1471,7 @@ class _EmotionDataState extends State<EmotionData> {
                                   ),
                                   ListTile(
                                     leading: Text(
-                                      'น้อย :',
+                                      'น้อยหรือไม่รู้สึกเลย :',
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,

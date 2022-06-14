@@ -225,7 +225,7 @@ class _BuildAcceptUsersPageState extends State<BuildAcceptUsersPage> {
                                                       i++) {
                                                     if (docId[i].toString() ==
                                                         "DocumentReference<Map<String, dynamic>>(MobileUser/" +
-                                                            documents[index]
+                                                            documents0[index]
                                                                 .id +
                                                             ")") {
                                                       index = i;
