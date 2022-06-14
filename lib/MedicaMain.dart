@@ -512,10 +512,15 @@ class _MedicaMainState extends State<MedicaMain> {
     // }
     // DateTime now = appoint.toDate();
     // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
     if (appoint.isNotEmpty) {
       DateTime dateformStr = DateTime.parse(appoint[0] + " " + appoint[1]);
       if (dateformStr.isAfter(DateTime.now())) {
-        return "นัดวันนี้ เวลา ${appoint[1]}";
+        if (myDateFormat.format(DateTime.now()) == appoint[0]) {
+          return "นัดวันนี้ เวลา ${appoint[1]}";
+        } else {
+          return "นัดวันที่ ${DateThai(appoint[0])} ${appoint[1]}";
+        }
       } else if (dateformStr.isBefore(DateTime.now())) {
         return "เลยวันนัด";
       }
@@ -754,6 +759,8 @@ class _MedicaMainState extends State<MedicaMain> {
     TextEditingController timeText = TextEditingController();
     DateTime selected;
     TimeOfDay selectedTime;
+    String dateStr;
+    String timeStr;
     return RaisedButton(
       onPressed: () {
         showDialog(
@@ -789,7 +796,9 @@ class _MedicaMainState extends State<MedicaMain> {
                                         DateFormat("yyyy-MM-dd");
                                     String formatted =
                                         serverFormater.format(value);
-                                    dateText.text = formatted;
+                                    dateStr = formatted;
+
+                                    dateText.text = DateThai(formatted);
                                   } else {
                                     dateText.clear();
                                   }
@@ -832,6 +841,7 @@ class _MedicaMainState extends State<MedicaMain> {
                                         .parse(value.format(context));
                                     timeText.text =
                                         DateFormat("HH:mm:ss").format(date2);
+                                    timeStr = timeText.text;
                                   } else {
                                     timeText.clear();
                                   }
@@ -874,8 +884,9 @@ class _MedicaMainState extends State<MedicaMain> {
                                       .then((value) {
                                     if (value == "CONFIRM") {
                                       List appointmentFromMd = List();
-                                      appointmentFromMd.add(dateText.text);
-                                      appointmentFromMd.add(timeText.text);
+
+                                      appointmentFromMd.add(dateStr);
+                                      appointmentFromMd.add(timeStr);
                                       FirebaseFirestore.instance
                                           .collection("MobileUser")
                                           .doc(document.id)
@@ -883,9 +894,11 @@ class _MedicaMainState extends State<MedicaMain> {
                                         "AppointmentFromMd": appointmentFromMd
                                       });
                                       if (document.get("Token") != null) {
-                                          sendPushMessage(document.get("Token"), "ในวันที่ ${DateThai("${DateFormat('yyyy-MM-dd').format(DateTime.now())}")}",
-                                          "หมอได้นัดพบคุณที่ รพ.สต.");
-                                            }
+                                        sendPushMessage(
+                                            document.get("Token"),
+                                            "ในวันที่ ${DateThai("${DateFormat('yyyy-MM-dd').format(DateTime.now())}")}",
+                                            "หมอได้นัดพบคุณที่ รพ.สต.");
+                                      }
                                       Navigator.pop(context);
                                     } else {
                                       Navigator.pop(context);
