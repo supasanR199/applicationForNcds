@@ -54,8 +54,8 @@ class _WalkCountState extends State<WalkCount> {
         chartData.add(getAll.last);
         showStepCount = getAll.last.score.toString();
         _value = getAll.last.choice.toString();
-        crateAtDate.text = DateThai(getAll.first.choice)+
-            " - "+
+        crateAtDate.text = DateThai(getAll.first.choice) +
+            " - " +
             DateThai(myDateFormat.format(DateTime.now()));
       });
     });
@@ -115,7 +115,7 @@ class _WalkCountState extends State<WalkCount> {
                                 // Padding(
                                 //   padding:
                                 //       EdgeInsets.symmetric(horizontal: 100),
-                                //   child: 
+                                //   child:
                                 //   DropdownButtonFormField<String>(
                                 //     value: _value,
                                 //     decoration: InputDecoration(
@@ -144,57 +144,59 @@ class _WalkCountState extends State<WalkCount> {
                                 //   ),
                                 // ),
                                 Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 100),
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      controller: crateAtSingleDate,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'กรุณาระบุวันที่บันทึก';
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: 'วัน',
-                                          icon: Icon(Icons.calendar_today),
-                                          suffixIcon: IconButton(
-                                            icon: Icon(Icons.cancel),
-                                            onPressed: () {
-                                              setState(() {
-                                                // listitem = listforDf;
-                                                crateAtSingleDate.text = "";
-                                              });
-                                            },
-                                          )),
-                                      onTap: () async {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              showDateSingleWalkCount(
-                                                  context,
-                                                  getMinDateStep(selectDay),
-                                                  DateTime.now(),
-                                                  getAll),
-                                        ).then((value) {
-                                          if (value != null) {
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 100),
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    controller: crateAtSingleDate,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'กรุณาระบุวันที่บันทึก';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'วัน',
+                                        icon: Icon(Icons.calendar_today),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(Icons.cancel),
+                                          onPressed: () {
                                             setState(() {
-                                              //     listitem = value;
-                                              // crateAtDate.text = listitem.first.date +
-                                              //     " - " +
-                                              //     listforDate.last.date;
-                                              showStepCount = value.first.score.toString();
-                                              crateAtSingleDate.text = DateThai(value.first.choice);
-                                              chartData = value;
-                                              print(
-                                                  "show chart single ${chartLiner.toList()}");
+                                              // listitem = listforDf;
+                                              crateAtSingleDate.text = "";
                                             });
-                                          }
-                                        });
-                                      },
-                                    ),
+                                          },
+                                        )),
+                                    onTap: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            showDateSingleWalkCount(
+                                                context,
+                                                getMinDateStep(selectDay),
+                                                DateTime.now(),
+                                                getAll),
+                                      ).then((value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            //     listitem = value;
+                                            // crateAtDate.text = listitem.first.date +
+                                            //     " - " +
+                                            //     listforDate.last.date;
+                                            showStepCount =
+                                                value.first.score.toString();
+                                            crateAtSingleDate.text =
+                                                DateThai(value.first.choice);
+                                            chartData = value;
+                                            print(
+                                                "show chart single ${chartLiner.toList()}");
+                                          });
+                                        }
+                                      });
+                                    },
                                   ),
+                                ),
                                 // Padding(
                                 //   padding: EdgeInsets.only(
                                 //     left: 50,
@@ -355,7 +357,10 @@ class _WalkCountState extends State<WalkCount> {
                                               // crateAtDate.text = listitem.first.date +
                                               //     " - " +
                                               //     listforDate.last.date;
-                                              crateAtDate.text = DateThai(value.first.choice)+" - "+DateThai(value.last.choice);
+                                              crateAtDate.text = DateThai(
+                                                      value.first.choice) +
+                                                  " - " +
+                                                  DateThai(value.last.choice);
                                               chartLiner = value;
                                               print(
                                                   "show chart liner ${chartLiner.toList()}");

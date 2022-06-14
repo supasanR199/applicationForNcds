@@ -1,3 +1,4 @@
+import 'package:appilcation_for_ncds/mobilecode/function/datethai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,7 @@ class AddReminderDrug extends StatefulWidget {
 class _AddReminderDrugState extends State<AddReminderDrug> {
   DateTime selectedDate = DateTime.now();
   TextEditingController exdDate = TextEditingController();
-  DateFormat myDateFormat = DateFormat("dd-MM-yyyy");
+  DateFormat myDateFormat = DateFormat("yyyy-MM-dd");
   List<S2Choice<String>> _time = [
     S2Choice<String>(value: "morning", title: 'เช้า'),
     S2Choice<String>(value: "affternoon", title: 'กลางวัน'),
@@ -55,7 +56,7 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
           child: Center(
             child: Card(
               shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child: SizedBox(
                 height: 700,
                 width: 1000,
@@ -75,7 +76,8 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                               child: Text(
                                 'รายละเอียดของยา',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -191,7 +193,8 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                                   icon: Icon(Icons.people),
                                 ),
                                 onTap: () async {
-                                  final DateTime selected = await showDatePicker(
+                                  final DateTime selected =
+                                      await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
@@ -201,8 +204,8 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                                       selected != selectedDate) {
                                     setState(() {
                                       selectedDate = selected;
-                                      exdDate.text =
-                                          myDateFormat.format(selected);
+                                      exdDate.text = DateThai(
+                                          myDateFormat.format(selected));
                                       // print(selected);
                                       _remindeDrugModels.exdDate = selectedDate;
                                     });
@@ -215,7 +218,8 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
                               children: <Widget>[
                                 buildButtonAddReminded(context),
                                 Padding(
-                                    padding: EdgeInsets.only(right: 8, left: 8)),
+                                    padding:
+                                        EdgeInsets.only(right: 8, left: 8)),
                                 buildButtonCancle(context)
                               ],
                             ),
@@ -236,7 +240,9 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
   Widget buildButtonAddReminded(context) {
     return RaisedButton(
       // color: Colors.accents,
-      child: Text('บันทึก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)),
+      child: Text('บันทึก',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
       onPressed: () async {
         try {
           if (_addRemindForm.currentState.validate()) {
@@ -253,9 +259,14 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
               "DateEXP": _remindeDrugModels.exdDate
             }).whenComplete(() {
               showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      alertMessageOnlyOk(context, "บันทึกสำเร็จ"));
+                      context: context,
+                      builder: (BuildContext context) =>
+                          alertMessageOnlyOk(context, "บันทึกสำเร็จ"))
+                  .then((value) {
+                if (value == "CONFIRM") {
+                  Navigator.pop(context);
+                }
+              });
             });
           }
         } on FirebaseException catch (e) {
@@ -276,7 +287,9 @@ class _AddReminderDrugState extends State<AddReminderDrug> {
   Widget buildButtonCancle(context) {
     return RaisedButton(
       // color: Colors.accents,
-      child: Text('ยกเลิก',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)),
+      child: Text('ยกเลิก',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
       onPressed: () {
         Navigator.pop(context);
       },

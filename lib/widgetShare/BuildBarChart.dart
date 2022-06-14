@@ -174,11 +174,12 @@ class _BuildBarChartState extends State<BuildBarChart> {
   List keepList = List();
 
   final Map<String, String> topic = {
-    "Choice1": "แอปพลิเคชันทำงานได้อย่างถูกต้อง",
-    "Choice2": "แอปพลิเคชันทำงานได้ง่าย",
-    "Choice3": "แอปพลิเคชันมีคำอธิบายที่เหมาะสม",
-    "Choice4": "แอปพลิเคชันมีความเหมาะสมในการใช้งาน",
-    "Choice5": "ความพึงพอใจต่อระบบภาพรวม"
+    "Choice1": "แสดงข้อมูลได้ถูกต้องครบถ้วน",
+    "Choice2": "ระบบใช้งานง่ายไม่ซับซ้อน",
+    "Choice3":
+        "ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย",
+    "Choice4": "ความเสถียรในการใช้งานระบบ",
+    "Choice5": "ความพึงพอใจในการใช้ระบบโดยรวม"
   };
   final Map<String, String> topicThai = {
     "Choice1": "ข้อ1",
@@ -198,7 +199,10 @@ class _BuildBarChartState extends State<BuildBarChart> {
         child: Center(
           child: Card(
             shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20),),),            
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
             child: SizedBox(
               height: 950,
               width: 1300,
@@ -223,9 +227,9 @@ class _BuildBarChartState extends State<BuildBarChart> {
                       //     ],
                       //   ),
                       // ),
-                      
+
                       Padding(
-                        padding: EdgeInsets.only(top:30,bottom: 20),
+                        padding: EdgeInsets.only(top: 30, bottom: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -264,7 +268,8 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             xValueMapper: (dynamic data, _) => data.x,
                             yValueMapper: (dynamic data, _) => data.y,
                             pointColorMapper: (dynamic data, _) => data.color,
-                            dataLabelSettings: DataLabelSettings(isVisible: true),
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
                             name: 'คะแนนการประเมิน',
                             // color: Color.fromARGB(255, 242, 150, 244))
                           ),
@@ -303,7 +308,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                                'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -319,7 +324,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                                'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -335,7 +340,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                                'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -351,7 +356,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                                'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -367,7 +372,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                                'ข้อ5  ความพึงพอใจในการใช้ระบบโดยรวม :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -441,14 +446,13 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Divider(thickness: 4, color: Colors.black),
 
-
-
-
                       Padding(
-                        padding: EdgeInsets.only(top:40,bottom: 20),
+                        padding: EdgeInsets.only(top: 40, bottom: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -477,7 +481,8 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             xValueMapper: (dynamic data, _) => data.x,
                             yValueMapper: (dynamic data, _) => data.y,
                             pointColorMapper: (dynamic data, _) => data.color,
-                            dataLabelSettings: DataLabelSettings(isVisible: true),
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
                             name: 'คะแนนการประเมิน',
                             // color: Color.fromARGB(255, 242, 150, 244))
                           ),
@@ -516,7 +521,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                                'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -532,7 +537,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                                'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -548,7 +553,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                                'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -564,7 +569,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                                'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -580,7 +585,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                                'ข้อ5  ความพึงพอใจในการใช้ระบบโดยรวม :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -645,7 +650,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             itemCount: getCommentVol.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
-                                 leading: Text("${index + 1}."),
+                                leading: Text("${index + 1}."),
                                 title: Text("${getCommentVol[index]}"),
                               );
                             },
@@ -654,10 +659,12 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      Divider(thickness: 4, color: Colors.black),                      
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Divider(thickness: 4, color: Colors.black),
                       Padding(
-                        padding: EdgeInsets.only(top:40,bottom: 20),
+                        padding: EdgeInsets.only(top: 40, bottom: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -686,7 +693,8 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             xValueMapper: (dynamic data, _) => data.x,
                             yValueMapper: (dynamic data, _) => data.y,
                             pointColorMapper: (dynamic data, _) => data.color,
-                            dataLabelSettings: DataLabelSettings(isVisible: true),
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
                             name: 'คะแนนการประเมิน',
                             // color: Color.fromARGB(255, 242, 150, 244))
                           ),
@@ -725,7 +733,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                                'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -741,7 +749,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                                'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -757,7 +765,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                                'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -773,7 +781,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                                'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -789,7 +797,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                                'ข้อ5  ความพึงพอใจในการใช้ระบบโดยรวม :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -830,8 +838,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: 
-                              Text(
+                              child: Text(
                                 "ข้อเสนอแนะของ  รพ.สต.",
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold),
@@ -864,10 +871,12 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Divider(thickness: 4, color: Colors.black),
                       Padding(
-                        padding: EdgeInsets.only(top:40,bottom: 20),
+                        padding: EdgeInsets.only(top: 40, bottom: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -896,7 +905,8 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             xValueMapper: (dynamic data, _) => data.x,
                             yValueMapper: (dynamic data, _) => data.y,
                             pointColorMapper: (dynamic data, _) => data.color,
-                            dataLabelSettings: DataLabelSettings(isVisible: true),
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
                             name: 'คะแนนการประเมิน',
                             // color: Color.fromARGB(255, 242, 150, 244))
                           ),
@@ -935,7 +945,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             Divider(thickness: 2, color: Colors.grey),
                             ListTile(
                               leading: Text(
-                                'ข้อ1  แอปพลิเคชันทำงานได้อย่างถูกต้อง :',
+                                'ข้อ1  แสดงข้อมูลได้ถูกต้องครบถ้วน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -951,7 +961,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ2  แอปพลิเคชันทำงานได้ง่าย :',
+                                'ข้อ2  ระบบใช้งานง่ายไม่ซับซ้อน :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -967,7 +977,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ3  แอปพลิเคชันมีคำอธิบายที่เหมาะสม :',
+                                'ข้อ3  ความเหมาะสมในการใช้ ข้อความ รูปภาพ และสัญลักษณ์ ในการสื่อความหมาย :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -983,7 +993,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ4  แอปพลิเคชันมีความเหมาะสมในการใช้งาน :',
+                                'ข้อ4  ความเสถียรในการใช้งานระบบ :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -999,7 +1009,7 @@ class _BuildBarChartState extends State<BuildBarChart> {
                             ),
                             ListTile(
                               leading: Text(
-                                'ข้อ5  ความพึงพอใจต่อระบบภาพรวม :',
+                                'ข้อ5  ความพึงพอใจในการใช้ระบบโดยรวมพ :',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -1073,7 +1083,9 @@ class _BuildBarChartState extends State<BuildBarChart> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
