@@ -20,6 +20,7 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
+          centerTitle: false,
           foregroundColor: Colors.blueAccent,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -231,12 +232,11 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                                   hoverColor:
                                                       Colors.grey.shade200,
                                                   title: Text(
-                                                    "${snap["Firstname"]}  ${snap["Lastname"]}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
+                                                      "${snap["Firstname"]}  ${snap["Lastname"]}",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18)),
                                                   // subtitle:
                                                   //     Text("${snap["Lastname"]}"),
                                                   onTap: () async {
