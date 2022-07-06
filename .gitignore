@@ -255,3 +255,4 @@ pubspec.lock
 *.lock
 pubspec.lock
 .flutter-plugins-dependencies
+.env

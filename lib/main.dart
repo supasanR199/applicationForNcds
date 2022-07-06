@@ -12,7 +12,7 @@ import 'package:appilcation_for_ncds/PatientMain.dart';
 import 'package:appilcation_for_ncds/LabResults.dart';
 import 'package:appilcation_for_ncds/AdminMain.dart';
 import 'package:appilcation_for_ncds/AddPatientForVolunteer.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -20,15 +20,18 @@ import 'MedicaMain.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  // print(dotenv.get('API_KEY'));
   await Firebase.initializeApp(
     options: FirebaseOptions(
-        apiKey: "AIzaSyB6TWU5KRbGhd0I5z_uX0P-4GEAAAtV-4U",
-        authDomain: "applicationforncds.firebaseapp.com",
-        projectId: "applicationforncds",
-        storageBucket: "applicationforncds.appspot.com",
-        messagingSenderId: "275231099903",
-        appId: "1:275231099903:web:dacf48738af9cb2e41b5ca",
-        measurementId: "G-YQV5KT112F"),
+      apiKey: dotenv.get('API_KEY'),
+      authDomain: dotenv.get('AUTH_DOMAIN'),
+      projectId: dotenv.get('PROJECT_ID'),
+      storageBucket: dotenv.get('STORAGE_BACKKET'),
+      messagingSenderId: dotenv.get('MESSAGEING_SENDER_ID'),
+      appId: dotenv.get('APP_ID'),
+      measurementId: dotenv.get('MEASUREMENT_ID'),
+    ),
   );
 
   // runApp(MyApp());
@@ -114,7 +117,7 @@ Widget buildMaterialApp() {
       '/mainpage': (context) => MainPage(),
       '/register': (context) => Register(),
       '/medicaMain': (context) => MedicaMain(),
-      '/test':(context) => SidebarPage(),
+      '/test': (context) => SidebarPage(),
       // '/addPatientForVol': (context) => AddPatienFoorVolunteer(),
       // '/addpost': (context) => AddPost(),
       // '/patientmain': (context) => PatientMain(),

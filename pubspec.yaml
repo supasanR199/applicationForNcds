@@ -48,6 +48,7 @@ dependencies:
   month_picker_dialog: ^0.4.0
   collapsible_sidebar: ^2.0.1+2
   date_time: ^0.6.0
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -101,3 +102,4 @@ flutter:
   assets:
     - assets/icon/
     - assets/img/
+    - .env
