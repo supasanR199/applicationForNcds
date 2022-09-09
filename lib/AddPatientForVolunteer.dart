@@ -202,15 +202,10 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
 
                                                 return ListTile(
 
-                                                  hoverColor:
-                                                      Colors.grey.shade200,
-                                                  title: Text(
-                                                    "${snap["Firstname"]}  ${snap["Lastname"]}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
+                                                  hoverColor: Colors.grey.shade200,
+                                                  title:
+                                                      Text("${snap["Firstname"]}  ${snap["Lastname"]}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+
                                                   // subtitle:
                                                   //     Text("${snap["Lastname"]}"),
                                                   onTap: () async {
