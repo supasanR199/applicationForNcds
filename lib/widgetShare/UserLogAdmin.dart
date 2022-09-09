@@ -77,7 +77,7 @@ class _UserLogState extends State<UserLog> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 // Expanded(
                 //   child: DropdownButtonFormField<String>(
@@ -100,27 +100,27 @@ class _UserLogState extends State<UserLog> {
                 //     },
                 //   ),
                 // ),
-                // Expanded(
-                //   child: DropdownButtonFormField<String>(
-                //     value: _valueEmail,
-                //     decoration: InputDecoration(
-                //       labelText: 'email',
-                //       icon: Icon(Icons.people),
-                //     ),
-                //     items: selectEmail.map((String values) {
-                //       // print(values);
-                //       return DropdownMenuItem<String>(
-                //         value: values,
-                //         child: Text(values),
-                //       );
-                //     }).toList(),
-                //     onChanged: (newValue) {
-                //       setState(() {
-                //         getLog = getFilter(getLogDe, newValue, "email");
-                //       });
-                //     },
-                //   ),
-                // ),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: _valueEmail,
+                    decoration: InputDecoration(
+                      labelText: 'email',
+                      icon: Icon(Icons.people),
+                    ),
+                    items: selectEmail.map((String values) {
+                      // print(values);
+                      return DropdownMenuItem<String>(
+                        value: values,
+                        child: Text(values),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        getLog = getFilter(getLogDe, newValue, "email");
+                      });
+                    },
+                  ),
+                ),
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     value: _value,
@@ -138,29 +138,11 @@ class _UserLogState extends State<UserLog> {
                     onChanged: (newValue) {
                       // print(newValue);
                       setState(() {
-                        usersFiltered = getFilter(getLogDe, newValue, "role");
+                        getLog = getFilter(getLogDe, newValue, "role");
                       });
                     },
                   ),
                 ),
-                // Expanded(
-                //   child: RaisedButton(
-                //     // color: Colors.accents,
-                //     child: Text('ยกเลิก',
-                //         style: TextStyle(
-                //             color: Colors.white,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 18)),
-                //     onPressed: () {
-                //       Navigator.pop(context);
-                //     },
-                //     hoverColor: Colors.grey,
-                //     padding: EdgeInsets.all(20),
-                //     color: Colors.redAccent,
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(20))),
-                //   ),
-                // ),
               ],
             ),
             SizedBox(

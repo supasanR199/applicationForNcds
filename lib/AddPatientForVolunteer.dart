@@ -20,7 +20,6 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
-          centerTitle: false,
           foregroundColor: Colors.blueAccent,
           title: Text(
             "ติดตามผู้ป่วย NCDs\nโรงพยาบาลส่งเสริมสุขภาพตำบล",
@@ -47,8 +46,7 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                           child: Text(
                             'เพิ่มผู้ป่วยให้หัวหน้า อสม.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -65,13 +63,9 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                     Text(
                                       "ผู้ป่วยทั้งหมด",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                    SizedBox(height: 10,),
                                     Expanded(
                                       child: StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
@@ -87,16 +81,14 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                             // .where("isHaveCaretaker", isNull: true)
                                             .snapshots(),
                                         builder: (BuildContext context,
-                                            AsyncSnapshot<QuerySnapshot>
-                                                snapshot) {
+                                            AsyncSnapshot<QuerySnapshot> snapshot) {
                                           if (snapshot.hasData) {
                                             setToHaveCareTaker();
                                             return ListView(
-                                              children: snapshot.data.docs.map(
-                                                  (DocumentSnapshot document) {
-                                                Map<String, dynamic> snap =
-                                                    document.data()
-                                                        as Map<String, dynamic>;
+                                              children: snapshot.data.docs
+                                                  .map((DocumentSnapshot document) {
+                                                Map<String, dynamic> snap = document
+                                                    .data() as Map<String, dynamic>;
                                                 if (snap["isHaveCaretaker"] ==
                                                     null) {
                                                   FirebaseFirestore.instance
@@ -107,20 +99,13 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                                   });
                                                 }
                                                 return ListTile(
-                                                  hoverColor:
-                                                      Colors.grey.shade200,
+                                                  hoverColor: Colors.grey.shade200,
                                                   title: Text(
-                                                    "${snap["Firstname"]}  ${snap["Lastname"]}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
+                                                    "${snap["Firstname"]}  ${snap["Lastname"]}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                                                   ),
                                                   onTap: () async {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "MobileUser")
+                                                    await FirebaseFirestore.instance
+                                                        .collection("MobileUser")
                                                         .doc(widget
                                                             .volunteerDataId.id)
                                                         .collection(
@@ -133,20 +118,17 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                                       "Lastname":
                                                           widget.volunteerData[
                                                               "Firstname"],
-                                                      "DocId": widget
-                                                          .volunteerDataId.id,
+                                                      "DocId":
+                                                          widget.volunteerDataId.id,
                                                     });
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "MobileUser")
+                                                    await FirebaseFirestore.instance
+                                                        .collection("MobileUser")
                                                         .doc(document.id)
                                                         .update({
-                                                      "CareTakerIs": widget
-                                                          .volunteerDataId.id
+                                                      "CareTakerIs":
+                                                          widget.volunteerDataId.id
                                                     });
-                                                    var docId = (snapshot
-                                                        .data.docs
+                                                    var docId = (snapshot.data.docs
                                                         .map((e) => e.reference)
                                                         .toList());
                                                     for (int i = 0;
@@ -162,10 +144,9 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                                     FirebaseFirestore.instance
                                                         .runTransaction(
                                                             (transaction) async {
-                                                      DocumentSnapshot
-                                                          freshSnap =
-                                                          await transaction.get(
-                                                              docId[index]);
+                                                      DocumentSnapshot freshSnap =
+                                                          await transaction
+                                                              .get(docId[index]);
                                                       await transaction.update(
                                                           freshSnap.reference, {
                                                         "isHaveCaretaker": true
@@ -199,67 +180,54 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                     Text(
                                       "ผู้ป่วยในการดูแลของ ${widget.volunteerData["Firstname"]}",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                    SizedBox(height: 10,),
                                     Expanded(
                                       child: StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
                                             .collection("MobileUser")
                                             .where("Role", isEqualTo: "Patient")
                                             .where("isHaveCaretaker",
-                                                isEqualTo: true)
-                                            .where("CareTakerIs",
-                                                isEqualTo:
-                                                    widget.volunteerDataId.id)
+                                                isEqualTo: true).where("CareTakerIs",isEqualTo: widget.volunteerDataId.id)
                                             .snapshots(),
                                         builder: (BuildContext context,
-                                            AsyncSnapshot<QuerySnapshot>
-                                                snapshot) {
+                                            AsyncSnapshot<QuerySnapshot> snapshot) {
                                           if (snapshot.hasData) {
                                             return ListView(
-                                              children: snapshot.data.docs.map(
-                                                  (DocumentSnapshot document) {
-                                                Map<String, dynamic> snap =
-                                                    document.data()
-                                                        as Map<String, dynamic>;
+                                              children: snapshot.data.docs
+                                                  .map((DocumentSnapshot document) {
+                                                Map<String, dynamic> snap = document
+                                                    .data() as Map<String, dynamic>;
 
                                                 return ListTile(
+
                                                   hoverColor:
                                                       Colors.grey.shade200,
                                                   title: Text(
-                                                      "${snap["Firstname"]}  ${snap["Lastname"]}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18)),
+                                                    "${snap["Firstname"]}  ${snap["Lastname"]}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
+                                                  ),
                                                   // subtitle:
                                                   //     Text("${snap["Lastname"]}"),
                                                   onTap: () async {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "MobileUser")
+                                                    await FirebaseFirestore.instance
+                                                        .collection("MobileUser")
                                                         .doc(widget
                                                             .volunteerDataId.id)
                                                         .collection(
                                                             "PatientTakeCare")
                                                         .doc(document.id)
                                                         .delete();
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection(
-                                                            "MobileUser")
+                                                    await FirebaseFirestore.instance
+                                                        .collection("MobileUser")
                                                         .doc(document.id)
-                                                        .update({
-                                                      "CareTakerIs": null
-                                                    });
-                                                    var docId = (snapshot
-                                                        .data.docs
+                                                        .update(
+                                                            {"CareTakerIs": null});
+                                                    var docId = (snapshot.data.docs
                                                         .map((e) => e.reference)
                                                         .toList());
                                                     for (int i = 0;
@@ -275,10 +243,9 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                                                     FirebaseFirestore.instance
                                                         .runTransaction(
                                                             (transaction) async {
-                                                      DocumentSnapshot
-                                                          freshSnap =
-                                                          await transaction.get(
-                                                              docId[index]);
+                                                      DocumentSnapshot freshSnap =
+                                                          await transaction
+                                                              .get(docId[index]);
                                                       await transaction.update(
                                                           freshSnap.reference, {
                                                         "isHaveCaretaker": false
@@ -303,18 +270,15 @@ class _AddPatienFoorVolunteerState extends State<AddPatienFoorVolunteer> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20,),
                     ],
                   ),
                 ),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-              ),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),),               
             ),
           ),
         ),
